@@ -52,6 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateErrors.cs" />
+    <Compile Include="InputTypesExtensionCtors.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InputTypesExtensionCtors.tt</DependentUpon>
+    </Compile>
     <Compile Include="Internal\BindingHelper.cs" />
     <Compile Include="Internal\BooleanBoxes.cs" />
     <Compile Include="Scope.cs" />
@@ -101,5 +106,14 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers\analyzers\dotnet\cs\StyleCop.Analyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="InputTypesExtensionCtors.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InputTypesExtensionCtors.generated.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
 </Project>
