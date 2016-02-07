@@ -4,11 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:validationScope="http://gu.se/ValidationScope"
         Title="MainWindow"
         Width="525"
         Height="350"
         mc:Ignorable="d">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
     <Grid>
-        <StackPanel />
+        <Border BorderBrush="{Binding Path=(validationScope:Validation.HasErrors),
+                                      Converter={local:BoolToBrushConverter},
+                                      ElementName=StackPanel}"
+                BorderThickness="1">
+            <StackPanel x:Name="StackPanel"
+                        validationScope:Validation.IsValidationScope="True">
+                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>
