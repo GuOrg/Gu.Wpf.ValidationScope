@@ -1,0 +1,42 @@
+###### -- File Created With Git Source Control Provider 2015 -- ######
+###### -- From https://github.com/github/gitignore -- ######
+###### -- Warning Regenerating this file will erase all your custom ignores, unless you add them below the Custom Ignore section at the bottom --  ######
+
+
+
+###### -- Custom Ignore Section, Make sure all files you add to the git repo are below this line  --  ######
+
+
+Thumbs.db
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.sln.docstates
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+*.vssscc
+$tf*/
+*.dll
+packages/*
+publish/*
+.vs/*
