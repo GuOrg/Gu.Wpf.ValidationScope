@@ -3,19 +3,20 @@
     using System;
     using System.Diagnostics;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Media;
 
     public static class Validation
     {
-        public static readonly DependencyProperty IsValidationScopeProperty = DependencyProperty.RegisterAttached(
-            "IsValidationScope",
-            typeof(bool),
+        public static readonly DependencyProperty ScopeForProperty = DependencyProperty.RegisterAttached(
+            "ScopeFor",
+            typeof(ValidationScopeTypes),
             typeof(Validation),
             new FrameworkPropertyMetadata(
-                BooleanBoxes.False,
+                null,
                 FrameworkPropertyMetadataOptions.Inherits,
-                OnIsValidationScopeChanged));
+                OnScopeForChanged));
 
         private static readonly DependencyPropertyKey HasErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "HasErrors",
@@ -41,16 +42,22 @@
 
         private static readonly PropertyPath ErrorCountPropertyPath = new PropertyPath("(Validation.Errors).Count");
 
-        public static void SetIsValidationScope(this UIElement element, bool value)
+        static Validation()
         {
-            element.SetValue(IsValidationScopeProperty, value);
+            EventManager.RegisterClassHandler(typeof(UIElement), System.Windows.Controls.Validation.ErrorEvent, new EventHandler<ValidationErrorEventArgs>(OnValidationError));
+            EventManager.RegisterClassHandler(typeof(ContentElement), System.Windows.Controls.Validation.ErrorEvent, new EventHandler<ValidationErrorEventArgs>(OnValidationError));
+        }
+
+        public static void SetScopeFor(this UIElement element, ValidationScopeTypes value)
+        {
+            element.SetValue(ScopeForProperty, value);
         }
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static bool GetIsValidationScope(this UIElement element)
+        public static ValidationScopeTypes GetScopeFor(this UIElement element)
         {
-            return (bool)element.GetValue(IsValidationScopeProperty);
+            return (ValidationScopeTypes)element.GetValue(ScopeForProperty);
         }
 
         private static void SetHasErrors(this UIElement element, bool value)
@@ -77,19 +84,29 @@
             return (AggregateErrors)element.GetValue(ErrorsProperty);
         }
 
-        private static void OnIsValidationScopeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Debug.WriteLine(d.GetType().FullName);
-            if (Equals(e.NewValue, BooleanBoxes.True))
+            if (((ValidationScopeTypes)e.NewValue)?.IsScopeFor(d) != true)
+            {
+                BindingOperations.ClearBinding(d, ErrorCountProxyProperty);
+                d.ClearValue(ErrorsPropertyKey);
+            }
+        }
+
+        private static void OnValidationError(object sender, ValidationErrorEventArgs e)
+        {
+            var d = (DependencyObject)sender;
+            var isScopeFor = ((ValidationScopeTypes)d.GetValue(ScopeForProperty))?.IsScopeFor(d);
+            if (isScopeFor != true)
+            {
+                return;
+            }
+
+            if (BindingOperations.GetBindingExpression(d, ErrorCountProxyProperty) == null)
             {
                 var errorCountExpression = d.Bind(ErrorCountProxyProperty)
                                             .OneWayTo(d, ErrorCountPropertyPath);
                 d.SetValue(ErrorsPropertyKey, new AggregateErrors(errorCountExpression));
-            }
-            else
-            {
-                BindingOperations.ClearBinding(d, ErrorCountProxyProperty);
-                d.ClearValue(ErrorsPropertyKey);
             }
         }
 
