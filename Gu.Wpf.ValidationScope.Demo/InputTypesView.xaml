@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="Gu.Wpf.ValidationScope.Demo.InputTypesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:validationScope="http://gu.se/ValidationScope"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <ItemsControl ItemsSource="{validationScope:InputTypes {x:Type TextBoxBase}, {x:Type Selector}, {x:Type ToggleButton}}">
+            
+    </ItemsControl>
+</UserControl>

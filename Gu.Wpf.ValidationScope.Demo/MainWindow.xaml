@@ -9,24 +9,9 @@
         Width="525"
         Height="350"
         mc:Ignorable="d">
-    <Window.DataContext>
-        <local:ViewModel />
-    </Window.DataContext>
-    <Grid>
-        <Border BorderBrush="{Binding Path=(validationScope:Validation.HasErrors),
-                                      Converter={local:BoolToBrushConverter},
-                                      ElementName=StackPanel}"
-                BorderThickness="1">
-            <StackPanel x:Name="StackPanel">
-                <validationScope:Validation.ScopeFor>
-                    <validationScope:ValidationScopeTypes>
-                        <x:Type Type="TextBox" />
-                    </validationScope:ValidationScopeTypes>
-                </validationScope:Validation.ScopeFor>
-
-                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
-        </Border>
-    </Grid>
+    <TabControl>
+        <TabItem Header="Scope">
+            <local:ValidationScopeView />
+        </TabItem>
+    </TabControl>
 </Window>

@@ -54,7 +54,7 @@
     <Compile Include="AggregateErrors.cs" />
     <Compile Include="Internal\BindingHelper.cs" />
     <Compile Include="Internal\BooleanBoxes.cs" />
-    <Compile Include="Validation.cs" />
+    <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -68,8 +68,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ValidationScopeTypes.cs" />
-    <Compile Include="ValidationScopeTypesExtension.cs" />
+    <Compile Include="InputTypeCollection.cs" />
+    <Compile Include="InputTypesExtension.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

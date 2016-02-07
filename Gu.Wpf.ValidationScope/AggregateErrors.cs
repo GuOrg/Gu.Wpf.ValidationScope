@@ -14,6 +14,11 @@ namespace Gu.Wpf.ValidationScope
             this.errorCountExpression = errorCountExpression;
         }
 
+        public AggregateErrors(AggregateErrors childErrors)
+        {
+            this.childErrors.Add(childErrors);
+        }
+
         public bool HasErrors
         {
             get
@@ -27,10 +32,10 @@ namespace Gu.Wpf.ValidationScope
                 for (int i = this.childErrors.Count - 1; i >= 0; i--)
                 {
                     var child = this.childErrors[i];
-                    if (child.Source == null)
-                    {
-                        this.childErrors.RemoveAt(i);
-                    }
+                    //if (child.Source == null)
+                    //{
+                    //    this.childErrors.RemoveAt(i);
+                    //}
 
                     if (child.HasErrors)
                     {
@@ -42,7 +47,7 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
-        private DependencyObject Source => (DependencyObject)this.errorCountExpression.ParentBinding.Source;
+        private DependencyObject Source => (DependencyObject)this.errorCountExpression?.ParentBinding.Source;
 
         public void UpdateChildErrors(AggregateErrors errors, bool hasError)
         {
