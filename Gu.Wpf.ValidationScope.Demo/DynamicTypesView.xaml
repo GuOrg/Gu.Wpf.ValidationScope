@@ -21,11 +21,11 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
-                                      Converter={local:BoolToBrushConverter},
-                                      ElementName=Form}"
-                BorderThickness="1">
+                                          Converter={local:BoolToBrushConverter},
+                                          ElementName=Form}"
+                    BorderThickness="1">
                 <Grid x:Name="Form"
-                  validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+                      validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -36,37 +36,37 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Text="SomeIntValue" />
+                               Grid.Column="0"
+                               Text="SomeIntValue" />
                     <TextBox Grid.Row="0"
-                         Grid.Column="1"
-                         Text="{Binding IntValue,
-                                        UpdateSourceTrigger=PropertyChanged}" />
+                             Grid.Column="1"
+                             Text="{Binding IntValue,
+                                            UpdateSourceTrigger=PropertyChanged}" />
                     <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Text="SameIntValue" />
+                               Grid.Column="0"
+                               Text="SameIntValue" />
                     <TextBox Grid.Row="1"
-                         Grid.Column="1"
-                         Text="{Binding IntValue,
-                                        UpdateSourceTrigger=PropertyChanged}" />
+                             Grid.Column="1"
+                             Text="{Binding IntValue,
+                                            UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </Border>
 
             <ItemsControl Grid.Row="1"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors).Errors,
-                                            ElementName=Form}">
+                          ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                                                ElementName=Form}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type ValidationError}">
                         <TextBlock Foreground="Red"
-                               Text="{Binding ErrorContent}" />
+                                   Text="{Binding ErrorContent}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Grid>
 
-        <ListBox SelectionChanged="ListBox_OnSelectionChanged"
-                 SelectionMode="Extended"
-                 Grid.Row="1">
+        <ListBox Grid.Row="1"
+                 SelectionChanged="ListBox_OnSelectionChanged"
+                 SelectionMode="Extended">
             <ItemsControl.ItemsSource>
                 <validationScope:InputTypeCollection>
                     <x:Type TypeName="TextBox" />

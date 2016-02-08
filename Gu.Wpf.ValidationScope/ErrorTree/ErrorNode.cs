@@ -50,8 +50,13 @@ namespace Gu.Wpf.ValidationScope
             throw new InvalidOperationException($"Cannot create ErrorNode for type: {dependencyObject?.GetType()}");
         }
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
+            if (!disposing)
+            {
+                return;
+            }
+
             var source = this.Source;
             if (source != null)
             {

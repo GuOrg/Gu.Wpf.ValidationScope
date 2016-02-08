@@ -49,7 +49,7 @@
         </Border>
 
         <ItemsControl Grid.Row="1"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors).Errors,
+                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type ValidationError}">

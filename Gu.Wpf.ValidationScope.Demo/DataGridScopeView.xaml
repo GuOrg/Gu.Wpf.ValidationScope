@@ -25,9 +25,9 @@
                 validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
             <DataGrid ItemsSource="{Binding Collection}" />
         </Border>
-        
+
         <ItemsControl Grid.Row="1"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors).Errors,
+                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type ValidationError}">

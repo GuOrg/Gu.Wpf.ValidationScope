@@ -1,8 +1,10 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
@@ -12,10 +14,13 @@ namespace Gu.Wpf.ValidationScope
 
     public abstract class Node : IErrorNode
     {
+        protected static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
+        protected static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs("Count");
         private readonly Lazy<ObservableCollection<IErrorNode>> lazyChildren = new Lazy<ObservableCollection<IErrorNode>>(() => new ObservableCollection<IErrorNode>());
         private ReadOnlyObservableCollection<IErrorNode> children;
         private ReadOnlyObservableCollection<ValidationError> errors;
         private bool hasErrors;
+        private bool disposed;
 
         protected Node(bool hasErrors)
         {
@@ -29,6 +34,12 @@ namespace Gu.Wpf.ValidationScope
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
+        {
+            add { ((INotifyCollectionChanged)this.Errors).CollectionChanged += value; }
+            remove { ((INotifyCollectionChanged)this.Errors).CollectionChanged -= value; }
+        }
 
         public ReadOnlyObservableCollection<IErrorNode> Children => this.children ?? (this.children = new ReadOnlyObservableCollection<IErrorNode>(this.lazyChildren.Value));
 
@@ -60,13 +71,18 @@ namespace Gu.Wpf.ValidationScope
                 {
                     this.errors = new ReadOnlyObservableCollection<ValidationError>(this.LazyErrors.Value);
                     this.UpdateErrors();
+                    ((INotifyPropertyChanged)this.errors).PropertyChanged += this.OnErrorsPropertyChanged;
                 }
 
                 return this.errors;
             }
         }
 
+        int IReadOnlyCollection<ValidationError>.Count => this.Errors.Count;
+
         public abstract DependencyObject Source { get; }
+
+        ValidationError IReadOnlyList<ValidationError>.this[int index] => this.Errors[index];
 
         protected Lazy<ObservableCollection<ValidationError>> LazyErrors { get; } = new Lazy<ObservableCollection<ValidationError>>(() => new ObservableCollection<ValidationError>());
 
@@ -86,6 +102,32 @@ namespace Gu.Wpf.ValidationScope
                     {
                         yield return child;
                     }
+                }
+            }
+        }
+
+        IEnumerator<ValidationError> IEnumerable<ValidationError>.GetEnumerator() => this.Errors.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => this.Errors.GetEnumerator();
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.errors != null)
+                {
+                    ((INotifyPropertyChanged)this.errors).PropertyChanged -= this.OnErrorsPropertyChanged;
                 }
             }
         }
@@ -126,6 +168,16 @@ namespace Gu.Wpf.ValidationScope
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            this.PropertyChanged?.Invoke(this, args);
+        }
+
+        private void OnErrorsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.OnPropertyChanged(e);
         }
     }
 }

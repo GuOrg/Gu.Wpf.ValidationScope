@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+
 namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.ObjectModel;
@@ -5,7 +9,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows;
     using System.Windows.Controls;
 
-    public interface IErrorNode : INotifyPropertyChanged
+    public interface IErrorNode : IReadOnlyList<ValidationError>, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable
     {
         bool HasErrors { get; }
 
