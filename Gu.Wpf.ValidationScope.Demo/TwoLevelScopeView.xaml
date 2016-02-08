@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Gu.Wpf.ValidationScope.Demo.TwoLevelScopeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:validationScope="http://gu.se/ValidationScope"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:ViewModel />
+    </UserControl.DataContext>
+    <Grid>
+        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                                      Converter={local:BoolToBrushConverter},
+                                      RelativeSource={RelativeSource Self}}"
+                BorderThickness="1"
+                validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}}">
+            <StackPanel>
+                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -54,8 +54,11 @@
     <Compile Include="InputTypesView.xaml.cs">
       <DependentUpon>InputTypesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValidationScopeView.xaml.cs">
-      <DependentUpon>ValidationScopeView.xaml</DependentUpon>
+    <Compile Include="OneLevelScopeView.xaml.cs">
+      <DependentUpon>OneLevelScopeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TwoLevelScopeView.xaml.cs">
+      <DependentUpon>TwoLevelScopeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel.cs" />
     <Page Include="InputTypesView.xaml">
@@ -74,7 +77,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ValidationScopeView.xaml">
+    <Page Include="OneLevelScopeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TwoLevelScopeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

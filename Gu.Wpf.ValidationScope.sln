@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{2FAF87
 		.paket\Readme.paket.md = .paket\Readme.paket.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.ValidationScope.Tests", "Gu.Wpf.ValidationScope.Tests\Gu.Wpf.ValidationScope.Tests.csproj", "{1A62002D-E128-4FFB-8993-7E4F7CA9F3DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{5C889308-2F33-44BA-856F-6EF3DFC269B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C889308-2F33-44BA-856F-6EF3DFC269B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C889308-2F33-44BA-856F-6EF3DFC269B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A62002D-E128-4FFB-8993-7E4F7CA9F3DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A62002D-E128-4FFB-8993-7E4F7CA9F3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A62002D-E128-4FFB-8993-7E4F7CA9F3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A62002D-E128-4FFB-8993-7E4F7CA9F3DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

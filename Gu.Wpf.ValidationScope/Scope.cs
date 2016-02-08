@@ -1,11 +1,12 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
+    using System;
     using System.Windows;
-    using System.Windows.Data;
-    using System.Windows.Media;
 
     public static class Scope
     {
+#pragma warning disable SA1202 // Elements must be ordered by access
+
         public static readonly DependencyProperty ForInputTypesProperty = DependencyProperty.RegisterAttached(
             "ForInputTypes",
             typeof(InputTypeCollection),
@@ -25,11 +26,13 @@
 
         private static readonly DependencyPropertyKey ErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "Errors",
-            typeof(ErrorNode),
+            typeof(IErrorNode),
             typeof(Scope),
-            new PropertyMetadata(default(ErrorNode), OnErrorsChanged));
+            new PropertyMetadata(default(IErrorNode), OnErrorsChanged));
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
+
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         public static void SetForInputTypes(this UIElement element, InputTypeCollection value)
         {
@@ -38,12 +41,12 @@
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static InputTypeCollection GetForInputTypes(this UIElement element)
+        public static InputTypeCollection GetForInputTypes(DependencyObject element)
         {
             return (InputTypeCollection)element.GetValue(ForInputTypesProperty);
         }
 
-        private static void SetHasErrors(this DependencyObject element, bool value)
+        internal static void SetHasErrors(DependencyObject element, bool value)
         {
             element.SetValue(HasErrorsPropertyKey, value);
         }
@@ -55,29 +58,30 @@
             return (bool)element.GetValue(HasErrorsProperty);
         }
 
-        private static void SetErrors(this DependencyObject element, ErrorNode value)
+        internal static void SetErrors(DependencyObject element, IErrorNode value)
         {
             element.SetValue(ErrorsPropertyKey, value);
         }
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static ErrorNode GetErrors(UIElement element)
+        public static IErrorNode GetErrors(DependencyObject element)
         {
-            return (ErrorNode)element.GetValue(ErrorsProperty);
+            return (IErrorNode)element.GetValue(ErrorsProperty);
         }
 
         private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (((InputTypeCollection)e.NewValue)?.IsInputType(d) == true)
             {
-                if (BindingOperations.GetBindingExpression(d, ErrorCountProxyProperty) != null)
+                if (d.GetValue(ErrorsProperty) == null)
                 {
-                    return;
+                    SetErrors(d, ErrorNode.Create(d));
                 }
-
-
-                d.SetValue(ErrorsPropertyKey, new ErrorNode(errorCountExpression));
+                else
+                {
+                    throw new NotImplementedException("Add error count binding to existing scope node or nop if already an error node");
+                }
             }
             else
             {
@@ -87,9 +91,8 @@
 
         private static void OnErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var hasErrors = e.NewValue == null
-                ? BooleanBoxes.False
-                : BooleanBoxes.Box(((ErrorNode)e.NewValue).HasErrors);
+            (e.OldValue as IDisposable)?.Dispose();
+            var hasErrors = BooleanBoxes.Box(((IErrorNode)e.NewValue)?.HasErrors == true);
             d.SetValue(HasErrorsPropertyKey, hasErrors);
         }
     }
