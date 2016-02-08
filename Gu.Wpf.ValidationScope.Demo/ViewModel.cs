@@ -8,6 +8,8 @@
     {
         private int intValue;
 
+        private string stringValue;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int IntValue
@@ -23,6 +25,23 @@
                     return;
                 }
                 this.intValue = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public string StringValue
+        {
+            get
+            {
+                return this.stringValue;
+            }
+            set
+            {
+                if (value == this.stringValue)
+                {
+                    return;
+                }
+                this.stringValue = value;
                 this.OnPropertyChanged();
             }
         }

@@ -32,5 +32,9 @@
         <TabItem Header="Dynamic">
             <local:DynamicTypesView />
         </TabItem>
+
+        <TabItem Header="DataGrid">
+            <local:DataGridScopeView />
+        </TabItem>
     </TabControl>
 </Window>

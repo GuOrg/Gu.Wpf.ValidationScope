@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:validationScope="http://gu.se/ValidationScope"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             mc:Ignorable="d" >
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type local:ViewModel }">
             <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
@@ -20,7 +19,7 @@
                                   ElementName=StackPanel}"
             BorderThickness="1">
         <StackPanel x:Name="StackPanel"
-                    validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}}">
+                     validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
             <ContentPresenter Content="{Binding}" />
             <ContentPresenter Content="{Binding}" />
         </StackPanel>

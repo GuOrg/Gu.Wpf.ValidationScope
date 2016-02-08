@@ -5,8 +5,6 @@
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:validationScope="http://gu.se/ValidationScope"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
              mc:Ignorable="d">
     <UserControl.Resources>
         <ControlTemplate x:Key="ControlTemplate"
@@ -27,7 +25,7 @@
                                   ElementName=StackPanel}"
             BorderThickness="1">
         <StackPanel x:Name="StackPanel"
-                    validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}}">
+                    validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
             <ContentControl Content="{Binding}"
                             Template="{StaticResource ControlTemplate}" />
             <ContentControl Content="{Binding}"

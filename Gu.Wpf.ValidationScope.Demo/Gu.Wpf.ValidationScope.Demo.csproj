@@ -55,6 +55,12 @@
     <Compile Include="ComplicatedScopeView.xaml.cs">
       <DependentUpon>ComplicatedScopeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataGridScopeView.xaml.cs">
+      <DependentUpon>DataGridScopeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataGridScopeVm.cs">
+      <DependentUpon>DataGridScopeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DynamicTypesView.xaml.cs">
       <DependentUpon>DynamicTypesView.xaml</DependentUpon>
     </Compile>
@@ -75,6 +81,10 @@
     </Compile>
     <Compile Include="ViewModel.cs" />
     <Page Include="ComplicatedScopeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataGridScopeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,7 +14,7 @@
                                       Converter={local:BoolToBrushConverter},
                                       RelativeSource={RelativeSource Self}}"
                 BorderThickness="1"
-                validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}}">
+                 validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
             <StackPanel>
                 <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
