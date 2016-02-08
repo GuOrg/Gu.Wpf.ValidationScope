@@ -1,6 +1,7 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ namespace Gu.Wpf.ValidationScope
 
     public abstract class Node : IErrorNode
     {
-        private readonly Lazy<ObservableCollection<IErrorNode>> innerChildren = new Lazy<ObservableCollection<IErrorNode>>(() => new ObservableCollection<IErrorNode>());
+        private readonly Lazy<ObservableCollection<IErrorNode>> lazyChildren = new Lazy<ObservableCollection<IErrorNode>>(() => new ObservableCollection<IErrorNode>());
         private ReadOnlyObservableCollection<IErrorNode> children;
         private ReadOnlyObservableCollection<ValidationError> errors;
         private bool hasErrors;
@@ -23,13 +24,13 @@ namespace Gu.Wpf.ValidationScope
 
         protected Node(IErrorNode child)
         {
-            this.EditableChildren.Add(child);
+            this.lazyChildren.Value.Add(child);
             this.hasErrors = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ReadOnlyObservableCollection<IErrorNode> Children => this.children ?? (this.children = new ReadOnlyObservableCollection<IErrorNode>(this.EditableChildren));
+        public ReadOnlyObservableCollection<IErrorNode> Children => this.children ?? (this.children = new ReadOnlyObservableCollection<IErrorNode>(this.lazyChildren.Value));
 
         public virtual bool HasErrors
         {
@@ -69,18 +70,48 @@ namespace Gu.Wpf.ValidationScope
 
         protected Lazy<ObservableCollection<ValidationError>> LazyErrors { get; } = new Lazy<ObservableCollection<ValidationError>>(() => new ObservableCollection<ValidationError>());
 
-        protected ObservableCollection<IErrorNode> EditableChildren => this.innerChildren.Value;
-
-        protected internal abstract void RemoveChild(IErrorNode errorNode);
-
-        protected internal virtual void AddChild(IErrorNode errorNode)
+        protected IEnumerable<Node> AllChildren
         {
-            if (this.EditableChildren.Contains(errorNode))
+            get
+            {
+                if (!this.lazyChildren.IsValueCreated)
+                {
+                    yield break;
+                }
+
+                foreach (Node errorNode in this.lazyChildren.Value)
+                {
+                    yield return errorNode;
+                    foreach (var child in errorNode.AllChildren)
+                    {
+                        yield return child;
+                    }
+                }
+            }
+        }
+
+        internal void RemoveChild(IErrorNode errorNode)
+        {
+            if (this.lazyChildren.IsValueCreated == false)
             {
                 return;
             }
 
-            this.EditableChildren.Add(errorNode);
+            if (this.lazyChildren.Value.Remove(errorNode))
+            {
+                this.OnChildrenChanged();
+            }
+        }
+
+        internal void AddChild(IErrorNode errorNode)
+        {
+            var editableChildren = this.lazyChildren.Value;
+            if (editableChildren.Contains(errorNode))
+            {
+                return;
+            }
+
+            editableChildren.Add(errorNode);
             this.HasErrors = true;
             this.OnChildrenChanged();
         }

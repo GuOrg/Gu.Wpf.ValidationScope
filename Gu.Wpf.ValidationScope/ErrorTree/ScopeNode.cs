@@ -27,15 +27,9 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
-        protected internal override void RemoveChild(IErrorNode errorNode)
-        {
-            this.EditableChildren.Remove(errorNode);
-            this.HasErrors = this.EditableChildren.Count > 0;
-            this.OnChildrenChanged();
-        }
-
         protected override void OnChildrenChanged()
         {
+            this.HasErrors = this.AllChildren.Any();
             this.UpdateErrors();
         }
 
@@ -75,7 +69,7 @@ namespace Gu.Wpf.ValidationScope
                 var validationErrors = this.LazyErrors.Value;
                 validationErrors.Clear();
 
-                foreach (var child in this.Children.OfType<ErrorNode>())
+                foreach (var child in this.AllChildren.OfType<ErrorNode>())
                 {
                     foreach (var childError in child.Errors)
                     {
