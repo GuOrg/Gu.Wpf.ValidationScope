@@ -36,6 +36,7 @@
                            Text="SomeIntValue" />
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
+                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
                          Text="{Binding IntValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="1"
@@ -43,6 +44,7 @@
                            Text="SameIntValue" />
                 <TextBox Grid.Row="1"
                          Grid.Column="1"
+                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox2}"
                          Text="{Binding IntValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
@@ -53,7 +55,8 @@
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock Foreground="Red"
+                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                               Foreground="Red"
                                Text="{Binding ErrorContent}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -20,16 +20,57 @@
     <UserControl.DataContext>
         <local:ViewModel />
     </UserControl.DataContext>
-    <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
-                                  Converter={local:BoolToBrushConverter},
-                                  ElementName=StackPanel}"
-            BorderThickness="1">
-        <StackPanel x:Name="StackPanel"
-                    validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
-            <ContentControl Content="{Binding}"
-                            Template="{StaticResource ControlTemplate}" />
-            <ContentControl Content="{Binding}"
-                            Style="{StaticResource Style}" />
-        </StackPanel>
-    </Border>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                                      Converter={local:BoolToBrushConverter},
+                                      ElementName=Form}"
+                BorderThickness="1">
+            <Grid x:Name="Form"
+                  validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="SomeIntValue" />
+                <ContentControl Grid.Row="0"
+                                Grid.Column="1"
+                                Content="{Binding}"
+                                Template="{StaticResource ControlTemplate}" />
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="SameIntValue" />
+
+                <ContentControl Grid.Row="1"
+                                Grid.Column="1"
+                                Content="{Binding}"
+                                Style="{StaticResource Style}" />
+            </Grid>
+        </Border>
+
+        <ItemsControl Grid.Row="1"
+                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
+                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                                            ElementName=Form}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type ValidationError}">
+                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                               Foreground="Red"
+                               Text="{Binding ErrorContent}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

@@ -11,27 +11,109 @@
     <UserControl.DataContext>
         <local:ViewModel />
     </UserControl.DataContext>
-    <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
-                                  Converter={local:BoolToBrushConverter},
-                                  RelativeSource={RelativeSource Self}}"
-            BorderThickness="1"
-            validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
-        <StackPanel>
-            <GroupBox Header="TextBoxScope">
-                <StackPanel validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}}">
-                    <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <ComboBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" IsEditable="True"/>
-                </StackPanel>
-            </GroupBox>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border x:Name="Form"
+                BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                                      Converter={local:BoolToBrushConverter},
+                                      RelativeSource={RelativeSource Self}}"
+                BorderThickness="1"
+                validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+            <StackPanel>
+                <GroupBox Header="TextBoxScope">
+                    <Grid validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="IntValue:" />
+                        <TextBox Grid.Row="0"
+                                 Grid.Column="1"
+                                 Text="{Binding IntValue,
+                                                UpdateSourceTrigger=PropertyChanged}" />
 
-            <GroupBox Header="CheckboxScope">
-                <StackPanel validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type ComboBox}}">
-                    <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                    <ComboBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" IsEditable="True"/>
-                </StackPanel>
-            </GroupBox>
-        </StackPanel>
-    </Border>
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="IntValue:" />
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="{Binding IntValue,
+                                                UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Text="IntValue:" />
+                        <ComboBox Grid.Row="2"
+                                  Grid.Column="1"
+                                  IsEditable="True"
+                                  Text="{Binding IntValue,
+                                                 UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Header="CheckboxScope">
+                    <Grid validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type ComboBox}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="IntValue:" />
+                        <TextBox Grid.Row="0"
+                                 Grid.Column="1"
+                                 Text="{Binding IntValue,
+                                                UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="IntValue:" />
+                        <TextBox Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="{Binding IntValue,
+                                                UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Row="2"
+                                   Grid.Column="0"
+                                   Text="IntValue:" />
+                        <ComboBox Grid.Row="2"
+                                  Grid.Column="1"
+                                  IsEditable="True"
+                                  Text="{Binding IntValue,
+                                                 UpdateSourceTrigger=PropertyChanged}" />
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </Border>
+
+        <ItemsControl Grid.Row="1"
+                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
+                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                                            ElementName=Form}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type ValidationError}">
+                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                               Foreground="Red"
+                               Text="{Binding ErrorContent}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

@@ -7,33 +7,41 @@
         Title="MainWindow"
         Width="525"
         Height="350"
+        AutomationProperties.AutomationId="{x:Static local:AutomationIDs.MainWindow}"
         mc:Ignorable="d">
     <TabControl>
-        <TabItem Header="Scope(1)">
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.OneLevelScopeTab}"
+                 Header="Scope(1)">
             <local:OneLevelScopeView />
         </TabItem>
 
-        <TabItem Header="Scope(2)">
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TwoLevelScopeTab}"
+                 Header="Scope(2)">
             <local:TwoLevelScopeView />
         </TabItem>
 
-        <TabItem Header="Scope(DataTemplates)">
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ScopeWithDataTemplatesTab}"
+                 Header="Scope(DataTemplates)">
             <local:ScopeWithDataTemplatesView />
         </TabItem>
 
-        <TabItem Header="Scope(ControlTemplate)">
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ScopeWithControlTemplatesTab}"
+                 Header="Scope(ControlTemplate)">
             <local:ScopeWithControlTemplates />
         </TabItem>
-        
-        <TabItem Header="Complicated">
+
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComplicatedScopeTab}"
+                 Header="Complicated">
             <local:ComplicatedScopeView />
         </TabItem>
 
-        <TabItem Header="Dynamic">
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.DynamicScopeTab}"
+                 Header="Dynamic">
             <local:DynamicTypesView />
         </TabItem>
 
-        <TabItem Header="DataGrid">
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.DataGridScopeTab}"
+                 Header="DataGrid">
             <local:DataGridScopeView />
         </TabItem>
     </TabControl>
