@@ -47,6 +47,7 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="DynamicViewTests.cs" />
     <Compile Include="NotifyDataErrorInfoViewTests.cs" />
     <Compile Include="OneLevelScopeTests.cs" />
     <Compile Include="Helpers\Info.cs" />

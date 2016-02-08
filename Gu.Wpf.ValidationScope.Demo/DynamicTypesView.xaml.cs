@@ -14,7 +14,7 @@
             InitializeComponent();
         }
 
-        private void ListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnTypesListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedItems = ((ListBox)sender).SelectedItems.Cast<Type>();
             var types = new InputTypeCollection();

@@ -17,6 +17,7 @@
         public static readonly string TextBox1 = Create();
         public static readonly string TextBox2 = Create();
         public static readonly string HasErrorsBox = Create();
+        public static readonly string TypeListBox = Create();
         
         public static readonly string ErrorList = Create();
         public static readonly string ErrorText = Create();
