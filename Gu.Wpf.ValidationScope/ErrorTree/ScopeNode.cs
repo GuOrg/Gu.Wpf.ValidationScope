@@ -1,6 +1,7 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Media;
 
@@ -30,6 +31,12 @@ namespace Gu.Wpf.ValidationScope
         {
             this.EditableChildren.Remove(errorNode);
             this.HasErrors = this.EditableChildren.Count > 0;
+            this.OnChildrenChanged();
+        }
+
+        protected override void OnChildrenChanged()
+        {
+            this.UpdateErrors();
         }
 
         protected override void OnHasErrorsChanged()
@@ -57,6 +64,23 @@ namespace Gu.Wpf.ValidationScope
                 else
                 {
                     parentNode.AddChild(this);
+                }
+            }
+        }
+
+        protected override void UpdateErrors()
+        {
+            if (this.LazyErrors.IsValueCreated)
+            {
+                var validationErrors = this.LazyErrors.Value;
+                validationErrors.Clear();
+
+                foreach (var child in this.Children.OfType<ErrorNode>())
+                {
+                    foreach (var childError in child.Errors)
+                    {
+                        validationErrors.Add(childError);
+                    }
                 }
             }
         }

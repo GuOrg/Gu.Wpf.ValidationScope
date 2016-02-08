@@ -5,12 +5,15 @@ namespace Gu.Wpf.ValidationScope
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Windows.Controls;
+
     using JetBrains.Annotations;
 
     public abstract class Node : IErrorNode
     {
         private readonly Lazy<ObservableCollection<IErrorNode>> innerChildren = new Lazy<ObservableCollection<IErrorNode>>(() => new ObservableCollection<IErrorNode>());
         private ReadOnlyObservableCollection<IErrorNode> children;
+        private ReadOnlyObservableCollection<ValidationError> errors;
         private bool hasErrors = true;
 
         protected Node(bool hasErrors)
@@ -48,7 +51,23 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
+        public ReadOnlyObservableCollection<ValidationError> Errors
+        {
+            get
+            {
+                if (this.errors == null)
+                {
+                    this.errors = new ReadOnlyObservableCollection<ValidationError>(this.LazyErrors.Value);
+                    this.UpdateErrors();
+                }
+
+                return this.errors;
+            }
+        }
+
         public abstract DependencyObject Source { get; }
+
+        protected Lazy<ObservableCollection<ValidationError>> LazyErrors { get; } = new Lazy<ObservableCollection<ValidationError>>(() => new ObservableCollection<ValidationError>());
 
         protected ObservableCollection<IErrorNode> EditableChildren => this.innerChildren.Value;
 
@@ -63,14 +82,19 @@ namespace Gu.Wpf.ValidationScope
 
             this.EditableChildren.Add(errorNode);
             this.HasErrors = true;
+            this.OnChildrenChanged();
         }
+
+        protected abstract void OnChildrenChanged();
+
+        protected abstract void OnHasErrorsChanged();
+
+        protected abstract void UpdateErrors();
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        protected abstract void OnHasErrorsChanged();
     }
 }

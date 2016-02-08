@@ -1,6 +1,8 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
@@ -25,8 +27,6 @@ namespace Gu.Wpf.ValidationScope
             this.errorCountExpression = errorCountExpression;
             this.OnHasErrorsChanged();
         }
-
-        //public ReadOnlyObservableCollection<ValidationError> Errors => Validation.GetErrors(this.Source);
 
         public override DependencyObject Source => (DependencyObject)this.errorCountExpression?.ParentBinding.Source;
 
@@ -63,11 +63,18 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
+        protected internal override void RemoveChild(IErrorNode errorNode)
+        {
+            this.EditableChildren.Remove(errorNode);
+            this.HasErrors = Validation.GetHasError(this.Source) || this.EditableChildren.Count > 0;
+            this.OnChildrenChanged();
+        }
+
         protected override void OnHasErrorsChanged()
         {
             var hasErrors = this.HasErrors;
             Scope.SetHasErrors(this.Source, hasErrors);
-
+            this.UpdateErrors();
             var parent = VisualTreeHelper.GetParent(this.Source);
             if (parent == null)
             {
@@ -95,10 +102,30 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
-        protected internal override void RemoveChild(IErrorNode errorNode)
+        protected override void OnChildrenChanged()
         {
-            this.EditableChildren.Remove(errorNode);
-            this.HasErrors = Validation.GetHasError(this.Source) || this.EditableChildren.Count > 0;
+            this.UpdateErrors();
+        }
+
+        protected override void UpdateErrors()
+        {
+            if (this.LazyErrors.IsValueCreated)
+            {
+                var validationErrors = this.LazyErrors.Value;
+                validationErrors.Clear();
+                foreach (var validationError in Validation.GetErrors(this.Source))
+                {
+                    validationErrors.Add(validationError);
+                }
+
+                foreach (var child in this.Children.OfType<ErrorNode>())
+                {
+                    foreach (var childError in child.Errors)
+                    {
+                        validationErrors.Add(childError);
+                    }
+                }
+            }
         }
 
         private static void OnErrorCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
