@@ -4,7 +4,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows;
     using System.Windows.Media;
 
-    public class ScopeNode : Node
+    public sealed class ScopeNode : Node
     {
         private readonly WeakReference<DependencyObject> sourceReference;
 
@@ -13,6 +13,7 @@ namespace Gu.Wpf.ValidationScope
         {
             this.sourceReference = new WeakReference<DependencyObject>(source);
             Scope.SetErrors(source, this);
+            this.OnHasErrorsChanged();
         }
 
         public override DependencyObject Source

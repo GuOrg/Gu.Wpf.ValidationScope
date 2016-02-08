@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="Gu.Wpf.ValidationScope.Demo.ComplicatedScopeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:validationScope="http://gu.se/ValidationScope"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:ViewModel />
+    </UserControl.DataContext>
+    <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                                  Converter={local:BoolToBrushConverter},
+                                  RelativeSource={RelativeSource Self}}"
+            BorderThickness="1"
+            validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+        <StackPanel>
+            <GroupBox Header="TextBoxScope">
+                <StackPanel validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}}">
+                    <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" IsEditable="True"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="CheckboxScope">
+                <StackPanel validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type ComboBox}}">
+                    <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" IsEditable="True"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Border>
+</UserControl>

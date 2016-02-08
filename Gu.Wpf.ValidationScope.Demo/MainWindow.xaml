@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:validationScope="http://gu.se/ValidationScope"
         Title="MainWindow"
         Width="525"
         Height="350"
@@ -16,6 +15,22 @@
 
         <TabItem Header="Scope(2)">
             <local:TwoLevelScopeView />
+        </TabItem>
+
+        <TabItem Header="Scope(DataTemplates)">
+            <local:ScopeWithDataTemplatesView />
+        </TabItem>
+
+        <TabItem Header="Scope(ControlTemplate)">
+            <local:ScopeWithControlTemplates />
+        </TabItem>
+        
+        <TabItem Header="Complicated">
+            <local:ComplicatedScopeView />
+        </TabItem>
+
+        <TabItem Header="Dynamic">
+            <local:DynamicTypesView />
         </TabItem>
     </TabControl>
 </Window>

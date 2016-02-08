@@ -48,7 +48,7 @@
 
         internal static void SetHasErrors(DependencyObject element, bool value)
         {
-            element.SetValue(HasErrorsPropertyKey, value);
+            element.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(value));
         }
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
@@ -74,16 +74,12 @@
         {
             if (((InputTypeCollection)e.NewValue)?.IsInputType(d) == true)
             {
-                if (d.GetValue(ErrorsProperty) == null)
+                if (GetErrors(d) == null)
                 {
-                    SetErrors(d, ErrorNode.Create(d));
-                }
-                else
-                {
-                    throw new NotImplementedException("Add error count binding to existing scope node or nop if already an error node");
+                    SetErrors(d, ErrorNode.CreateFor(d));
                 }
             }
-            else
+            else if (((InputTypeCollection)e.OldValue)?.IsInputType(d) == true)
             {
                 d.ClearValue(ErrorsPropertyKey);
             }
@@ -92,8 +88,7 @@
         private static void OnErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             (e.OldValue as IDisposable)?.Dispose();
-            var hasErrors = BooleanBoxes.Box(((IErrorNode)e.NewValue)?.HasErrors == true);
-            d.SetValue(HasErrorsPropertyKey, hasErrors);
+            SetHasErrors(d, ((IErrorNode)e.NewValue)?.HasErrors == true);
         }
     }
 }

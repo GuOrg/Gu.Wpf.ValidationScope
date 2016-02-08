@@ -6,7 +6,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows.Data;
     using System.Windows.Media;
 
-    public class ErrorNode : Node, IDisposable
+    public sealed class ErrorNode : Node, IDisposable
     {
         private static readonly DependencyProperty ErrorCountProperty = DependencyProperty.RegisterAttached(
             "ErrorCount",
@@ -23,13 +23,14 @@ namespace Gu.Wpf.ValidationScope
             : base(Validation.GetHasError((DependencyObject)errorCountExpression.ParentBinding.Source))
         {
             this.errorCountExpression = errorCountExpression;
+            this.OnHasErrorsChanged();
         }
 
         //public ReadOnlyObservableCollection<ValidationError> Errors => Validation.GetErrors(this.Source);
 
         public override DependencyObject Source => (DependencyObject)this.errorCountExpression?.ParentBinding.Source;
 
-        public static ErrorNode Create(DependencyObject dependencyObject)
+        public static ErrorNode CreateFor(DependencyObject dependencyObject)
         {
             var uiElement = dependencyObject as UIElement;
             if (uiElement != null)
@@ -56,6 +57,9 @@ namespace Gu.Wpf.ValidationScope
             if (source != null)
             {
                 BindingOperations.ClearBinding(source, ErrorCountProperty);
+                var parent = VisualTreeHelper.GetParent(this.Source);
+                var node = (Node)parent?.GetValue(Scope.ErrorsProperty);
+                node?.RemoveChild(this);
             }
         }
 
@@ -100,6 +104,11 @@ namespace Gu.Wpf.ValidationScope
         private static void OnErrorCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var node = (ErrorNode)d.GetValue(Scope.ErrorsProperty);
+            if (node == null)
+            {
+                return;
+            }
+
             node.HasErrors = !Equals(e.NewValue, 0) || node.Children.Count > 0;
         }
     }
