@@ -11,11 +11,30 @@
     <UserControl.DataContext>
         <local:DataGridScopeVm />
     </UserControl.DataContext>
-    <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
-                                  Converter={local:BoolToBrushConverter},
-                                  RelativeSource={RelativeSource Self}}"
-            BorderThickness="1"
-            validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
-        <DataGrid ItemsSource="{Binding Collection}" />
-    </Border>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border x:Name="Form"
+                BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                                      Converter={local:BoolToBrushConverter},
+                                      RelativeSource={RelativeSource Self}}"
+                BorderThickness="1"
+                validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+            <DataGrid ItemsSource="{Binding Collection}" />
+        </Border>
+        
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding Path=(validationScope:Scope.Errors).Errors,
+                                            ElementName=Form}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type ValidationError}">
+                    <TextBlock Foreground="Red"
+                               Text="{Binding ErrorContent}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>

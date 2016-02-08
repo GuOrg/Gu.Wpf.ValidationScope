@@ -14,7 +14,7 @@ namespace Gu.Wpf.ValidationScope
         private readonly Lazy<ObservableCollection<IErrorNode>> innerChildren = new Lazy<ObservableCollection<IErrorNode>>(() => new ObservableCollection<IErrorNode>());
         private ReadOnlyObservableCollection<IErrorNode> children;
         private ReadOnlyObservableCollection<ValidationError> errors;
-        private bool hasErrors = true;
+        private bool hasErrors;
 
         protected Node(bool hasErrors)
         {

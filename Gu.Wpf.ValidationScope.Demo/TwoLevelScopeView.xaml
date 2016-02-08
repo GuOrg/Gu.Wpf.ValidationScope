@@ -10,15 +10,53 @@
         <local:ViewModel />
     </UserControl.DataContext>
     <Grid>
-        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border x:Name="Form"
+                BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
                                       Converter={local:BoolToBrushConverter},
                                       RelativeSource={RelativeSource Self}}"
                 BorderThickness="1"
-                 validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
-            <StackPanel>
-                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
+                validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="SomeIntValue" />
+                <TextBox Grid.Row="0"
+                         Grid.Column="1"
+                         Text="{Binding IntValue,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="SameIntValue" />
+                <TextBox Grid.Row="1"
+                         Grid.Column="1"
+                         Text="{Binding IntValue,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
         </Border>
+
+        <ItemsControl Grid.Row="1"
+                      ItemsSource="{Binding Path=(validationScope:Scope.Errors).Errors,
+                                            ElementName=Form}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type ValidationError}">
+                    <TextBlock Foreground="Red"
+                               Text="{Binding ErrorContent}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>

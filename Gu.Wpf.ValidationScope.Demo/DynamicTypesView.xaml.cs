@@ -19,7 +19,7 @@
             var selectedItems = ((ListBox)sender).SelectedItems.Cast<Type>();
             var types = new InputTypeCollection();
             types.AddRange(selectedItems);
-            Scope.SetForInputTypes(this.StackPanel, types);
+            Scope.SetForInputTypes(this.Form, types);
         }
     }
 }
