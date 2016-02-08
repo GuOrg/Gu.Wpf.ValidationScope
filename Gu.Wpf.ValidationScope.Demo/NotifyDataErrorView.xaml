@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Gu.Wpf.ValidationScope.Demo.NotifyDataErrorInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:validationScope="http://gu.se/ValidationScope"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:NotifyDataErrorInfoVm />
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                                      Converter={local:BoolToBrushConverter},
+                                      ElementName=Form}"
+                BorderThickness="1">
+            <Grid x:Name="Form"
+                  validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="SomeIntValue" />
+                <TextBox Grid.Row="0"
+                         Grid.Column="1"
+                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
+                         Text="{Binding IntValue,
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        ValidatesOnNotifyDataErrors=True}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="SameIntValue" />
+                <TextBox Grid.Row="1"
+                         Grid.Column="1"
+                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox2}"
+                         Text="{Binding IntValue,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="SameIntValue" />
+                <CheckBox Grid.Row="2"
+                          Grid.Column="1"
+                          AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
+                          IsChecked="{Binding HasErrors}" />
+            </Grid>
+        </Border>
+
+        <ItemsControl Grid.Row="1"
+                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
+                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                                            ElementName=Form}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type ValidationError}">
+                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                               Foreground="Red"
+                               Text="{Binding ErrorContent}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

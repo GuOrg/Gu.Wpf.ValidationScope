@@ -44,5 +44,10 @@
                  Header="DataGrid">
             <local:DataGridScopeView />
         </TabItem>
+
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.NotifyDataErrorInfoTab}"
+                 Header="NotifyDataErrorInfo">
+            <local:NotifyDataErrorInfoView />
+        </TabItem>
     </TabControl>
 </Window>
