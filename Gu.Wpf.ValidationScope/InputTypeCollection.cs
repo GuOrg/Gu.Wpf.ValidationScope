@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace Gu.Wpf.ValidationScope
 {
@@ -9,6 +11,14 @@ namespace Gu.Wpf.ValidationScope
 
     public class InputTypeCollection : Collection<Type>
     {
+        public static readonly InputTypeCollection Defaut = new InputTypeCollection
+        {
+            typeof (TextBoxBase),
+            typeof (Selector),
+            typeof (ToggleButton),
+            typeof (Slider)
+        };
+
         public bool IsInputType(DependencyObject dependencyObject)
         {
             return this.Any(x => x.IsInstanceOfType(dependencyObject));

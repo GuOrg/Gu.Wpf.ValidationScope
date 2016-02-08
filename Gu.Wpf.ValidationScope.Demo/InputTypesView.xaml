@@ -6,7 +6,7 @@
              xmlns:validationScope="http://gu.se/ValidationScope"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <ItemsControl ItemsSource="{validationScope:InputTypes {x:Type TextBoxBase}, {x:Type Selector}, {x:Type ToggleButton}}">
+    <ItemsControl ItemsSource="{validationScope:InputTypes {x:Type TextBoxBase}, {x:Type Selector}, {x:Type ToggleButton}, {x:Type Slider}}">
             
     </ItemsControl>
 </UserControl>

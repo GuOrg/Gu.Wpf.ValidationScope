@@ -25,21 +25,11 @@
 
         private static readonly DependencyPropertyKey ErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "Errors",
-            typeof(AggregateErrors),
+            typeof(ErrorNode),
             typeof(Scope),
-            new PropertyMetadata(default(AggregateErrors), OnErrorsChanged));
+            new PropertyMetadata(default(ErrorNode), OnErrorsChanged));
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
-
-        private static readonly DependencyProperty ErrorCountProxyProperty = DependencyProperty.RegisterAttached(
-            "ErrorCountProxy",
-            typeof(int),
-            typeof(Scope),
-            new PropertyMetadata(
-                default(int),
-                OnErrorCountProxyChanged));
-
-        private static readonly PropertyPath ErrorCountPropertyPath = new PropertyPath("(Validation.Errors).Count");
 
         public static void SetForInputTypes(this UIElement element, InputTypeCollection value)
         {
@@ -65,16 +55,16 @@
             return (bool)element.GetValue(HasErrorsProperty);
         }
 
-        private static void SetErrors(this DependencyObject element, AggregateErrors value)
+        private static void SetErrors(this DependencyObject element, ErrorNode value)
         {
             element.SetValue(ErrorsPropertyKey, value);
         }
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static AggregateErrors GetErrors(UIElement element)
+        public static ErrorNode GetErrors(UIElement element)
         {
-            return (AggregateErrors)element.GetValue(ErrorsProperty);
+            return (ErrorNode)element.GetValue(ErrorsProperty);
         }
 
         private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -86,49 +76,12 @@
                     return;
                 }
 
-                var errorCountExpression = d.Bind(ErrorCountProxyProperty)
-                    .OneWayTo(d, ErrorCountPropertyPath);
-                d.SetValue(ErrorsPropertyKey, new AggregateErrors(errorCountExpression));
+
+                d.SetValue(ErrorsPropertyKey, new ErrorNode(errorCountExpression));
             }
             else
             {
-                BindingOperations.ClearBinding(d, ErrorCountProxyProperty);
                 d.ClearValue(ErrorsPropertyKey);
-            }
-        }
-
-        private static void OnErrorCountProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var errors = (AggregateErrors)d.GetValue(ErrorsProperty);
-            if (errors != null)
-            {
-                var hasErrors = errors.HasErrors;
-                d.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(hasErrors));
-                var parent = VisualTreeHelper.GetParent(d);
-                while (parent != null)
-                {
-                    if (parent.GetValue(ForInputTypesProperty) != null)
-                    {
-                        break;
-                    }
-
-                    var parentErrors = (AggregateErrors)parent.GetValue(ErrorsProperty);
-                    if (parentErrors == null)
-                    {
-                        if (hasErrors)
-                        {
-                            parentErrors = new AggregateErrors(errors);
-                            parent.SetValue(ErrorsProperty, parentErrors);
-                        }
-                    }
-                    else
-                    {
-                        parentErrors.UpdateChildErrors(errors, hasErrors);
-                    }
-
-                    parent.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(parentErrors?.HasErrors == true));
-                    parent = VisualTreeHelper.GetParent(parent);
-                }
             }
         }
 
@@ -136,7 +89,7 @@
         {
             var hasErrors = e.NewValue == null
                 ? BooleanBoxes.False
-                : BooleanBoxes.Box(((AggregateErrors)e.NewValue).HasErrors);
+                : BooleanBoxes.Box(((ErrorNode)e.NewValue).HasErrors);
             d.SetValue(HasErrorsPropertyKey, hasErrors);
         }
     }
