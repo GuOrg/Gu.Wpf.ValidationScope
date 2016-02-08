@@ -41,6 +41,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -51,13 +52,36 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BoolToBrushConverter.cs" />
+    <Compile Include="ComplicatedScopeView.xaml.cs">
+      <DependentUpon>ComplicatedScopeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicTypesView.xaml.cs">
+      <DependentUpon>DynamicTypesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InputTypesView.xaml.cs">
       <DependentUpon>InputTypesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ValidationScopeView.xaml.cs">
-      <DependentUpon>ValidationScopeView.xaml</DependentUpon>
+    <Compile Include="OneLevelScopeView.xaml.cs">
+      <DependentUpon>OneLevelScopeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScopeWithControlTemplates.xaml.cs">
+      <DependentUpon>ScopeWithControlTemplates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScopeWithDataTemplatesView.xaml.cs">
+      <DependentUpon>ScopeWithDataTemplatesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TwoLevelScopeView.xaml.cs">
+      <DependentUpon>TwoLevelScopeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel.cs" />
+    <Page Include="ComplicatedScopeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DynamicTypesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="InputTypesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -74,7 +98,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ValidationScopeView.xaml">
+    <Page Include="OneLevelScopeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScopeWithControlTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScopeWithDataTemplatesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TwoLevelScopeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

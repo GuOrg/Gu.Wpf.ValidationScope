@@ -1,11 +1,12 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
+    using System;
     using System.Windows;
-    using System.Windows.Data;
-    using System.Windows.Media;
 
     public static class Scope
     {
+#pragma warning disable SA1202 // Elements must be ordered by access
+
         public static readonly DependencyProperty ForInputTypesProperty = DependencyProperty.RegisterAttached(
             "ForInputTypes",
             typeof(InputTypeCollection),
@@ -25,21 +26,13 @@
 
         private static readonly DependencyPropertyKey ErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "Errors",
-            typeof(AggregateErrors),
+            typeof(IErrorNode),
             typeof(Scope),
-            new PropertyMetadata(default(AggregateErrors), OnErrorsChanged));
+            new PropertyMetadata(default(IErrorNode), OnErrorsChanged));
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
-        private static readonly DependencyProperty ErrorCountProxyProperty = DependencyProperty.RegisterAttached(
-            "ErrorCountProxy",
-            typeof(int),
-            typeof(Scope),
-            new PropertyMetadata(
-                default(int),
-                OnErrorCountProxyChanged));
-
-        private static readonly PropertyPath ErrorCountPropertyPath = new PropertyPath("(Validation.Errors).Count");
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         public static void SetForInputTypes(this UIElement element, InputTypeCollection value)
         {
@@ -48,14 +41,14 @@
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static InputTypeCollection GetForInputTypes(this UIElement element)
+        public static InputTypeCollection GetForInputTypes(DependencyObject element)
         {
             return (InputTypeCollection)element.GetValue(ForInputTypesProperty);
         }
 
-        private static void SetHasErrors(this DependencyObject element, bool value)
+        internal static void SetHasErrors(DependencyObject element, bool value)
         {
-            element.SetValue(HasErrorsPropertyKey, value);
+            element.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(value));
         }
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
@@ -65,79 +58,37 @@
             return (bool)element.GetValue(HasErrorsProperty);
         }
 
-        private static void SetErrors(this DependencyObject element, AggregateErrors value)
+        internal static void SetErrors(DependencyObject element, IErrorNode value)
         {
             element.SetValue(ErrorsPropertyKey, value);
         }
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static AggregateErrors GetErrors(UIElement element)
+        public static IErrorNode GetErrors(DependencyObject element)
         {
-            return (AggregateErrors)element.GetValue(ErrorsProperty);
+            return (IErrorNode)element.GetValue(ErrorsProperty);
         }
 
         private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (((InputTypeCollection)e.NewValue)?.IsInputType(d) == true)
             {
-                if (BindingOperations.GetBindingExpression(d, ErrorCountProxyProperty) != null)
+                if (GetErrors(d) == null)
                 {
-                    return;
+                    SetErrors(d, ErrorNode.CreateFor(d));
                 }
-
-                var errorCountExpression = d.Bind(ErrorCountProxyProperty)
-                    .OneWayTo(d, ErrorCountPropertyPath);
-                d.SetValue(ErrorsPropertyKey, new AggregateErrors(errorCountExpression));
             }
-            else
+            else if (((InputTypeCollection)e.OldValue)?.IsInputType(d) == true)
             {
-                BindingOperations.ClearBinding(d, ErrorCountProxyProperty);
                 d.ClearValue(ErrorsPropertyKey);
-            }
-        }
-
-        private static void OnErrorCountProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var errors = (AggregateErrors)d.GetValue(ErrorsProperty);
-            if (errors != null)
-            {
-                var hasErrors = errors.HasErrors;
-                d.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(hasErrors));
-                var parent = VisualTreeHelper.GetParent(d);
-                while (parent != null)
-                {
-                    if (parent.GetValue(ForInputTypesProperty) != null)
-                    {
-                        break;
-                    }
-
-                    var parentErrors = (AggregateErrors)parent.GetValue(ErrorsProperty);
-                    if (parentErrors == null)
-                    {
-                        if (hasErrors)
-                        {
-                            parentErrors = new AggregateErrors(errors);
-                            parent.SetValue(ErrorsProperty, parentErrors);
-                        }
-                    }
-                    else
-                    {
-                        parentErrors.UpdateChildErrors(errors, hasErrors);
-                    }
-
-                    parent.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(parentErrors?.HasErrors == true));
-                    parent = VisualTreeHelper.GetParent(parent);
-                }
             }
         }
 
         private static void OnErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var hasErrors = e.NewValue == null
-                ? BooleanBoxes.False
-                : BooleanBoxes.Box(((AggregateErrors)e.NewValue).HasErrors);
-            d.SetValue(HasErrorsPropertyKey, hasErrors);
+            (e.OldValue as IDisposable)?.Dispose();
+            SetHasErrors(d, ((IErrorNode)e.NewValue)?.HasErrors == true);
         }
     }
 }

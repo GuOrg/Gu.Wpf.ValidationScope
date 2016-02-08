@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -54,6 +53,7 @@ using System.Windows.Markup;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly:InternalsVisibleTo("Gu.Wpf.ValidationScope.Tests")]
 
 [assembly: XmlnsDefinition("http://gu.se/ValidationScope", "Gu.Wpf.ValidationScope")]
 [assembly: XmlnsPrefix("http://gu.se/ValidationScope", "validationScope")]
