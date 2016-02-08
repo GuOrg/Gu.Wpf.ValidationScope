@@ -59,46 +59,6 @@
                 errorNode = (ErrorNode)Scope.GetErrors(textBox);
                 Assert.AreEqual(textBox, errorNode.Source);
                 CollectionAssert.IsEmpty(errorNode.Children);
-
-                textBox.SetValidationError();
-                Assert.AreEqual(true, Scope.GetHasErrors(stackPanel));
-                errorNode = (ScopeNode)Scope.GetErrors(stackPanel);
-                Assert.AreEqual(stackPanel, errorNode.Source);
-                Assert.AreEqual(1, errorNode.Children.Count);
-
-                Assert.AreEqual(true, Scope.GetHasErrors(textBox));
-                errorNode = (ErrorNode)Scope.GetErrors(textBox);
-                Assert.AreEqual(textBox, errorNode.Source);
-                CollectionAssert.IsEmpty(errorNode.Children);
-
-                textBox.ClearValidationError();
-                Assert.AreEqual(false, Scope.GetHasErrors(stackPanel));
-                errorNode = (ScopeNode)Scope.GetErrors(stackPanel);
-                Assert.AreEqual(null, errorNode);
-
-                Assert.AreEqual(false, Scope.GetHasErrors(textBox));
-                errorNode = (ErrorNode)Scope.GetErrors(textBox);
-                Assert.AreEqual(textBox, errorNode.Source);
-                CollectionAssert.IsEmpty(errorNode.Children);
-            }
-
-            [Test]
-            public void Errors()
-            {
-                var textBox = new TextBox();
-                var stackPanel = new StackPanel();
-                stackPanel.Children.Add(textBox);
-                var inputTypes = new InputTypeCollection { typeof(TextBox), typeof(Selector) };
-                stackPanel.SetForInputTypes(inputTypes);
-
-                Assert.AreEqual(false, Scope.GetHasErrors(stackPanel));
-                IErrorNode errorNode = (ScopeNode)Scope.GetErrors(stackPanel);
-                Assert.AreEqual(null, errorNode);
-
-                Assert.AreEqual(false, Scope.GetHasErrors(textBox));
-                errorNode = (ErrorNode)Scope.GetErrors(textBox);
-                Assert.AreEqual(textBox, errorNode.Source);
-                CollectionAssert.IsEmpty(errorNode.Children);
                 CollectionAssert.IsEmpty(errorNode.Errors);
 
                 textBox.SetValidationError();

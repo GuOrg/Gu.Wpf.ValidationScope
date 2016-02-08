@@ -40,46 +40,21 @@
             var errorNode = (ErrorNode)Scope.GetErrors(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
+            CollectionAssert.IsEmpty(errorNode.Errors);
 
             textBox.SetValidationError();
             Assert.AreEqual(true, Scope.GetHasErrors(textBox));
             errorNode = (ErrorNode)Scope.GetErrors(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
+            CollectionAssert.AreEqual(new[] { TestValidationError.GetFor(textBox) }, errorNode.Errors);
 
             textBox.ClearValidationError();
             Assert.AreEqual(false, Scope.GetHasErrors(textBox));
             errorNode = (ErrorNode)Scope.GetErrors(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
-        }
-
-        [Test]
-        public void Reminder()
-        {
-            var textBox = new TextBox();
-            var inputTypes = new InputTypeCollection { typeof(TextBox), typeof(Selector) };
-            textBox.SetForInputTypes(inputTypes);
-            Assert.AreEqual(false, Scope.GetHasErrors(textBox));
-            var errorNode = (ErrorNode)Scope.GetErrors(textBox);
-            Assert.AreEqual(textBox, errorNode.Source);
-            CollectionAssert.IsEmpty(errorNode.Children);
-            Assert.Fail("Implement");
-            // CollectionAssert.IsEmpty(errorNode.Errors);
-
-            textBox.SetValidationError();
-            Assert.AreEqual(true, Scope.GetHasErrors(textBox));
-            errorNode = (ErrorNode)Scope.GetErrors(textBox);
-            Assert.AreEqual(textBox, errorNode.Source);
-            CollectionAssert.IsEmpty(errorNode.Children);
-            // CollectionAssert.AreEqual(new[] {TestValidationError.GetFor(textBox)} ,errorNode.Errors);
-
-            textBox.ClearValidationError();
-            Assert.AreEqual(false, Scope.GetHasErrors(textBox));
-            errorNode = (ErrorNode)Scope.GetErrors(textBox);
-            Assert.AreEqual(textBox, errorNode.Source);
-            CollectionAssert.IsEmpty(errorNode.Children);
-            // CollectionAssert.IsEmpty(errorNode.Errors);
+            CollectionAssert.IsEmpty(errorNode.Errors);
         }
     }
 }
