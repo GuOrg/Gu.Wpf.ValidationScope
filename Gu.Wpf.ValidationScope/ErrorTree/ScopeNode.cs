@@ -14,8 +14,6 @@ namespace Gu.Wpf.ValidationScope
             : base(child)
         {
             this.sourceReference = new WeakReference<DependencyObject>(source);
-            Scope.SetErrors(source, this);
-            this.OnHasErrorsChanged();
         }
 
         public override DependencyObject Source

@@ -7,17 +7,17 @@
 
     internal static class BubbleRoute
     {
-        internal static void Notify(ErrorNode node, IReadOnlyList<BatchChangeItem<ValidationError>> changes)
+        internal static void Notify(ErrorNode errorNode, IReadOnlyList<BatchChangeItem<ValidationError>> changes)
         {
-            var source = node.Source;
+            var source = errorNode.Source;
             if (source == null || changes?.Count == 0)
             {
                 return;
             }
 
-            Scope.SetHasErrors(source, node.HasErrors);
+            Scope.SetHasErrors(source, errorNode.HasErrors);
             var parent = VisualTreeHelper.GetParent(source);
-            Node childNode = node;
+            Node childNode = errorNode;
             while (parent != null)
             {
                 if (Scope.GetForInputTypes(parent) == null)
@@ -38,16 +38,19 @@
                         else
                         {
                             parentNode.AddChild(childNode);
+                            UpdateErrors(parentNode, changes);
                         }
                     }
                     else
                     {
                         parentNode?.RemoveChild(childNode);
+                        UpdateErrors(parentNode, changes);
                     }
                 }
                 else
                 {
                     parentNode?.RemoveChild(childNode);
+                    UpdateErrors(parentNode, changes);
                 }
 
                 if (parentNode is ScopeNode && parentNode.Children.Count == 0)
@@ -56,21 +59,24 @@
                     Scope.SetErrors(parent, null);
                 }
 
-                if (parentNode != null && parentNode.LazyErrors.IsValueCreated)
-                {
-                    if (changes != null)
-                    {
-                        parentNode.LazyErrors.Value.Update(changes);
-                    }
-                    else
-                    {
-                        parentNode.LazyErrors.Value.Refresh(parentNode.GetAllErrors());
-                    }
-                }
-
                 Scope.SetHasErrors(parent, parentNode?.HasErrors == true);
                 childNode = parentNode;
                 parent = VisualTreeHelper.GetParent(parent);
+            }
+        }
+
+        private static void UpdateErrors(Node parentNode, IReadOnlyList<BatchChangeItem<ValidationError>> changes)
+        {
+            if (parentNode != null && parentNode.LazyErrors.IsValueCreated)
+            {
+                if (changes != null)
+                {
+                    parentNode.LazyErrors.Value.Update(changes);
+                }
+                else
+                {
+                    parentNode.LazyErrors.Value.Refresh(parentNode.GetAllErrors());
+                }
             }
         }
 
