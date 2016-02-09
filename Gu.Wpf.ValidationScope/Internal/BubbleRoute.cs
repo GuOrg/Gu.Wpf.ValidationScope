@@ -33,7 +33,7 @@
                         if (parentNode == null)
                         {
                             parentNode = new ScopeNode(parent, childNode);
-                            Scope.SetErrors(parent, childNode);
+                            Scope.SetErrors(parent, parentNode);
                         }
                         else
                         {
