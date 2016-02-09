@@ -67,7 +67,9 @@ namespace Gu.Wpf.ValidationScope
             {
                 if (this.errors == null)
                 {
-                    this.errors = new ReadOnlyObservableCollection<ValidationError>(this.ErrorCollection);
+                    var lazyErrors = this.LazyErrors.Value;
+                    lazyErrors.Refresh(this.GetAllErrors());
+                    this.errors = new ReadOnlyObservableCollection<ValidationError>(lazyErrors);
                     ((INotifyPropertyChanged)this.errors).PropertyChanged += this.OnErrorsPropertyChanged;
                 }
 
@@ -81,7 +83,7 @@ namespace Gu.Wpf.ValidationScope
 
         ValidationError IReadOnlyList<ValidationError>.this[int index] => this.Errors[index];
 
-        protected internal ErrorCollection ErrorCollection { get; } = new ErrorCollection();
+        internal Lazy<ErrorCollection> LazyErrors { get; } = new Lazy<ErrorCollection>(() => new ErrorCollection());
 
         protected IEnumerable<Node> AllChildren
         {

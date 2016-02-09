@@ -110,7 +110,7 @@
         }
 
         private IReadOnlyList<BatchChangeItem<ValidationError>> UpdateInternal(
-            IEnumerable toRemove, 
+            IEnumerable toRemove,
             IEnumerable toAdd)
         {
             if (IsNullOrEmpty(toRemove) && IsNullOrEmpty(toAdd))

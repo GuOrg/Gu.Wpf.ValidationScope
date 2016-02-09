@@ -39,7 +39,7 @@ namespace Gu.Wpf.ValidationScope
             if (this.AllChildren.Any())
             {
                 var allErrors = this.AllChildren.OfType<ErrorNode>()
-                                             .SelectMany(x => x.ErrorCollection)
+                                             .SelectMany(x => x.Errors)
                                              .ToList();
                 return allErrors;
             }

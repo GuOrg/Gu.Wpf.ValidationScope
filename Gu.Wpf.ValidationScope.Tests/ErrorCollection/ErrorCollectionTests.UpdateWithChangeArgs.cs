@@ -24,8 +24,8 @@
                 var e = sourceEvents.OfType<NotifyCollectionChangedEventArgs>().Last();
                 var changes = errors.Update(e);
                 CollectionAssert.AreEqual(sourceEvents, errorEvents, ObservableCollectionArgsComparer.Default);
-                var expectedChanges = new[] { BatchChangeItem.CreateAdd(error, 0), };
-                CollectionAssert.AreEqual(expectedChanges, changes, ValidationErrorChangeComparer.Default);
+                var expectedChanges = new[] { BatchChangeItem.CreateAdd<ValidationError>(error, 0), };
+                CollectionAssert.AreEqual(expectedChanges, changes, BatchChangeItemComparer<ValidationError>.Default);
             }
 
             [Test]
@@ -40,8 +40,8 @@
                 var e = sourceEvents.OfType<NotifyCollectionChangedEventArgs>().Last();
                 var changes = errors.Update(e);
                 CollectionAssert.AreEqual(sourceEvents, errorEvents, ObservableCollectionArgsComparer.Default);
-                var expectedChanges = new[] { BatchChangeItem.CreateRemove(error, 0), };
-                CollectionAssert.AreEqual(expectedChanges, changes, ValidationErrorChangeComparer.Default);
+                var expectedChanges = new[] { BatchChangeItem.CreateRemove<ValidationError>(error, 0), };
+                CollectionAssert.AreEqual(expectedChanges, changes, BatchChangeItemComparer<ValidationError>.Default);
             }
         }
     }

@@ -54,7 +54,7 @@
     <Compile Include="Helpers\ObservableCollectionArgsComparer.cs" />
     <Compile Include="Helpers\ObservableCollectionExt.cs" />
     <Compile Include="Helpers\PropertyChangedEventArgsComparer.cs" />
-    <Compile Include="Helpers\ValidationErrorChangeComparer.cs" />
+    <Compile Include="Helpers\BatchChangeItemComparer.cs" />
     <Compile Include="Helpers\TestValidationError.cs" />
     <Compile Include="Helpers\TestValidationRule.cs" />
     <Compile Include="ErrorCollection\ErrorCollectionTests.Shared.cs" />

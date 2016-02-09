@@ -57,27 +57,27 @@ namespace Gu.Wpf.ValidationScope
             {
                 var args = (NotifyCollectionChangedEventArgs)e;
                 IReadOnlyList<BatchChangeItem<ValidationError>> changes;
-                if (this.ErrorCollection.CanUpdate(args))
+                if (this.LazyErrors.Value.CanUpdate(args))
                 {
-                    changes = this.ErrorCollection.Update(args);
+                    changes = this.LazyErrors.Value.Update(args);
                 }
                 else
                 {
                     if (this.AllChildren.Any())
                     {
                         var errors = this.AllChildren.OfType<ErrorNode>()
-                                                     .SelectMany(x => x.ErrorCollection)
+                                                     .SelectMany(x => x.Errors)
                                                      .ToList();
                         errors.AddRange((IEnumerable<ValidationError>)sender);
-                        changes = this.ErrorCollection.Refresh((IReadOnlyList<ValidationError>)sender);
+                        changes = this.LazyErrors.Value.Refresh((IReadOnlyList<ValidationError>)sender);
                     }
                     else
                     {
-                        changes = this.ErrorCollection.Refresh((IReadOnlyList<ValidationError>)sender);
+                        changes = this.LazyErrors.Value.Refresh((IReadOnlyList<ValidationError>)sender);
                     }
                 }
 
-                this.HasErrors = this.ErrorCollection.Count != 0;
+                this.HasErrors = this.Errors.Count > 0 || this.Children.Count > 0;
                 BubbleRoute.Notify(this, changes);
                 return true;
             }
@@ -102,7 +102,7 @@ namespace Gu.Wpf.ValidationScope
             if (this.AllChildren.Any())
             {
                 var allErrors = this.AllChildren.OfType<ErrorNode>()
-                                             .SelectMany(x => x.ErrorCollection)
+                                             .SelectMany(x => x.Errors)
                                              .ToList();
                 if (errors != null)
                 {
@@ -127,10 +127,15 @@ namespace Gu.Wpf.ValidationScope
             var source = this.Source;
             if (source != null)
             {
+                var value = source.GetValue(ErrorsProxyProperty);
+                if (value != null)
+                {
+                    CollectionChangedEventManager.RemoveListener((INotifyCollectionChanged)value, this);
+                }
+
                 BindingOperations.ClearBinding(source, ErrorsProxyProperty);
-                var parent = VisualTreeHelper.GetParent(this.Source);
-                var node = (Node)parent?.GetValue(Scope.ErrorsProperty);
-                node?.RemoveChild(this);
+                var changes = this.Errors.Select(BatchChangeItem.CreateRemove).ToList();
+                BubbleRoute.Notify(this, changes);
             }
         }
 
@@ -142,6 +147,12 @@ namespace Gu.Wpf.ValidationScope
         private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var node = (ErrorNode)d.GetValue(Scope.ErrorsProperty);
+            if (node == null)
+            {
+                // this happens when disposing
+                return;
+            }
+
             var oldValue = (ReadOnlyObservableCollection<ValidationError>)e.OldValue;
             if (oldValue != null)
             {
@@ -154,8 +165,8 @@ namespace Gu.Wpf.ValidationScope
                 CollectionChangedEventManager.AddListener(newValue, node);
             }
 
-            var changes = node.ErrorCollection.Update(oldValue, newValue);
-            node.HasErrors = !Equals(e.NewValue, 0) || node.Children.Count > 0;
+            var changes = node.LazyErrors.Value.Update(oldValue, newValue);
+            node.HasErrors = node.Errors.Count > 0 || node.Children.Count > 0;
             BubbleRoute.Notify(node, changes);
         }
     }
