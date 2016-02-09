@@ -8,7 +8,7 @@
     using System.Linq;
     using System.Windows.Controls;
 
-    public class ErrorCollection : BatchCollection<ValidationError>
+    public class ErrorCollection : ObservableBatchCollection<ValidationError>
     {
         private static readonly IReadOnlyList<BatchChangeItem<ValidationError>> EmptyValidationErrorEventArgses = new BatchChangeItem<ValidationError>[0];
 
@@ -66,7 +66,11 @@
                     var index = changes.NewStartingIndex;
                     var old = this[index];
                     this[index] = Single(changes.NewItems);
-                    return new[] { BatchChangeItem(old, index, ValidationErrorEventAction.Removed), new BatchChangeItem(this[index], index, ValidationErrorEventAction.Added) };
+                    return new[]
+                    {
+                        BatchChangeItem.CreateRemove(old, index),
+                        BatchChangeItem.CreateAdd(this[index], index)
+                    };
                 case NotifyCollectionChangedAction.Move:
                     this.MoveItem(changes.OldStartingIndex, changes.NewStartingIndex);
                     return EmptyValidationErrorEventArgses;
@@ -105,43 +109,48 @@
                               .Any();
         }
 
-        private IReadOnlyList<BatchChangeItem<ValidationError>> UpdateInternal(IEnumerable toRemove, IEnumerable toAdd)
+        private IReadOnlyList<BatchChangeItem<ValidationError>> UpdateInternal(
+            IEnumerable toRemove, 
+            IEnumerable toAdd)
         {
             if (IsNullOrEmpty(toRemove) && IsNullOrEmpty(toAdd))
             {
                 return EmptyValidationErrorEventArgses;
             }
 
-            var changes = new ChangeList();
-            this.BatchChanges = changes;
-            this.RemoveRange(toRemove);
-            this.AddRange(toAdd);
-
-            this.BatchChanges = null;
-            var args = changes.AsCollectionChangedEventArgs();
-            if (args != null)
+            using (this.BeginChange())
             {
-                switch (args.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                    case NotifyCollectionChangedAction.Remove:
-                    case NotifyCollectionChangedAction.Reset:
-                        this.OnPropertyChanged(CountPropertyChangedEventArgs);
-                        this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
-                        break;
-                    case NotifyCollectionChangedAction.Replace:
-                    case NotifyCollectionChangedAction.Move:
-                        this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-                this.OnCollectionChanged(args);
+                var changes = this.CurrentBatch;
+                this.RemoveRange(toRemove);
+                this.AddRange(toAdd);
                 return changes;
             }
+        }
 
-            return EmptyValidationErrorEventArgses;
+        private void AddRange(IEnumerable newItems)
+        {
+            if (newItems == null)
+            {
+                return;
+            }
+
+            foreach (var newItem in newItems)
+            {
+                this.Add((ValidationError) newItem);
+            }
+        }
+
+        private void RemoveRange(IEnumerable toRemove)
+        {
+            if (toRemove == null)
+            {
+                return;
+            }
+
+            foreach (var oldItem in toRemove)
+            {
+                this.Remove((ValidationError) oldItem);
+            }
         }
     }
 }

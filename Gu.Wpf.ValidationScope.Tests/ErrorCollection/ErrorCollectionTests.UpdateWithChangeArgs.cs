@@ -1,11 +1,12 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests.Internal
+﻿namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
 {
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Linq;
     using System.Windows.Controls;
-
+    using Gu.Wpf.ValidationScope.Tests.Helpers;
     using NUnit.Framework;
+    using ErrorCollection = Gu.Wpf.ValidationScope.ErrorCollection;
 
     public partial class ErrorCollectionTests
     {
@@ -15,14 +16,16 @@
             public void UpdatesAndNotifiesOnAdd()
             {
                 var source = new ObservableCollection<ValidationError>();
-                var sourceEvents = SubscribeAllEvents(source);
+                var sourceEvents = source.SubscribeAllEvents();
                 var errors = new ErrorCollection();
-                var errorEvents = SubscribeAllEvents(errors);
+                var errorEvents = errors.SubscribeAllEvents();
                 var error = TestValidationError.Create();
                 source.Add(error);
-                var changes = errors.Update(sourceEvents.OfType<NotifyCollectionChangedEventArgs>().Last());
+                var e = sourceEvents.OfType<NotifyCollectionChangedEventArgs>().Last();
+                var changes = errors.Update(e);
                 CollectionAssert.AreEqual(sourceEvents, errorEvents, ObservableCollectionArgsComparer.Default);
-                CollectionAssert.AreEqual(new[] { new BatchChangeItem(error, 0, ValidationErrorEventAction.Added), }, changes, ValidationErrorChangeComparer.Default);
+                var expectedChanges = new[] { BatchChangeItem.CreateAdd(error, 0), };
+                CollectionAssert.AreEqual(expectedChanges, changes, ValidationErrorChangeComparer.Default);
             }
 
             [Test]
@@ -30,13 +33,15 @@
             {
                 var error = TestValidationError.Create();
                 var source = new ObservableCollection<ValidationError> { error };
-                var sourceEvents = SubscribeAllEvents(source);
+                var sourceEvents = source.SubscribeAllEvents();
                 var errors = new ErrorCollection { error };
-                var errorEvents = SubscribeAllEvents(errors);
+                var errorEvents = errors.SubscribeAllEvents();
                 source.Remove(error);
-                var changes = errors.Update(sourceEvents.OfType<NotifyCollectionChangedEventArgs>().Last());
+                var e = sourceEvents.OfType<NotifyCollectionChangedEventArgs>().Last();
+                var changes = errors.Update(e);
                 CollectionAssert.AreEqual(sourceEvents, errorEvents, ObservableCollectionArgsComparer.Default);
-                CollectionAssert.AreEqual(new[] { new BatchChangeItem(error, 0, ValidationErrorEventAction.Removed), }, changes, ValidationErrorChangeComparer.Default);
+                var expectedChanges = new[] { BatchChangeItem.CreateRemove(error, 0), };
+                CollectionAssert.AreEqual(expectedChanges, changes, ValidationErrorChangeComparer.Default);
             }
         }
     }

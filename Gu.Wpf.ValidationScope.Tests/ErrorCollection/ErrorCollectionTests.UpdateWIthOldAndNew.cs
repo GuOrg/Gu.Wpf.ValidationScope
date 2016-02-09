@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests.Internal
+﻿namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +6,9 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Windows.Controls;
-
+    using Gu.Wpf.ValidationScope.Tests.Helpers;
     using NUnit.Framework;
+    using ErrorCollection = Gu.Wpf.ValidationScope.ErrorCollection;
 
     [RequiresSTA]
     public partial class ErrorCollectionTests
@@ -18,7 +19,7 @@
             public void UpdateWithNulls()
             {
                 var collection = new ErrorCollection();
-                var actual = SubscribeAllEvents(collection);
+                var actual = collection.SubscribeAllEvents();
                 var changes = collection.Update((ReadOnlyObservableCollection<ValidationError>)null, (ReadOnlyObservableCollection<ValidationError>)null);
                 CollectionAssert.IsEmpty(actual);
                 CollectionAssert.IsEmpty(changes);
@@ -28,7 +29,7 @@
             public void UpdateWithEmpties()
             {
                 var collection = new ErrorCollection();
-                var actual = SubscribeAllEvents(collection);
+                var actual = collection.SubscribeAllEvents();
                 var changes = collection.Update(Create(0), Create(0));
                 CollectionAssert.IsEmpty(actual);
                 CollectionAssert.IsEmpty(changes);
@@ -38,7 +39,7 @@
             public void UpdateWithNewWhenEmpty()
             {
                 var collection = new ErrorCollection();
-                var actual = SubscribeAllEvents(collection);
+                var actual = collection.SubscribeAllEvents();
                 var newCollection = Create(1);
                 var changes = collection.Update(null, newCollection);
                 var expectedArgs = new List<EventArgs>
@@ -49,9 +50,9 @@
                                    };
                 CollectionAssert.AreEqual(expectedArgs, actual, ObservableCollectionArgsComparer.Default);
 
-                var expectedChanges = new List<BatchChangeItem>
+                var expectedChanges = new List<BatchChangeItem<ValidationError>>
                                    {
-                                       new BatchChangeItem(newCollection[0], 0, ValidationErrorEventAction.Added)
+                                       BatchChangeItem.CreateAdd(newCollection[0], 0)
                                    };
                 CollectionAssert.AreEqual(expectedChanges, changes, ValidationErrorChangeComparer.Default);
             }
@@ -62,7 +63,7 @@
                 Assert.Inconclusive("");
                 var newCollection = Create(1);
                 var collection = new ErrorCollection { newCollection[0] };
-                var actual = SubscribeAllEvents(collection);
+                var actual = collection.SubscribeAllEvents();
                 var changes = collection.Update(null, newCollection);
                 CollectionAssert.IsEmpty(actual);
                 CollectionAssert.IsEmpty(changes);
@@ -73,7 +74,7 @@
             {
                 var errors = Create(1);
                 var collection = new ErrorCollection { errors[0] };
-                var actual = SubscribeAllEvents(collection);
+                var actual = collection.SubscribeAllEvents();
                 var changes = collection.Update(errors, errors);
                 CollectionAssert.IsEmpty(actual);
                 CollectionAssert.IsEmpty(changes);

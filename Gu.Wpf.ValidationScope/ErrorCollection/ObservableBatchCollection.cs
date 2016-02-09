@@ -5,16 +5,15 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Windows.Controls;
 
-    public class BatchCollection<T> : ObservableCollection<T>
+    public class ObservableBatchCollection<T> : ObservableCollection<T>
     {
         private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
         private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
 
         private BatchChanges batchChanges;
 
-        public IReadOnlyList<BatchChangeItem<T>> CurrentBatch { get; private set; }
+        public IReadOnlyList<BatchChangeItem<T>> CurrentBatch => this.batchChanges;
 
         public void AddRange(IEnumerable<T> newItems)
         {
@@ -109,7 +108,7 @@ namespace Gu.Wpf.ValidationScope
                 this.CheckReentrancy();
                 var item = this.Items[oldIndex];
                 this.RemoveItem(oldIndex);
-                base.InsertItem(newIndex, item);
+                this.InsertItem(newIndex, item);
             }
             else
             {
@@ -212,19 +211,32 @@ namespace Gu.Wpf.ValidationScope
                 var c2 = changes[1];
                 if (c1.Index == c2.Index && c1.Action != c2.Action)
                 {
-                    if (ReferenceEquals(c1.Item, c2.Item))
+                    if (Equals(c1.Item, c2.Item))
                     {
                         return null;
                     }
 
-                    if (c1.Action == NotifyCollectionChangedAction.Remove)
-                    {
-                        return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, c1.Item, c2.Item, c1.Index);
-                    }
-                    else
+                    if (c1.Action == NotifyCollectionChangedAction.Remove &&
+                        c2.Action == NotifyCollectionChangedAction.Add)
                     {
                         return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, c2.Item, c1.Item, c1.Index);
                     }
+                    else if (c1.Action == NotifyCollectionChangedAction.Add &&
+                             c2.Action == NotifyCollectionChangedAction.Remove)
+                    {
+                        return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, c1.Item, c2.Item, c1.Index);
+                    }
+                }
+
+                if (Equals(c1.Item, c2.Item) &&
+                    (c1.Action == NotifyCollectionChangedAction.Add &&
+                     c2.Action == NotifyCollectionChangedAction.Remove) ||
+                    (c1.Action == NotifyCollectionChangedAction.Remove &&
+                     c2.Action == NotifyCollectionChangedAction.Add))
+                {
+                    var oldIndex = c1.Action == NotifyCollectionChangedAction.Remove ? c1.Index : c2.Index;
+                    var newIndex = c1.Action == NotifyCollectionChangedAction.Add ? c1.Index : c2.Index;
+                    return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, c1.Item, newIndex, oldIndex);
                 }
             }
 
@@ -237,9 +249,9 @@ namespace Gu.Wpf.ValidationScope
 
         private class BatchChange : IDisposable
         {
-            private readonly BatchCollection<T> source;
+            private readonly ObservableBatchCollection<T> source;
 
-            public BatchChange(BatchCollection<T> source)
+            public BatchChange(ObservableBatchCollection<T> source)
             {
                 Ensure.IsNull(source.batchChanges, $"{nameof(source)}.{nameof(source.CurrentBatch)}");
                 this.source = source;

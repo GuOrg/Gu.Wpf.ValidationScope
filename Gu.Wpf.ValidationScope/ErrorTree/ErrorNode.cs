@@ -56,7 +56,7 @@ namespace Gu.Wpf.ValidationScope
             if (managerType == typeof(CollectionChangedEventManager))
             {
                 var args = (NotifyCollectionChangedEventArgs)e;
-                IReadOnlyList<BatchChangeItem> changes;
+                IReadOnlyList<BatchChangeItem<ValidationError>> changes;
                 if (this.ErrorCollection.CanUpdate(args))
                 {
                     changes = this.ErrorCollection.Update(args);

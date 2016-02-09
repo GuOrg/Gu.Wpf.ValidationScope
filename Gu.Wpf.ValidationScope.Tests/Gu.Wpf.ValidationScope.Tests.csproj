@@ -52,13 +52,15 @@
     <Compile Include="Helpers\NotifyCollectionChangedEventArgsComparer.cs" />
     <Compile Include="Helpers\GenericComparer.cs" />
     <Compile Include="Helpers\ObservableCollectionArgsComparer.cs" />
+    <Compile Include="Helpers\ObservableCollectionExt.cs" />
     <Compile Include="Helpers\PropertyChangedEventArgsComparer.cs" />
     <Compile Include="Helpers\ValidationErrorChangeComparer.cs" />
     <Compile Include="Helpers\TestValidationError.cs" />
     <Compile Include="Helpers\TestValidationRule.cs" />
-    <Compile Include="Internal\ErrorCollectionTests.Shared.cs" />
-    <Compile Include="Internal\ErrorCollectionTests.UpdateWithChangeArgs.cs" />
-    <Compile Include="Internal\ErrorCollectionTests.UpdateWithOldAndNew.cs" />
+    <Compile Include="ErrorCollection\ErrorCollectionTests.Shared.cs" />
+    <Compile Include="ErrorCollection\ErrorCollectionTests.UpdateWithChangeArgs.cs" />
+    <Compile Include="ErrorCollection\ErrorCollectionTests.UpdateWithOldAndNew.cs" />
+    <Compile Include="ErrorCollection\ObservableBatchCollectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScopeTests.TextBox.cs" />
     <Compile Include="Helpers\TestHelpers.cs" />
@@ -146,5 +148,8 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers\analyzers\dotnet\cs\StyleCop.Analyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Internal\" />
   </ItemGroup>
 </Project>

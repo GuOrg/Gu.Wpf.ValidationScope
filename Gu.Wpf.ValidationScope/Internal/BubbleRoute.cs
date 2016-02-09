@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Media;
 
     internal static class BubbleRoute
@@ -48,7 +49,7 @@
         //    }
         //}
 
-        internal static void Notify(ErrorNode node, IReadOnlyList<BatchChangeItem> changes)
+        internal static void Notify(ErrorNode node, IReadOnlyList<BatchChangeItem<ValidationError>> changes)
         {
             var source = node.Source;
             if (source == null)
