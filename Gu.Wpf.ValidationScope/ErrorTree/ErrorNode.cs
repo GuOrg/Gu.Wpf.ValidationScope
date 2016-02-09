@@ -9,9 +9,9 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
-    using System.Windows.Media;
 
-    public sealed class ErrorNode : Node, IDisposable, IWeakEventListener
+    [DebuggerDisplay("ErrorNode Errors: {errors?.Count ?? 0}, Source: {Source}")]
+    public sealed class ErrorNode : Node, IWeakEventListener
     {
         private static readonly DependencyProperty ErrorsProxyProperty = DependencyProperty.RegisterAttached(
             "ErrorsProxy",
@@ -90,6 +90,17 @@ namespace Gu.Wpf.ValidationScope
             BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ErrorsProxyProperty, this.errorsBinding);
         }
 
+        internal IReadOnlyList<ValidationError> GetValidationErrors()
+        {
+            var source = this.Source;
+            if (source == null)
+            {
+                return EmptyValidationErrors;
+            }
+
+            return Validation.GetErrors(source) ?? EmptyValidationErrors;
+        }
+
         protected internal override IReadOnlyList<ValidationError> GetAllErrors()
         {
             if (this.Source == null)
@@ -98,15 +109,15 @@ namespace Gu.Wpf.ValidationScope
                 return EmptyValidationErrors;
             }
 
-            var errors = Validation.GetErrors(this.Source);
+            var errors = this.GetValidationErrors();
             if (this.AllChildren.Any())
             {
                 var allErrors = this.AllChildren.OfType<ErrorNode>()
-                                             .SelectMany(x => x.Errors)
-                                             .ToList();
+                    .SelectMany(x => x.GetValidationErrors())
+                    .ToList();
                 if (errors != null)
                 {
-                    allErrors.AddRange((IEnumerable<ValidationError>)errors);
+                    allErrors.AddRange(errors);
                 }
 
                 return allErrors;

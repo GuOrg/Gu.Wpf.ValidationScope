@@ -2,10 +2,12 @@ namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
+    [DebuggerDisplay("ScopeNode Errors: {errors?.Count ?? 0}, Children: {Children.Count}, Source: {Source}")]
     public sealed class ScopeNode : Node
     {
         private readonly WeakReference<DependencyObject> sourceReference;
@@ -37,7 +39,7 @@ namespace Gu.Wpf.ValidationScope
             if (this.AllChildren.Any())
             {
                 var allErrors = this.AllChildren.OfType<ErrorNode>()
-                                             .SelectMany(x => x.Errors)
+                                             .SelectMany(x => x.GetValidationErrors())
                                              .ToList();
                 return allErrors;
             }

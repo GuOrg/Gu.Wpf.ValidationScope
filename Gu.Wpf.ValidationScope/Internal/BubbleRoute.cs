@@ -26,43 +26,66 @@
                 }
 
                 var parentNode = (Node)parent.GetValue(Scope.ErrorsProperty);
-                if (childNode?.HasErrors == true)
+                if (ShouldRemoveChildNode(parentNode, childNode))
                 {
-                    if (parent.IsValidationScopeFor(source))
+                    parentNode.RemoveChild(childNode);
+                    if (parentNode is ScopeNode && parentNode.Children.Count == 0)
                     {
-                        if (parentNode == null)
-                        {
-                            parentNode = new ScopeNode(parent, childNode);
-                            Scope.SetErrors(parent, parentNode);
-                        }
-                        else
-                        {
-                            parentNode.AddChild(childNode);
-                            UpdateErrors(parentNode, changes);
-                        }
+                        Scope.SetErrors(parent, null);
                     }
                     else
                     {
-                        parentNode?.RemoveChild(childNode);
                         UpdateErrors(parentNode, changes);
                     }
                 }
-                else
+                else if (childNode?.HasErrors == true &&
+                         parent.IsValidationScopeFor(source))
                 {
-                    parentNode?.RemoveChild(childNode);
-                    UpdateErrors(parentNode, changes);
-                }
-
-                if (parentNode is ScopeNode && parentNode.Children.Count == 0)
-                {
-                    parentNode = null;
-                    Scope.SetErrors(parent, null);
+                    if (parentNode == null)
+                    {
+                        parentNode = new ScopeNode(parent, childNode);
+                        Scope.SetErrors(parent, parentNode);
+                    }
+                    else
+                    {
+                        parentNode.AddChild(childNode);
+                        UpdateErrors(parentNode, changes);
+                    }
                 }
 
                 Scope.SetHasErrors(parent, parentNode?.HasErrors == true);
                 childNode = parentNode;
                 parent = VisualTreeHelper.GetParent(parent);
             }
+        }
+
+        private static bool ShouldRemoveChildNode(Node parentNode, Node childNode)
+        {
+            if (parentNode == null || childNode == null)
+            {
+                return false;
+            }
+
+            if (!childNode.HasErrors)
+            {
+                return true;
+            }
+
+            var parent = parentNode.Source;
+            if (parent.IsValidationScopeFor(childNode.Source))
+            {
+                return false;
+            }
+
+            foreach (var child in childNode.AllChildren)
+            {
+                if (parent.IsValidationScopeFor(child.Source))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static void UpdateErrors(Node parentNode, IReadOnlyList<BatchChangeItem<ValidationError>> changes)
@@ -82,6 +105,11 @@
 
         private static bool IsValidationScopeFor(this DependencyObject parent, DependencyObject source)
         {
+            if (parent == null || source == null)
+            {
+                return false;
+            }
+
             return Scope.GetForInputTypes(parent)?.IsInputType(source) == true;
         }
     }

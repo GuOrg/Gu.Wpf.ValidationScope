@@ -6,6 +6,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
@@ -85,7 +86,7 @@ namespace Gu.Wpf.ValidationScope
 
         internal Lazy<ErrorCollection> LazyErrors { get; } = new Lazy<ErrorCollection>(() => new ErrorCollection());
 
-        protected IEnumerable<Node> AllChildren
+        internal IEnumerable<Node> AllChildren
         {
             get
             {
@@ -133,17 +134,18 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
-        internal void AddChild(IErrorNode errorNode)
+        internal bool AddChild(IErrorNode errorNode)
         {
             var editableChildren = this.lazyChildren.Value;
             if (editableChildren.Contains(errorNode))
             {
-                return;
+                return false;
             }
 
             editableChildren.Add(errorNode);
             this.HasErrors = true;
             this.OnChildrenChanged();
+            return true;
         }
 
         protected internal abstract IReadOnlyList<ValidationError> GetAllErrors();
