@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
 
     internal class ImmutableList<T> : IReadOnlyList<T>
     {

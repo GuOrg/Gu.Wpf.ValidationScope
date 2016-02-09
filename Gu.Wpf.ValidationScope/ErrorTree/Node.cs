@@ -14,8 +14,6 @@ namespace Gu.Wpf.ValidationScope
 
     public abstract class Node : IErrorNode
     {
-        protected static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
-        protected static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs("Count");
         private readonly Lazy<ObservableCollection<IErrorNode>> lazyChildren = new Lazy<ObservableCollection<IErrorNode>>(() => new ObservableCollection<IErrorNode>());
         private ReadOnlyObservableCollection<IErrorNode> children;
         private ReadOnlyObservableCollection<ValidationError> errors;
@@ -69,8 +67,7 @@ namespace Gu.Wpf.ValidationScope
             {
                 if (this.errors == null)
                 {
-                    this.errors = new ReadOnlyObservableCollection<ValidationError>(this.LazyErrors.Value);
-                    this.UpdateErrors();
+                    this.errors = new ReadOnlyObservableCollection<ValidationError>(this.ErrorCollection);
                     ((INotifyPropertyChanged)this.errors).PropertyChanged += this.OnErrorsPropertyChanged;
                 }
 
@@ -84,7 +81,7 @@ namespace Gu.Wpf.ValidationScope
 
         ValidationError IReadOnlyList<ValidationError>.this[int index] => this.Errors[index];
 
-        protected Lazy<ObservableCollection<ValidationError>> LazyErrors { get; } = new Lazy<ObservableCollection<ValidationError>>(() => new ObservableCollection<ValidationError>());
+        protected internal ErrorCollection ErrorCollection { get; } = new ErrorCollection();
 
         protected IEnumerable<Node> AllChildren
         {
@@ -121,17 +118,6 @@ namespace Gu.Wpf.ValidationScope
             this.Dispose(true);
         }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (this.errors != null)
-                {
-                    ((INotifyPropertyChanged)this.errors).PropertyChanged -= this.OnErrorsPropertyChanged;
-                }
-            }
-        }
-
         internal void RemoveChild(IErrorNode errorNode)
         {
             if (this.lazyChildren.IsValueCreated == false)
@@ -158,11 +144,16 @@ namespace Gu.Wpf.ValidationScope
             this.OnChildrenChanged();
         }
 
-        protected abstract void OnChildrenChanged();
-
-        protected abstract void OnHasErrorsChanged();
-
-        protected abstract void UpdateErrors();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (this.errors != null)
+                {
+                    ((INotifyPropertyChanged)this.errors).PropertyChanged -= this.OnErrorsPropertyChanged;
+                }
+            }
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -173,6 +164,12 @@ namespace Gu.Wpf.ValidationScope
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             this.PropertyChanged?.Invoke(this, args);
+        }
+
+        protected abstract void OnChildrenChanged();
+
+        protected virtual void OnHasErrorsChanged()
+        {
         }
 
         private void OnErrorsPropertyChanged(object sender, PropertyChangedEventArgs e)
