@@ -8,7 +8,9 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type local:ViewModel}">
-            <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
+                     Text="{Binding IntValue,
+                                    UpdateSourceTrigger=PropertyChanged}" />
         </DataTemplate>
     </UserControl.Resources>
     <UserControl.DataContext>

@@ -1,14 +1,14 @@
-﻿namespace Gu.Wpf.ValidationScope.Ui.Tests
+namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
+    using System.Linq;
+    using Gu.Wpf.ValidationScope.Demo;
     using NUnit.Framework;
     using TestStack.White;
     using TestStack.White.Factory;
     using TestStack.White.UIItems;
     using TestStack.White.UIItems.TabItems;
 
-    using Gu.Wpf.ValidationScope.Demo;
-
-    public class OneLevelScopeTests
+    public class DataTemplatesViewTests
     {
         [Test]
         public void Updates()
@@ -20,12 +20,12 @@
                 var page = window.Get<TabPage>(AutomationIDs.OneLevelScopeTab);
                 page.Select();
                 CollectionAssert.IsEmpty(page.GetErrors());
-                var textBox1 = page.Get<TextBox>(AutomationIDs.TextBox1);
+                var textBox1 = page.GetMultiple<TextBox>(AutomationIDs.TextBox1).First();
                 textBox1.Click();
                 keyboard.Enter("g");
                 CollectionAssert.AreEqual(new[] { "Value '0g' could not be converted." }, page.GetErrors());
 
-                var textBox2 = page.Get<TextBox>(AutomationIDs.TextBox2);
+                var textBox2 = page.GetMultiple<TextBox>(AutomationIDs.TextBox1).Last();
                 textBox2.Click();
                 keyboard.Enter("h");
                 var expectedErrors = new[]

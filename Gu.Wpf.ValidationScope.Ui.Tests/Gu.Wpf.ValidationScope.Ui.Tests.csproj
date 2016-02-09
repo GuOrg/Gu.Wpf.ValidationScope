@@ -47,6 +47,8 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="ControlTemplatesViewTests.cs" />
+    <Compile Include="DataTemplatesViewTests.cs" />
     <Compile Include="DynamicViewTests.cs" />
     <Compile Include="NotifyDataErrorInfoViewTests.cs" />
     <Compile Include="OneLevelScopeTests.cs" />
