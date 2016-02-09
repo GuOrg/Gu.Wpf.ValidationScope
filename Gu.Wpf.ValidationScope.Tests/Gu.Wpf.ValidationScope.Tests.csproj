@@ -49,6 +49,10 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\NotifyCollectionChangedEventArgsComparer.cs" />
+    <Compile Include="Helpers\GenericComparer.cs" />
+    <Compile Include="Helpers\ObservableCollectionArgsComparer.cs" />
+    <Compile Include="Helpers\PropertyChangedEventArgsComparer.cs" />
     <Compile Include="Helpers\TestValidationError.cs" />
     <Compile Include="Helpers\TestValidationRule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -15,6 +15,7 @@
         <Style x:Key="Style"
                TargetType="{x:Type ContentControl}">
             <Setter Property="Template" Value="{StaticResource ControlTemplate}" />
+            <Setter Property="Focusable" Value="False" />
         </Style>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -47,6 +48,7 @@
                 <ContentControl Grid.Row="0"
                                 Grid.Column="1"
                                 Content="{Binding}"
+                                Focusable="False"
                                 Template="{StaticResource ControlTemplate}" />
 
                 <TextBlock Grid.Row="1"

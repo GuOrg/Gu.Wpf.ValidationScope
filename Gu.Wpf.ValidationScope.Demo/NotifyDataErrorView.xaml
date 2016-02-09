@@ -53,7 +53,7 @@
 
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
-                           Text="SameIntValue" />
+                           Text="Vm has errors" />
                 <CheckBox Grid.Row="2"
                           Grid.Column="1"
                           AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
