@@ -7,11 +7,11 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
-	using System.Collections.Generic;
 
     public partial class InputTypesExtension
     {
-<# for (int i = 1; i < 10; i++)
+<# var n = 10;
+   for (int i = 1; i < n; i++)
    {
        var args = string.Join(", ", Enumerable.Range(1, i).Select(x => "Type t" + x));
        var arrayArgs = string.Join(", ", Enumerable.Range(1, i).Select(x => "t" + x));
@@ -19,13 +19,8 @@ namespace Gu.Wpf.ValidationScope
         public InputTypesExtension(<#= args #>)
             : this(new[] { <#= arrayArgs #> })
         {
-        }   
+        }
 
-		// public InputTypesExtension(IEnumerable<Type> types, <#= args #>)
-        //     : this(new[] { <#= arrayArgs #> })
-        // {
-		//    this.Types.AddRange(types);
-        // }   
 <#  } #>
     }
 }

@@ -2,7 +2,7 @@ namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.Specialized;
 
-    public struct BatchChangeItem<T>
+    internal struct BatchChangeItem<T>
     {
         public readonly T Item;
         public readonly int Index;

@@ -92,6 +92,7 @@ namespace Gu.Wpf.ValidationScope
 
         internal IReadOnlyList<ValidationError> GetValidationErrors()
         {
+            // not sure if  we need to protect against null here but doing it to be safe in case GC collects the binding.
             var source = this.Source;
             if (source == null)
             {
@@ -105,7 +106,7 @@ namespace Gu.Wpf.ValidationScope
         {
             if (this.Source == null)
             {
-                // not sure we need to protect against null here but doing it to be safe in case GC collects the binding.
+                // not sure if  we need to protect against null here but doing it to be safe in case GC collects the binding.
                 return EmptyValidationErrors;
             }
 
@@ -152,7 +153,7 @@ namespace Gu.Wpf.ValidationScope
 
         protected override void OnChildrenChanged()
         {
-            this.HasErrors = Validation.GetHasError(this.Source) || this.AllChildren.Any();
+            this.HasErrors = this.Errors.Count > 0 || this.AllChildren.Any();
         }
 
         private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

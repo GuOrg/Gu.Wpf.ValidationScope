@@ -8,7 +8,7 @@
     using System.Linq;
     using System.Windows.Controls;
 
-    public class ErrorCollection : ObservableBatchCollection<ValidationError>
+    internal class ErrorCollection : ObservableBatchCollection<ValidationError>
     {
         private static readonly IReadOnlyList<BatchChangeItem<ValidationError>> EmptyValidationErrorEventArgses = new BatchChangeItem<ValidationError>[0];
 

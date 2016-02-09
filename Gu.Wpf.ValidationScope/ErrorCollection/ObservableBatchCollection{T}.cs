@@ -6,7 +6,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.Specialized;
     using System.ComponentModel;
 
-    public class ObservableBatchCollection<T> : ObservableCollection<T>
+    internal class ObservableBatchCollection<T> : ObservableCollection<T>
     {
         private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
         private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));

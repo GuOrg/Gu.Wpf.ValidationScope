@@ -15,15 +15,6 @@ namespace Gu.Wpf.ValidationScope
             return new BindingBuilder(target, targetProperty);
         }
 
-        private static BindingExpression Bind(
-            DependencyObject target,
-            DependencyProperty targetProperty,
-            object source,
-            DependencyProperty sourceProperty)
-        {
-            return Bind(target, targetProperty, source, GetPath(sourceProperty));
-        }
-
         internal static BindingExpression Bind(
             DependencyObject target,
             DependencyProperty targetProperty,
