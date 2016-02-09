@@ -1,53 +1,120 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.Diagnostics;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Media;
 
-    public sealed class ErrorNode : Node, IDisposable
+    public sealed class ErrorNode : Node, IDisposable, IWeakEventListener
     {
-        private static readonly DependencyProperty ErrorCountProperty = DependencyProperty.RegisterAttached(
-            "ErrorCount",
-            typeof(int),
+        private static readonly DependencyProperty ErrorsProxyProperty = DependencyProperty.RegisterAttached(
+            "ErrorsProxy",
+            typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(Scope),
             new PropertyMetadata(
-                default(int),
-                OnErrorCountChanged));
+                null,
+                OnErrorsProxyChanged));
 
-        private static readonly PropertyPath ErrorCountPropertyPath = new PropertyPath("(Validation.Errors).Count");
-        private readonly BindingExpression errorCountExpression;
+        private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
+        private readonly Binding errorsBinding;
 
-        private ErrorNode(BindingExpression errorCountExpression)
-            : base(Validation.GetHasError((DependencyObject)errorCountExpression.ParentBinding.Source))
+        private ErrorNode(Binding errorsBinding)
+            : base(false)
         {
-            this.errorCountExpression = errorCountExpression;
-            this.OnHasErrorsChanged();
+            this.errorsBinding = errorsBinding;
         }
 
-        public override DependencyObject Source => (DependencyObject)this.errorCountExpression?.ParentBinding.Source;
+        public override DependencyObject Source => (DependencyObject)this.errorsBinding.Source;
 
         public static ErrorNode CreateFor(DependencyObject dependencyObject)
         {
-            var uiElement = dependencyObject as UIElement;
-            if (uiElement != null)
+            if (!(dependencyObject is UIElement || dependencyObject is ContentElement))
             {
-                var bindingExpression = uiElement.Bind(ErrorCountProperty)
-                                        .OneWayTo(uiElement, ErrorCountPropertyPath);
-                return new ErrorNode(bindingExpression);
+                throw new InvalidOperationException($"Cannot create ErrorNode for type: {dependencyObject?.GetType()}");
             }
 
-            var contentElement = dependencyObject as ContentElement;
-            if (contentElement != null)
+            var binding = new Binding
             {
-                var bindingExpression = contentElement.Bind(ErrorCountProperty)
-                                        .OneWayTo(contentElement, ErrorCountPropertyPath);
-                return new ErrorNode(bindingExpression);
+                Path = ErrorsPropertyPath,
+                Mode = BindingMode.OneWay,
+                Source = dependencyObject,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+
+            return new ErrorNode(binding);
+        }
+
+        bool IWeakEventListener.ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
+        {
+            Debugger.Break();
+            if (managerType == typeof(CollectionChangedEventManager))
+            {
+                var args = (NotifyCollectionChangedEventArgs)e;
+                IReadOnlyList<BatchChangeItem<ValidationError>> changes;
+                if (this.LazyErrors.Value.CanUpdate(args))
+                {
+                    changes = this.LazyErrors.Value.Update(args);
+                }
+                else
+                {
+                    if (this.AllChildren.Any())
+                    {
+                        var errors = this.AllChildren.OfType<ErrorNode>()
+                                                     .SelectMany(x => x.Errors)
+                                                     .ToList();
+                        errors.AddRange((IEnumerable<ValidationError>)sender);
+                        changes = this.LazyErrors.Value.Refresh((IReadOnlyList<ValidationError>)sender);
+                    }
+                    else
+                    {
+                        changes = this.LazyErrors.Value.Refresh((IReadOnlyList<ValidationError>)sender);
+                    }
+                }
+
+                this.HasErrors = this.Errors.Count > 0 || this.Children.Count > 0;
+                BubbleRoute.Notify(this, changes);
+                return true;
             }
 
-            throw new InvalidOperationException($"Cannot create ErrorNode for type: {dependencyObject?.GetType()}");
+            return false;
+        }
+
+        internal void BindToErrors()
+        {
+            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ErrorsProxyProperty, this.errorsBinding);
+        }
+
+        protected internal override IReadOnlyList<ValidationError> GetAllErrors()
+        {
+            if (this.Source == null)
+            {
+                // not sure we need to protect against null here but doing it to be safe in case GC collects the binding.
+                return EmptyValidationErrors;
+            }
+
+            var errors = Validation.GetErrors(this.Source);
+            if (this.AllChildren.Any())
+            {
+                var allErrors = this.AllChildren.OfType<ErrorNode>()
+                                             .SelectMany(x => x.Errors)
+                                             .ToList();
+                if (errors != null)
+                {
+                    allErrors.AddRange((IEnumerable<ValidationError>)errors);
+                }
+
+                return allErrors;
+            }
+            else
+            {
+                return errors ?? EmptyValidationErrors;
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -60,81 +127,47 @@ namespace Gu.Wpf.ValidationScope
             var source = this.Source;
             if (source != null)
             {
-                BindingOperations.ClearBinding(source, ErrorCountProperty);
-                var parent = VisualTreeHelper.GetParent(this.Source);
-                var node = (Node)parent?.GetValue(Scope.ErrorsProperty);
-                node?.RemoveChild(this);
-            }
-        }
-
-        protected override void OnHasErrorsChanged()
-        {
-            var hasErrors = this.HasErrors;
-            Scope.SetHasErrors(this.Source, hasErrors);
-            this.UpdateErrors();
-            var parent = VisualTreeHelper.GetParent(this.Source);
-            if (parent == null)
-            {
-                return;
-            }
-
-            var node = (Node)parent.GetValue(Scope.ErrorsProperty);
-            if (hasErrors)
-            {
-                if (Scope.GetForInputTypes(parent)?.IsInputType(this.Source) == true)
+                var value = source.GetValue(ErrorsProxyProperty);
+                if (value != null)
                 {
-                    if (node == null)
-                    {
-                        Scope.SetErrors(parent, new ScopeNode(parent, this));
-                    }
-                    else
-                    {
-                        node.AddChild(this);
-                    }
+                    CollectionChangedEventManager.RemoveListener((INotifyCollectionChanged)value, this);
                 }
-            }
-            else
-            {
-                node?.RemoveChild(this);
+
+                BindingOperations.ClearBinding(source, ErrorsProxyProperty);
+                var changes = this.Errors.Select(BatchChangeItem.CreateRemove).ToList();
+                BubbleRoute.Notify(this, changes);
             }
         }
 
         protected override void OnChildrenChanged()
         {
             this.HasErrors = Validation.GetHasError(this.Source) || this.AllChildren.Any();
-            this.UpdateErrors();
         }
 
-        protected override void UpdateErrors()
-        {
-            if (this.LazyErrors.IsValueCreated)
-            {
-                var validationErrors = this.LazyErrors.Value;
-                validationErrors.Clear();
-                foreach (var validationError in Validation.GetErrors(this.Source))
-                {
-                    validationErrors.Add(validationError);
-                }
-
-                foreach (var child in this.AllChildren.OfType<ErrorNode>())
-                {
-                    foreach (var childError in child.Errors)
-                    {
-                        validationErrors.Add(childError);
-                    }
-                }
-            }
-        }
-
-        private static void OnErrorCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var node = (ErrorNode)d.GetValue(Scope.ErrorsProperty);
             if (node == null)
             {
+                // this happens when disposing
                 return;
             }
 
-            node.HasErrors = !Equals(e.NewValue, 0) || node.Children.Count > 0;
+            var oldValue = (ReadOnlyObservableCollection<ValidationError>)e.OldValue;
+            if (oldValue != null)
+            {
+                CollectionChangedEventManager.RemoveListener(oldValue, node);
+            }
+
+            var newValue = (ReadOnlyObservableCollection<ValidationError>)e.NewValue;
+            if (newValue != null)
+            {
+                CollectionChangedEventManager.AddListener(newValue, node);
+            }
+
+            var changes = node.LazyErrors.Value.Update(oldValue, newValue);
+            node.HasErrors = node.Errors.Count > 0 || node.Children.Count > 0;
+            BubbleRoute.Notify(node, changes);
         }
     }
 }

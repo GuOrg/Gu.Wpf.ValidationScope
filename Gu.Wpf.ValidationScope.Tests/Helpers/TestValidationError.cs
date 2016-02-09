@@ -31,6 +31,11 @@ namespace Gu.Wpf.ValidationScope.Tests
             return error;
         }
 
+        public static TestValidationError Create()
+        {
+            return new TestValidationError(new Binding());
+        }
+
         public static TestValidationError GetFor(UIElement element)
         {
             return Cache.SingleOrDefault(x => ReferenceEquals(x.Item1, element))?.Item2;

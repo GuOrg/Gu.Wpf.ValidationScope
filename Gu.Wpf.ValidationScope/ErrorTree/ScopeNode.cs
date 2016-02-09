@@ -1,9 +1,10 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Media;
+    using System.Windows.Controls;
 
     public sealed class ScopeNode : Node
     {
@@ -27,56 +28,30 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
+        protected internal override IReadOnlyList<ValidationError> GetAllErrors()
+        {
+            if (this.Source == null)
+            {
+                // not sure we need to protect against null here but doing it to be safe in case GC collects the binding.
+                return EmptyValidationErrors;
+            }
+
+            if (this.AllChildren.Any())
+            {
+                var allErrors = this.AllChildren.OfType<ErrorNode>()
+                                             .SelectMany(x => x.Errors)
+                                             .ToList();
+                return allErrors;
+            }
+            else
+            {
+                return EmptyValidationErrors;
+            }
+        }
+
         protected override void OnChildrenChanged()
         {
             this.HasErrors = this.AllChildren.Any();
-            this.UpdateErrors();
-        }
-
-        protected override void OnHasErrorsChanged()
-        {
-            var source = this.Source;
-            if (source == null)
-            {
-                return;
-            }
-
-            Scope.SetHasErrors(source, this.HasErrors);
-            var parent = VisualTreeHelper.GetParent(source);
-            var parentNode = parent == null ? null : (Node)Scope.GetErrors(parent);
-            if (!this.HasErrors)
-            {
-                Scope.SetErrors(source, null);
-                parentNode?.RemoveChild(this);
-            }
-            else if (parent != null)
-            {
-                if (parentNode == null)
-                {
-                    Scope.SetErrors(parent, new ScopeNode(parent, this));
-                }
-                else
-                {
-                    parentNode.AddChild(this);
-                }
-            }
-        }
-
-        protected override void UpdateErrors()
-        {
-            if (this.LazyErrors.IsValueCreated)
-            {
-                var validationErrors = this.LazyErrors.Value;
-                validationErrors.Clear();
-
-                foreach (var child in this.AllChildren.OfType<ErrorNode>())
-                {
-                    foreach (var childError in child.Errors)
-                    {
-                        validationErrors.Add(childError);
-                    }
-                }
-            }
         }
     }
 }

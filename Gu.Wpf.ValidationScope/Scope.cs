@@ -89,6 +89,7 @@
         {
             (e.OldValue as IDisposable)?.Dispose();
             SetHasErrors(d, ((IErrorNode)e.NewValue)?.HasErrors == true);
+            (e.NewValue as ErrorNode)?.BindToErrors();
         }
     }
 }
