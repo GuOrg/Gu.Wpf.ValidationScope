@@ -5,13 +5,23 @@ namespace Gu.Wpf.ValidationScope
 
     internal static partial class Ensure
     {
-        internal static void NotNull<T>(T value, string parameterName) 
+        internal static void NotNull<T>(T value, string parameterName)
             where T : class
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
             if (value == null)
             {
                 throw new ArgumentNullException(parameterName);
+            }
+        }
+
+        internal static void IsNull<T>(T value, string parameterName)
+    where T : class
+        {
+            Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
+            if (value != null)
+            {
+                throw new InvalidOperationException($"Expected {parameterName} to be null");
             }
         }
 

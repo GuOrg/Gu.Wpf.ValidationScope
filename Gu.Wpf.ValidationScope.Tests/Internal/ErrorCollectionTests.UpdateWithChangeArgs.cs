@@ -22,7 +22,7 @@
                 source.Add(error);
                 var changes = errors.Update(sourceEvents.OfType<NotifyCollectionChangedEventArgs>().Last());
                 CollectionAssert.AreEqual(sourceEvents, errorEvents, ObservableCollectionArgsComparer.Default);
-                CollectionAssert.AreEqual(new[] { new ValidationErrorChange(error, 0, ValidationErrorEventAction.Added), }, changes, ValidationErrorChangeComparer.Default);
+                CollectionAssert.AreEqual(new[] { new BatchChangeItem(error, 0, ValidationErrorEventAction.Added), }, changes, ValidationErrorChangeComparer.Default);
             }
 
             [Test]
@@ -36,7 +36,7 @@
                 source.Remove(error);
                 var changes = errors.Update(sourceEvents.OfType<NotifyCollectionChangedEventArgs>().Last());
                 CollectionAssert.AreEqual(sourceEvents, errorEvents, ObservableCollectionArgsComparer.Default);
-                CollectionAssert.AreEqual(new[] { new ValidationErrorChange(error, 0, ValidationErrorEventAction.Removed), }, changes, ValidationErrorChangeComparer.Default);
+                CollectionAssert.AreEqual(new[] { new BatchChangeItem(error, 0, ValidationErrorEventAction.Removed), }, changes, ValidationErrorChangeComparer.Default);
             }
         }
     }

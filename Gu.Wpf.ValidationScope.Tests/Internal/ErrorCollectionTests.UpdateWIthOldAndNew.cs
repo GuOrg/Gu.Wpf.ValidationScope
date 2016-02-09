@@ -49,9 +49,9 @@
                                    };
                 CollectionAssert.AreEqual(expectedArgs, actual, ObservableCollectionArgsComparer.Default);
 
-                var expectedChanges = new List<ValidationErrorChange>
+                var expectedChanges = new List<BatchChangeItem>
                                    {
-                                       new ValidationErrorChange(newCollection[0], 0, ValidationErrorEventAction.Added)
+                                       new BatchChangeItem(newCollection[0], 0, ValidationErrorEventAction.Added)
                                    };
                 CollectionAssert.AreEqual(expectedChanges, changes, ValidationErrorChangeComparer.Default);
             }

@@ -2,18 +2,18 @@
 {
     using System.Windows.Controls;
 
-    public class ValidationErrorChangeComparer : GenericComparer<ValidationErrorChange>
+    public class ValidationErrorChangeComparer : GenericComparer<BatchChangeItem>
     {
         public static readonly ValidationErrorChangeComparer Default = new ValidationErrorChangeComparer();
 
-        public override int Compare(ValidationErrorChange x, ValidationErrorChange y)
+        public override int Compare(BatchChangeItem x, BatchChangeItem y)
         {
             if (x.Action != y.Action)
             {
                 return -1;
             }
 
-            if (!ReferenceEquals(x.Error, y.Error))
+            if (!ReferenceEquals(x.Item, y.Item))
             {
                 return -1;
             }

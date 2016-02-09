@@ -7,7 +7,48 @@
 
     internal static class BubbleRoute
     {
-        internal static void NotifyParents(ErrorNode node)
+        //internal static void NotifyParents(ErrorNode node)
+        //{
+        //    var source = node.Source;
+        //    if (source == null)
+        //    {
+        //        return;
+        //    }
+
+        //    Scope.SetHasErrors(source, node.HasErrors);
+
+        //    var parent = VisualTreeHelper.GetParent(source);
+        //    Node childNode = node;
+        //    while (parent != null && childNode != null)
+        //    {
+        //        var parentNode = (Node)parent.GetValue(Scope.ErrorsProperty);
+        //        if (childNode.HasErrors)
+        //        {
+        //            if (parent.IsValidationScopeFor(source))
+        //            {
+        //                if (parentNode == null)
+        //                {
+        //                    parentNode = new ScopeNode(parent, childNode);
+        //                    Scope.SetErrors(parent, childNode);
+        //                }
+        //                else
+        //                {
+        //                    parentNode.AddChild(childNode);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            parentNode?.RemoveChild(childNode);
+        //        }
+
+        //        Scope.SetHasErrors(parent, parentNode?.HasErrors == true);
+        //        childNode = parentNode;
+        //        parent = VisualTreeHelper.GetParent(parent);
+        //    }
+        //}
+
+        internal static void Notify(ErrorNode node, IReadOnlyList<BatchChangeItem> changes)
         {
             var source = node.Source;
             if (source == null)
@@ -16,46 +57,22 @@
             }
 
             Scope.SetHasErrors(source, node.HasErrors);
-
             var parent = VisualTreeHelper.GetParent(source);
-            Node childNode = node;
-            while (parent != null && childNode != null)
+            while (parent != null && parent.IsValidationScopeFor(source))
             {
                 var parentNode = (Node)parent.GetValue(Scope.ErrorsProperty);
-                if (childNode.HasErrors)
+                if (changes != null)
                 {
-                    if (parent.IsValidationScopeFor(source))
-                    {
-                        if (parentNode == null)
-                        {
-                            parentNode = new ScopeNode(parent, childNode);
-                            Scope.SetErrors(parent, childNode);
-                        }
-                        else
-                        {
-                            parentNode.AddChild(childNode);
-                        }
-                    }
+                    parentNode.ErrorCollection.Update(changes);
                 }
                 else
                 {
-                    parentNode?.RemoveChild(childNode);
+                    parentNode.ErrorCollection.Refresh(parentNode.GetAllErrors());
                 }
 
-                Scope.SetHasErrors(parent, parentNode?.HasErrors == true);
-                childNode = parentNode;
+                Scope.SetHasErrors(parent, parentNode.HasErrors);
                 parent = VisualTreeHelper.GetParent(parent);
             }
-        }
-
-        internal static void NotifyParents(ErrorNode node, IReadOnlyList<ValidationErrorChange> changes)
-        {
-            if (changes == null || changes.Count == 0)
-            {
-                return;
-            }
-
-            throw new NotImplementedException();
         }
 
         private static bool IsValidationScopeFor(this DependencyObject parent, DependencyObject source)

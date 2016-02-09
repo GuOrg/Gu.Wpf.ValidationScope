@@ -56,7 +56,7 @@ namespace Gu.Wpf.ValidationScope
             if (managerType == typeof(CollectionChangedEventManager))
             {
                 var args = (NotifyCollectionChangedEventArgs)e;
-                IReadOnlyList<ValidationErrorChange> changes;
+                IReadOnlyList<BatchChangeItem> changes;
                 if (this.ErrorCollection.CanUpdate(args))
                 {
                     changes = this.ErrorCollection.Update(args);
@@ -69,15 +69,16 @@ namespace Gu.Wpf.ValidationScope
                                                      .SelectMany(x => x.ErrorCollection)
                                                      .ToList();
                         errors.AddRange((IEnumerable<ValidationError>)sender);
-                        changes = this.ErrorCollection.Refresh((ICollection<ValidationError>)sender);
+                        changes = this.ErrorCollection.Refresh((IReadOnlyList<ValidationError>)sender);
                     }
                     else
                     {
-                        changes = this.ErrorCollection.Refresh((ICollection<ValidationError>)sender);
+                        changes = this.ErrorCollection.Refresh((IReadOnlyList<ValidationError>)sender);
                     }
                 }
 
-                BubbleRoute.NotifyParents(this, changes);
+                this.HasErrors = this.ErrorCollection.Count != 0;
+                BubbleRoute.Notify(this, changes);
                 return true;
             }
 
@@ -87,6 +88,33 @@ namespace Gu.Wpf.ValidationScope
         internal void BindToErrors()
         {
             BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ErrorsProxyProperty, this.errorsBinding);
+        }
+
+        protected internal override IReadOnlyList<ValidationError> GetAllErrors()
+        {
+            if (this.Source == null)
+            {
+                // not sure we need to protect against null here but doing it to be safe in case GC collects the binding.
+                return EmptyValidationErrors;
+            }
+
+            var errors = Validation.GetErrors(this.Source);
+            if (this.AllChildren.Any())
+            {
+                var allErrors = this.AllChildren.OfType<ErrorNode>()
+                                             .SelectMany(x => x.ErrorCollection)
+                                             .ToList();
+                if (errors != null)
+                {
+                    allErrors.AddRange((IEnumerable<ValidationError>)errors);
+                }
+
+                return allErrors;
+            }
+            else
+            {
+                return errors ?? EmptyValidationErrors;
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -104,11 +132,6 @@ namespace Gu.Wpf.ValidationScope
                 var node = (Node)parent?.GetValue(Scope.ErrorsProperty);
                 node?.RemoveChild(this);
             }
-        }
-
-        protected override void OnHasErrorsChanged()
-        {
-            BubbleRoute.NotifyParents(this);
         }
 
         protected override void OnChildrenChanged()
@@ -132,8 +155,8 @@ namespace Gu.Wpf.ValidationScope
             }
 
             var changes = node.ErrorCollection.Update(oldValue, newValue);
-            BubbleRoute.NotifyParents(node, changes);
             node.HasErrors = !Equals(e.NewValue, 0) || node.Children.Count > 0;
+            BubbleRoute.Notify(node, changes);
         }
     }
 }

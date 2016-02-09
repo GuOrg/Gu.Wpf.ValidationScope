@@ -51,9 +51,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorCollection\BatchChangeItem.cs" />
+    <Compile Include="ErrorCollection\BatchCollection.cs" />
     <Compile Include="Internal\BubbleRoute.cs" />
     <Compile Include="Internal\Ensure.cs" />
-    <Compile Include="Internal\ErrorCollection.cs" />
+    <Compile Include="ErrorCollection\ErrorCollection.cs" />
     <Compile Include="ErrorTree\ErrorNode.cs" />
     <Compile Include="ErrorTree\IErrorNode.cs" />
     <Compile Include="ErrorTree\Node.cs" />
@@ -65,7 +67,7 @@
     <Compile Include="Internal\BindingHelper.cs" />
     <Compile Include="Internal\BooleanBoxes.cs" />
     <Compile Include="Internal\ImmutableList.cs" />
-    <Compile Include="Internal\ValidationErrorChange.cs" />
+    <Compile Include="ErrorCollection\BatchChangeItem{T}.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -153,4 +155,5 @@
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
+  <ItemGroup />
 </Project>

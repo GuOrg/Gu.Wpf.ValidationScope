@@ -14,6 +14,7 @@ namespace Gu.Wpf.ValidationScope
 
     public abstract class Node : IErrorNode
     {
+        protected static readonly IReadOnlyList<ValidationError> EmptyValidationErrors = new ValidationError[0];
         private readonly Lazy<ObservableCollection<IErrorNode>> lazyChildren = new Lazy<ObservableCollection<IErrorNode>>(() => new ObservableCollection<IErrorNode>());
         private ReadOnlyObservableCollection<IErrorNode> children;
         private ReadOnlyObservableCollection<ValidationError> errors;
@@ -47,7 +48,6 @@ namespace Gu.Wpf.ValidationScope
             {
                 return this.hasErrors;
             }
-
             protected set
             {
                 if (value == this.hasErrors)
@@ -143,6 +143,8 @@ namespace Gu.Wpf.ValidationScope
             this.HasErrors = true;
             this.OnChildrenChanged();
         }
+
+        protected internal abstract IReadOnlyList<ValidationError> GetAllErrors();
 
         protected virtual void Dispose(bool disposing)
         {
