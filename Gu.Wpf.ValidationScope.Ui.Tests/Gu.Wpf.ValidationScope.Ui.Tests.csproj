@@ -51,6 +51,7 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="ComplicatedScopeViewTests.cs" />
     <Compile Include="ControlTemplatesViewTests.cs" />
     <Compile Include="DataTemplatesViewTests.cs" />
     <Compile Include="DynamicViewTests.cs" />

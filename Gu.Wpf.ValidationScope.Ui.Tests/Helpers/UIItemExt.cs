@@ -1,16 +1,15 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Automation;
-using TestStack.White.UIItems;
-using TestStack.White.UIItems.Finders;
-
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Automation;
     using Gu.Wpf.ValidationScope.Demo;
 
     using TestStack.White.InputDevices;
+    using TestStack.White.UIItems;
+    using TestStack.White.UIItems.Finders;
+    using TestStack.White.UIItems.ListBoxItems;
     using TestStack.White.UIItems.TabItems;
-    using TestStack.White.UIItems.WindowItems;
 
     public static class UIItemExt
     {
@@ -38,6 +37,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             textBox.DoubleClick();
             Keyboard.Instance.Send(new string(@char, 1), textBox.ActionListener);
+        }
+
+        public static void EnterSingle(this ComboBox comboBox, char @char)
+        {
+            comboBox.DoubleClick();
+            Keyboard.Instance.Send(new string(@char, 1), comboBox.ActionListener);
         }
 
         public static IEnumerable<IUIItem> Ancestors(this IUIItem item)

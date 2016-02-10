@@ -10,7 +10,7 @@ namespace Gu.Wpf.ValidationScope
         {
         }
 
-        public InputTypesExtension(params Type[] types)
+        private InputTypesExtension(Type[] types)
         {
             this.Types.AddRange(types);
         }

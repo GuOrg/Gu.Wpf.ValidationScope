@@ -14,6 +14,7 @@
     {
         public static readonly InputTypeCollection Default = new InputTypeCollection
         {
+            typeof(Scope),
             typeof(TextBoxBase),
             typeof(Selector),
             typeof(ToggleButton),
@@ -49,7 +50,9 @@
                 return false;
             }
 
-            return typeof(UIElement).IsAssignableFrom(type) || typeof(ContentElement).IsAssignableFrom(type);
+            return type == typeof(Scope) ||
+                   typeof(UIElement).IsAssignableFrom(type) ||
+                   typeof(ContentElement).IsAssignableFrom(type);
         }
 
         protected override void InsertItem(int index, Type item)

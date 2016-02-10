@@ -59,6 +59,13 @@
             return base.ConvertFrom(typeDescriptorContext, cultureInfo, source);
         }
 
+        [SecurityCritical]
+        public override object ConvertTo(ITypeDescriptorContext typeDescriptorContext, CultureInfo cultureInfo, object value, Type destinationType)
+        {
+            throw new NotSupportedException();
+        }
+
+
         private static InputTypeCollection ConvertFromText(string text)
         {
             var typeNames = text.Split(SeparatorChars, StringSplitOptions.RemoveEmptyEntries)
@@ -88,10 +95,5 @@
             return inputTypeCollection;
         }
 
-        [SecurityCritical]
-        public override object ConvertTo(ITypeDescriptorContext typeDescriptorContext, CultureInfo cultureInfo, object value, Type destinationType)
-        {
-            throw new NotSupportedException();
-        }
     }
 }
