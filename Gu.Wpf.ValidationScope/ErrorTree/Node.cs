@@ -12,7 +12,7 @@ namespace Gu.Wpf.ValidationScope
 
     using JetBrains.Annotations;
 
-    public abstract class Node : IErrorNode
+    internal abstract class Node : IErrorNode
     {
         protected static readonly IReadOnlyList<ValidationError> EmptyValidationErrors = new ValidationError[0];
         private readonly Lazy<ObservableCollection<IErrorNode>> lazyChildren = new Lazy<ObservableCollection<IErrorNode>>(() => new ObservableCollection<IErrorNode>());

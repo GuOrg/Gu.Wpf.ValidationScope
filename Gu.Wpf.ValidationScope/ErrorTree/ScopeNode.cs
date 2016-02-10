@@ -8,7 +8,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows.Controls;
 
     [DebuggerDisplay("ScopeNode Errors: {errors?.Count ?? 0}, Children: {Children.Count}, Source: {Source}")]
-    public sealed class ScopeNode : Node
+    internal sealed class ScopeNode : Node
     {
         private readonly WeakReference<DependencyObject> sourceReference;
 

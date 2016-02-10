@@ -8,7 +8,7 @@ namespace Gu.Wpf.ValidationScope
         public readonly int Index;
         public readonly NotifyCollectionChangedAction Action;
 
-        public BatchChangeItem(T item, int index, NotifyCollectionChangedAction action)
+        internal BatchChangeItem(T item, int index, NotifyCollectionChangedAction action)
         {
             this.Item = item;
             this.Index = index;

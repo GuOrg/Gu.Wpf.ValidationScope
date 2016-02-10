@@ -56,7 +56,7 @@
   <ItemGroup>
     <Compile Include="ErrorCollection\BatchChangeItem.cs" />
     <Compile Include="ErrorCollection\ObservableBatchCollection{T}.cs" />
-    <Compile Include="InputTypeCollectionConverter.cs" />
+    <Compile Include="InputTypes\InputTypeCollectionConverter.cs" />
     <Compile Include="Internal\BubbleRoute.cs" />
     <Compile Include="Internal\Ensure.cs" />
     <Compile Include="ErrorCollection\ErrorCollection.cs" />
@@ -86,8 +86,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="InputTypeCollection.cs" />
-    <Compile Include="InputTypesExtension.cs" />
+    <Compile Include="InputTypes\InputTypeCollection.cs" />
+    <Compile Include="InputTypes\InputTypesExtension.cs" />
     <Compile Include="ErrorTree\ScopeNode.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

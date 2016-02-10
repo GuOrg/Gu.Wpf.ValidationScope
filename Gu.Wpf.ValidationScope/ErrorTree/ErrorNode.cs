@@ -11,7 +11,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows.Data;
 
     [DebuggerDisplay("ErrorNode Errors: {errors?.Count ?? 0}, Source: {Source}")]
-    public sealed class ErrorNode : Node, IWeakEventListener
+    internal sealed class ErrorNode : Node, IWeakEventListener
     {
         private static readonly DependencyProperty ErrorsProxyProperty = DependencyProperty.RegisterAttached(
             "ErrorsProxy",
