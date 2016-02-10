@@ -20,6 +20,15 @@
             typeof(Slider)
         };
 
+        public InputTypeCollection()
+        {
+        }
+
+        public InputTypeCollection(IEnumerable<Type> types)
+        {
+            this.AddRange(types);
+        }
+
         public bool IsInputType(DependencyObject dependencyObject)
         {
             return this.Any(x => x.IsInstanceOfType(dependencyObject));
@@ -35,6 +44,11 @@
 
         public static bool IsCompatibleType(Type type)
         {
+            if (type == null)
+            {
+                return false;
+            }
+
             return typeof(UIElement).IsAssignableFrom(type) || typeof(ContentElement).IsAssignableFrom(type);
         }
 

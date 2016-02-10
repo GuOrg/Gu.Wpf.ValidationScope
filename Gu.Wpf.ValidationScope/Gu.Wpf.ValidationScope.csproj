@@ -63,7 +63,7 @@
     <Compile Include="ErrorTree\ErrorNode.cs" />
     <Compile Include="ErrorTree\IErrorNode.cs" />
     <Compile Include="ErrorTree\Node.cs" />
-    <Compile Include="InputTypesExtensionCtors.generated.cs">
+    <Compile Include="InputTypes\InputTypesExtensionCtors.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InputTypesExtensionCtors.tt</DependentUpon>
@@ -112,7 +112,7 @@
   </Target>
   -->
   <ItemGroup>
-    <Content Include="InputTypesExtensionCtors.tt">
+    <Content Include="InputTypes\InputTypesExtensionCtors.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InputTypesExtensionCtors.generated.cs</LastGenOutput>
     </Content>
