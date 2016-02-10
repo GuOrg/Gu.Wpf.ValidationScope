@@ -3,11 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
 
+    [TypeConverter(typeof(InputTypeCollectionConverter))]
     public class InputTypeCollection : Collection<Type>
     {
         public static readonly InputTypeCollection Default = new InputTypeCollection
@@ -31,6 +33,11 @@
             }
         }
 
+        public static bool IsCompatibleType(Type type)
+        {
+            return typeof(UIElement).IsAssignableFrom(type) || typeof(ContentElement).IsAssignableFrom(type);
+        }
+
         protected override void InsertItem(int index, Type item)
         {
             this.VerifyCompatible(item);
@@ -43,15 +50,14 @@
             base.SetItem(index, item);
         }
 
-        protected virtual bool IsCompatibleType(Type type)
+        protected virtual bool IsCompatible(Type type)
         {
-            return typeof(UIElement).IsAssignableFrom(type) ||
-                   typeof(ContentElement).IsAssignableFrom(type);
+            return IsCompatibleType(type);
         }
 
         private void VerifyCompatible(Type type)
         {
-            if (!this.IsCompatibleType(type))
+            if (!IsCompatibleType(type))
             {
                 throw new ArgumentException($"Type {type} is not compatible. Must be a type that works with Validation.");
             }

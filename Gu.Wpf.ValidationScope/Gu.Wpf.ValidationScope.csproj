@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ErrorCollection\BatchChangeItem.cs" />
     <Compile Include="ErrorCollection\ObservableBatchCollection{T}.cs" />
+    <Compile Include="InputTypeCollectionConverter.cs" />
     <Compile Include="Internal\BubbleRoute.cs" />
     <Compile Include="Internal\Ensure.cs" />
     <Compile Include="ErrorCollection\ErrorCollection.cs" />

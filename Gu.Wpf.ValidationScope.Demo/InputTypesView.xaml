@@ -9,9 +9,11 @@
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ItemsControl ItemsSource="{validationScope:InputTypes {x:Type TextBoxBase}, {x:Type Selector}, {x:Type ToggleButton}, {x:Type Slider}}" />
         <ItemsControl Grid.Row="1"
@@ -27,5 +29,6 @@
                 </validationScope:InputTypeCollection>
             </ItemsControl.ItemsSource>
         </ItemsControl>
+        <StackPanel Grid.Row="3" validationScope:Scope.ForInputTypes="TextBox, ComboBox"></StackPanel>
     </Grid>
 </UserControl>
