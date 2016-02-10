@@ -32,6 +32,11 @@
 
         public bool IsInputType(DependencyObject dependencyObject)
         {
+            if (dependencyObject == null)
+            {
+                return false;
+            }
+
             return this.Any(x => x.IsInstanceOfType(dependencyObject));
         }
 

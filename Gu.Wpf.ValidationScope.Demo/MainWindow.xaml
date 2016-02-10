@@ -58,5 +58,10 @@
         <TabItem Header="ScopeIsErrorScope">
             <local:ScopeIsErrorScopeView />
         </TabItem>
+
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ParentChildScopesTab}"
+                 Header="ParentChildScopes">
+            <local:ParentChildScopesView />
+        </TabItem>
     </TabControl>
 </Window>

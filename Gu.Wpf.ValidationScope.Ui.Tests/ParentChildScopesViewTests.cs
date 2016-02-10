@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Ui.Tests
+﻿namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using Gu.Wpf.ValidationScope.Demo;
     using NUnit.Framework;
@@ -8,7 +8,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using TestStack.White.UIItems.ListBoxItems;
     using TestStack.White.UIItems.TabItems;
 
-    public class ComplicatedScopeViewTests
+    public class ParentChildScopesViewTests
     {
         [Test]
         public void Updates()
@@ -16,7 +16,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             using (var app = Application.AttachOrLaunch(Info.ProcessStartInfo))
             {
                 var window = app.GetWindow(AutomationIDs.MainWindow, InitializeOption.NoCache);
-                var page = window.Get<TabPage>(AutomationIDs.ComplicatedScopeTab);
+                var page = window.Get<TabPage>(AutomationIDs.ParentChildScopesTab);
                 page.Select();
                 CollectionAssert.IsEmpty(page.GetErrors());
                 var textBox1 = page.Get<GroupBox>(AutomationIDs.TextBoxScope).Get<TextBox>(AutomationIDs.TextBox1);

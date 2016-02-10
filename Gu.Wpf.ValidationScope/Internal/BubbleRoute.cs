@@ -93,7 +93,8 @@
                 return false;
             }
 
-            return Scope.GetForInputTypes(parent)?.IsInputType(source) == true;
+            var inputTypes = Scope.GetForInputTypes(parent);
+            return inputTypes?.IsInputType(source) == true;
         }
     }
 }
