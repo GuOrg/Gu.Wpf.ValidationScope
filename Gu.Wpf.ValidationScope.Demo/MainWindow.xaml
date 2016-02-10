@@ -49,5 +49,10 @@
                  Header="NotifyDataErrorInfo">
             <local:NotifyDataErrorInfoView />
         </TabItem>
+
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.OneWayToSourceBindingTab}"
+                 Header="OneWayToSourceBinding">
+            <local:OneWayToSourceBindingsView />
+        </TabItem>
     </TabControl>
 </Window>

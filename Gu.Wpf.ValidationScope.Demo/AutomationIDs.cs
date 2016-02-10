@@ -22,6 +22,7 @@
         public static readonly string DynamicScopeTab = Create();
         public static readonly string DataGridScopeTab = Create();
         public static readonly string NotifyDataErrorInfoTab = Create();
+        public static readonly string OneWayToSourceBindingTab = Create();
 
         public static readonly string TextBox1 = Create();
         public static readonly string TextBox2 = Create();

@@ -2,8 +2,9 @@
 {
     using System;
     using System.Windows;
+    using System.Windows.Data;
 
-    public static class Scope
+    public static partial class Scope
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
 
@@ -20,7 +21,7 @@
             "HasErrors",
             typeof(bool),
             typeof(Scope),
-            new PropertyMetadata(BooleanBoxes.False));
+            new PropertyMetadata(BooleanBoxes.False, OnHasErrorsChanged));
 
         public static readonly DependencyProperty HasErrorsProperty = HasErrorsPropertyKey.DependencyProperty;
 
@@ -90,6 +91,12 @@
             (e.OldValue as IDisposable)?.Dispose();
             SetHasErrors(d, ((IErrorNode)e.NewValue)?.HasErrors == true);
             (e.NewValue as ErrorNode)?.BindToErrors();
+            d.SetCurrentValue(ErrorsOneWayToSourceBindingProperty, e.NewValue);
+        }
+
+        private static void OnHasErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetCurrentValue(HasErrorsOneWayToSourceBindingProperty, e.NewValue);
         }
     }
 }

@@ -77,6 +77,12 @@
     <Compile Include="OneLevelScopeView.xaml.cs">
       <DependentUpon>OneLevelScopeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OneWayToSourceBindingsView.xaml.cs">
+      <DependentUpon>OneWayToSourceBindingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OneWayToSourceBindingsViewModel.cs">
+      <DependentUpon>OneWayToSourceBindingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScopeWithControlTemplates.xaml.cs">
       <DependentUpon>ScopeWithControlTemplates.xaml</DependentUpon>
     </Compile>
@@ -120,6 +126,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OneLevelScopeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OneWayToSourceBindingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

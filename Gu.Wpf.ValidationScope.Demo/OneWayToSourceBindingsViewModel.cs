@@ -1,13 +1,18 @@
 ﻿namespace Gu.Wpf.ValidationScope.Demo
 {
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Windows.Controls;
+
     using JetBrains.Annotations;
 
-    public class ViewModel : INotifyPropertyChanged
+    public class OneWayToSourceBindingsViewModel : INotifyPropertyChanged
     {
         private int intValue;
-        private string stringValue;
+        private bool hasError;
+
+        private IErrorNode errors;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,19 +33,36 @@
             }
         }
 
-        public string StringValue
+        public bool HasError
         {
             get
             {
-                return this.stringValue;
+                return this.hasError;
             }
             set
             {
-                if (value == this.stringValue)
+                if (value == this.hasError)
                 {
                     return;
                 }
-                this.stringValue = value;
+                this.hasError = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public IErrorNode Errors
+        {
+            get
+            {
+                return this.errors;
+            }
+            set
+            {
+                if (Equals(value, this.errors))
+                {
+                    return;
+                }
+                this.errors = value;
                 this.OnPropertyChanged();
             }
         }
