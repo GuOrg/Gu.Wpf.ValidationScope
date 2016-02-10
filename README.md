@@ -62,3 +62,17 @@ More samples in the demo project
 Renders:
 
 ![ItemsSource2D render](http://i.imgur.com/VSFYqBD.gif)
+
+##### If you need to bind HasErrors to DataContext there is a hack exposed:
+```
+<Grid x:Name="Form"
+        validationScope:Scope.ErrorsOneWayToSourceBinding="{Binding Errors,
+                                                                    Mode=OneWayToSource}"
+        validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}"
+        validationScope:Scope.HasErrorsOneWayToSourceBinding="{Binding HasError,
+                                                                        Mode=OneWayToSource}">
+        ...
+```
+
+This is a workaround for WPF's limitation of not allowing OneWayToSource bindings of readonly dependency properties.
+Updating the viewmodel property does nothing but changes in the view are sent to the viewmodel.
