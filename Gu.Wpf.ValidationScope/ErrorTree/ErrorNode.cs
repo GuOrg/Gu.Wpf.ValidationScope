@@ -52,33 +52,11 @@ namespace Gu.Wpf.ValidationScope
 
         bool IWeakEventListener.ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
         {
-            Debugger.Break();
             if (managerType == typeof(CollectionChangedEventManager))
             {
-                var args = (NotifyCollectionChangedEventArgs)e;
-                IReadOnlyList<BatchChangeItem<ValidationError>> changes;
-                if (this.LazyErrors.Value.CanUpdate(args))
-                {
-                    changes = this.LazyErrors.Value.Update(args);
-                }
-                else
-                {
-                    if (this.AllChildren.Any())
-                    {
-                        var errors = this.AllChildren.OfType<ErrorNode>()
-                                                     .SelectMany(x => x.Errors)
-                                                     .ToList();
-                        errors.AddRange((IEnumerable<ValidationError>)sender);
-                        changes = this.LazyErrors.Value.Refresh((IReadOnlyList<ValidationError>)sender);
-                    }
-                    else
-                    {
-                        changes = this.LazyErrors.Value.Refresh((IReadOnlyList<ValidationError>)sender);
-                    }
-                }
-
+                this.RefreshErrors();
                 this.HasErrors = this.Errors.Count > 0 || this.Children.Count > 0;
-                BubbleRoute.Notify(this, changes);
+                BubbleRoute.Notify(this);
                 return true;
             }
 
@@ -94,7 +72,7 @@ namespace Gu.Wpf.ValidationScope
         {
             // not sure if  we need to protect against null here but doing it to be safe in case GC collects the binding.
             var source = this.Source;
-            if (source == null)
+            if (source == null || BindingOperations.GetBindingExpression(source, ErrorsProxyProperty) == null)
             {
                 return EmptyValidationErrors;
             }
@@ -146,8 +124,8 @@ namespace Gu.Wpf.ValidationScope
                 }
 
                 BindingOperations.ClearBinding(source, ErrorsProxyProperty);
-                var changes = this.Errors.Select(BatchChangeItem.CreateRemove).ToList();
-                BubbleRoute.Notify(this, changes);
+                this.RefreshErrors();
+                BubbleRoute.Notify(this);
             }
         }
 
@@ -177,9 +155,9 @@ namespace Gu.Wpf.ValidationScope
                 CollectionChangedEventManager.AddListener(newValue, node);
             }
 
-            var changes = node.LazyErrors.Value.Update(oldValue, newValue);
+            node.RefreshErrors();
             node.HasErrors = node.Errors.Count > 0 || node.Children.Count > 0;
-            BubbleRoute.Notify(node, changes);
+            BubbleRoute.Notify(node);
         }
     }
 }

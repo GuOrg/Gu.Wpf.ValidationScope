@@ -8,9 +8,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type local:ViewModel}">
-            <TextBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
-                     Text="{Binding IntValue,
-                                    UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
         </DataTemplate>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -42,14 +40,16 @@
                            Text="SomeIntValue" />
                 <ContentPresenter Grid.Row="0"
                                   Grid.Column="1"
-                                  Content="{Binding}" />
+                                  Content="{Binding}"
+                                  local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox1}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
                            Text="SameIntValue" />
                 <ContentPresenter Grid.Row="1"
                                   Grid.Column="1"
-                                  Content="{Binding}" />
+                                  Content="{Binding}"
+                                  local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox2}" />
             </Grid>
         </Border>
         <ItemsControl Grid.Row="1"

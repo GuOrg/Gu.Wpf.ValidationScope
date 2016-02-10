@@ -7,7 +7,10 @@ using TestStack.White.UIItems.Finders;
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using Gu.Wpf.ValidationScope.Demo;
+
+    using TestStack.White.InputDevices;
     using TestStack.White.UIItems.TabItems;
+    using TestStack.White.UIItems.WindowItems;
 
     public static class UIItemExt
     {
@@ -29,6 +32,22 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             return page.GetMultiple<Label>(AutomationIDs.ErrorText)
                        .Select(x => x.Text)
                        .ToList();
-        } 
+        }
+
+        public static void EnterSingle(this TextBox textBox, char @char)
+        {
+            textBox.DoubleClick();
+            Keyboard.Instance.Send(new string(@char, 1), textBox.ActionListener);
+        }
+
+        public static IEnumerable<IUIItem> Ancestors(this IUIItem item)
+        {
+            var parent = item.GetParent<IUIItem>();
+            while (parent != null)
+            {
+                yield return parent;
+                parent = parent.GetParent<IUIItem>();
+            }
+        }
     }
 }

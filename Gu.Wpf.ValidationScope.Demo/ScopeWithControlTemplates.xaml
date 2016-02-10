@@ -49,7 +49,8 @@
                                 Grid.Column="1"
                                 Content="{Binding}"
                                 Focusable="False"
-                                Template="{StaticResource ControlTemplate}" />
+                                Template="{StaticResource ControlTemplate}"
+                                local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox1}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
@@ -58,7 +59,8 @@
                 <ContentControl Grid.Row="1"
                                 Grid.Column="1"
                                 Content="{Binding}"
-                                Style="{StaticResource Style}" />
+                                Style="{StaticResource Style}"
+                                local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox2}" />
             </Grid>
         </Border>
 

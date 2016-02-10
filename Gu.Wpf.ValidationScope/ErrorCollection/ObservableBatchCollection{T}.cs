@@ -10,10 +10,20 @@ namespace Gu.Wpf.ValidationScope
     {
         private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
         private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
+        private BatchChange batch;
 
-        private BatchChanges batchChanges;
-
-        public IReadOnlyList<BatchChangeItem<T>> CurrentBatch => this.batchChanges;
+        /// <summary>
+        /// Clears current items and adds <paramref name="newItems"/> notifies once when done
+        /// </summary>
+        /// <param name="newItems">The values that will be in the collection after</param>
+        public void Refresh(IEnumerable<T> newItems)
+        {
+            using (this.BeginChange())
+            {
+                this.Clear();
+                this.AddRange(newItems);
+            }
+        }
 
         public void AddRange(IEnumerable<T> newItems)
         {
@@ -22,7 +32,7 @@ namespace Gu.Wpf.ValidationScope
                 return;
             }
 
-            if (this.batchChanges == null)
+            if (this.batch == null)
             {
                 using (this.BeginChange())
                 {
@@ -48,7 +58,7 @@ namespace Gu.Wpf.ValidationScope
                 return;
             }
 
-            if (this.batchChanges == null)
+            if (this.batch == null)
             {
                 using (this.BeginChange())
                 {
@@ -74,10 +84,10 @@ namespace Gu.Wpf.ValidationScope
 
         protected override void InsertItem(int index, T item)
         {
-            if (this.batchChanges != null)
+            if (this.batch != null)
             {
                 this.CheckReentrancy();
-                this.batchChanges.Add(new BatchChangeItem<T>(item, index, NotifyCollectionChangedAction.Add));
+                this.batch.Add(new BatchChangeItem<T>(item, index, NotifyCollectionChangedAction.Add));
                 this.Items.Insert(index, item);
             }
             else
@@ -88,11 +98,11 @@ namespace Gu.Wpf.ValidationScope
 
         protected override void SetItem(int index, T item)
         {
-            if (this.batchChanges != null)
+            if (this.batch != null)
             {
                 this.CheckReentrancy();
-                this.batchChanges.Add(new BatchChangeItem<T>(this.Items[index], index, NotifyCollectionChangedAction.Remove));
-                this.batchChanges.Add(new BatchChangeItem<T>(item, index, NotifyCollectionChangedAction.Add));
+                this.batch.Add(new BatchChangeItem<T>(this.Items[index], index, NotifyCollectionChangedAction.Remove));
+                this.batch.Add(new BatchChangeItem<T>(item, index, NotifyCollectionChangedAction.Add));
                 this.Items[index] = item;
             }
             else
@@ -103,7 +113,7 @@ namespace Gu.Wpf.ValidationScope
 
         protected override void MoveItem(int oldIndex, int newIndex)
         {
-            if (this.batchChanges != null)
+            if (this.batch != null)
             {
                 this.CheckReentrancy();
                 var item = this.Items[oldIndex];
@@ -118,10 +128,10 @@ namespace Gu.Wpf.ValidationScope
 
         protected override void RemoveItem(int index)
         {
-            if (this.batchChanges != null)
+            if (this.batch != null)
             {
                 this.CheckReentrancy();
-                this.batchChanges.Add(new BatchChangeItem<T>(this.Items[index], index, NotifyCollectionChangedAction.Remove));
+                this.batch.Add(new BatchChangeItem<T>(this.Items[index], index, NotifyCollectionChangedAction.Remove));
                 this.Items.RemoveAt(index);
             }
             else
@@ -132,12 +142,12 @@ namespace Gu.Wpf.ValidationScope
 
         protected override void ClearItems()
         {
-            if (this.batchChanges != null)
+            if (this.batch != null)
             {
                 this.CheckReentrancy();
                 for (int i = 0; i < this.Items.Count; i++)
                 {
-                    this.batchChanges.Add(new BatchChangeItem<T>(this.Items[i], i, NotifyCollectionChangedAction.Remove));
+                    this.batch.Add(new BatchChangeItem<T>(this.Items[i], i, NotifyCollectionChangedAction.Remove));
                 }
 
                 this.Items.Clear();
@@ -150,8 +160,8 @@ namespace Gu.Wpf.ValidationScope
 
         protected virtual void NotifyBatch()
         {
-            var changes = this.batchChanges;
-            this.batchChanges = null;
+            var changes = this.batch;
+            this.batch = null;
             if (changes == null)
             {
                 return;
@@ -243,19 +253,19 @@ namespace Gu.Wpf.ValidationScope
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
         }
 
-        private class BatchChanges : Collection<BatchChangeItem<T>>
-        {
-        }
-
-        private class BatchChange : IDisposable
+        private class BatchChange : Collection<BatchChangeItem<T>>, IDisposable
         {
             private readonly ObservableBatchCollection<T> source;
 
             public BatchChange(ObservableBatchCollection<T> source)
             {
-                Ensure.IsNull(source.batchChanges, $"{nameof(source)}.{nameof(source.CurrentBatch)}");
+                if (source.batch != null)
+                {
+                    throw new InvalidOperationException("Cannot start a batch before the current batch is finished.");
+                }
+
                 this.source = source;
-                source.batchChanges = new BatchChanges();
+                source.batch = this;
             }
 
             public void Dispose()

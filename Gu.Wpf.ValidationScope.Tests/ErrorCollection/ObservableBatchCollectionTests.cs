@@ -7,7 +7,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
     using Gu.Wpf.ValidationScope.Tests.Helpers;
     using NUnit.Framework;
 
-    public class ObservableBatchCollectionTests
+    public partial class ObservableBatchCollectionTests
     {
         [Test]
         public void UpdatesAndNotifiesOnAdd()

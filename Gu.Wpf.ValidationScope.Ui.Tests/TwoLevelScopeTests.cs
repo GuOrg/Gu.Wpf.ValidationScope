@@ -1,6 +1,5 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
-    using System.Linq;
     using Gu.Wpf.ValidationScope.Demo;
     using NUnit.Framework;
     using TestStack.White;
@@ -16,25 +15,22 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             using (var app = Application.AttachOrLaunch(Info.ProcessStartInfo))
             {
                 var window = app.GetWindow(AutomationIDs.MainWindow, InitializeOption.NoCache);
-                var keyboard = window.Keyboard;
                 var page = window.Get<TabPage>(AutomationIDs.TwoLevelScopeTab);
                 page.Select();
                 CollectionAssert.IsEmpty(page.GetErrors());
                 var textBox1 = page.Get<TextBox>(AutomationIDs.TextBox1);
-                textBox1.Click();
-                keyboard.Enter("g");
-                CollectionAssert.AreEqual(new[] { "Value '0g' could not be converted." }, page.GetErrors());
+                textBox1.EnterSingle('a');
+                CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, page.GetErrors());
 
                 var textBox2 = page.Get<TextBox>(AutomationIDs.TextBox2);
-                textBox2.Click();
-                keyboard.Enter("h");
+                textBox2.EnterSingle('b');
                 var expectedErrors = new[]
                 {
-                    "Value '0g' could not be converted.",
-                    "Value '0h' could not be converted."
+                    "Value 'a' could not be converted.",
+                    "Value 'b' could not be converted."
                 };
                 CollectionAssert.AreEqual(expectedErrors, page.GetErrors());
-                textBox1.BulkText = "1";
+                textBox1.EnterSingle('1');
                 CollectionAssert.IsEmpty(page.GetErrors());
             }
         }

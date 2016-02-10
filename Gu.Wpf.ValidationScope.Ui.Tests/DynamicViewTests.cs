@@ -23,11 +23,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 Assert.AreEqual(null, typesListBox.SelectedItem);
                 CollectionAssert.IsEmpty(page.GetErrors());
                 var textBox1 = page.Get<TextBox>(AutomationIDs.TextBox1);
-                textBox1.Click();
-                keyboard.Enter("g");
+                textBox1.EnterSingle('a');
                 CollectionAssert.IsEmpty(page.GetErrors());
                 typesListBox.Select(0);
-                CollectionAssert.AreEqual(new[] { "Value '0g' could not be converted." }, page.GetErrors());
+                CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, page.GetErrors());
                 typesListBox.Select(1);
                 CollectionAssert.IsEmpty(page.GetErrors());
             }

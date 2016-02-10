@@ -46,7 +46,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public IEnumerable GetErrors(string propertyName)
         {
-            return this.hasErrors ? new[] {$"{propertyName} has errors"} : Enumerable.Empty<string>();
+            return this.hasErrors ? new[] {"INotifyDataErrorInfo error" } : Enumerable.Empty<string>();
         }
 
         protected virtual void OnErrorsChanged([CallerMemberName] string propertyName = null)

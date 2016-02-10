@@ -6,7 +6,6 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
@@ -84,6 +83,10 @@ namespace Gu.Wpf.ValidationScope
 
         ValidationError IReadOnlyList<ValidationError>.this[int index] => this.Errors[index];
 
+        IEnumerator<ValidationError> IEnumerable<ValidationError>.GetEnumerator() => this.Errors.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => this.Errors.GetEnumerator();
+
         internal Lazy<ErrorCollection> LazyErrors { get; } = new Lazy<ErrorCollection>(() => new ErrorCollection());
 
         internal IEnumerable<Node> AllChildren
@@ -106,9 +109,13 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
-        IEnumerator<ValidationError> IEnumerable<ValidationError>.GetEnumerator() => this.Errors.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => this.Errors.GetEnumerator();
+        internal void RefreshErrors()
+        {
+            if (this.LazyErrors.IsValueCreated)
+            {
+                this.LazyErrors.Value.Refresh(this.GetAllErrors());
+            }
+        }
 
         public void Dispose()
         {

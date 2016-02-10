@@ -1,16 +1,14 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
-    using System.Collections.Generic;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Media;
 
     internal static class BubbleRoute
     {
-        internal static void Notify(ErrorNode errorNode, IReadOnlyList<BatchChangeItem<ValidationError>> changes)
+        internal static void Notify(ErrorNode errorNode)
         {
             var source = errorNode.Source;
-            if (source == null || changes?.Count == 0)
+            if (source == null)
             {
                 return;
             }
@@ -35,7 +33,7 @@
                     }
                     else
                     {
-                        UpdateErrors(parentNode, changes);
+                        parentNode.RefreshErrors();
                     }
                 }
                 else if (childNode?.HasErrors == true &&
@@ -49,7 +47,7 @@
                     else
                     {
                         parentNode.AddChild(childNode);
-                        UpdateErrors(parentNode, changes);
+                        parentNode.RefreshErrors();
                     }
                 }
 
@@ -86,21 +84,6 @@
             }
 
             return true;
-        }
-
-        private static void UpdateErrors(Node parentNode, IReadOnlyList<BatchChangeItem<ValidationError>> changes)
-        {
-            if (parentNode != null && parentNode.LazyErrors.IsValueCreated)
-            {
-                if (changes != null)
-                {
-                    parentNode.LazyErrors.Value.Update(changes);
-                }
-                else
-                {
-                    parentNode.LazyErrors.Value.Refresh(parentNode.GetAllErrors());
-                }
-            }
         }
 
         private static bool IsValidationScopeFor(this DependencyObject parent, DependencyObject source)
