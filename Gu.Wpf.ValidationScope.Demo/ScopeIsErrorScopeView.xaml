@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Gu.Wpf.ValidationScope.Demo.ScopeIsErrorScopeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:validationScope="http://gu.se/ValidationScope"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:ScopeIsErrorScopeVm />
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                                      Converter={local:BoolToBrushConverter},
+                                      ElementName=Form}"
+                BorderThickness="1">
+            <StackPanel>
+                <HeaderedContentControl x:Name="Form"
+                                        Content="{Binding HasErrors,
+                                                          ValidatesOnNotifyDataErrors=True}"
+                                        Header="Header"
+                                        validationScope:Scope.ForInputTypes="HeaderedContentControl, TextBox">
+                    <HeaderedContentControl.Template>
+                        <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{TemplateBinding Header}" />
+
+                                <TextBox Grid.Column="1"
+                                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
+                                         Text="{Binding DataContext.IntValue,
+                                                        UpdateSourceTrigger=PropertyChanged,
+                                                        RelativeSource={RelativeSource AncestorType={x:Type HeaderedContentControl}}}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </HeaderedContentControl.Template>
+                </HeaderedContentControl>
+
+                <CheckBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
+                          IsChecked="{Binding HasErrors}" />
+            </StackPanel>
+
+        </Border>
+
+        <ItemsControl Grid.Row="1"
+                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
+                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                                            ElementName=Form}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type ValidationError}">
+                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                               Foreground="Red"
+                               Text="{Binding ErrorContent}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>
