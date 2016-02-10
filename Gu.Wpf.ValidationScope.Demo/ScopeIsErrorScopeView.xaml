@@ -5,8 +5,6 @@
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:validationScope="http://gu.se/ValidationScope"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:ScopeIsErrorScopeVm />
@@ -23,9 +21,10 @@
                 BorderThickness="1">
             <StackPanel>
                 <HeaderedContentControl x:Name="Form"
-                                        Content="{Binding HasErrors}"
+                                        Content="{Binding HasErrors,
+                                                          ValidatesOnNotifyDataErrors=True}"
                                         Header="Header"
-                                        validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+                                        validationScope:Scope.ForInputTypes="HeaderedContentControl, TextBox">
                     <HeaderedContentControl.Template>
                         <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
                             <Grid>
@@ -37,9 +36,9 @@
 
                                 <TextBox Grid.Column="1"
                                          AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
-                                         Text="{Binding IntValue,
+                                         Text="{Binding DataContext.IntValue,
                                                         UpdateSourceTrigger=PropertyChanged,
-                                                        ValidatesOnNotifyDataErrors=True}" />
+                                                        RelativeSource={RelativeSource AncestorType={x:Type HeaderedContentControl}}}" />
                             </Grid>
                         </ControlTemplate>
                     </HeaderedContentControl.Template>

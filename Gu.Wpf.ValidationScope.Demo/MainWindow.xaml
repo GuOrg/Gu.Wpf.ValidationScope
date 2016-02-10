@@ -54,5 +54,9 @@
                  Header="OneWayToSourceBinding">
             <local:OneWayToSourceBindingsView />
         </TabItem>
+
+        <TabItem Header="ScopeIsErrorScope">
+            <local:ScopeIsErrorScopeView />
+        </TabItem>
     </TabControl>
 </Window>
