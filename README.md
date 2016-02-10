@@ -11,8 +11,8 @@
         <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
-                                    Converter={local:BoolToBrushConverter},
-                                    ElementName=Form}"
+                                  Converter={local:BoolToBrushConverter},
+                                  ElementName=Form}"
             BorderThickness="1">
         <Grid x:Name="Form"
                 validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
