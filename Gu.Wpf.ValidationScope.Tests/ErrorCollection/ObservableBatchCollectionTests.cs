@@ -10,7 +10,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
     public partial class ObservableBatchCollectionTests
     {
         [Test]
-        public void UpdatesAndNotifiesOnAdd()
+        public void Add()
         {
             var reference = new ObservableCollection<int>();
             var expectedEvents = reference.SubscribeAllEvents();
@@ -23,7 +23,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnBatchAdd()
+        public void BatchAdd()
         {
             var reference = new ObservableCollection<int>();
             var expectedEvents = reference.SubscribeAllEvents();
@@ -40,7 +40,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnAddRange()
+        public void AddRange()
         {
             var batchCol = new ObservableBatchCollection<int>();
             var actualEvents = batchCol.SubscribeAllEvents();
@@ -56,7 +56,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnRemove()
+        public void Remove()
         {
             var reference = new ObservableCollection<int> { 1, 2 };
             var expectedEvents = reference.SubscribeAllEvents();
@@ -69,7 +69,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnBatchRemove()
+        public void BatchRemove()
         {
             var reference = new ObservableCollection<int> { 1, 2 };
             var expectedEvents = reference.SubscribeAllEvents();
@@ -86,7 +86,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnRemoveRange()
+        public void RemoveRange()
         {
             var batchCol = new ObservableBatchCollection<int> { 1, 2, 3 };
             var actualEvents = batchCol.SubscribeAllEvents();
@@ -102,7 +102,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnClear()
+        public void Clear()
         {
             var reference = new ObservableCollection<int> { 1, 2 };
             var expectedEvents = reference.SubscribeAllEvents();
@@ -115,7 +115,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnBatchClear()
+        public void BatchClear()
         {
             var reference = new ObservableCollection<int> { 1, 2 };
             var expectedEvents = reference.SubscribeAllEvents();
@@ -132,7 +132,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnMove()
+        public void Move()
         {
             var reference = new ObservableCollection<int> { 1, 2 };
             var expectedEvents = reference.SubscribeAllEvents();
@@ -145,7 +145,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnBatchMove()
+        public void BatchMove()
         {
             var reference = new ObservableCollection<int> { 1, 2 };
             var expectedEvents = reference.SubscribeAllEvents();
@@ -162,7 +162,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnReplace()
+        public void Replace()
         {
             var reference = new ObservableCollection<int> { 1, 2 };
             var expectedEvents = reference.SubscribeAllEvents();
@@ -175,7 +175,7 @@ namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnBatchReplace()
+        public void BatchReplace()
         {
             var reference = new ObservableCollection<int> { 1, 2 };
             var expectedEvents = reference.SubscribeAllEvents();

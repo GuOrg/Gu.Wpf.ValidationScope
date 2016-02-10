@@ -38,13 +38,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
                 CollectionAssert.AreEqual(expectedErrors, page.GetErrors());
 
-                Assert.Inconclusive();
-                textBox2.EnterSingle('2');
-                expectedErrors = new[] { "INotifyDataErrorInfo error" };
-                CollectionAssert.AreEqual(expectedErrors, page.GetErrors());
-
                 hasErrorBox.Checked = false;
-                CollectionAssert.IsEmpty(page.GetErrors());
+                expectedErrors = new[]
+                                     {
+                                         "Value 'a' could not be converted.",
+                                         "Value 'b' could not be converted.",
+                                     };
+
+                CollectionAssert.AreEqual(expectedErrors, page.GetErrors());
             }
         }
     }
