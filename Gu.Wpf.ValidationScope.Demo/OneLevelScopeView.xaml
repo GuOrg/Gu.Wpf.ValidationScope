@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
@@ -21,6 +22,7 @@
                 BorderThickness="1">
             <Grid x:Name="Form"
                   validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+                <!--  this is where we define our scope, we do so by telling the scope what types of control sto track  -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -49,7 +51,12 @@
             </Grid>
         </Border>
 
-        <ItemsControl Grid.Row="1"
+        <TextBlock Grid.Row="1"
+                   Foreground="Red"
+                   Text="{Binding Path=(validationScope:Scope.Errors).Count,
+                                  ElementName=Form,
+                                  StringFormat='Children: {0}'}" />
+        <ItemsControl Grid.Row="2"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
                       ItemsSource="{Binding Path=(validationScope:Scope.Errors),
                                             ElementName=Form}">

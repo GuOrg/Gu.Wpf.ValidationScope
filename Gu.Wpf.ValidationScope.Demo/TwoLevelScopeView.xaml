@@ -13,6 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
@@ -50,7 +51,13 @@
             </Grid>
         </Border>
 
-        <ItemsControl Grid.Row="1"
+        <TextBlock Grid.Row="1"
+                   Foreground="Red"
+                   Text="{Binding Path=(validationScope:Scope.Errors).Count,
+                                  ElementName=Form,
+                                  StringFormat='Children: {0}'}" />
+        
+        <ItemsControl Grid.Row="2"
                       ItemsSource="{Binding Path=(validationScope:Scope.Errors),
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
