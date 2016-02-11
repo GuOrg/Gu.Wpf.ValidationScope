@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Gu.Wpf.ValidationScope.Demo.SandboxView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:validationScope="http://gu.se/ValidationScope"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:SandboxVm />
+    </UserControl.DataContext>
+    <Border validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+        <StackPanel>
+            <!--  The stackpanel will inherit the scope  -->
+            <TextBox Text="{Binding Value1}" />
+            <TextBox Text="{Binding Value2}" />
+            <ComboBox IsEditable="True"
+                      Text="{Binding Value3}" />
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -86,6 +86,12 @@
     <Compile Include="ParentChildScopesView.xaml.cs">
       <DependentUpon>ParentChildScopesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SandboxView.xaml.cs">
+      <DependentUpon>SandboxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SandboxVm.cs">
+      <DependentUpon>SandboxView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScopeIsErrorScopeView.xaml.cs">
       <DependentUpon>ScopeIsErrorScopeView.xaml</DependentUpon>
     </Compile>
@@ -141,6 +147,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ParentChildScopesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SandboxView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
