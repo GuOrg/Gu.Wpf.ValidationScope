@@ -38,6 +38,7 @@
         public static readonly string TypeListBox = Create();
         public static readonly string DataGrid = Create();
         public static readonly string LoseFocusButton = Create();
+        public static readonly string ChildCountTextBlock = Create();
         
         public static readonly string ErrorList = Create();
         public static readonly string ErrorText = Create();

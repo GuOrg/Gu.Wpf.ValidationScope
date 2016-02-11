@@ -16,7 +16,7 @@
         {
             typeof(Scope),
             typeof(TextBoxBase),
-            typeof(Selector),
+            typeof(ComboBox),
             typeof(ToggleButton),
             typeof(Slider)
         };

@@ -52,10 +52,12 @@
         </Border>
 
         <TextBlock Grid.Row="1"
+                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
                    Foreground="Red"
                    Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
                                   ElementName=Form,
                                   StringFormat='Children: {0}'}" />
+
         <ItemsControl Grid.Row="2"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
                       ItemsSource="{Binding Path=(validationScope:Scope.Errors),
