@@ -36,8 +36,7 @@
                         parentNode.RefreshErrors();
                     }
                 }
-                else if (childNode?.HasErrors == true &&
-                         parent.IsValidationScopeFor(source))
+                else if (ShouldAddChildNode(parent, childNode, source))
                 {
                     if (parentNode == null)
                     {
@@ -86,6 +85,21 @@
             return true;
         }
 
+        private static bool ShouldAddChildNode(DependencyObject parent, Node childNode, DependencyObject source)
+        {
+            if (childNode?.HasErrors != true)
+            {
+                return false;
+            }
+
+            if (parent.IsValidationScopeFor(source))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private static bool IsValidationScopeFor(this DependencyObject parent, DependencyObject source)
         {
             if (parent == null || source == null)
@@ -94,7 +108,17 @@
             }
 
             var inputTypes = Scope.GetForInputTypes(parent);
-            return inputTypes?.IsInputType(source) == true;
+            if (inputTypes?.IsInputType(source) == true)
+            {
+                return true;
+            }
+
+            if (Scope.GetForInputTypes(parent).Contains(typeof(Scope)))
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

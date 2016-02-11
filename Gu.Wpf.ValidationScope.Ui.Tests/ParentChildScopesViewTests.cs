@@ -52,6 +52,14 @@
 
                 textBox1.EnterSingle('1');
                 CollectionAssert.IsEmpty(page.GetErrors());
+
+                var textBox4 = page.Get<GroupBox>(AutomationIDs.NoScope).Get<TextBox>(AutomationIDs.TextBox1);
+                textBox4.EnterSingle('e');
+                CollectionAssert.IsEmpty(page.GetErrors());
+
+                var comboBox3 = page.Get<GroupBox>(AutomationIDs.NoScope).Get<ComboBox>(AutomationIDs.ComboBox1);
+                comboBox3.EnterSingle('f');
+                CollectionAssert.IsEmpty(page.GetErrors());
             }
         }
     }
