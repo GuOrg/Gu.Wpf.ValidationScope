@@ -82,7 +82,7 @@ You can also use `<Border validationScope:Scope.ForInputTypes="{x:Static validat
 ##### InputTypeCollection.Default contains:
 typeof(Scope),
 typeof(TextBoxBase),
-typeof(Selector),
+typeof(ComboBox),
 typeof(ToggleButton),
 typeof(Slider)
 And should be enough for most scenarios when you don't have third party controls for example a third party textbox that does not derive from `TextBoxBase`
