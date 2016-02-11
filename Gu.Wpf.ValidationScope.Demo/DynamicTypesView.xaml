@@ -20,6 +20,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
                                           Converter={local:BoolToBrushConverter},
@@ -43,6 +45,7 @@
                              AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
                              Text="{Binding IntValue,
                                             UpdateSourceTrigger=PropertyChanged}" />
+
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
                                Text="SameValue" />
@@ -64,8 +67,14 @@
                 </Grid>
             </Border>
 
-            <ItemsControl Grid.Row="1"
-                          MinHeight="20"
+            <TextBlock Grid.Row="1"
+                       AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
+                       Foreground="Red"
+                       Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
+                                      ElementName=Form,
+                                      StringFormat='Children: {0}'}" />
+
+            <ItemsControl Grid.Row="2"
                           ItemsSource="{Binding Path=(validationScope:Scope.Errors),
                                                 ElementName=Form}">
                 <ItemsControl.ItemTemplate>
@@ -78,14 +87,7 @@
             </ItemsControl>
         </Grid>
 
-        <TextBlock Grid.Row="1"
-                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
-                   Foreground="Red"
-                   Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
-                                  ElementName=Form,
-                                  StringFormat='Children: {0}'}" />
-
-        <ListBox Grid.Row="2"
+        <ListBox Grid.Row="1"
                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TypeListBox}"
                  SelectedItem="{x:Null}"
                  SelectionChanged="OnTypesListSelectionChanged"

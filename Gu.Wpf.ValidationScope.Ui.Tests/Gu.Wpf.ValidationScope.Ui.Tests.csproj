@@ -53,12 +53,13 @@
   <ItemGroup>
     <Compile Include="ComplicatedScopeViewTests.cs" />
     <Compile Include="DataTemplatesViewTests.cs" />
+    <Compile Include="NotifyDataErrorInfoViewTests.cs" />
     <Compile Include="OneWayToSourceBindingsViewTests.cs" />
     <Compile Include="ParentChildScopesViewTests.cs" />
     <Compile Include="ControlTemplatesViewTests.cs" />
     <Compile Include="DataGridViewTests.cs" />
     <Compile Include="DynamicViewTests.cs" />
-    <Compile Include="NotifyDataErrorInfoViewTests.cs" />
+    <Compile Include="ScopeIsErrorScopeTests.cs" />
     <Compile Include="OneLevelScopeTests.cs" />
     <Compile Include="Helpers\Info.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

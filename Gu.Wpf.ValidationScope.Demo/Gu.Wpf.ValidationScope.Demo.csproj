@@ -95,7 +95,9 @@
     <Compile Include="ScopeIsErrorScopeView.xaml.cs">
       <DependentUpon>ScopeIsErrorScopeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScopeIsErrorScopeVm.cs" />
+    <Compile Include="ScopeIsErrorScopeVm.cs">
+      <DependentUpon>ScopeIsErrorScopeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScopeWithControlTemplates.xaml.cs">
       <DependentUpon>ScopeWithControlTemplates.xaml</DependentUpon>
     </Compile>

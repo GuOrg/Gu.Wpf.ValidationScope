@@ -48,10 +48,5 @@ namespace Gu.Wpf.ValidationScope
                 return EmptyValidationErrors;
             }
         }
-
-        protected override void OnChildrenChanged()
-        {
-            this.HasErrors = this.AllChildren.Any();
-        }
     }
 }

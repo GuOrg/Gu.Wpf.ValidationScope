@@ -6,6 +6,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
@@ -48,7 +49,7 @@ namespace Gu.Wpf.ValidationScope
             {
                 return this.hasErrors;
             }
-            protected set
+            private set
             {
                 if (value == this.hasErrors)
                 {
@@ -111,10 +112,13 @@ namespace Gu.Wpf.ValidationScope
 
         internal void RefreshErrors()
         {
+            var allErrors = this.GetAllErrors();
             if (this.LazyErrors.IsValueCreated)
             {
-                this.LazyErrors.Value.Refresh(this.GetAllErrors());
+                this.LazyErrors.Value.Refresh(allErrors);
             }
+
+            this.HasErrors = allErrors.Count > 0 || this.AllChildren.Any();
         }
 
         public void Dispose()
@@ -179,7 +183,10 @@ namespace Gu.Wpf.ValidationScope
             this.PropertyChanged?.Invoke(this, args);
         }
 
-        protected abstract void OnChildrenChanged();
+        protected virtual void OnChildrenChanged()
+        {
+            this.RefreshErrors();
+        }
 
         protected virtual void OnHasErrorsChanged()
         {

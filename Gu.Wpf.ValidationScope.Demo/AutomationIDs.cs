@@ -24,6 +24,7 @@
         public static readonly string NotifyDataErrorInfoTab = Create();
         public static readonly string OneWayToSourceBindingTab = Create();
         public static readonly string ParentChildScopesTab = Create();
+        public static readonly string ScopeIsErrorScopeTab = Create();
 
         public static readonly string TextBoxScope = Create();
         public static readonly string ComboBoxScope = Create();

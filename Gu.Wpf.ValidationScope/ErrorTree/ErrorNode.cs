@@ -55,7 +55,6 @@ namespace Gu.Wpf.ValidationScope
             if (managerType == typeof(CollectionChangedEventManager))
             {
                 this.RefreshErrors();
-                this.HasErrors = this.Errors.Count > 0 || this.Children.Count > 0;
                 BubbleRoute.Notify(this);
                 return true;
             }
@@ -129,11 +128,6 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
-        protected override void OnChildrenChanged()
-        {
-            this.HasErrors = this.Errors.Count > 0 || this.AllChildren.Any();
-        }
-
         private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var node = (ErrorNode)d.GetValue(Scope.ErrorsProperty);
@@ -156,7 +150,6 @@ namespace Gu.Wpf.ValidationScope
             }
 
             node.RefreshErrors();
-            node.HasErrors = node.Errors.Count > 0 || node.Children.Count > 0;
             BubbleRoute.Notify(node);
         }
     }

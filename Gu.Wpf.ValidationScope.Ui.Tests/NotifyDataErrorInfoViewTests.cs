@@ -35,20 +35,20 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 var hasErrorBox = page.Get<CheckBox>(AutomationIDs.HasErrorsBox);
                 hasErrorBox.Checked = true;
                 expectedErrors = new[]
-                                     {
-                                         "Value 'a' could not be converted.",
-                                         "Value 'b' could not be converted.",
-                                         "INotifyDataErrorInfo error"
-                                     };
+                {
+                    "Value 'a' could not be converted.",
+                    "Value 'b' could not be converted.",
+                    "INotifyDataErrorInfo error"
+                };
                 Assert.AreEqual("Children: 3", childCountBlock.Text);
                 CollectionAssert.AreEqual(expectedErrors, page.GetErrors());
 
                 hasErrorBox.Checked = false;
                 expectedErrors = new[]
-                                     {
-                                         "Value 'a' could not be converted.",
-                                         "Value 'b' could not be converted.",
-                                     };
+                {
+                    "Value 'a' could not be converted.",
+                    "Value 'b' could not be converted.",
+                };
                 Assert.AreEqual("Children: 2", childCountBlock.Text);
                 CollectionAssert.AreEqual(expectedErrors, page.GetErrors());
             }

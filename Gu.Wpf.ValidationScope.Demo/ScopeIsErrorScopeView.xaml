@@ -13,14 +13,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
                                       Converter={local:BoolToBrushConverter},
                                       ElementName=Form}"
                 BorderThickness="1">
-            <StackPanel>
+            <Grid IsSharedSizeScope="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"
+                                      SharedSizeGroup="LabelColumn" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
                 <HeaderedContentControl x:Name="Form"
+                                        Grid.Column="0" Grid.ColumnSpan="2"
                                         Content="{Binding HasErrors,
                                                           ValidatesOnNotifyDataErrors=True}"
                                         Header="Header"
@@ -29,10 +41,10 @@
                         <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{TemplateBinding Header}" />
+                                <TextBlock Grid.Column="0" Text="{TemplateBinding Header}" />
 
                                 <TextBox Grid.Column="1"
                                          AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
@@ -44,13 +56,21 @@
                     </HeaderedContentControl.Template>
                 </HeaderedContentControl>
 
-                <CheckBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="INotifyDataErrorInfo"></TextBlock>
+                <CheckBox Grid.Row="1" Grid.Column="1"
+                          AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
                           IsChecked="{Binding HasErrors}" />
-            </StackPanel>
-
+            </Grid>
         </Border>
 
-        <ItemsControl Grid.Row="1"
+        <TextBlock Grid.Row="1"
+                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
+                   Foreground="Red"
+                   Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
+                                  ElementName=Form,
+                                  StringFormat='Children: {0}'}" />
+        
+        <ItemsControl Grid.Row="2"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
                       ItemsSource="{Binding Path=(validationScope:Scope.Errors),
                                             ElementName=Form}">

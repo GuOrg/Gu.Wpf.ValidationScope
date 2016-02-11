@@ -55,7 +55,8 @@
             <local:OneWayToSourceBindingsView />
         </TabItem>
 
-        <TabItem Header="ScopeIsErrorScope">
+        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ScopeIsErrorScopeTab}"
+                 Header="ScopeIsErrorScope">
             <local:ScopeIsErrorScopeView />
         </TabItem>
 
