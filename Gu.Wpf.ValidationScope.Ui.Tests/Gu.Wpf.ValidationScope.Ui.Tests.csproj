@@ -52,10 +52,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComplicatedScopeViewTests.cs" />
+    <Compile Include="DataTemplatesViewTests.cs" />
     <Compile Include="OneWayToSourceBindingsViewTests.cs" />
     <Compile Include="ParentChildScopesViewTests.cs" />
     <Compile Include="ControlTemplatesViewTests.cs" />
-    <Compile Include="DataTemplatesViewTests.cs" />
+    <Compile Include="DataGridViewTests.cs" />
     <Compile Include="DynamicViewTests.cs" />
     <Compile Include="NotifyDataErrorInfoViewTests.cs" />
     <Compile Include="OneLevelScopeTests.cs" />

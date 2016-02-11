@@ -15,6 +15,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
@@ -23,15 +24,27 @@
                                       RelativeSource={RelativeSource Self}}"
                 BorderThickness="1"
                 validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
-            <DataGrid ItemsSource="{Binding Collection}" />
+            <DataGrid AutomationProperties.AutomationId="{x:Static local:AutomationIDs.DataGrid}"
+                      ItemsSource="{Binding Collection}" />
         </Border>
 
-        <ItemsControl Grid.Row="1"
+        <Button Grid.Row="1"
+                AutomationProperties.AutomationId="{x:Static local:AutomationIDs.LoseFocusButton}"
+                Content="Lose focus" />
+
+        <TextBlock Grid.Row="2"
+                   Foreground="Red"
+                   Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
+                                  ElementName=Form,
+                                  StringFormat='Children: {0}'}" />
+
+        <ItemsControl Grid.Row="3"
                       ItemsSource="{Binding Path=(validationScope:Scope.Errors),
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock Foreground="Red"
+                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                               Foreground="Red"
                                Text="{Binding ErrorContent}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

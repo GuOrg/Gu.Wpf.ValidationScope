@@ -53,10 +53,10 @@
 
         <TextBlock Grid.Row="1"
                    Foreground="Red"
-                   Text="{Binding Path=(validationScope:Scope.Errors).Count,
+                   Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
                                   ElementName=Form,
                                   StringFormat='Children: {0}'}" />
-        
+
         <ItemsControl Grid.Row="2"
                       ItemsSource="{Binding Path=(validationScope:Scope.Errors),
                                             ElementName=Form}">
