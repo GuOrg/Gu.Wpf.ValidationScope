@@ -26,7 +26,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                            .ToList();
         }
 
-        public static IReadOnlyList<string> GetErrors(this TabPage page)
+        public static IReadOnlyList<string> GetErrors(this UIItemContainer page)
         {
             return page.GetMultiple<Label>(AutomationIDs.ErrorText)
                        .Select(x => x.Text)

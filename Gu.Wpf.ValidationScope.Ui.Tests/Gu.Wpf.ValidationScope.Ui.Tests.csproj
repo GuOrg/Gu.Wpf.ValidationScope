@@ -52,6 +52,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComplicatedScopeViewTests.cs" />
+    <Compile Include="OneWayToSourceBindingsViewTests.cs" />
     <Compile Include="ParentChildScopesViewTests.cs" />
     <Compile Include="ControlTemplatesViewTests.cs" />
     <Compile Include="DataTemplatesViewTests.cs" />

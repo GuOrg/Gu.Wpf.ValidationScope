@@ -56,40 +56,51 @@
             </Grid>
         </Border>
 
-        <TextBlock Grid.Row="1"
-                   Foreground="Red"
-                   Text="{Binding Path=(validationScope:Scope.Errors).Count,
-                                  ElementName=Form,
-                                  StringFormat='Children: {0}'}" />
-        <ItemsControl Grid.Row="2"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <GroupBox Grid.Row="1"
+                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ViewErrorsGroupBox}"
+                  Header="View errors">
+            <StackPanel>
+                <TextBlock Foreground="Red"
+                           Text="{Binding Path=(validationScope:Scope.Errors).Count,
+                                          ElementName=Form,
+                                          StringFormat='Children: {0}'}" />
+                <ItemsControl AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
+                              ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                                                    ElementName=Form}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type ValidationError}">
+                            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                                       Foreground="Red"
+                                       Text="{Binding ErrorContent}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </GroupBox>
 
-        <CheckBox Grid.Row="3"
-                  Content="Vm has error"
-                  IsChecked="{Binding HasError,
-                                      Mode=OneWay}"
-                  IsEnabled="False" />
+        <GroupBox Grid.Row="2"
+                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.BoundErrorsGroupBox}"
+                  Header="Bound errors">
+            <StackPanel>
+                <CheckBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
+                          Content="Vm has error"
+                          IsChecked="{Binding HasError,
+                                              Mode=OneWay}"
+                          IsEnabled="False" />
 
-        <ItemsControl Grid.Row="4"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Errors}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                <ItemsControl AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
+                              ItemsSource="{Binding Errors}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type ValidationError}">
+                            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                                       Foreground="Red"
+                                       Text="{Binding ErrorContent}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </GroupBox>
+
+
     </Grid>
 </UserControl>
