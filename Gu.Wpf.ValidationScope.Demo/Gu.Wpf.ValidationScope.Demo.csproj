@@ -68,11 +68,11 @@
     <Compile Include="InputTypesView.xaml.cs">
       <DependentUpon>InputTypesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NotifyDataErrorView.xaml.cs">
-      <DependentUpon>NotifyDataErrorView.xaml</DependentUpon>
+    <Compile Include="NotifyDataErrorInfoView.xaml.cs">
+      <DependentUpon>NotifyDataErrorInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NotifyDataErrorInfoVm.cs">
-      <DependentUpon>NotifyDataErrorView.xaml</DependentUpon>
+      <DependentUpon>NotifyDataErrorInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OneLevelScopeView.xaml.cs">
       <DependentUpon>OneLevelScopeView.xaml</DependentUpon>
@@ -128,7 +128,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NotifyDataErrorView.xaml">
+    <Page Include="NotifyDataErrorInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
