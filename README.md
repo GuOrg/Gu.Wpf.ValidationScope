@@ -61,7 +61,35 @@ More samples in the demo project
 
 Renders:
 
-![ItemsSource2D render](http://i.imgur.com/VSFYqBD.gif)
+![ItemsSource2D render](http://i.imgur.com/EkuWA9c.gif)
+
+##### Defining a ValidationScope
+```
+<Border validationScope:Scope.ForInputTypes="TextBox, Slider">
+    <StackPanel>
+        <!--The stackpanel will inherit the scope-->
+        <TextBox Text="{Binding Value1}" />
+        <TextBox Text="{Binding Value2}" />
+        <ComboBox IsEditable="True"
+                    Text="{Binding Value3}" />
+        <!-- this combobox will not be tracked because the scope is only for textboxes and sliders--> 
+    </StackPanel>
+</Border>
+```
+
+You can also use `<Border validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">`
+
+##### InputTypeCollection.Default contains:
+typeof(Scope),
+typeof(TextBoxBase),
+typeof(Selector),
+typeof(ToggleButton),
+typeof(Slider)
+And should be enough for most scenarios when you don't have third party controls for example a third party textbox that does not derive from `TextBoxBase`
+
+##### InputTypes markupextension
+`<Border validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}, {x:Type ComboBox}}">`
+Exposed for convenience to create list of types in xaml.
 
 ##### If you need to bind HasErrors to DataContext there is a hack exposed:
 ```
