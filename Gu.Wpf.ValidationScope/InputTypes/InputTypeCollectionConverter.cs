@@ -3,21 +3,17 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
     using System.Security;
+    using System.Windows;
     using System.Windows.Markup;
 
     public class InputTypeCollectionConverter : TypeConverter
     {
         private static readonly char[] SeparatorChars = { ',', ' ' };
-
-        private static readonly IReadOnlyList<Type> CompatibleTypes = AppDomain.CurrentDomain
-                                                                               .GetAssemblies()
-                                                                               .Where(x => !x.IsDynamic)
-                                                                               .SelectMany(a => a.GetExportedTypes())
-                                                                               .Where(InputTypeCollection.IsCompatibleType)
-                                                                               .ToArray();
 
         public override bool CanConvertFrom(ITypeDescriptorContext typeDescriptorContext, Type sourceType)
         {
@@ -67,7 +63,6 @@
             throw new NotSupportedException();
         }
 
-
         private static InputTypeCollection ConvertFromText(string text)
         {
             var typeNames = text.Split(SeparatorChars, StringSplitOptions.RemoveEmptyEntries)
@@ -76,10 +71,34 @@
             var inputTypeCollection = new InputTypeCollection();
             foreach (var typeName in typeNames)
             {
+                var match = CompatibleTypeCache.FindType(typeName);
+                inputTypeCollection.Add(match);
+            }
+
+            return inputTypeCollection;
+        }
+
+        private static class CompatibleTypeCache
+        {
+            private static readonly List<Type> Types = new List<Type>();
+
+            static CompatibleTypeCache()
+            {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                foreach (var assembly in assemblies)
+                {
+                    GetCompatibleTypes(assembly);
+                }
+
+                AppDomain.CurrentDomain.AssemblyLoad += (sender, args) => GetCompatibleTypes(args.LoadedAssembly);
+            }
+
+            public static Type FindType(string typeName)
+            {
                 Type match;
                 try
                 {
-                    match = CompatibleTypes.SingleOrDefault(x => x.Name == typeName);
+                    match = Types.SingleOrDefault(x => x.Name == typeName);
                 }
                 catch (Exception)
                 {
@@ -91,11 +110,22 @@
                     throw new InvalidOperationException($"Did not find a match for for {typeName}");
                 }
 
-                inputTypeCollection.Add(match);
+                return match;
             }
 
-            return inputTypeCollection;
+            private static void GetCompatibleTypes(Assembly assembly)
+            {
+                Debug.WriteLine(assembly.FullName);
+                try
+                {
+                    Types.AddRange(assembly.ExportedTypes.Where(InputTypeCollection.IsCompatibleType));
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Could not process assembly {assembly.FullName}. Exception: {e.Message}");
+                    throw;
+                }
+            }
         }
-
     }
 }
