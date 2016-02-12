@@ -12,7 +12,9 @@
     {
         private static readonly char[] SeparatorChars = { ',', ' ' };
 
-        private static readonly IReadOnlyList<Type> CompatibleTypes = AppDomain.CurrentDomain.GetAssemblies()
+        private static readonly IReadOnlyList<Type> CompatibleTypes = AppDomain.CurrentDomain
+                                                                               .GetAssemblies()
+                                                                               .Where(x => !x.IsDynamic)
                                                                                .SelectMany(a => a.GetExportedTypes())
                                                                                .Where(InputTypeCollection.IsCompatibleType)
                                                                                .ToArray();
