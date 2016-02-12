@@ -181,7 +181,6 @@
                         var exFileNotFound = exSub as FileNotFoundException;
                         if (!string.IsNullOrEmpty(exFileNotFound?.FusionLog))
                         {
-                            ErrorBuilder.AppendLine("Fusion Log:");
                             ErrorBuilder.AppendLine(exFileNotFound.FusionLog);
                         }
 
