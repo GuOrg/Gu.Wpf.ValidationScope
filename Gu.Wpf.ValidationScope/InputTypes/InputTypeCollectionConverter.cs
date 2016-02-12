@@ -5,9 +5,11 @@
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Security;
+    using System.Text;
     using System.Windows;
     using System.Windows.Markup;
 
@@ -82,9 +84,52 @@
         {
             private static readonly List<Type> Types = new List<Type>();
 
+            private static readonly HashSet<string> ExcludedAssemblies = new HashSet<string>
+                                                                             {
+                                                                                 "mscorlib",
+                                                                                 "Microsoft.VisualStudio.DesignTools.DesignerContract",
+                                                                                 "XDesProc",
+                                                                                 "System",
+                                                                                 "System.Core",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Utility",
+                                                                                 "System.Runtime.Remoting",
+                                                                                 "System.Configuration",
+                                                                                 "System.Xml",
+                                                                                 "System.Web",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Designer",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Platform",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Markup",
+                                                                                 "Microsoft.VisualStudio.Telemetry",
+                                                                                 "Microsoft.VisualStudio.Utilities.Internal",
+                                                                                 "System.Runtime.Serialization",
+                                                                                 "SMDiagnostics",
+                                                                                 "System.ServiceModel.Internals",
+                                                                                 "Microsoft.VisualStudio.RemoteControl",
+                                                                                 "Newtonsoft.Json",
+                                                                                 "Microsoft.Windows.Design.Extensibility",
+                                                                                 "System.Numerics",
+                                                                                 "System.ComponentModel.DataAnnotations",
+                                                                                 "System.Xml.Linq",
+                                                                                 "System.Data",
+                                                                                 "Microsoft.VisualStudio.DesignTools.DesignerHost",
+                                                                                 "Microsoft.VisualStudio.DesignTools.DesignerHost.resources",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Utility.resources",
+                                                                                 "System.Drawing",
+                                                                                 "PresentationFramework.Aero",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Designer.resources",
+                                                                                 "Microsoft.Windows.Design.Interaction",
+                                                                                 "Microsoft.VisualStudio.DesignTools.WpfDesigner",
+                                                                                 "Microsoft.VisualStudio.DesignTools.XamlDesigner",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Platform.resources",
+                                                                                 "Microsoft.VisualStudio.DesignTools.XamlDesigner.resources",
+                                                                             };
+            private static readonly StringBuilder ErrorBuilder = new StringBuilder();
+
             static CompatibleTypeCache()
             {
                 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+                // File.WriteAllLines(@"C:\Temp\Gu.Wpf.ValidationScope\Log.txt", assemblies.Select(x => $"\"{x.GetName().Name}\","));
                 foreach (var assembly in assemblies)
                 {
                     GetCompatibleTypes(assembly);
@@ -92,6 +137,8 @@
 
                 AppDomain.CurrentDomain.AssemblyLoad += (sender, args) => GetCompatibleTypes(args.LoadedAssembly);
             }
+
+            public static string ErrorText => ErrorBuilder.ToString();
 
             public static Type FindType(string typeName)
             {
@@ -116,14 +163,34 @@
             private static void GetCompatibleTypes(Assembly assembly)
             {
                 Debug.WriteLine(assembly.FullName);
+                if (ExcludedAssemblies.Contains(assembly.GetName().Name))
+                {
+                    return;
+                }
+
                 try
                 {
-                    Types.AddRange(assembly.ExportedTypes.Where(InputTypeCollection.IsCompatibleType));
+                    Types.AddRange(assembly.GetTypes().Where(InputTypeCollection.IsCompatibleType));
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    // http://stackoverflow.com/a/8824250/1069200
+                    foreach (Exception exSub in ex.LoaderExceptions)
+                    {
+                        ErrorBuilder.AppendLine(exSub.Message);
+                        var exFileNotFound = exSub as FileNotFoundException;
+                        if (!string.IsNullOrEmpty(exFileNotFound?.FusionLog))
+                        {
+                            ErrorBuilder.AppendLine("Fusion Log:");
+                            ErrorBuilder.AppendLine(exFileNotFound.FusionLog);
+                        }
+
+                        ErrorBuilder.AppendLine();
+                    }
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine($"Could not process assembly {assembly.FullName}. Exception: {e.Message}");
-                    throw;
+                    ErrorBuilder.AppendLine($"Could not process assembly {assembly.FullName}. Exception: {e.Message}");
                 }
             }
         }

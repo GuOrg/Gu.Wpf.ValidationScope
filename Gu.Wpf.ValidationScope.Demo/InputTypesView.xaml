@@ -29,7 +29,7 @@
             </ItemsControl.ItemsSource>
         </ItemsControl>
         <StackPanel Grid.Row="3"
-                    validationScope:Scope.ForInputTypes="TextBox, ComboBox" />
+                    validationScope:Scope.ForInputTypes="TextBox, ComboBox, InputTypesView" />
 
         <!--<StackPanel Grid.Row="3"
                     validationScope:Scope.ForInputTypes="{x:Type TextBox}" />-->
