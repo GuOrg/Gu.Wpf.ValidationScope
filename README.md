@@ -1,6 +1,9 @@
 # Gu.Wpf.ValidationScope
 
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 [![Gitter](https://badges.gitter.im/JohanLarsson/Gu.Wpf.ValidationScope.svg)](https://gitter.im/JohanLarsson/Gu.Wpf.ValidationScope?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![NuGet](https://img.shields.io/nuget/v/Gu.Wpf.ValidationScope.svg)](https://www.nuget.org/packages/Gu.Wpf.ValidationScope/)
+[![Build status](https://ci.appveyor.com/api/projects/status/omv9baijykp70dfr?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-wpf-validationscope)
 
 [nuget](https://www.nuget.org/packages/Gu.Wpf.ValidationScope)
 
