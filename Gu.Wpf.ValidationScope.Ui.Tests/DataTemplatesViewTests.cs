@@ -28,7 +28,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 textBox2.EnterSingle('b');
                 var expectedErrors = new[]
                                          {
-                                             "Value 'a' could not be converted." ,
+                                             "Value 'a' could not be converted.",
                                              "Value 'b' could not be converted."
                                          };
                 CollectionAssert.AreEqual(expectedErrors, page.GetErrors());

@@ -49,6 +49,7 @@ namespace Gu.Wpf.ValidationScope
             {
                 return this.hasErrors;
             }
+
             private set
             {
                 if (value == this.hasErrors)
@@ -110,17 +111,6 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
-        internal void RefreshErrors()
-        {
-            var allErrors = this.GetAllErrors();
-            if (this.LazyErrors.IsValueCreated)
-            {
-                this.LazyErrors.Value.Refresh(allErrors);
-            }
-
-            this.HasErrors = allErrors.Count > 0 || this.AllChildren.Any();
-        }
-
         public void Dispose()
         {
             if (this.disposed)
@@ -130,6 +120,17 @@ namespace Gu.Wpf.ValidationScope
 
             this.disposed = true;
             this.Dispose(true);
+        }
+
+        internal void RefreshErrors()
+        {
+            var allErrors = this.GetAllErrors();
+            if (this.LazyErrors.IsValueCreated)
+            {
+                this.LazyErrors.Value.Refresh(allErrors);
+            }
+
+            this.HasErrors = allErrors.Count > 0 || this.AllChildren.Any();
         }
 
         internal void RemoveChild(IErrorNode errorNode)
@@ -159,7 +160,7 @@ namespace Gu.Wpf.ValidationScope
             return true;
         }
 
-        protected internal abstract IReadOnlyList<ValidationError> GetAllErrors();
+        protected abstract IReadOnlyList<ValidationError> GetAllErrors();
 
         protected virtual void Dispose(bool disposing)
         {

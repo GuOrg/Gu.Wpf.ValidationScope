@@ -79,7 +79,7 @@ namespace Gu.Wpf.ValidationScope
             return Validation.GetErrors(source) ?? EmptyValidationErrors;
         }
 
-        protected internal override IReadOnlyList<ValidationError> GetAllErrors()
+        protected override IReadOnlyList<ValidationError> GetAllErrors()
         {
             if (this.Source == null)
             {

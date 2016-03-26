@@ -7,7 +7,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using TestStack.White.UIItems;
     using TestStack.White.UIItems.ListBoxItems;
     using TestStack.White.UIItems.TabItems;
-    using TestStack.White.WindowsAPI;
 
     public class DynamicViewTests
     {

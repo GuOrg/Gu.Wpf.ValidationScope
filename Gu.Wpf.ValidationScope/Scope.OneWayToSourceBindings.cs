@@ -1,8 +1,6 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
-    using System.Collections.ObjectModel;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Data;
 
     public static partial class Scope
@@ -19,28 +17,16 @@
             typeof(Scope),
             new PropertyMetadata(default(IErrorNode)));
 
-        public static void SetHasErrorsOneWayToSourceBinding(this UIElement element, Binding value)
-        {
-            element.SetValue(HasErrorsOneWayToSourceBindingProperty, value);
-        }
+        public static void SetHasErrorsOneWayToSourceBinding(this UIElement element, Binding value) => element.SetValue(HasErrorsOneWayToSourceBindingProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static Binding GetHasErrorsOneWayToSourceBinding(this UIElement element)
-        {
-            return (Binding)element.GetValue(HasErrorsOneWayToSourceBindingProperty);
-        }
+        public static Binding GetHasErrorsOneWayToSourceBinding(this UIElement element) => (Binding)element.GetValue(HasErrorsOneWayToSourceBindingProperty);
 
-        public static void SetErrorsOneWayToSourceBinding(this UIElement element, IErrorNode value)
-        {
-            element.SetValue(ErrorsOneWayToSourceBindingProperty, value);
-        }
+        public static void SetErrorsOneWayToSourceBinding(this UIElement element, IErrorNode value) => element.SetValue(ErrorsOneWayToSourceBindingProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static IErrorNode GetErrorsOneWayToSourceBinding(this UIElement element)
-        {
-            return (IErrorNode)element.GetValue(ErrorsOneWayToSourceBindingProperty);
-        }
+        public static IErrorNode GetErrorsOneWayToSourceBinding(this UIElement element) => (IErrorNode)element.GetValue(ErrorsOneWayToSourceBindingProperty);
     }
 }

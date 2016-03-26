@@ -1,7 +1,5 @@
 ﻿namespace Gu.Wpf.ValidationScope.Demo
 {
-    using System;
-    using System.Linq;
     using System.Windows;
 
     /// <summary>

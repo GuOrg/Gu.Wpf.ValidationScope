@@ -9,7 +9,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using TestStack.White.UIItems;
     using TestStack.White.UIItems.Finders;
     using TestStack.White.UIItems.ListBoxItems;
-    using TestStack.White.UIItems.TabItems;
 
     public static class UIItemExt
     {

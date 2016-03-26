@@ -10,7 +10,6 @@
     using System.Reflection;
     using System.Security;
     using System.Text;
-    using System.Windows;
     using System.Windows.Markup;
 
     public class InputTypeCollectionConverter : TypeConverter

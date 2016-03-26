@@ -1,9 +1,7 @@
 ﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Collections;
-    using System.Collections.Generic;
     using System.Collections.Specialized;
-    using System.ComponentModel;
     using System.Linq;
 
     public class NotifyCollectionChangedEventArgsComparer : GenericComparer<NotifyCollectionChangedEventArgs>

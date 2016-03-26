@@ -2,7 +2,6 @@
 {
     using System;
     using System.Windows;
-    using System.Windows.Data;
 
     public static partial class Scope
     {
@@ -35,41 +34,23 @@
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
-        public static void SetForInputTypes(this UIElement element, InputTypeCollection value)
-        {
-            element.SetValue(ForInputTypesProperty, value);
-        }
+        public static void SetForInputTypes(this UIElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static InputTypeCollection GetForInputTypes(DependencyObject element)
-        {
-            return (InputTypeCollection)element.GetValue(ForInputTypesProperty);
-        }
+        public static InputTypeCollection GetForInputTypes(DependencyObject element) => (InputTypeCollection)element.GetValue(ForInputTypesProperty);
 
-        internal static void SetHasErrors(DependencyObject element, bool value)
-        {
-            element.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(value));
-        }
+        internal static void SetHasErrors(DependencyObject element, bool value) => element.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(value));
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static bool GetHasErrors(UIElement element)
-        {
-            return (bool)element.GetValue(HasErrorsProperty);
-        }
+        public static bool GetHasErrors(UIElement element) => (bool)element.GetValue(HasErrorsProperty);
 
-        internal static void SetErrors(DependencyObject element, IErrorNode value)
-        {
-            element.SetValue(ErrorsPropertyKey, value);
-        }
+        internal static void SetErrors(DependencyObject element, IErrorNode value) => element.SetValue(ErrorsPropertyKey, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static IErrorNode GetErrors(DependencyObject element)
-        {
-            return (IErrorNode)element.GetValue(ErrorsProperty);
-        }
+        public static IErrorNode GetErrors(DependencyObject element) => (IErrorNode)element.GetValue(ErrorsProperty);
 
         private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

@@ -30,6 +30,18 @@
             this.AddRange(types);
         }
 
+        public static bool IsCompatibleType(Type type)
+        {
+            if (type == null)
+            {
+                return false;
+            }
+
+            return type == typeof(Scope) ||
+                   typeof(UIElement).IsAssignableFrom(type) ||
+                   typeof(ContentElement).IsAssignableFrom(type);
+        }
+
         public bool IsInputType(DependencyObject dependencyObject)
         {
             if (dependencyObject == null)
@@ -46,18 +58,6 @@
             {
                 this.Add(type);
             }
-        }
-
-        public static bool IsCompatibleType(Type type)
-        {
-            if (type == null)
-            {
-                return false;
-            }
-
-            return type == typeof(Scope) ||
-                   typeof(UIElement).IsAssignableFrom(type) ||
-                   typeof(ContentElement).IsAssignableFrom(type);
         }
 
         protected override void InsertItem(int index, Type item)

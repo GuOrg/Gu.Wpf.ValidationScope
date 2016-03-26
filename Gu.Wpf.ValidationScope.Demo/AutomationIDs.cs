@@ -31,7 +31,7 @@
         public static readonly string NoScope = Create();
         public static readonly string ViewErrorsGroupBox = Create();
         public static readonly string BoundErrorsGroupBox = Create();
-        
+
         public static readonly string TextBox1 = Create();
         public static readonly string TextBox2 = Create();
         public static readonly string ComboBox1 = Create();
@@ -40,10 +40,9 @@
         public static readonly string DataGrid = Create();
         public static readonly string LoseFocusButton = Create();
         public static readonly string ChildCountTextBlock = Create();
-        
+
         public static readonly string ErrorList = Create();
         public static readonly string ErrorText = Create();
-
 
         public static void SetTextBoxId(this UIElement element, string value)
         {

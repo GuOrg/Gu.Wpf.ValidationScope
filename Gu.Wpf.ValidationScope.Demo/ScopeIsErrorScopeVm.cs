@@ -47,8 +47,8 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public IEnumerable GetErrors(string propertyName)
         {
-            return this.hasErrors && propertyName == nameof(this.HasErrors) 
-                ? new[] { "INotifyDataErrorInfo error" } 
+            return this.hasErrors && propertyName == nameof(this.HasErrors)
+                ? new[] { "INotifyDataErrorInfo error" }
                 : Enumerable.Empty<string>();
         }
 
