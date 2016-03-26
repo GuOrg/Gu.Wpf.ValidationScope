@@ -5,8 +5,6 @@
 [![NuGet](https://img.shields.io/nuget/v/Gu.Wpf.ValidationScope.svg)](https://www.nuget.org/packages/Gu.Wpf.ValidationScope/)
 [![Build status](https://ci.appveyor.com/api/projects/status/omv9baijykp70dfr?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-wpf-validationscope)
 
-[nuget](https://www.nuget.org/packages/Gu.Wpf.ValidationScope)
-
 ## Sample:
 ```
 <Grid>
