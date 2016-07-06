@@ -158,7 +158,7 @@
                         : Types.Where(x => x.Name == typeName);
                     foreach (var type in matches)
                     {
-                        errorBuilder.AppendLine($"  - {type.FullName}");
+                        errorBuilder.AppendLine($"  - {type.FullName} in assembly: {type.Assembly.FullName}");
                     }
 
                     if (!IsFullName(typeName))
