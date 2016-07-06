@@ -30,7 +30,7 @@ using System.Windows.Markup;
 
 //// [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
-[assembly:ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
+[assembly:ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.None)]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -42,8 +42,8 @@ using System.Windows.Markup;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.4.2")]
-[assembly: AssemblyFileVersion("0.1.4.2")]
+[assembly: AssemblyVersion("0.1.5.0")]
+[assembly: AssemblyFileVersion("0.1.5.0")]
 [assembly:InternalsVisibleTo("Gu.Wpf.ValidationScope.Tests")]
 
 [assembly: XmlnsDefinition("http://gu.se/ValidationScope", "Gu.Wpf.ValidationScope")]

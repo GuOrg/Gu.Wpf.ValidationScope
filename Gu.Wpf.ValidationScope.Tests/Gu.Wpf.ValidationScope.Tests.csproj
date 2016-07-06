@@ -60,6 +60,7 @@
     <Compile Include="Helpers\TestValidationRule.cs" />
     <Compile Include="ErrorCollection\ErrorCollectionTests.cs" />
     <Compile Include="ErrorCollection\ObservableBatchCollectionTests.cs" />
+    <Compile Include="InputTypes\InputTypeCollectionConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScopeTests.TextBox.cs" />
     <Compile Include="Helpers\TestHelpers.cs" />

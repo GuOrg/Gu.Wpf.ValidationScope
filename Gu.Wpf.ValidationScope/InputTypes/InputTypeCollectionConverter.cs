@@ -10,6 +10,7 @@
     using System.Reflection;
     using System.Security;
     using System.Text;
+    using System.Windows.Controls;
     using System.Windows.Markup;
 
     public class InputTypeCollectionConverter : TypeConverter
@@ -81,7 +82,7 @@
 
         private static class CompatibleTypeCache
         {
-            private static readonly List<Type> Types = new List<Type>();
+            private static readonly HashSet<Type> Types = new HashSet<Type>();
 
             private static readonly HashSet<string> ExcludedAssemblies = new HashSet<string>
                                                                              {
@@ -144,11 +145,28 @@
                 Type match;
                 try
                 {
-                    match = Types.SingleOrDefault(x => x.Name == typeName);
+                    match = IsFullName(typeName)
+                        ? Types.SingleOrDefault(x => x.FullName == typeName)
+                        : Types.SingleOrDefault(x => x.Name == typeName);
                 }
                 catch (Exception)
                 {
-                    throw new InvalidOperationException($"Found more than one match for {typeName}");
+                    var errorBuilder = new StringBuilder();
+                    errorBuilder.AppendLine($"Found more than one match for {typeName}");
+                    var matches = IsFullName(typeName)
+                        ? Types.Where(x => x.FullName == typeName)
+                        : Types.Where(x => x.Name == typeName);
+                    foreach (var type in matches)
+                    {
+                        errorBuilder.AppendLine($"  - {type.FullName}");
+                    }
+
+                    if (!IsFullName(typeName))
+                    {
+                        errorBuilder.AppendLine($"Try specifying full name: {typeof(TextBox).FullName}");
+                    }
+
+                    throw new InvalidOperationException(errorBuilder.ToString());
                 }
 
                 if (match == null)
@@ -157,6 +175,11 @@
                 }
 
                 return match;
+            }
+
+            private static bool IsFullName(string typeName)
+            {
+                return typeName.Contains('.');
             }
 
             private static void GetCompatibleTypes(Assembly assembly)
@@ -169,7 +192,7 @@
 
                 try
                 {
-                    Types.AddRange(assembly.GetTypes().Where(InputTypeCollection.IsCompatibleType));
+                    Types.UnionWith(assembly.GetTypes().Where(InputTypeCollection.IsCompatibleType));
                 }
                 catch (ReflectionTypeLoadException ex)
                 {
