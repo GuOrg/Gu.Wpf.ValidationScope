@@ -7,11 +7,11 @@
 
     public class InputTypeCollectionConverterTests
     {
-        private IReadOnlyList<HappyPathData> HappyPathSource { get; } = new HappyPathData[]
+        private IReadOnlyList<HappyPathData> HappyPathSource { get; } = new[]
         {
-            new HappyPathData(typeof(TextBox).Name, new[] {typeof(TextBox)}),
-            new HappyPathData("TextBox ComboBox", new[] {typeof(TextBox), typeof(ComboBox)}),
-            new HappyPathData(typeof(TextBox).FullName, new[] {typeof(TextBox)}),
+            new HappyPathData(typeof(TextBox).Name, new[] { typeof(TextBox) }),
+            new HappyPathData("TextBox ComboBox", new[] { typeof(TextBox), typeof(ComboBox) }),
+            new HappyPathData(typeof(TextBox).FullName, new[] { typeof(TextBox) }),
         };
 
         [TestCaseSource(nameof(HappyPathSource))]

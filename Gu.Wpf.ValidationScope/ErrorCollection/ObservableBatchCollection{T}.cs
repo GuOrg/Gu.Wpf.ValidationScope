@@ -226,23 +226,19 @@ namespace Gu.Wpf.ValidationScope
                         return null;
                     }
 
-                    if (c1.Action == NotifyCollectionChangedAction.Remove &&
-                        c2.Action == NotifyCollectionChangedAction.Add)
-                    {
-                        return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, c2.Item, c1.Item, c1.Index);
-                    }
-                    else if (c1.Action == NotifyCollectionChangedAction.Add &&
-                             c2.Action == NotifyCollectionChangedAction.Remove)
+                    if (IsAddAndRemove(c1.Action, c2.Action))
                     {
                         return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, c1.Item, c2.Item, c1.Index);
+                    }
+
+                    if (IsAddAndRemove(c2.Action, c1.Action))
+                    {
+                        return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, c2.Item, c1.Item, c1.Index);
                     }
                 }
 
                 if (Equals(c1.Item, c2.Item) &&
-                    (c1.Action == NotifyCollectionChangedAction.Add &&
-                     c2.Action == NotifyCollectionChangedAction.Remove) ||
-                    (c1.Action == NotifyCollectionChangedAction.Remove &&
-                     c2.Action == NotifyCollectionChangedAction.Add))
+                    (IsAddAndRemove(c1.Action, c2.Action) || IsAddAndRemove(c2.Action, c1.Action)))
                 {
                     var oldIndex = c1.Action == NotifyCollectionChangedAction.Remove ? c1.Index : c2.Index;
                     var newIndex = c1.Action == NotifyCollectionChangedAction.Add ? c1.Index : c2.Index;
@@ -251,6 +247,11 @@ namespace Gu.Wpf.ValidationScope
             }
 
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+        }
+
+        private static bool IsAddAndRemove(NotifyCollectionChangedAction first, NotifyCollectionChangedAction other)
+        {
+            return first == NotifyCollectionChangedAction.Add && other == NotifyCollectionChangedAction.Remove;
         }
 
         private class BatchChange : Collection<BatchChangeItem<T>>, IDisposable

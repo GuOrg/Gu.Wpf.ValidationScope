@@ -32,8 +32,6 @@
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
-#pragma warning restore SA1202 // Elements must be ordered by access
-
         public static void SetForInputTypes(this UIElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
@@ -51,6 +49,8 @@
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static IErrorNode GetErrors(DependencyObject element) => (IErrorNode)element.GetValue(ErrorsProperty);
+
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

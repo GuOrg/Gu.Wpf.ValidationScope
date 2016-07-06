@@ -17,6 +17,7 @@ namespace Gu.Wpf.ValidationScope
 
         public InputTypeCollection Types { get; set; } = new InputTypeCollection();
 
+        /// <inheritdoc />
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             return this.Types;

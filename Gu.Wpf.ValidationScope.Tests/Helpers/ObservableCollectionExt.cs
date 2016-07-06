@@ -26,15 +26,15 @@
                 source.CollectionChanged += this.Add;
             }
 
+            public void Dispose()
+            {
+                this.source.PropertyChanged -= this.Add;
+                this.source.CollectionChanged -= this.Add;
+            }
+
             private void Add(object sender, NotifyCollectionChangedEventArgs e)
             {
                 this.Add(e);
-            }
-
-            public void Dispose()
-            {
-                this.source.PropertyChanged += this.Add;
-                this.source.CollectionChanged += this.Add;
             }
 
             private void Add(object sender, PropertyChangedEventArgs e)

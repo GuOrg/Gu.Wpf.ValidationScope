@@ -9,14 +9,14 @@
         internal static readonly ImmutableList<T> Empty = new ImmutableList<T>();
         private readonly T[] data;
 
-        private ImmutableList()
-        {
-            this.data = new T[0];
-        }
-
         public ImmutableList(T[] data)
         {
             this.data = data;
+        }
+
+        private ImmutableList()
+        {
+            this.data = new T[0];
         }
 
         public int Count => this.data.Length;

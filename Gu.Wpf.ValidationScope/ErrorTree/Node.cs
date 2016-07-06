@@ -83,12 +83,6 @@ namespace Gu.Wpf.ValidationScope
 
         public abstract DependencyObject Source { get; }
 
-        ValidationError IReadOnlyList<ValidationError>.this[int index] => this.Errors[index];
-
-        IEnumerator<ValidationError> IEnumerable<ValidationError>.GetEnumerator() => this.Errors.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => this.Errors.GetEnumerator();
-
         internal Lazy<ErrorCollection> LazyErrors { get; } = new Lazy<ErrorCollection>(() => new ErrorCollection());
 
         internal IEnumerable<Node> AllChildren
@@ -110,6 +104,12 @@ namespace Gu.Wpf.ValidationScope
                 }
             }
         }
+
+        ValidationError IReadOnlyList<ValidationError>.this[int index] => this.Errors[index];
+
+        IEnumerator<ValidationError> IEnumerable<ValidationError>.GetEnumerator() => this.Errors.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => this.Errors.GetEnumerator();
 
         public void Dispose()
         {
