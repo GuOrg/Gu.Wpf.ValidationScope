@@ -6,7 +6,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/omv9baijykp70dfr?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-wpf-validationscope)
 
 ## Sample:
-```
+```xaml
 <Grid>
     <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
@@ -65,7 +65,7 @@ Renders:
 ![ItemsSource2D render](http://i.imgur.com/EkuWA9c.gif)
 
 ##### Defining a ValidationScope
-```
+```xaml
 <Border validationScope:Scope.ForInputTypes="TextBox, Slider">
     <StackPanel>
         <!--The stackpanel will inherit the scope-->
@@ -93,7 +93,7 @@ And should be enough for most scenarios when you don't have third party controls
 Exposed for convenience to create list of types in xaml.
 
 ##### If you need to bind HasErrors to DataContext there is a hack exposed:
-```
+```xaml
 <Grid x:Name="Form"
         validationScope:Scope.ErrorsOneWayToSourceBinding="{Binding Errors,
                                                                     Mode=OneWayToSource}"
