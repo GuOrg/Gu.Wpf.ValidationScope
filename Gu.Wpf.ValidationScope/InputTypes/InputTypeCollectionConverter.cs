@@ -11,6 +11,7 @@
     using System.Security;
     using System.Text;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Markup;
 
     public class InputTypeCollectionConverter : TypeConverter
@@ -82,7 +83,10 @@
 
         private static class CompatibleTypeCache
         {
+            private static readonly object Gate = new object();
             private static readonly HashSet<Type> Types = new HashSet<Type>();
+
+            private static readonly List<Type> KnownInputTypes = InputTypeCollection.Default.ToList();
 
             private static readonly HashSet<string> ExcludedAssemblies = new HashSet<string>
                                                                              {
@@ -130,10 +134,10 @@
             {
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    GetCompatibleTypes(assembly);
+                    AddCompatibleTypes(assembly);
                 }
 
-                AppDomain.CurrentDomain.AssemblyLoad += (sender, args) => GetCompatibleTypes(args.LoadedAssembly);
+                AppDomain.CurrentDomain.AssemblyLoad += (sender, args) => AddCompatibleTypes(args.LoadedAssembly);
             }
 
             public static string ErrorText => ErrorBuilder.ToString();
@@ -143,20 +147,28 @@
                 Type match;
                 try
                 {
-                    match = IsFullName(typeName)
-                        ? Types.SingleOrDefault(x => x.FullName == typeName)
-                        : Types.SingleOrDefault(x => x.Name == typeName);
+                    lock (Gate)
+                    {
+                        match = KnownInputTypes.SingleOrDefault(t => IsMatch(t, typeName));
+                        if (match != null)
+                        {
+                            return match;
+                        }
+
+                        match = Types.SingleOrDefault(t => IsMatch(t, typeName));
+                    }
                 }
                 catch (Exception)
                 {
                     var errorBuilder = new StringBuilder();
                     errorBuilder.AppendLine($"Found more than one match for {typeName}");
-                    var matches = IsFullName(typeName)
-                        ? Types.Where(x => x.FullName == typeName)
-                        : Types.Where(x => x.Name == typeName);
-                    foreach (var type in matches)
+                    lock (Gate)
                     {
-                        errorBuilder.AppendLine($"  - {type.FullName} in assembly: {type.Assembly.FullName}");
+                        var matches = Types.Where(t => IsMatch(t, typeName));
+                        foreach (var type in matches)
+                        {
+                            errorBuilder.AppendLine($"  - {type.FullName} in assembly: {type.Assembly.FullName}");
+                        }
                     }
 
                     if (!IsFullName(typeName))
@@ -175,12 +187,17 @@
                 return match;
             }
 
+            private static bool IsMatch(Type type, string name)
+            {
+                return type.Name == name || type.FullName == name;
+            }
+
             private static bool IsFullName(string typeName)
             {
                 return typeName.Contains('.');
             }
 
-            private static void GetCompatibleTypes(Assembly assembly)
+            private static void AddCompatibleTypes(Assembly assembly)
             {
                 Debug.WriteLine(assembly.FullName);
                 if (ExcludedAssemblies.Contains(assembly.GetName().Name))
@@ -190,7 +207,26 @@
 
                 try
                 {
-                    Types.UnionWith(assembly.GetTypes().Where(InputTypeCollection.IsCompatibleType));
+                    lock (Gate)
+                    {
+                        foreach (var compatibleType in assembly.GetTypes().Where(InputTypeCollection.IsCompatibleType))
+                        {
+                            if (!Types.Add(compatibleType))
+                            {
+                                Trace.WriteLine($"Type {compatibleType.FullName} was already added");
+                            }
+
+                            if (KnownInputTypes.Contains(compatibleType))
+                            {
+                                continue;
+                            }
+
+                            if (KnownInputTypes.Any(t => t.IsAssignableFrom(compatibleType)))
+                            {
+                                KnownInputTypes.Add(compatibleType);
+                            }
+                        }
+                    }
                 }
                 catch (ReflectionTypeLoadException ex)
                 {
@@ -209,7 +245,9 @@
                 }
                 catch (Exception e)
                 {
-                    ErrorBuilder.AppendLine($"Could not process assembly {assembly.FullName}. Exception: {e.Message}");
+                    var message = $"Could not process assembly {assembly.FullName}. Exception: {e.Message}";
+                    Trace.WriteLine(message);
+                    ErrorBuilder.AppendLine(message);
                 }
             }
         }
