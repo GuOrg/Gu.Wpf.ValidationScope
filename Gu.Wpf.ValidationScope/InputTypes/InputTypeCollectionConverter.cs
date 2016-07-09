@@ -86,51 +86,49 @@
 
             private static readonly HashSet<string> ExcludedAssemblies = new HashSet<string>
                                                                              {
-                                                                                 "mscorlib",
-                                                                                 "Microsoft.VisualStudio.DesignTools.DesignerContract",
-                                                                                 "XDesProc",
-                                                                                 "System",
-                                                                                 "System.Core",
-                                                                                 "Microsoft.VisualStudio.DesignTools.Utility",
-                                                                                 "System.Runtime.Remoting",
-                                                                                 "System.Configuration",
-                                                                                 "System.Xml",
-                                                                                 "System.Web",
-                                                                                 "Microsoft.VisualStudio.DesignTools.Designer",
-                                                                                 "Microsoft.VisualStudio.DesignTools.Platform",
-                                                                                 "Microsoft.VisualStudio.DesignTools.Markup",
-                                                                                 "Microsoft.VisualStudio.Telemetry",
-                                                                                 "Microsoft.VisualStudio.Utilities.Internal",
-                                                                                 "System.Runtime.Serialization",
-                                                                                 "SMDiagnostics",
-                                                                                 "System.ServiceModel.Internals",
-                                                                                 "Microsoft.VisualStudio.RemoteControl",
-                                                                                 "Newtonsoft.Json",
                                                                                  "Microsoft.Windows.Design.Extensibility",
-                                                                                 "System.Numerics",
-                                                                                 "System.ComponentModel.DataAnnotations",
-                                                                                 "System.Xml.Linq",
-                                                                                 "System.Data",
+                                                                                 "Microsoft.Windows.Design.Interaction",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Designer",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Designer.resources",
+                                                                                 "Microsoft.VisualStudio.DesignTools.DesignerContract",
                                                                                  "Microsoft.VisualStudio.DesignTools.DesignerHost",
                                                                                  "Microsoft.VisualStudio.DesignTools.DesignerHost.resources",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Markup",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Platform",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Platform.resources",
+                                                                                 "Microsoft.VisualStudio.DesignTools.Utility",
                                                                                  "Microsoft.VisualStudio.DesignTools.Utility.resources",
-                                                                                 "System.Drawing",
-                                                                                 "PresentationFramework.Aero",
-                                                                                 "Microsoft.VisualStudio.DesignTools.Designer.resources",
-                                                                                 "Microsoft.Windows.Design.Interaction",
                                                                                  "Microsoft.VisualStudio.DesignTools.WpfDesigner",
                                                                                  "Microsoft.VisualStudio.DesignTools.XamlDesigner",
-                                                                                 "Microsoft.VisualStudio.DesignTools.Platform.resources",
                                                                                  "Microsoft.VisualStudio.DesignTools.XamlDesigner.resources",
+                                                                                 "Microsoft.VisualStudio.RemoteControl",
+                                                                                 "Microsoft.VisualStudio.Telemetry",
+                                                                                 "Microsoft.VisualStudio.Utilities.Internal",
+                                                                                 "mscorlib",
+                                                                                 "Newtonsoft.Json",
+                                                                                 "PresentationFramework.Aero",
+                                                                                 "SMDiagnostics",
+                                                                                 "System",
+                                                                                 "System.ComponentModel.DataAnnotations",
+                                                                                 "System.Configuration",
+                                                                                 "System.Core",
+                                                                                 "System.Data",
+                                                                                 "System.Drawing",
+                                                                                 "System.Numerics",
+                                                                                 "System.Runtime.Remoting",
+                                                                                 "System.Runtime.Serialization",
+                                                                                 "System.ServiceModel.Internals",
+                                                                                 "System.Web",
+                                                                                 "System.Xml",
+                                                                                 "System.Xml.Linq",
+                                                                                 "XDesProc",
                                                                              };
+
             private static readonly StringBuilder ErrorBuilder = new StringBuilder();
 
             static CompatibleTypeCache()
             {
-                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-                // File.WriteAllLines(@"C:\Temp\Gu.Wpf.ValidationScope\Log.txt", assemblies.Select(x => $"\"{x.GetName().Name}\","));
-                foreach (var assembly in assemblies)
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
                     GetCompatibleTypes(assembly);
                 }
