@@ -11,7 +11,6 @@
     using System.Security;
     using System.Text;
     using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
     using System.Windows.Markup;
 
     public class InputTypeCollectionConverter : TypeConverter
@@ -90,6 +89,11 @@
 
             private static readonly HashSet<string> ExcludedAssemblies = new HashSet<string>
                                                                              {
+                                                                                 "Castle.Core",
+                                                                                 "JetBrains.ReSharper.TaskRunnerFramework",
+                                                                                 "JetBrains.ReSharper.UnitTestRunner.nUnit",
+                                                                                 "JetBrains.ReSharper.UnitTestRunner.nUnit30",
+                                                                                 "Mono.Cecil",
                                                                                  "Microsoft.Windows.Design.Extensibility",
                                                                                  "Microsoft.Windows.Design.Interaction",
                                                                                  "Microsoft.VisualStudio.DesignTools.Designer",
@@ -110,6 +114,9 @@
                                                                                  "Microsoft.VisualStudio.Utilities.Internal",
                                                                                  "mscorlib",
                                                                                  "Newtonsoft.Json",
+                                                                                 "nunit.engine",
+                                                                                 "nunit.engine.api",
+                                                                                 "nunit.framework",
                                                                                  "PresentationFramework.Aero",
                                                                                  "SMDiagnostics",
                                                                                  "System",
@@ -125,6 +132,12 @@
                                                                                  "System.Web",
                                                                                  "System.Xml",
                                                                                  "System.Xml.Linq",
+                                                                                 "System.Security",
+                                                                                 "System.Windows.Forms",
+                                                                                 "TestStack.White",
+                                                                                 "UIAutomationClient",
+                                                                                 "UIAutomationProvider",
+                                                                                 "UIAutomationTypes",
                                                                                  "XDesProc",
                                                                              };
 
@@ -149,7 +162,7 @@
                 {
                     lock (Gate)
                     {
-                        match = KnownInputTypes.SingleOrDefault(t => IsMatch(t, typeName));
+                        match = KnownInputTypes.Find(t => IsMatch(t, typeName));
                         if (match != null)
                         {
                             return match;
@@ -211,19 +224,21 @@
                     {
                         foreach (var compatibleType in assembly.GetTypes().Where(InputTypeCollection.IsCompatibleType))
                         {
-                            if (!Types.Add(compatibleType))
+                            if (Types.Add(compatibleType))
+                            {
+                                if (KnownInputTypes.Contains(compatibleType))
+                                {
+                                    continue;
+                                }
+
+                                if (KnownInputTypes.Any(t => t.IsAssignableFrom(compatibleType)))
+                                {
+                                    KnownInputTypes.Add(compatibleType);
+                                }
+                            }
+                            else
                             {
                                 Trace.WriteLine($"Type {compatibleType.FullName} was already added");
-                            }
-
-                            if (KnownInputTypes.Contains(compatibleType))
-                            {
-                                continue;
-                            }
-
-                            if (KnownInputTypes.Any(t => t.IsAssignableFrom(compatibleType)))
-                            {
-                                KnownInputTypes.Add(compatibleType);
                             }
                         }
                     }

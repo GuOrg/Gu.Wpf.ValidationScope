@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="ComplicatedScopeViewTests.cs" />
     <Compile Include="DataTemplatesViewTests.cs" />
+    <Compile Include="Helpers\DumpAppDomain.cs" />
     <Compile Include="NotifyDataErrorInfoViewTests.cs" />
     <Compile Include="OneWayToSourceBindingsViewTests.cs" />
     <Compile Include="ParentChildScopesViewTests.cs" />
