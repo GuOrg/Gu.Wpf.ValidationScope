@@ -39,6 +39,7 @@
 
         private static HashSet<string> ExcludedAssemblies()
         {
+            // ReSharper disable once PossibleNullReferenceException
             var hashSet = (HashSet<string>)typeof(InputTypeCollectionConverter).GetNestedType("CompatibleTypeCache", BindingFlags.Static | BindingFlags.NonPublic)
                                                                                .GetField("ExcludedAssemblies", BindingFlags.Static | BindingFlags.NonPublic)
                                                                                .GetValue(null);
