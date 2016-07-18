@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Threading;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
 
@@ -11,7 +12,7 @@
 
     using NUnit.Framework;
 
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     public partial class ScopeTests
     {
         [Test]

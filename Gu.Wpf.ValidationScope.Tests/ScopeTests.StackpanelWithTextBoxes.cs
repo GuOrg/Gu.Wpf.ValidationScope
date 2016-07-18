@@ -1,5 +1,6 @@
 ﻿namespace Gu.Wpf.ValidationScope.Tests
 {
+    using System.Threading;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
 
@@ -7,7 +8,7 @@
 
     public partial class ScopeTests
     {
-        [RequiresSTA]
+        [Apartment(ApartmentState.STA)]
         public class StackpanelWithTextBoxes
         {
             [Test]
