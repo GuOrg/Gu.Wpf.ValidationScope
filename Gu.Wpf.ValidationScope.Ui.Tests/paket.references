@@ -1,3 +1,4 @@
 JetBrains.Annotations
-NUnit
-TestStack.White
+group Test
+  NUnit
+  TestStack.White

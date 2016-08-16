@@ -1,2 +1,4 @@
 JetBrains.Annotations
-NUnit
+
+group Test
+  NUnit
