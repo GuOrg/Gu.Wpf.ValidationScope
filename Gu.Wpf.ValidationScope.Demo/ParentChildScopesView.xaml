@@ -19,7 +19,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
-                BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                BorderBrush="{Binding Path=(validationScope:Scope.HasError),
                                       Converter={local:BoolToBrushConverter},
                                       RelativeSource={RelativeSource Self}}"
                 BorderThickness="1"

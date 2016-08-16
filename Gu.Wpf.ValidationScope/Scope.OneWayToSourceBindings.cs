@@ -5,8 +5,8 @@
 
     public static partial class Scope
     {
-        public static readonly DependencyProperty HasErrorsOneWayToSourceBindingProperty = DependencyProperty.RegisterAttached(
-            "HasErrorsOneWayToSourceBinding",
+        public static readonly DependencyProperty HasErrorOneWayToSourceBindingProperty = DependencyProperty.RegisterAttached(
+            "HasErrorOneWayToSourceBinding",
             typeof(bool),
             typeof(Scope),
             new PropertyMetadata(BooleanBoxes.False));
@@ -17,11 +17,11 @@
             typeof(Scope),
             new PropertyMetadata(default(IErrorNode)));
 
-        public static void SetHasErrorsOneWayToSourceBinding(this UIElement element, Binding value) => element.SetValue(HasErrorsOneWayToSourceBindingProperty, value);
+        public static void SetHasErrorOneWayToSourceBinding(this UIElement element, Binding value) => element.SetValue(HasErrorOneWayToSourceBindingProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static Binding GetHasErrorsOneWayToSourceBinding(this UIElement element) => (Binding)element.GetValue(HasErrorsOneWayToSourceBindingProperty);
+        public static Binding GetHasErrorOneWayToSourceBinding(this UIElement element) => (Binding)element.GetValue(HasErrorOneWayToSourceBindingProperty);
 
         public static void SetErrorsOneWayToSourceBinding(this UIElement element, IErrorNode value) => element.SetValue(ErrorsOneWayToSourceBindingProperty, value);
 

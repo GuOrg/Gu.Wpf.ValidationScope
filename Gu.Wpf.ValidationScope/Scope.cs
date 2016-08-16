@@ -2,10 +2,18 @@
 {
     using System;
     using System.Windows;
+    using System.Windows.Controls;
 
     public static partial class Scope
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
+
+        /// <summary>The error event is raised even if the bindings does not notify.</summary>
+        public static readonly RoutedEvent ErrorEvent = EventManager.RegisterRoutedEvent(
+            "ValidationError",
+            RoutingStrategy.Bubble,
+            typeof(EventHandler<ValidationErrorEventArgs>),
+            typeof(Scope));
 
         public static readonly DependencyProperty ForInputTypesProperty = DependencyProperty.RegisterAttached(
             "ForInputTypes",
@@ -16,13 +24,13 @@
                 FrameworkPropertyMetadataOptions.Inherits,
                 OnScopeForChanged));
 
-        private static readonly DependencyPropertyKey HasErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
-            "HasErrors",
+        private static readonly DependencyPropertyKey HasErrorPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
+            "HasError",
             typeof(bool),
             typeof(Scope),
-            new PropertyMetadata(BooleanBoxes.False, OnHasErrorsChanged));
+            new PropertyMetadata(BooleanBoxes.False, OnHasErrorChanged));
 
-        public static readonly DependencyProperty HasErrorsProperty = HasErrorsPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty HasErrorProperty = HasErrorPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey ErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "Errors",
@@ -32,17 +40,39 @@
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
+        /// <summary>
+        ///     Adds a handler for the ValidationError attached event
+        /// </summary>
+        /// <param name="element">UIElement or ContentElement that listens to this event</param>
+        /// <param name="handler">Event Handler to be added</param>
+        public static void AddErrorHandler(DependencyObject element, EventHandler<ValidationErrorEventArgs> handler)
+        {
+            (element as UIElement)?.AddHandler(ErrorEvent, handler);
+            (element as ContentElement)?.AddHandler(ErrorEvent, handler);
+        }
+
+        /// <summary>
+        ///     Removes a handler for the ValidationError attached event
+        /// </summary>
+        /// <param name="element">UIElement or ContentElement that listens to this event</param>
+        /// <param name="handler">Event Handler to be removed</param>
+        public static void RemoveErrorHandler(DependencyObject element, EventHandler<ValidationErrorEventArgs> handler)
+        {
+            (element as UIElement)?.RemoveHandler(ErrorEvent, handler);
+            (element as ContentElement)?.RemoveHandler(ErrorEvent, handler);
+        }
+
         public static void SetForInputTypes(this UIElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static InputTypeCollection GetForInputTypes(DependencyObject element) => (InputTypeCollection)element.GetValue(ForInputTypesProperty);
 
-        internal static void SetHasErrors(DependencyObject element, bool value) => element.SetValue(HasErrorsPropertyKey, BooleanBoxes.Box(value));
+        internal static void SetHasErrors(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static bool GetHasErrors(UIElement element) => (bool)element.GetValue(HasErrorsProperty);
+        public static bool GetHasError(UIElement element) => (bool)element.GetValue(HasErrorProperty);
 
         internal static void SetErrors(DependencyObject element, IErrorNode value) => element.SetValue(ErrorsPropertyKey, value);
 
@@ -75,9 +105,9 @@
             d.SetCurrentValue(ErrorsOneWayToSourceBindingProperty, e.NewValue);
         }
 
-        private static void OnHasErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetCurrentValue(HasErrorsOneWayToSourceBindingProperty, e.NewValue);
+            d.SetCurrentValue(HasErrorOneWayToSourceBindingProperty, e.NewValue);
         }
     }
 }

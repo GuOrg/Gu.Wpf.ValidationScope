@@ -23,7 +23,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+            <Border BorderBrush="{Binding Path=(validationScope:Scope.HasError),
                                           Converter={local:BoolToBrushConverter},
                                           ElementName=Form}"
                     BorderThickness="1">
