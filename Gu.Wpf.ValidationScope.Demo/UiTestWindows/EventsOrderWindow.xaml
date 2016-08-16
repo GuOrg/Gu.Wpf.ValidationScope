@@ -19,18 +19,44 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="TextBox"
+        <TextBox x:Name="ValidationTextBox"
                  Grid.Row="0"
                  Grid.Column="0"
                  demo:ValidationEvents.Track="True"
                  Text="{Binding IntValue,
                                 UpdateSourceTrigger=PropertyChanged,
                                 NotifyOnValidationError=True}" />
+
+        <TextBox x:Name="ScopeTextBox"
+                 Grid.Row="0"
+                 Grid.Column="1"
+                 demo:ScopeEvents.Track="True"
+                 Text="{Binding IntValue,
+                                UpdateSourceTrigger=PropertyChanged,
+                                NotifyOnValidationError=True}" />
+
+        <GroupBox x:Name="ScopeGroupBox"
+                  Grid.Row="0"
+                  Grid.Column="2"
+                  demo:ScopeEvents.Track="True">
+            <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
+        </GroupBox>
+        
         <ItemsControl Grid.Row="1"
                       Grid.Column="0"
                       ItemsSource="{Binding Path=(demo:ValidationEvents.Events),
-                                            ElementName=TextBox}" />
+                                            ElementName=ValidationTextBox}" />
+        <ItemsControl Grid.Row="1"
+                      Grid.Column="1"
+                      ItemsSource="{Binding Path=(demo:ScopeEvents.Events),
+                                            ElementName=ScopeTextBox}" />
+
+        <ItemsControl Grid.Row="1"
+                      Grid.Column="2"
+                      ItemsSource="{Binding Path=(demo:ScopeEvents.Events),
+                                            ElementName=ScopeGroupBox}" />
     </Grid>
 </Window>
