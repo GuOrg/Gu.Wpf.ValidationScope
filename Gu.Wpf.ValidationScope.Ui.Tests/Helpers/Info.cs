@@ -2,6 +2,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System;
     using System.Diagnostics;
+    using System.IO;
+    using System.Reflection;
+
     using Gu.Wpf.ValidationScope.Demo;
 
     public static class Info
@@ -10,9 +13,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             get
             {
-                var assembly = typeof(MainWindow).Assembly;
-                var uri = new Uri(assembly.CodeBase, UriKind.Absolute);
-                var fileName = uri.AbsolutePath;
+                var fileName = GetExeFileName();
                 var processStartInfo = new ProcessStartInfo
                 {
                     FileName = fileName,
@@ -23,6 +24,29 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 };
                 return processStartInfo;
             }
+        }
+
+        internal static ProcessStartInfo CreateStartInfo(string args)
+        {
+            var processStartInfo = new ProcessStartInfo
+            {
+                FileName = GetExeFileName(),
+                Arguments = args,
+                UseShellExecute = false,
+                //CreateNoWindow = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            return processStartInfo;
+        }
+
+        private static string GetExeFileName()
+        {
+            var uri = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+            var directoryName = Path.GetDirectoryName(uri.LocalPath);
+            var fileName = Path.GetFileNameWithoutExtension(uri.LocalPath).Replace("Ui.Tests", "Demo");
+            var fullFileName = Path.Combine(directoryName, fileName + ".exe");
+            return fullFileName;
         }
     }
 }

@@ -17,19 +17,19 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             return (string)item.AutomationElement.GetCurrentPropertyValue(AutomationElementIdentifiers.ItemStatusProperty);
         }
 
-        public static IReadOnlyList<T> GetMultiple<T>(this UIItemContainer contaner, string automationId)
+        public static IReadOnlyList<T> GetMultiple<T>(this UIItemContainer container, string automationId)
             where T : IUIItem
         {
-            return contaner.GetMultiple(SearchCriteria.ByAutomationId(automationId))
+            return container.GetMultiple(SearchCriteria.ByAutomationId(automationId))
                            .OfType<T>()
                            .ToList();
         }
 
-        public static IReadOnlyList<string> GetErrors(this UIItemContainer page)
+        public static IReadOnlyList<string> GetErrors(this UIItemContainer container)
         {
-            return page.GetMultiple<Label>(AutomationIDs.ErrorText)
-                       .Select(x => x.Text)
-                       .ToList();
+            return container.GetMultiple<Label>(AutomationIDs.ErrorText)
+                            .Select(x => x.Text)
+                            .ToList();
         }
 
         public static void EnterSingle(this TextBox textBox, char @char)

@@ -35,8 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Xaml" />
     <Reference Include="UIAutomationClient" />
@@ -51,9 +49,10 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Compile Include="ComplicatedScopeViewTests.cs" />
+    <Compile Include="ComplicatedScopeWindowTests.cs" />
     <Compile Include="DataTemplatesViewTests.cs" />
     <Compile Include="Helpers\DumpAppDomain.cs" />
+    <Compile Include="Helpers\WindowTests.cs" />
     <Compile Include="NotifyDataErrorInfoViewTests.cs" />
     <Compile Include="OneWayToSourceBindingsViewTests.cs" />
     <Compile Include="ParentChildScopesViewTests.cs" />

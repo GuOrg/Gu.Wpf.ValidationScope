@@ -5,8 +5,6 @@
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:validationScope="http://gu.se/ValidationScope"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:ViewModel />

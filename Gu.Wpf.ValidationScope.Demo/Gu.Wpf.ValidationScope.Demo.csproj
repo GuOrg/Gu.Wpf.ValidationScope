@@ -107,6 +107,9 @@
     <Compile Include="TwoLevelScopeView.xaml.cs">
       <DependentUpon>TwoLevelScopeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiTestWindows\ComplicatedScopeWindow.xaml.cs">
+      <DependentUpon>ComplicatedScopeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel.cs" />
     <Page Include="ComplicatedScopeView.xaml">
       <SubType>Designer</SubType>
@@ -172,6 +175,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UiTestWindows\ComplicatedScopeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -207,6 +214,7 @@
       <Name>Gu.Wpf.ValidationScope</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
