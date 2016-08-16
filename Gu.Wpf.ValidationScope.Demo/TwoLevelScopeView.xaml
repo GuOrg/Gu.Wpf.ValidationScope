@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:validationScope="http://gu.se/ValidationScope"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:ViewModel />
@@ -17,11 +17,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
-                BorderBrush="{Binding Path=(validationScope:Scope.HasError),
+                BorderBrush="{Binding Path=(validation:Scope.HasError),
                                       Converter={local:BoolToBrushConverter},
                                       RelativeSource={RelativeSource Self}}"
                 BorderThickness="1"
-                validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+                validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -54,12 +54,12 @@
         <TextBlock Grid.Row="1"
                    AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
                    Foreground="Red"
-                   Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
+                   Text="{Binding Path=(validation:Scope.Errors).Children.Count,
                                   ElementName=Form,
                                   StringFormat='Children: {0}'}" />
 
         <ItemsControl Grid.Row="2"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                      ItemsSource="{Binding Path=(validation:Scope.Errors),
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type ValidationError}">

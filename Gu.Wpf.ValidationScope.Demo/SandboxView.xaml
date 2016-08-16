@@ -4,12 +4,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:validationScope="http://gu.se/ValidationScope"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:SandboxVm />
     </UserControl.DataContext>
-    <Border validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+    <Border validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
         <StackPanel>
             <!--  The stackpanel will inherit the scope  -->
             <TextBox Text="{Binding Value1}" />

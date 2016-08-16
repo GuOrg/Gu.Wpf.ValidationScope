@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:validationScope="http://gu.se/ValidationScope"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:ScopeIsErrorScopeVm />
@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasError),
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError),
                                       Converter={local:BoolToBrushConverter},
                                       ElementName=Form}"
                 BorderThickness="1">
@@ -36,7 +36,7 @@
                                         Content="{Binding HasErrors,
                                                           ValidatesOnNotifyDataErrors=True}"
                                         Header="Header"
-                                        validationScope:Scope.ForInputTypes="HeaderedContentControl, TextBox">
+                                        validation:Scope.ForInputTypes="HeaderedContentControl, TextBox">
                     <HeaderedContentControl.Template>
                         <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
                             <Grid>
@@ -66,13 +66,13 @@
         <TextBlock Grid.Row="1"
                    AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
                    Foreground="Red"
-                   Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
+                   Text="{Binding Path=(validation:Scope.Errors).Children.Count,
                                   ElementName=Form,
                                   StringFormat='Children: {0}'}" />
         
         <ItemsControl Grid.Row="2"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                      ItemsSource="{Binding Path=(validation:Scope.Errors),
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type ValidationError}">

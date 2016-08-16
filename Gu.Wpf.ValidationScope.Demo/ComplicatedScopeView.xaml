@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:validationScope="http://gu.se/ValidationScope"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:ViewModel />
@@ -16,15 +16,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
-                BorderBrush="{Binding Path=(validationScope:Scope.HasError),
+                BorderBrush="{Binding Path=(validation:Scope.HasError),
                                       Converter={local:BoolToBrushConverter},
                                       RelativeSource={RelativeSource Self}}"
                 BorderThickness="1"
-                validationScope:Scope.ForInputTypes="{validationScope:DefaultInputTypes}">
+                validation:Scope.ForInputTypes="{validation:DefaultInputTypes}">
             <StackPanel>
                 <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBoxScope}"
                           Header="TextBoxScope">
-                    <Grid validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type TextBox}}">
+                    <Grid validation:Scope.ForInputTypes="{validation:InputTypes {x:Type TextBox}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -66,7 +66,7 @@
 
                 <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComboBoxScope}"
                           Header="ComboBoxScope">
-                    <Grid validationScope:Scope.ForInputTypes="{validationScope:InputTypes {x:Type ComboBox}}">
+                    <Grid validation:Scope.ForInputTypes="{validation:InputTypes {x:Type ComboBox}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -111,7 +111,7 @@
 
         <ItemsControl Grid.Row="1"
                       AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
+                      ItemsSource="{Binding Path=(validation:Scope.Errors),
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type ValidationError}">
