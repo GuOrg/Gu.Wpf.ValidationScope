@@ -122,6 +122,7 @@
     <Compile Include="UiTestWindows\DynamicTypesWindow.xaml.cs">
       <DependentUpon>DynamicTypesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiTestWindows\EventTemplateSelector.cs" />
     <Compile Include="UiTestWindows\ScopeEvents.cs" />
     <Compile Include="UiTestWindows\EventsOrderWindow.xaml.cs">
       <DependentUpon>EventsOrderWindow.xaml</DependentUpon>

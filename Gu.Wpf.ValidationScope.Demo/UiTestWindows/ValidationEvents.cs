@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -32,7 +31,7 @@
             "Errors",
             typeof(IEnumerable<ValidationError>),
             typeof(ValidationEvents),
-            new PropertyMetadata(null, (d, e) => GetEvents(d).Add(((IEnumerable<ValidationError>)e.NewValue)?.ToArray())));
+            new PropertyMetadata(null, (d, e) => GetEvents(d).Add(e.NewValue)));
 
         public static void SetTrack(this DependencyObject element, bool value)
         {

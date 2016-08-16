@@ -25,6 +25,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                            .ToList();
         }
 
+        public static T GetByText<T>(this UIItemContainer container, string text)
+            where T : UIItem
+        {
+            return container.Get<T>(SearchCriteria.ByText(text));
+        }
+
         public static IReadOnlyList<string> GetErrors(this UIItemContainer container)
         {
             return container.GetMultiple<Label>(AutomationIDs.ErrorText)

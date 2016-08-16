@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ComplicatedScopeWindowTests.cs" />
     <Compile Include="DataTemplatesWindowTests.cs" />
+    <Compile Include="EventsOrderWindowTests.cs" />
     <Compile Include="Helpers\DumpAppDomain.cs" />
     <Compile Include="Helpers\KeyboardExt.cs" />
     <Compile Include="Helpers\WindowTests.cs" />

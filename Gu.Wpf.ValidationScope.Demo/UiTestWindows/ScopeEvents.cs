@@ -32,7 +32,7 @@
             "Errors",
             typeof(IEnumerable<ValidationError>),
             typeof(ScopeEvents),
-            new PropertyMetadata(null, (d, e) => GetEvents(d).Add(((IEnumerable<ValidationError>)e.NewValue)?.ToArray())));
+            new PropertyMetadata(null, (d, e) => GetEvents(d).Add(e.NewValue)));
 
         public static void SetTrack(this DependencyObject element, bool value)
         {
