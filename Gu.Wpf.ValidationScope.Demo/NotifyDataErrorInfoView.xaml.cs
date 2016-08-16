@@ -9,7 +9,7 @@
     {
         public NotifyDataErrorInfoView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

@@ -6,7 +6,7 @@
     {
         public OneWayToSourceBindingsView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

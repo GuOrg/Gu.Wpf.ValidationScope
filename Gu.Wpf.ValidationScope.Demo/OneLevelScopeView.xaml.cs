@@ -9,7 +9,7 @@
     {
         public OneLevelScopeView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

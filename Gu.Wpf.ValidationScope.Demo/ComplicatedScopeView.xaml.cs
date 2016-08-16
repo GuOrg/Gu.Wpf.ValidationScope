@@ -9,7 +9,7 @@
     {
         public ComplicatedScopeView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

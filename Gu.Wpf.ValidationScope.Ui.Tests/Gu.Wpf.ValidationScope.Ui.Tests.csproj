@@ -50,21 +50,22 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ComplicatedScopeWindowTests.cs" />
-    <Compile Include="DataTemplatesViewTests.cs" />
+    <Compile Include="DataTemplatesWindowTests.cs" />
     <Compile Include="Helpers\DumpAppDomain.cs" />
+    <Compile Include="Helpers\KeyboardExt.cs" />
     <Compile Include="Helpers\WindowTests.cs" />
-    <Compile Include="NotifyDataErrorInfoViewTests.cs" />
-    <Compile Include="OneWayToSourceBindingsViewTests.cs" />
-    <Compile Include="ParentChildScopesViewTests.cs" />
-    <Compile Include="ControlTemplatesViewTests.cs" />
-    <Compile Include="DataGridViewTests.cs" />
-    <Compile Include="DynamicViewTests.cs" />
-    <Compile Include="ScopeIsErrorScopeTests.cs" />
-    <Compile Include="OneLevelScopeTests.cs" />
+    <Compile Include="NotifyDataErrorInfoWindowTests.cs" />
+    <Compile Include="OneWayToSourceBindingsWindowTests.cs" />
+    <Compile Include="ParentChildScopesWindowTests.cs" />
+    <Compile Include="ControlTemplatesWindowTests.cs" />
+    <Compile Include="DataGridWindowTests.cs" />
+    <Compile Include="DynamicTypesWindowTests.cs" />
+    <Compile Include="ScopeIsErrorScopeWindowTests.cs" />
+    <Compile Include="OneLevelScopeWindowTests.cs" />
     <Compile Include="Helpers\Info.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\UIItemExt.cs" />
-    <Compile Include="TwoLevelScopeTests.cs" />
+    <Compile Include="TwoLevelScopeWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="paket.references" />

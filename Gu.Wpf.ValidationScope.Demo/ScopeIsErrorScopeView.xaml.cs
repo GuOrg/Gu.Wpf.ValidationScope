@@ -9,7 +9,7 @@ namespace Gu.Wpf.ValidationScope.Demo
     {
         public ScopeIsErrorScopeView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

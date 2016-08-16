@@ -20,7 +20,7 @@
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Equals(value, true) ? WhenTrue : WhenFalse;
+            return Equals(value, true) ? this.WhenTrue : this.WhenFalse;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

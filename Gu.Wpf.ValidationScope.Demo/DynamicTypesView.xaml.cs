@@ -11,7 +11,7 @@
     {
         public DynamicTypesView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void OnTypesListSelectionChanged(object sender, SelectionChangedEventArgs e)

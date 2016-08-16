@@ -1,10 +1,10 @@
 ﻿namespace Gu.Wpf.ValidationScope.Demo
 {
-    using System.Windows.Controls;
+    using System.Windows;
 
-    public partial class SandboxView : UserControl
+    public partial class DataTemplatesWindow : Window
     {
-        public SandboxView()
+        public DataTemplatesWindow()
         {
             this.InitializeComponent();
         }

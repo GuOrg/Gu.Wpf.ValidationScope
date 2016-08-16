@@ -22,12 +22,12 @@
 
         <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ScopeWithDataTemplatesTab}"
                  Header="Scope(DataTemplates)">
-            <local:ScopeWithDataTemplatesView />
+            <local:DataTemplatesView />
         </TabItem>
 
         <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ScopeWithControlTemplatesTab}"
                  Header="Scope(ControlTemplate)">
-            <local:ScopeWithControlTemplates />
+            <local:ControlTemplatesView />
         </TabItem>
 
         <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComplicatedScopeTab}"

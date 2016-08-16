@@ -56,7 +56,7 @@
                     </HeaderedContentControl.Template>
                 </HeaderedContentControl>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="INotifyDataErrorInfo"></TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="INotifyDataErrorInfo" />
                 <CheckBox Grid.Row="1" Grid.Column="1"
                           AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
                           IsChecked="{Binding HasErrors}" />
@@ -84,3 +84,4 @@
         </ItemsControl>
     </Grid>
 </UserControl>
+

@@ -9,7 +9,7 @@
     {
         public TwoLevelScopeView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

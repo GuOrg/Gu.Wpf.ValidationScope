@@ -5,11 +5,11 @@ namespace Gu.Wpf.ValidationScope.Demo
     /// <summary>
     /// Interaction logic for ScopeWithControlTemplates.xaml
     /// </summary>
-    public partial class ScopeWithControlTemplates : UserControl
+    public partial class ControlTemplatesView : UserControl
     {
-        public ScopeWithControlTemplates()
+        public ControlTemplatesView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

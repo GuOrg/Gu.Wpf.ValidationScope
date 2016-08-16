@@ -5,8 +5,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using System.IO;
     using System.Reflection;
 
-    using Gu.Wpf.ValidationScope.Demo;
-
     public static class Info
     {
         public static ProcessStartInfo ProcessStartInfo

@@ -98,17 +98,47 @@
     <Compile Include="ScopeIsErrorScopeVm.cs">
       <DependentUpon>ScopeIsErrorScopeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScopeWithControlTemplates.xaml.cs">
-      <DependentUpon>ScopeWithControlTemplates.xaml</DependentUpon>
+    <Compile Include="ControlTemplatesView.xaml.cs">
+      <DependentUpon>ControlTemplatesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScopeWithDataTemplatesView.xaml.cs">
-      <DependentUpon>ScopeWithDataTemplatesView.xaml</DependentUpon>
+    <Compile Include="DataTemplatesView.xaml.cs">
+      <DependentUpon>DataTemplatesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TwoLevelScopeView.xaml.cs">
       <DependentUpon>TwoLevelScopeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UiTestWindows\ComplicatedScopeWindow.xaml.cs">
       <DependentUpon>ComplicatedScopeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\ControlTemplatesWindow.xaml.cs">
+      <DependentUpon>ControlTemplatesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\DataGridWindow.xaml.cs">
+      <DependentUpon>DataGridWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\DataTemplatesWindow.xaml.cs">
+      <DependentUpon>DataTemplatesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\DynamicTypesWindow.xaml.cs">
+      <DependentUpon>DynamicTypesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\NotifyDataErrorInfoWindow.xaml.cs">
+      <DependentUpon>NotifyDataErrorInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\OneLevelScopeWindow.xaml.cs">
+      <DependentUpon>OneLevelScopeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\OneWayToSourceBindingsWindow.xaml.cs">
+      <DependentUpon>OneWayToSourceBindingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\ParentChildScopesWindow.xaml.cs">
+      <DependentUpon>ParentChildScopesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\ScopeIsErrorScopeWindow.xaml.cs">
+      <DependentUpon>ScopeIsErrorScopeWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\TwoLevelScopeWindow.xaml.cs">
+      <DependentUpon>TwoLevelScopeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel.cs" />
     <Page Include="ComplicatedScopeView.xaml">
@@ -163,11 +193,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ScopeWithControlTemplates.xaml">
+    <Page Include="ControlTemplatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ScopeWithDataTemplatesView.xaml">
+    <Page Include="DataTemplatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,6 +206,46 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UiTestWindows\ComplicatedScopeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ControlTemplatesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\DataGridWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\DataTemplatesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\DynamicTypesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\NotifyDataErrorInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\OneLevelScopeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\OneWayToSourceBindingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ParentChildScopesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ScopeIsErrorScopeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\TwoLevelScopeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -9,7 +9,7 @@
     {
         public DataGridScopeView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

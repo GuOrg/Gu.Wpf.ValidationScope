@@ -2,9 +2,9 @@
 {
     using System.Windows.Controls;
 
-    public partial class SandboxView : UserControl
+    public partial class DataTemplatesView : UserControl
     {
-        public SandboxView()
+        public DataTemplatesView()
         {
             this.InitializeComponent();
         }

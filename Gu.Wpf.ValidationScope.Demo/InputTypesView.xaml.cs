@@ -9,7 +9,7 @@
     {
         public InputTypesView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

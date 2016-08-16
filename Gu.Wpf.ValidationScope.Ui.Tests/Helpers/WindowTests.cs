@@ -4,6 +4,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     using TestStack.White;
     using TestStack.White.UIItems.WindowItems;
+    using TestStack.White.WindowsAPI;
 
     public abstract class WindowTests
     {
@@ -23,6 +24,8 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
+            this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.CONTROL);
+            this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.SHIFT);
             this.application?.Dispose();
         }
     }
