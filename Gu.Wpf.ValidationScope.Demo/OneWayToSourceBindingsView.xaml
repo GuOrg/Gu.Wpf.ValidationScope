@@ -6,6 +6,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ValidationErrorDataTemplate" DataType="{x:Type ValidationError}">
+            <TextBlock x:Name="ErrorTextBlock"
+                       Foreground="Red"
+                       Text="{Binding ErrorContent}" />
+        </DataTemplate>
+    </UserControl.Resources>
+
     <UserControl.DataContext>
         <local:OneWayToSourceBindingsViewModel />
     </UserControl.DataContext>
@@ -15,18 +23,17 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{Binding Path=(validation:Scope.HasError),
-                                      Converter={local:BoolToBrushConverter},
-                                      ElementName=Form}"
-                BorderThickness="1">
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
             <Grid x:Name="Form"
-                  validation:Scope.ErrorsOneWayToSourceBinding="{Binding Errors,
-                                                                              Mode=OneWayToSource}"
+                  validation:Scope.ErrorsBinding="{Binding Errors}"
                   validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}"
-                  validation:Scope.HasErrorOneWayToSourceBinding="{Binding HasError,
-                                                                                 Mode=OneWayToSource}">
+                  validation:Scope.HasErrorBinding="{Binding HasError,
+                                                             Mode=OneWayToSource}"
+                  validation:Scope.NodeBinding="{Binding Node,
+                                                         Mode=OneWayToSource}">
                 <!--  this is where we define our scope, we do so by telling the scope what types of control sto track  -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -56,51 +63,24 @@
             </Grid>
         </Border>
 
-        <GroupBox Grid.Row="1"
-                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ViewErrorsGroupBox}"
-                  Header="View errors">
+        <GroupBox Grid.Row="1" Header="Element">
             <StackPanel>
-                <TextBlock Foreground="Red"
-                           Text="{Binding Path=(validation:Scope.Node).Count,
-                                          ElementName=Form,
-                                          StringFormat='Children: {0}'}" />
-                <ItemsControl AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                              ItemsSource="{Binding Path=(validation:Scope.Node),
-                                                    ElementName=Form}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type ValidationError}">
-                            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
-                                       Foreground="Red"
-                                       Text="{Binding ErrorContent}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <TextBlock Text="{Binding Path=(validation:Scope.HasError), ElementName=Form, StringFormat='HasError: {0}'}" />
+
+                <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Errors), ElementName=Form, Mode=OneWay}" />
+
+                <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Node), ElementName=Form, Mode=OneWay}" />
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Grid.Row="2"
-                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.BoundErrorsGroupBox}"
-                  Header="Bound errors">
+        <GroupBox Grid.Row="2" Header="ViewModel">
             <StackPanel>
-                <CheckBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
-                          Content="Vm has error"
-                          IsChecked="{Binding HasError,
-                                              Mode=OneWay}"
-                          IsEnabled="False" />
+                <TextBlock Text="{Binding HasError, StringFormat='HasError: {0}'}" />
 
-                <ItemsControl AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                              ItemsSource="{Binding Errors}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="{x:Type ValidationError}">
-                            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
-                                       Foreground="Red"
-                                       Text="{Binding ErrorContent}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Errors, Mode=OneWay}" />
+
+                <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Node, Mode=OneWay}" />
             </StackPanel>
         </GroupBox>
-
-
     </Grid>
 </UserControl>

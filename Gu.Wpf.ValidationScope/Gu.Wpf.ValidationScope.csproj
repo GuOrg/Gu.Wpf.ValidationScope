@@ -69,6 +69,7 @@
     <Compile Include="Internal\BooleanBoxes.cs" />
     <Compile Include="Internal\ImmutableList.cs" />
     <Compile Include="ErrorCollection\BatchChangeItem{T}.cs" />
+    <Compile Include="Internal\Is.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -76,11 +77,15 @@
     <Compile Include="InputTypes\InputTypeCollection.cs" />
     <Compile Include="InputTypes\InputTypesExtension.cs" />
     <Compile Include="ErrorTree\ScopeNode.cs" />
+    <Compile Include="Scope.OneWayToSourceBindings.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Scope.OneWayToSourceBindings.tt</DependentUpon>
+    </Compile>
     <None Include="Gu.Wpf.ValidationScope.ruleset" />
     <None Include="paket.references" />
     <None Include="paket.template" />
     <AppDesigner Include="Properties\" />
-    <Compile Include="Scope.OneWayToSourceBindings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -94,6 +99,10 @@
     <Content Include="InputTypes\InputTypesExtensionCtors.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InputTypesExtensionCtors.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scope.OneWayToSourceBindings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Scope.OneWayToSourceBindings.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

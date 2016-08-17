@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Data;
 
     public static partial class Scope
     {
@@ -38,7 +39,7 @@
             "Errors",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(Scope),
-            new PropertyMetadata(EmptyErrorsCollection));
+            new PropertyMetadata(EmptyErrorsCollection, OnErrorsChanged));
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
@@ -46,7 +47,7 @@
             "Node",
             typeof(IErrorNode),
             typeof(Scope),
-            new PropertyMetadata(default(IErrorNode), OnErrorsChanged));
+            new PropertyMetadata(default(IErrorNode), OnNodeChanged));
 
         public static readonly DependencyProperty NodeProperty = NodePropertyKey.DependencyProperty;
 
@@ -119,17 +120,22 @@
             }
         }
 
-        private static void OnErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             (e.OldValue as IDisposable)?.Dispose();
             SetHasErrors(d, ((IErrorNode)e.NewValue)?.HasErrors == true);
-            (e.NewValue as ErrorNode)?.BindToErrors();
-            d.SetCurrentValue(ErrorsOneWayToSourceBindingProperty, e.NewValue);
+            (e.NewValue as ErrorNode)?.BindToSourceErrors();
+            d.SetCurrentValue(NodeProxyProperty, e.NewValue);
         }
 
         private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            d.SetCurrentValue(HasErrorOneWayToSourceBindingProperty, e.NewValue);
+            d.SetCurrentValue(HasErrorProxyProperty, e.NewValue);
+        }
+
+        private static void OnErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetCurrentValue(ErrorsProxyProperty, e.NewValue);
         }
     }
 }

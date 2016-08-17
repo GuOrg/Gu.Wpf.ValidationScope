@@ -13,8 +13,8 @@ namespace Gu.Wpf.ValidationScope
     [DebuggerDisplay("ErrorNode Errors: {errors?.Count ?? 0}, Source: {Source}")]
     internal sealed class ErrorNode : Node, IWeakEventListener
     {
-        private static readonly DependencyProperty ErrorsProxyProperty = DependencyProperty.RegisterAttached(
-            "ErrorsProxy",
+        private static readonly DependencyProperty ValidationErrorsProxyProperty = DependencyProperty.RegisterAttached(
+            "ValidationErrorsProxy",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(Scope),
             new PropertyMetadata(
@@ -62,16 +62,16 @@ namespace Gu.Wpf.ValidationScope
             return false;
         }
 
-        internal void BindToErrors()
+        internal void BindToSourceErrors()
         {
-            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ErrorsProxyProperty, this.errorsBinding);
+            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ValidationErrorsProxyProperty, this.errorsBinding);
         }
 
         internal IReadOnlyList<ValidationError> GetValidationErrors()
         {
             // not sure if  we need to protect against null here but doing it to be safe in case GC collects the binding.
             var source = this.Source;
-            if (source == null || BindingOperations.GetBindingExpression(source, ErrorsProxyProperty) == null)
+            if (source == null || BindingOperations.GetBindingExpression(source, ValidationErrorsProxyProperty) == null)
             {
                 return EmptyValidationErrors;
             }
@@ -116,13 +116,13 @@ namespace Gu.Wpf.ValidationScope
             var source = this.Source;
             if (source != null)
             {
-                var value = source.GetValue(ErrorsProxyProperty);
+                var value = source.GetValue(ValidationErrorsProxyProperty);
                 if (value != null)
                 {
                     CollectionChangedEventManager.RemoveListener((INotifyCollectionChanged)value, this);
                 }
 
-                BindingOperations.ClearBinding(source, ErrorsProxyProperty);
+                BindingOperations.ClearBinding(source, ValidationErrorsProxyProperty);
                 this.RefreshErrors();
                 BubbleRoute.Notify(this);
             }
