@@ -32,13 +32,13 @@
 
         public static readonly DependencyProperty HasErrorProperty = HasErrorPropertyKey.DependencyProperty;
 
-        private static readonly DependencyPropertyKey ErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
-            "Errors",
+        private static readonly DependencyPropertyKey NodePropertyKey = DependencyProperty.RegisterAttachedReadOnly(
+            "Node",
             typeof(IErrorNode),
             typeof(Scope),
             new PropertyMetadata(default(IErrorNode), OnErrorsChanged));
 
-        public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty NodeProperty = NodePropertyKey.DependencyProperty;
 
         /// <summary>
         ///     Adds a handler for the ValidationError attached event
@@ -74,11 +74,11 @@
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static bool GetHasError(UIElement element) => (bool)element.GetValue(HasErrorProperty);
 
-        internal static void SetErrors(DependencyObject element, IErrorNode value) => element.SetValue(ErrorsPropertyKey, value);
+        internal static void SetNode(DependencyObject element, IErrorNode value) => element.SetValue(NodePropertyKey, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static IErrorNode GetErrors(DependencyObject element) => (IErrorNode)element.GetValue(ErrorsProperty);
+        public static IErrorNode GetNode(DependencyObject element) => (IErrorNode)element.GetValue(NodeProperty);
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
@@ -86,14 +86,14 @@
         {
             if (((InputTypeCollection)e.NewValue)?.IsInputType(d) == true)
             {
-                if (GetErrors(d) == null)
+                if (GetNode(d) == null)
                 {
-                    SetErrors(d, ErrorNode.CreateFor(d));
+                    SetNode(d, ErrorNode.CreateFor(d));
                 }
             }
             else if (((InputTypeCollection)e.OldValue)?.IsInputType(d) == true)
             {
-                d.ClearValue(ErrorsPropertyKey);
+                d.ClearValue(NodePropertyKey);
             }
         }
 

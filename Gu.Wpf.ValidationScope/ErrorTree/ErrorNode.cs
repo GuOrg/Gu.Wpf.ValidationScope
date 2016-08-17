@@ -130,7 +130,7 @@ namespace Gu.Wpf.ValidationScope
 
         private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var node = (ErrorNode)d.GetValue(Scope.ErrorsProperty);
+            var node = (ErrorNode)d.GetValue(Scope.NodeProperty);
             if (node == null)
             {
                 // this happens when disposing

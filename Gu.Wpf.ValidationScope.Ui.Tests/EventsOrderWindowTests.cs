@@ -32,6 +32,24 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+
+            textBox.Text = "1";
+            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
+
+            expected = new[]
+                           {
+                               "HasError: False",
+                               "Empty",
+                               "ValidationError: Value 'g' could not be converted.",
+                               "HasError: True",
+                               "Action: Added Error: Value 'g' could not be converted.",
+                               "HasError: False",
+                               "Empty",
+                               "Action: Removed Error: Value 'g' could not be converted."
+                           };
+
+            actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
+            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
         }
 
         [Test]
@@ -56,6 +74,24 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+
+            textBox.Text = "1";
+            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
+
+            expected = new[]
+                           {
+                               "HasError: False",
+                               "Empty",
+                               "ValidationError: Value 'g' could not be converted.",
+                               "HasError: True",
+                               "Action: Added Error: Value 'g' could not be converted.",
+                               "HasError: False",
+                               "Empty",
+                               "Action: Removed Error: Value 'g' could not be converted."
+                           };
+
+            actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
+            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
         }
 
         [Test]
@@ -77,6 +113,24 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                                    "HasError: True",
                                    "Action: Added Error: Value 'g' could not be converted."
                                };
+
+            actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
+            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+
+            textBox.Text = "1";
+            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
+
+            expected = new[]
+                           {
+                               "HasError: False",
+                               "Empty",
+                               "ValidationError: Value 'g' could not be converted.",
+                               "HasError: True",
+                               "Action: Added Error: Value 'g' could not be converted.",
+                               "HasError: False",
+                               "Empty",
+                               "Action: Removed Error: Value 'g' could not be converted."
+                           };
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");

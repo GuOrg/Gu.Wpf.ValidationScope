@@ -61,11 +61,11 @@
                   Header="View errors">
             <StackPanel>
                 <TextBlock Foreground="Red"
-                           Text="{Binding Path=(validation:Scope.Errors).Count,
+                           Text="{Binding Path=(validation:Scope.Node).Count,
                                           ElementName=Form,
                                           StringFormat='Children: {0}'}" />
                 <ItemsControl AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                              ItemsSource="{Binding Path=(validation:Scope.Errors),
+                              ItemsSource="{Binding Path=(validation:Scope.Node),
                                                     ElementName=Form}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type ValidationError}">

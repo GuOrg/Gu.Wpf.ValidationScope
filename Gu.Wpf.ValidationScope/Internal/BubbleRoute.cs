@@ -23,13 +23,13 @@
                     break;
                 }
 
-                var parentNode = (Node)parent.GetValue(Scope.ErrorsProperty);
+                var parentNode = (Node)parent.GetValue(Scope.NodeProperty);
                 if (ShouldRemoveChildNode(parentNode, childNode))
                 {
                     parentNode.RemoveChild(childNode);
                     if (parentNode is ScopeNode && parentNode.Children.Count == 0)
                     {
-                        Scope.SetErrors(parent, null);
+                        Scope.SetNode(parent, null);
                     }
                     else
                     {
@@ -41,7 +41,7 @@
                     if (parentNode == null)
                     {
                         parentNode = new ScopeNode(parent, childNode);
-                        Scope.SetErrors(parent, parentNode);
+                        Scope.SetNode(parent, parentNode);
                     }
                     else
                     {

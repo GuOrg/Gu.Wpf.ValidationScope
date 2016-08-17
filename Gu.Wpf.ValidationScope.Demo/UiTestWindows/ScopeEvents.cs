@@ -64,7 +64,7 @@
             BindingHelper.Bind(d, HasErrorProperty)
                          .OneWayTo(d, Scope.HasErrorProperty);
             BindingHelper.Bind(d, ErrorsProperty)
-                         .OneWayTo(d, Scope.ErrorsProperty);
+                         .OneWayTo(d, Scope.NodeProperty);
             Scope.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o).Add(args));
         }
     }

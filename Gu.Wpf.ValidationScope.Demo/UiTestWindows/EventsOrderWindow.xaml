@@ -19,8 +19,8 @@
             <demo:EventTemplateSelector.ValidationErrorEventArgsTemplate>
                 <DataTemplate DataType="{x:Type ValidationErrorEventArgs}">
                     <TextBlock x:Name="Event">
-                        <Run Text="{Binding Action, Mode=OneTime, StringFormat='Action: {0}'}" />
-                        <Run Text="{Binding Error.ErrorContent, Mode=OneTime, StringFormat='Error: {0}'}" />
+                        <Run Text="{Binding Action, Mode=OneWay, StringFormat='Action: {0}'}" />
+                        <Run Text="{Binding Error.ErrorContent, Mode=OneWay, StringFormat='Error: {0}'}" />
                     </TextBlock>
                 </DataTemplate>
             </demo:EventTemplateSelector.ValidationErrorEventArgsTemplate>
@@ -30,9 +30,7 @@
                     <ItemsControl ItemsSource="{Binding}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type ValidationError}">
-                                <TextBlock x:Name="Event">
-                                    <Run Text="{Binding ErrorContent, Mode=OneTime, StringFormat='ValidationError: {0}'}" />
-                                </TextBlock>
+                                <TextBlock x:Name="Event" Text="{Binding ErrorContent, Mode=OneWay, StringFormat='ValidationError: {0}'}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

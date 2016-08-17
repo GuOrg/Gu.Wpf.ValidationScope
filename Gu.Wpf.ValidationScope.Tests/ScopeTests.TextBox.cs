@@ -22,7 +22,7 @@
             var inputTypes = new InputTypeCollection { typeof(TextBox), typeof(Selector) };
             textBox.SetForInputTypes(inputTypes);
             Assert.AreEqual(false, Scope.GetHasError(textBox));
-            var errorNode = (ErrorNode)Scope.GetErrors(textBox);
+            var errorNode = (ErrorNode)Scope.GetNode(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
         }
@@ -34,7 +34,7 @@
             var inputTypes = new InputTypeCollection { typeof(Selector), typeof(Slider) };
             textBox.SetForInputTypes(inputTypes);
             Assert.AreEqual(false, Scope.GetHasError(textBox));
-            Assert.AreEqual(null, Scope.GetErrors(textBox));
+            Assert.AreEqual(null, Scope.GetNode(textBox));
         }
 
         [Test]
@@ -44,7 +44,7 @@
             var inputTypes = new InputTypeCollection { typeof(TextBox), typeof(Selector) };
             textBox.SetForInputTypes(inputTypes);
             Assert.AreEqual(false, Scope.GetHasError(textBox));
-            var errorNode = (ErrorNode)Scope.GetErrors(textBox);
+            var errorNode = (ErrorNode)Scope.GetNode(textBox);
             var errorArgs = errorNode.Errors.SubscribeAllEvents();
             var nodeArgs = errorNode.SubscribeAllEvents();
 
@@ -54,7 +54,7 @@
 
             textBox.SetValidationError();
             Assert.AreEqual(true, Scope.GetHasError(textBox));
-            errorNode = (ErrorNode)Scope.GetErrors(textBox);
+            errorNode = (ErrorNode)Scope.GetNode(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
             CollectionAssert.AreEqual(new[] { TestValidationError.GetFor(textBox) }, errorNode.Errors);
@@ -77,7 +77,7 @@
 
             textBox.ClearValidationError();
             Assert.AreEqual(false, Scope.GetHasError(textBox));
-            errorNode = (ErrorNode)Scope.GetErrors(textBox);
+            errorNode = (ErrorNode)Scope.GetNode(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
             CollectionAssert.IsEmpty(errorNode.Errors);
