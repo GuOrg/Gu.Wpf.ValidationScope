@@ -25,7 +25,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                     "Value 'a' could not be converted.",
                     "Value 'b' could not be converted."
                 };
-            CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
+            CollectionAssert.AreEqual(expectedErrors, this.Window.GetByText<GroupBox>("Node").GetErrors());
 
             var comboBox1 = this.Window.Get<GroupBox>(AutomationIDs.TextBoxScope).Get<ComboBox>(AutomationIDs.ComboBox1);
             comboBox1.EnterSingle('c');
@@ -39,7 +39,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                     "Value 'b' could not be converted.",
                     "Value 'd' could not be converted."
                 };
-            CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
+            CollectionAssert.AreEqual(expectedErrors, this.Window.GetByText<GroupBox>("Node").GetErrors());
 
             var textBox3 = this.Window.Get<GroupBox>(AutomationIDs.ComboBoxScope).Get<TextBox>(AutomationIDs.TextBox1);
             textBox3.EnterSingle('e');

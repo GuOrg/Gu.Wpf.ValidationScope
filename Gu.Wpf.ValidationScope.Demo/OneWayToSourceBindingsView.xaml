@@ -69,7 +69,7 @@
                                                     ElementName=Form}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type ValidationError}">
-                            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
                                        Foreground="Red"
                                        Text="{Binding ErrorContent}" />
                         </DataTemplate>
@@ -92,7 +92,7 @@
                               ItemsSource="{Binding Errors}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type ValidationError}">
-                            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
+                            <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
                                        Foreground="Red"
                                        Text="{Binding ErrorContent}" />
                         </DataTemplate>

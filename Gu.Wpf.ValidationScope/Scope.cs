@@ -1,12 +1,14 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Windows;
     using System.Windows.Controls;
 
     public static partial class Scope
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
+        private static readonly ReadOnlyObservableCollection<ValidationError> EmptyErrorsCollection = new ReadOnlyObservableCollection<ValidationError>(new ObservableBatchCollection<ValidationError>());
 
         /// <summary>The error event is raised even if the bindings does not notify.</summary>
         public static readonly RoutedEvent ErrorEvent = EventManager.RegisterRoutedEvent(
@@ -31,6 +33,14 @@
             new PropertyMetadata(BooleanBoxes.False, OnHasErrorChanged));
 
         public static readonly DependencyProperty HasErrorProperty = HasErrorPropertyKey.DependencyProperty;
+
+        private static readonly DependencyPropertyKey ErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
+            "Errors",
+            typeof(ReadOnlyObservableCollection<ValidationError>),
+            typeof(Scope),
+            new PropertyMetadata(EmptyErrorsCollection));
+
+        public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey NodePropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "Node",
@@ -73,6 +83,18 @@
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static bool GetHasError(UIElement element) => (bool)element.GetValue(HasErrorProperty);
+
+        private static void SetErrors(this DependencyObject element, ReadOnlyObservableCollection<ValidationError> value)
+        {
+            element.SetValue(ErrorsPropertyKey, value);
+        }
+
+        [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
+        [AttachedPropertyBrowsableForType(typeof(DependencyObject))]
+        public static ReadOnlyObservableCollection<ValidationError> GetErrors(this DependencyObject element)
+        {
+            return (ReadOnlyObservableCollection<ValidationError>)element.GetValue(ErrorsProperty);
+        }
 
         internal static void SetNode(DependencyObject element, IErrorNode value) => element.SetValue(NodePropertyKey, value);
 

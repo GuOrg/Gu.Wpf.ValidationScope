@@ -33,7 +33,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
         public static IReadOnlyList<string> GetErrors(this UIItemContainer container)
         {
-            return container.GetMultiple<Label>(AutomationIDs.ErrorText)
+            return container.GetMultiple<Label>(AutomationIDs.ErrorTextBlock)
                             .Select(x => x.Text)
                             .ToList();
         }

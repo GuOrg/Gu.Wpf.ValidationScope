@@ -16,14 +16,13 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
+                validation:Scope.ForInputTypes="{validation:DefaultInputTypes}"
                 BorderBrush="{Binding Path=(validation:Scope.HasError),
                                       Converter={local:BoolToBrushConverter},
                                       RelativeSource={RelativeSource Self}}"
-                BorderThickness="1"
-                validation:Scope.ForInputTypes="{validation:DefaultInputTypes}">
+                BorderThickness="1">
             <StackPanel>
-                <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBoxScope}"
-                          Header="TextBoxScope">
+                <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBoxScope}" Header="TextBoxScope">
                     <Grid validation:Scope.ForInputTypes="{validation:InputTypes {x:Type TextBox}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -64,8 +63,7 @@
                     </Grid>
                 </GroupBox>
 
-                <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComboBoxScope}"
-                          Header="ComboBoxScope">
+                <GroupBox AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComboBoxScope}" Header="ComboBoxScope">
                     <Grid validation:Scope.ForInputTypes="{validation:InputTypes {x:Type ComboBox}}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -108,18 +106,30 @@
                 </GroupBox>
             </StackPanel>
         </Border>
+        <StackPanel Grid.Row="1">
+            <GroupBox Header="Node">
+                <ItemsControl ItemsSource="{Binding Path=(validation:Scope.Node), ElementName=Form}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type ValidationError}">
+                            <TextBlock x:Name="ErrorTextBlock"
+                                       Foreground="Red"
+                                       Text="{Binding ErrorContent}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </GroupBox>
 
-        <ItemsControl Grid.Row="1"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validation:Scope.Node),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            <GroupBox Header="Errors">
+                <ItemsControl ItemsSource="{Binding Path=(validation:Scope.Errors), ElementName=Form}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type ValidationError}">
+                            <TextBlock x:Name="ErrorTextBlock"
+                                       Foreground="Red"
+                                       Text="{Binding ErrorContent}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </GroupBox>
+        </StackPanel>
     </Grid>
 </UserControl>
