@@ -2,9 +2,9 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Data;
 
     public static partial class Scope
     {
@@ -79,7 +79,7 @@
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static InputTypeCollection GetForInputTypes(DependencyObject element) => (InputTypeCollection)element.GetValue(ForInputTypesProperty);
 
-        internal static void SetHasErrors(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
+        private static void SetHasErrors(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
@@ -122,10 +122,41 @@
 
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            (e.OldValue as IDisposable)?.Dispose();
-            SetHasErrors(d, ((IErrorNode)e.NewValue)?.HasErrors == true);
-            (e.NewValue as ErrorNode)?.BindToSourceErrors();
+            var oldNode = e.OldValue as IErrorNode;
+            if (oldNode != null)
+            {
+                oldNode.Dispose();
+                CollectionChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
+            }
+
+            var newNode = (IErrorNode)e.NewValue;
+            if (newNode != null)
+            {
+                if (newNode.HasErrors)
+                {
+                    SetErrors(d, newNode.Errors);
+                    SetHasErrors(d, newNode.HasErrors);
+                }
+                else
+                {
+                    SetErrors(d, EmptyErrorsCollection);
+                    SetHasErrors(d, newNode.HasErrors);
+                }
+
+                CollectionChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
+                (e.NewValue as ErrorNode)?.BindToSourceErrors();
+            }
+            else
+            {
+                SetHasErrors(d, false);
+                SetErrors(d, EmptyErrorsCollection);
+            }
+
             d.SetCurrentValue(NodeProxyProperty, e.NewValue);
+        }
+
+        private static void OnNodeErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
         }
 
         private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

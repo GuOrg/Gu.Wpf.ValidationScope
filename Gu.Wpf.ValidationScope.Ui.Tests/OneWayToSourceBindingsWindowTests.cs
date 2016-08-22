@@ -1,5 +1,8 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Gu.Wpf.ValidationScope.Demo;
 
     using NUnit.Framework;
@@ -13,28 +16,39 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [Test]
         public void Updates()
         {
-            CollectionAssert.IsEmpty(this.Window.Get<GroupBox>(AutomationIDs.ViewErrorsGroupBox).GetErrors());
-            CollectionAssert.IsEmpty(this.Window.Get<GroupBox>(AutomationIDs.BoundErrorsGroupBox).GetErrors());
-            Assert.AreEqual(false, this.Window.Get<GroupBox>(AutomationIDs.BoundErrorsGroupBox).Get<CheckBox>(AutomationIDs.HasErrorsBox).Checked);
+            var viewErrorsGroupBox = this.Window.GetByText<GroupBox>("ElementName binding");
+            var viewModelErrorsGroupBox = this.Window.GetByText<GroupBox>("ViewModel binding");
+            var hasError = "HasError: False";
+            var errors = Enumerable.Empty<string>();
+            AssertErrors(viewErrorsGroupBox, hasError, errors);
+            AssertErrors(viewModelErrorsGroupBox, hasError, errors);
 
-            var textBox1 = this.Window.Get<TextBox>(AutomationIDs.TextBox1);
+            var textBox1 = this.Window.Get<TextBox>("TextBox1");
             textBox1.EnterSingle('a');
-            var expectedErrors = new[] { "Value 'a' could not be converted." };
-            CollectionAssert.AreEqual(expectedErrors, this.Window.Get<GroupBox>(AutomationIDs.ViewErrorsGroupBox).GetErrors());
-            CollectionAssert.AreEqual(expectedErrors, this.Window.Get<GroupBox>(AutomationIDs.BoundErrorsGroupBox).GetErrors());
-            Assert.AreEqual(true, this.Window.Get<GroupBox>(AutomationIDs.BoundErrorsGroupBox).Get<CheckBox>(AutomationIDs.HasErrorsBox).Checked);
+            hasError = "HasError: True";
+            errors = new[] { "Value 'a' could not be converted." };
+            AssertErrors(viewErrorsGroupBox, hasError, errors);
+            AssertErrors(viewModelErrorsGroupBox, hasError, errors);
 
-            var textBox2 = this.Window.Get<TextBox>(AutomationIDs.TextBox2);
+
+            var textBox2 = this.Window.Get<TextBox>("TextBox2");
             textBox2.EnterSingle('b');
-            expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
-            CollectionAssert.AreEqual(expectedErrors, this.Window.Get<GroupBox>(AutomationIDs.ViewErrorsGroupBox).GetErrors());
-            CollectionAssert.AreEqual(expectedErrors, this.Window.Get<GroupBox>(AutomationIDs.BoundErrorsGroupBox).GetErrors());
-            Assert.AreEqual(true, this.Window.Get<GroupBox>(AutomationIDs.BoundErrorsGroupBox).Get<CheckBox>(AutomationIDs.HasErrorsBox).Checked);
+            errors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+            AssertErrors(viewErrorsGroupBox, hasError, errors);
+            AssertErrors(viewModelErrorsGroupBox, hasError, errors);
 
             textBox1.EnterSingle('1');
-            CollectionAssert.IsEmpty(this.Window.Get<GroupBox>(AutomationIDs.ViewErrorsGroupBox).GetErrors());
-            CollectionAssert.IsEmpty(this.Window.Get<GroupBox>(AutomationIDs.BoundErrorsGroupBox).GetErrors());
-            Assert.AreEqual(false, this.Window.Get<GroupBox>(AutomationIDs.BoundErrorsGroupBox).Get<CheckBox>(AutomationIDs.HasErrorsBox).Checked);
+            hasError = "HasError: False";
+            errors = Enumerable.Empty<string>();
+            AssertErrors(viewErrorsGroupBox, hasError, errors);
+            AssertErrors(viewModelErrorsGroupBox, hasError, errors);
+        }
+
+        private static void AssertErrors(GroupBox groupBox, string hasError, IEnumerable<string> errors)
+        {
+            Assert.AreEqual(hasError, groupBox.GetByIndex<Label>(1).Text);
+            CollectionAssert.AreEqual(errors, groupBox.GetByText<GroupBox>("Errors").GetErrors());
+            CollectionAssert.AreEqual(errors, groupBox.GetByText<GroupBox>("Node").GetErrors());
         }
     }
 }

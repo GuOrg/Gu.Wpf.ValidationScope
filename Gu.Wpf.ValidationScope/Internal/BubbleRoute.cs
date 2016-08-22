@@ -13,7 +13,6 @@
                 return;
             }
 
-            Scope.SetHasErrors(source, errorNode.HasErrors);
             var parent = VisualTreeHelper.GetParent(source);
             Node childNode = errorNode;
             while (parent != null)
@@ -50,7 +49,6 @@
                     }
                 }
 
-                Scope.SetHasErrors(parent, parentNode?.HasErrors == true);
                 childNode = parentNode;
                 parent = VisualTreeHelper.GetParent(parent);
             }

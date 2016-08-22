@@ -16,7 +16,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             var groupBox = this.Window.GetByText<GroupBox>("Validation events");
             var expected = new[] { "HasError: False", "Empty" };
             var actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox = this.Window.Get<TextBox>("ValidationTextBox");
             textBox.EnterSingle('g');
@@ -31,7 +31,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                                };
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             textBox.Text = "1";
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
@@ -49,7 +49,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                            };
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             var groupBox = this.Window.GetByText<GroupBox>("Scope textbox events");
             var expected = new[] { "HasError: False", "Empty" };
             var actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox = this.Window.Get<TextBox>("ScopeTextBox");
             textBox.EnterSingle('g');
@@ -73,7 +73,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                                };
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             textBox.Text = "1";
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
@@ -91,7 +91,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                            };
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             var groupBox = this.Window.GetByText<GroupBox>("Scope events");
             var expected = new[] { "HasError: False", "Empty" };
             var actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox = this.Window.Get<GroupBox>("ScopeGroupBox").Get<TextBox>(SearchCriteria.Indexed(0));
             textBox.EnterSingle('g');
@@ -115,7 +115,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                                };
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             textBox.Text = "1";
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
@@ -133,7 +133,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                            };
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(expected, actual, $"Expected: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
         }
     }
 }

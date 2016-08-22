@@ -31,6 +31,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             return container.Get<T>(SearchCriteria.ByText(text));
         }
 
+        public static T GetByIndex<T>(this UIItemContainer container, int index)
+            where T : UIItem
+        {
+            return container.Get<T>(SearchCriteria.Indexed(index));
+        }
+
         public static IReadOnlyList<string> GetErrors(this UIItemContainer container)
         {
             return container.GetMultiple<Label>(AutomationIDs.ErrorTextBlock)

@@ -96,7 +96,7 @@
 
         private static object OnHasErrorBindingCoerce(DependencyObject d, object basevalue)
         {
-            if (basevalue is Binding)
+            if (basevalue != BindingNotSet && basevalue is Binding)
             {
                 return basevalue;
             }
@@ -126,7 +126,7 @@
 
         private static object OnErrorsBindingCoerce(DependencyObject d, object basevalue)
         {
-            if (basevalue is Binding)
+            if (basevalue != BindingNotSet && basevalue is Binding)
             {
                 return basevalue;
             }
@@ -156,7 +156,7 @@
 
         private static object OnNodeBindingCoerce(DependencyObject d, object basevalue)
         {
-            if (basevalue is Binding)
+            if (basevalue != BindingNotSet && basevalue is Binding)
             {
                 return basevalue;
             }

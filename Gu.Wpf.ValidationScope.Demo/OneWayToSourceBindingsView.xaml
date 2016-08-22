@@ -47,39 +47,44 @@
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
                            Text="SomeIntValue" />
-                <TextBox Grid.Row="0"
+                <TextBox x:Name="TextBox1"
+                         Grid.Row="0"
                          Grid.Column="1"
-                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
                          Text="{Binding IntValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
                            Text="SameIntValue" />
-                <TextBox Grid.Row="1"
+                <TextBox x:Name="TextBox2"
+                         Grid.Row="1"
                          Grid.Column="1"
-                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox2}"
                          Text="{Binding IntValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Border>
 
-        <GroupBox Grid.Row="1" Header="Element">
+        <GroupBox Grid.Row="1" Header="ElementName binding">
             <StackPanel>
                 <TextBlock Text="{Binding Path=(validation:Scope.HasError), ElementName=Form, StringFormat='HasError: {0}'}" />
 
-                <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Errors), ElementName=Form, Mode=OneWay}" />
-
-                <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Node), ElementName=Form, Mode=OneWay}" />
+                <GroupBox Header="Errors">
+                    <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Errors), ElementName=Form, Mode=OneWay}" />
+                </GroupBox>
+                <GroupBox Header="Node">
+                    <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Node), ElementName=Form, Mode=OneWay}" />
+                </GroupBox>
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Grid.Row="2" Header="ViewModel">
+        <GroupBox Grid.Row="2" Header="ViewModel binding">
             <StackPanel>
                 <TextBlock Text="{Binding HasError, StringFormat='HasError: {0}'}" />
-
-                <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Errors, Mode=OneWay}" />
-
-                <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Node, Mode=OneWay}" />
+                <GroupBox Header="Errors">
+                    <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Errors, Mode=OneWay}" />
+                </GroupBox>
+                <GroupBox Header="Node">
+                    <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Node, Mode=OneWay}" />
+                </GroupBox>
             </StackPanel>
         </GroupBox>
     </Grid>

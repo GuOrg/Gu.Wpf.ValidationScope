@@ -81,7 +81,7 @@ namespace Gu.Wpf.ValidationScope
 		 #>
         private static object On<#= property.Name #>BindingCoerce(DependencyObject d, object basevalue)
         {
-            if (basevalue is Binding)
+            if (basevalue != BindingNotSet && basevalue is Binding)
             {
                 return basevalue;
             }
