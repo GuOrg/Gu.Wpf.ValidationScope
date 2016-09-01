@@ -1,5 +1,6 @@
 ﻿namespace Gu.Wpf.ValidationScope.Tests
 {
+    using System;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
@@ -23,6 +24,11 @@
         public static void ClearValidationError(this TextBox textBox)
         {
             var expression = BindingOperations.GetBindingExpression(textBox, ProxyProperty);
+            if (expression == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             Validation.ClearInvalid(expression);
         }
     }

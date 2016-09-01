@@ -157,6 +157,18 @@
 
         private static void OnNodeErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            var node = (IErrorNode)sender;
+            if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems.Count == 1)
+            {
+                SetErrors(node.Source, node.Errors);
+                SetHasErrors(node.Source, true);
+            }
+
+            if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems.Count == 1)
+            {
+                SetHasErrors(node.Source, false);
+                SetErrors(node.Source, EmptyErrorsCollection);
+            }
         }
 
         private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

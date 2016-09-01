@@ -37,9 +37,16 @@ namespace Gu.Wpf.ValidationScope
 
         event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
         {
-            add { ((INotifyCollectionChanged)this.Errors).CollectionChanged += value; }
-            remove { ((INotifyCollectionChanged)this.Errors).CollectionChanged -= value; }
+            add
+            {
+                this.InitializeErrors();
+                this.CollectionChanged += value;
+            }
+            remove { this.CollectionChanged -= value; }
         }
+
+        [field: NonSerialized]
+        private event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public ReadOnlyObservableCollection<IErrorNode> Children => this.children ?? (this.children = new ReadOnlyObservableCollection<IErrorNode>(this.lazyChildren.Value));
 
@@ -67,14 +74,7 @@ namespace Gu.Wpf.ValidationScope
         {
             get
             {
-                if (this.errors == null)
-                {
-                    var lazyErrors = this.LazyErrors.Value;
-                    lazyErrors.Refresh(this.GetAllErrors());
-                    this.errors = new ReadOnlyObservableCollection<ValidationError>(lazyErrors);
-                    ((INotifyPropertyChanged)this.errors).PropertyChanged += this.OnErrorsPropertyChanged;
-                }
-
+                this.InitializeErrors();
                 return this.errors;
             }
         }
@@ -196,6 +196,23 @@ namespace Gu.Wpf.ValidationScope
         private void OnErrorsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             this.OnPropertyChanged(e);
+        }
+
+        private void OnErrorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            this.CollectionChanged?.Invoke(this, e);
+        }
+
+        private void InitializeErrors()
+        {
+            if (this.errors == null)
+            {
+                var lazyErrors = this.LazyErrors.Value;
+                lazyErrors.Refresh(this.GetAllErrors());
+                this.errors = new ReadOnlyObservableCollection<ValidationError>(lazyErrors);
+                ((INotifyPropertyChanged)this.errors).PropertyChanged += this.OnErrorsPropertyChanged;
+                ((INotifyCollectionChanged)this.errors).CollectionChanged += this.OnErrorsCollectionChanged;
+            }
         }
     }
 }
