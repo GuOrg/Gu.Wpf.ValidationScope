@@ -132,24 +132,13 @@
             var newNode = (IErrorNode)e.NewValue;
             if (newNode != null)
             {
-                if (newNode.HasErrors)
-                {
-                    SetErrors(d, newNode.Errors);
-                    SetHasErrors(d, newNode.HasErrors);
-                }
-                else
-                {
-                    SetErrors(d, EmptyErrorsCollection);
-                    SetHasErrors(d, newNode.HasErrors);
-                }
-
+                UpdateErrorsAndHasErrors(d, newNode.Errors, newNode.HasErrors);
                 CollectionChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
                 (e.NewValue as ErrorNode)?.BindToSourceErrors();
             }
             else
             {
-                SetHasErrors(d, false);
-                SetErrors(d, EmptyErrorsCollection);
+                UpdateErrorsAndHasErrors(d, EmptyErrorsCollection, false);
             }
 
             d.SetCurrentValue(NodeProxyProperty, e.NewValue);
@@ -160,14 +149,29 @@
             var node = (IErrorNode)sender;
             if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems.Count == 1)
             {
-                SetErrors(node.Source, node.Errors);
-                SetHasErrors(node.Source, true);
+                UpdateErrorsAndHasErrors(node.Source, node.Errors, true);
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems.Count == 1)
             {
-                SetHasErrors(node.Source, false);
-                SetErrors(node.Source, EmptyErrorsCollection);
+                UpdateErrorsAndHasErrors(node.Source, EmptyErrorsCollection, false);
+            }
+        }
+
+        private static void UpdateErrorsAndHasErrors(
+            DependencyObject dependencyObject,
+            ReadOnlyObservableCollection<ValidationError> errors,
+            bool hasError)
+        {
+            if (hasError)
+            {
+                SetErrors(dependencyObject, errors);
+                SetHasErrors(dependencyObject, true);
+            }
+            else
+            {
+                SetHasErrors(dependencyObject, false);
+                SetErrors(dependencyObject, EmptyErrorsCollection);
             }
         }
 
