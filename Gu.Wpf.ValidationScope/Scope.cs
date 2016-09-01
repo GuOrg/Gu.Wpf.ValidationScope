@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -15,7 +16,7 @@
         public static readonly RoutedEvent ErrorEvent = EventManager.RegisterRoutedEvent(
             "ValidationError",
             RoutingStrategy.Bubble,
-            typeof(EventHandler<ValidationErrorEventArgs>),
+            typeof(EventHandler<ScopeValidationErrorEventArgs>),
             typeof(Scope));
 
         public static readonly DependencyProperty ForInputTypesProperty = DependencyProperty.RegisterAttached(
@@ -56,7 +57,7 @@
         /// </summary>
         /// <param name="element">UIElement or ContentElement that listens to this event</param>
         /// <param name="handler">Event Handler to be added</param>
-        public static void AddErrorHandler(DependencyObject element, EventHandler<ValidationErrorEventArgs> handler)
+        public static void AddErrorHandler(DependencyObject element, EventHandler<ScopeValidationErrorEventArgs> handler)
         {
             (element as UIElement)?.AddHandler(ErrorEvent, handler);
             (element as ContentElement)?.AddHandler(ErrorEvent, handler);
@@ -67,7 +68,7 @@
         /// </summary>
         /// <param name="element">UIElement or ContentElement that listens to this event</param>
         /// <param name="handler">Event Handler to be removed</param>
-        public static void RemoveErrorHandler(DependencyObject element, EventHandler<ValidationErrorEventArgs> handler)
+        public static void RemoveErrorHandler(DependencyObject element, EventHandler<ScopeValidationErrorEventArgs> handler)
         {
             (element as UIElement)?.RemoveHandler(ErrorEvent, handler);
             (element as ContentElement)?.RemoveHandler(ErrorEvent, handler);
@@ -150,11 +151,30 @@
             if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems.Count == 1)
             {
                 UpdateErrorsAndHasErrors(node.Source, node.Errors, true);
+                return;
             }
 
             if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems.Count == 1)
             {
                 UpdateErrorsAndHasErrors(node.Source, EmptyErrorsCollection, false);
+            }
+
+            if (e.NewItems != null)
+            {
+                foreach (var error in e.NewItems.OfType<ValidationError>())
+                {
+                    (node.Source as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
+                    (node.Source as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (var error in e.OldItems.OfType<ValidationError>())
+                {
+                    (node.Source as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
+                    (node.Source as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
+                }
             }
         }
 
@@ -167,6 +187,11 @@
             {
                 SetErrors(dependencyObject, errors);
                 SetHasErrors(dependencyObject, true);
+                foreach (var error in errors)
+                {
+                    (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
+                    (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
+                }
             }
             else
             {

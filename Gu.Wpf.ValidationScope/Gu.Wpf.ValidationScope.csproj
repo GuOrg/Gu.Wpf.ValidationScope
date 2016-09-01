@@ -82,6 +82,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Scope.OneWayToSourceBindings.tt</DependentUpon>
     </Compile>
+    <Compile Include="ScopeValidationErrorEventArgs.cs" />
     <None Include="Gu.Wpf.ValidationScope.ruleset" />
     <None Include="paket.references" />
     <None Include="paket.template" />

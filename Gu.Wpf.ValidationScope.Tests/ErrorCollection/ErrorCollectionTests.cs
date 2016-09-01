@@ -15,7 +15,7 @@
     public class ErrorCollectionTests
     {
         [Test]
-        public void RefreshAddSingle()
+        public void RefreshAddSingleWhenEmpty()
         {
             var reference = new ObservableCollection<ValidationError>();
             var expectedEvents = reference.SubscribeAllEvents();
@@ -24,6 +24,20 @@
             var newErrors = Create(1);
             errors.Refresh(newErrors);
             reference.Add(newErrors[0]);
+
+            CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
+            CollectionAssert.AreEqual(reference, errors);
+        }
+
+        [Test]
+        public void RefreshAddSingleWhenNotEmpty()
+        {
+            var reference = new ObservableCollection<ValidationError>(Create(2));
+            var expectedEvents = reference.SubscribeAllEvents();
+            var errors = new ErrorCollection(reference);
+            var allEvents = errors.SubscribeAllEvents();
+            reference.Add(TestValidationError.Create());
+            errors.Refresh(reference);
 
             CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
             CollectionAssert.AreEqual(reference, errors);

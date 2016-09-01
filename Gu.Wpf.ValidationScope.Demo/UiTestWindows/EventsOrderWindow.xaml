@@ -21,10 +21,23 @@
                     <TextBlock x:Name="Event">
                         <Run Text="{Binding Action, Mode=OneWay, StringFormat='Action: {0}'}" />
                         <Run Text="{Binding Error.ErrorContent, Mode=OneWay, StringFormat='Error: {0}'}" />
+                        <Run Text="{Binding Source.Name, Mode=OneWay, StringFormat='Source: {0}'}" />     
+                        <Run Text="{Binding OriginalSource.Name, Mode=OneWay, StringFormat='OriginalSource: {0}'}" />
                     </TextBlock>
                 </DataTemplate>
             </demo:EventTemplateSelector.ValidationErrorEventArgsTemplate>
 
+            <demo:EventTemplateSelector.ScopeValidationErrorEventArgsTemplate>
+                <DataTemplate DataType="{x:Type validation:ScopeValidationErrorEventArgs}">
+                    <TextBlock x:Name="Event">
+                        <Run Text="{Binding Action, Mode=OneWay, StringFormat='Action: {0}'}" />
+                        <Run Text="{Binding Error.ErrorContent, Mode=OneWay, StringFormat='Error: {0}'}" />
+                        <Run Text="{Binding Source.Name, Mode=OneWay, StringFormat='Source: {0}'}" />     
+                        <Run Text="{Binding OriginalSource.Name, Mode=OneWay, StringFormat='OriginalSource: {0}'}" />
+                    </TextBlock>
+                </DataTemplate>
+            </demo:EventTemplateSelector.ScopeValidationErrorEventArgsTemplate>
+            
             <demo:EventTemplateSelector.ValidationErrorsCollectionTemplate>
                 <DataTemplate>
                     <ItemsControl ItemsSource="{Binding}">
@@ -79,9 +92,9 @@
                   Grid.Column="2"
                   demo:ScopeEvents.Track="True"
                   validation:Scope.ForInputTypes="TextBox">
-            <StackPanel>
-                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel x:Name="ScopeStackPanel">
+                <TextBox x:Name="ScopeTextBox1" Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeTextBox2" Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </GroupBox>
 

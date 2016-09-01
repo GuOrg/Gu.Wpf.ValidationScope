@@ -15,7 +15,7 @@
         public class Refresh
         {
             [Test]
-            public void RefreshAddSingle()
+            public void RefreshAddSingleWhenEmpty()
             {
                 var reference = new ObservableCollection<int>();
                 var expectedEvents = reference.SubscribeAllEvents();
@@ -26,6 +26,19 @@
 
                 CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
                 CollectionAssert.AreEqual(reference, errors);
+            }
+
+            [Test]
+            public void RefreshAddsOneWhenNotEmpty()
+            {
+                var reference = new ObservableCollection<int> { 1, 2 };
+                var expectedEvents = reference.SubscribeAllEvents();
+                var batchCol = new ObservableBatchCollection<int> { 1, 2 };
+                var actualEvents = batchCol.SubscribeAllEvents();
+                reference.Add(3);
+                batchCol.Refresh(new[] { 1, 2, 3 });
+                CollectionAssert.AreEqual(expectedEvents, actualEvents, ObservableCollectionArgsComparer.Default);
+                CollectionAssert.AreEqual(reference, batchCol);
             }
 
             [Test]
@@ -85,6 +98,19 @@
 
                 CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
                 CollectionAssert.AreEqual(reference, errors);
+            }
+
+            [Test]
+            public void RefreshRemovesOneInt()
+            {
+                var reference = new ObservableCollection<int> { 1, 2 };
+                var expectedEvents = reference.SubscribeAllEvents();
+                var batchCol = new ObservableBatchCollection<int> { 1, 2 };
+                var actualEvents = batchCol.SubscribeAllEvents();
+                reference.RemoveAt(1);
+                batchCol.Refresh(new[] { 1 });
+                CollectionAssert.AreEqual(expectedEvents, actualEvents, ObservableCollectionArgsComparer.Default);
+                CollectionAssert.AreEqual(reference, batchCol);
             }
         }
     }

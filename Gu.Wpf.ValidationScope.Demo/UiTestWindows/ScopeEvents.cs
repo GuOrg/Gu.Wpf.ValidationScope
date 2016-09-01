@@ -32,7 +32,7 @@
             "Errors",
             typeof(IEnumerable<ValidationError>),
             typeof(ScopeEvents),
-            new PropertyMetadata(null, (d, e) => GetEvents(d).Add(e.NewValue)));
+            new PropertyMetadata(null, (d, e) => GetEvents(d).Add(((ReadOnlyObservableCollection<ValidationError>)e.NewValue).ToArray())));
 
         public static void SetTrack(this DependencyObject element, bool value)
         {
@@ -64,7 +64,7 @@
             BindingHelper.Bind(d, HasErrorProperty)
                          .OneWayTo(d, Scope.HasErrorProperty);
             BindingHelper.Bind(d, ErrorsProperty)
-                         .OneWayTo(d, Scope.NodeProperty);
+                         .OneWayTo(d, Scope.ErrorsProperty);
             Scope.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o).Add(args));
         }
     }

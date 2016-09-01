@@ -1,6 +1,8 @@
 ﻿namespace Gu.Wpf.ValidationScope.Demo
 {
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -14,6 +16,8 @@
 
         public DataTemplate ValidationErrorEventArgsTemplate { get; set; }
 
+        public DataTemplate ScopeValidationErrorEventArgsTemplate { get; set; }
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is string)
@@ -21,31 +25,25 @@
                 return this.StringTemplate;
             }
 
-            var collection = item as ReadOnlyObservableCollection<ValidationError>;
+            var collection = item as IEnumerable<ValidationError>;
             if (collection != null)
             {
-                if (collection.Count == 0)
+                if (collection.Any())
                 {
-                    return this.EmptyValidationErrorsCollectionTemplate;
+                    return this.ValidationErrorsCollectionTemplate;
                 }
 
-                return this.ValidationErrorsCollectionTemplate;
-            }
-
-            var node = item as IErrorNode;
-            if (node != null)
-            {
-                if (node.Count == 0)
-                {
-                    return this.EmptyValidationErrorsCollectionTemplate;
-                }
-
-                return this.ValidationErrorsCollectionTemplate;
+                return this.EmptyValidationErrorsCollectionTemplate;
             }
 
             if (item is ValidationErrorEventArgs)
             {
                 return this.ValidationErrorEventArgsTemplate;
+            }
+
+            if (item is ScopeValidationErrorEventArgs)
+            {
+                return this.ScopeValidationErrorEventArgsTemplate;
             }
 
             return base.SelectTemplate(item, container);

@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--<Application.StartupUri>MainWindow.xaml</Application.StartupUri>-->
-    <Application.StartupUri>UiTestWindows/DynamicTypesWindow.xaml</Application.StartupUri>
+    <Application.StartupUri>UiTestWindows/EventsOrderWindow.xaml</Application.StartupUri>
     <Application.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center" />
