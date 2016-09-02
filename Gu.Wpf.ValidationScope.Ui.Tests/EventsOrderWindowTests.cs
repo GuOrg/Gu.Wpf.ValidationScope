@@ -85,6 +85,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [Test]
         public void ScopeGroupBoxOneError()
         {
+            this.RestartApplication();
             var groupBox = this.Window.GetByText<GroupBox>("Scope events");
             var expected = new List<string> { "HasError: False", "Empty" };
             var actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -120,6 +121,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [Test]
         public void ScopeGroupBoxTwoErrors()
         {
+            this.RestartApplication();
             var groupBox = this.Window.GetByText<GroupBox>("Scope events");
             var expected = new List<string> { "HasError: False", "Empty" };
             var actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -154,9 +156,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
             expected.AddRange(new[]
             {
+                "Action: Removed Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
                 "HasError: False",
                 "Empty",
-                "Action: Removed Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
                 "Action: Removed Error: Value 'h' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
             });
 

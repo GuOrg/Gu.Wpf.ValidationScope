@@ -1,10 +1,12 @@
 ﻿namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows.Controls;
 
     using Gu.Wpf.ValidationScope.Tests.Helpers;
@@ -48,17 +50,18 @@
         {
             var error = TestValidationError.Create();
             var errors = new ErrorCollection { error };
-            var allEvents = errors.SubscribeAllEvents();
+            var actualEvents = errors.SubscribeAllEvents();
             var newErrors = Create(3);
             errors.Refresh(newErrors);
-
+            var changes = new List<BatchChangeItem<ValidationError>> { BatchChangeItem<ValidationError>.CreateRemove(error, 0) };
+            changes.AddRange(newErrors.Select(BatchChangeItem<ValidationError>.CreateAdd));
             var expectedEvents = new List<EventArgs>
                                    {
                                        new PropertyChangedEventArgs("Count"),
                                        new PropertyChangedEventArgs("Item[]"),
-                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
+                                       new ErrorCollectionResetEventArgs(changes)
                                    };
-            CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
+            CollectionAssert.AreEqual(expectedEvents, actualEvents, ObservableCollectionArgsComparer.Default);
             CollectionAssert.AreEqual(newErrors, errors);
         }
 

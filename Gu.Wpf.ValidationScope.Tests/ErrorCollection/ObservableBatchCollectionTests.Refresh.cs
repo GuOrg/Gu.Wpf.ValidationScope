@@ -86,6 +86,22 @@
                 CollectionAssert.AreEqual(reference, errors);
             }
 
+            [TestCase(0)]
+            [TestCase(1)]
+            [TestCase(2)]
+            public void RefreshRemoveOne(int index)
+            {
+                var reference = new ObservableCollection<int> { 1, 2, 3 };
+                var expectedEvents = reference.SubscribeAllEvents();
+                var errors = new ObservableBatchCollection<int> { 1, 2, 3 };
+                var allEvents = errors.SubscribeAllEvents();
+                reference.RemoveAt(index);
+                errors.Refresh(reference);
+
+                CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
+                CollectionAssert.AreEqual(reference, errors);
+            }
+
             [Test]
             public void RefreshReplace()
             {

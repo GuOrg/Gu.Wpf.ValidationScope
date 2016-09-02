@@ -14,6 +14,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
         protected abstract string WindowName { get; }
 
+        public void RestartApplication()
+        {
+            this.OneTimeTearDown();
+            this.OneTimeSetUp();
+        }
+
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {

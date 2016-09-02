@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ErrorCollection\BatchChangeItem.cs" />
+    <Compile Include="ErrorCollection\BatchItemChangeAction.cs" />
+    <Compile Include="ErrorCollection\ErrorCollectionResetEventArgs.cs" />
     <Compile Include="ErrorCollection\ObservableBatchCollection{T}.cs" />
     <Compile Include="InputTypes\DefaultInputTypesExtension.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverter.cs" />

@@ -9,8 +9,8 @@ namespace Gu.Wpf.ValidationScope
 
     internal class ObservableBatchCollection<T> : ObservableCollection<T>
     {
-        private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
-        private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
+        protected static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
+        protected static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
 
         private readonly BatchChanges batch;
 
@@ -24,6 +24,8 @@ namespace Gu.Wpf.ValidationScope
         {
             this.batch = new BatchChanges(this);
         }
+
+        protected IReadOnlyList<BatchChangeItem<T>> Changes => this.batch;
 
         /// <summary>
         /// Clears current items and adds <paramref name="newItems"/> notifies once when done
@@ -54,20 +56,20 @@ namespace Gu.Wpf.ValidationScope
 
                     for (var i = this.Count - 1; i >= index; i--)
                     {
-                        this.batch.Add(new BatchChangeItem<T>(this.Items[i], i, NotifyCollectionChangedAction.Remove));
+                        this.batch.Add(BatchChangeItem.CreateRemove(this.Items[i], i));
                         this.Items.RemoveAt(i);
                     }
 
                     if (addCurrent)
                     {
-                        this.batch.Add(new BatchChangeItem<T>(enumerator.Current, index, NotifyCollectionChangedAction.Add));
+                        this.batch.Add(BatchChangeItem.CreateAdd(enumerator.Current, index));
                         this.Items.Add(enumerator.Current);
                         index++;
                     }
 
                     while (enumerator.MoveNext())
                     {
-                        this.batch.Add(new BatchChangeItem<T>(enumerator.Current, index, NotifyCollectionChangedAction.Add));
+                        this.batch.Add(BatchChangeItem.CreateAdd(enumerator.Current, index));
                         this.Items.Add(enumerator.Current);
                         index++;
                     }
@@ -147,7 +149,7 @@ namespace Gu.Wpf.ValidationScope
             if (this.batch.IsProcessing)
             {
                 this.CheckReentrancy();
-                this.batch.Add(new BatchChangeItem<T>(item, index, NotifyCollectionChangedAction.Add));
+                this.batch.Add(BatchChangeItem.CreateAdd(item, index));
                 this.Items.Insert(index, item);
             }
             else
@@ -161,8 +163,8 @@ namespace Gu.Wpf.ValidationScope
             if (this.batch.IsProcessing)
             {
                 this.CheckReentrancy();
-                this.batch.Add(new BatchChangeItem<T>(this.Items[index], index, NotifyCollectionChangedAction.Remove));
-                this.batch.Add(new BatchChangeItem<T>(item, index, NotifyCollectionChangedAction.Add));
+                this.batch.Add(BatchChangeItem.CreateRemove(this.Items[index], index));
+                this.batch.Add(BatchChangeItem.CreateAdd(item, index));
                 this.Items[index] = item;
             }
             else
@@ -191,7 +193,7 @@ namespace Gu.Wpf.ValidationScope
             if (this.batch.IsProcessing)
             {
                 this.CheckReentrancy();
-                this.batch.Add(new BatchChangeItem<T>(this.Items[index], index, NotifyCollectionChangedAction.Remove));
+                this.batch.Add(BatchChangeItem.CreateRemove(this.Items[index], index));
                 this.Items.RemoveAt(index);
             }
             else
@@ -207,7 +209,7 @@ namespace Gu.Wpf.ValidationScope
                 this.CheckReentrancy();
                 for (var i = 0; i < this.Items.Count; i++)
                 {
-                    this.batch.Add(new BatchChangeItem<T>(this.Items[i], i, NotifyCollectionChangedAction.Remove));
+                    this.batch.Add(BatchChangeItem.CreateRemove(this.Items[i], i));
                 }
 
                 this.Items.Clear();
@@ -220,13 +222,7 @@ namespace Gu.Wpf.ValidationScope
 
         protected virtual void NotifyBatch()
         {
-            var changes = this.batch;
-            if (changes == null)
-            {
-                return;
-            }
-
-            var args = GetCollectionChangedEventArgs(changes);
+            var args = this.GetMergedCollectionChangedEventArgs();
             if (args == null)
             {
                 return;
@@ -251,35 +247,23 @@ namespace Gu.Wpf.ValidationScope
             this.OnCollectionChanged(args);
         }
 
-        private static NotifyCollectionChangedEventArgs GetCollectionChangedEventArgs(BatchChanges changes)
+        protected NotifyCollectionChangedEventArgs GetMergedCollectionChangedEventArgs()
         {
-            if (changes.Count == 0)
+            if (this.batch.Count == 0)
             {
                 return null;
             }
 
-            if (changes.Count == 1)
+            if (this.batch.Count == 1)
             {
-                var change = changes[0];
-                switch (change.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                    case NotifyCollectionChangedAction.Remove:
-                        return new NotifyCollectionChangedEventArgs(change.Action, change.Item, change.Index);
-                    case NotifyCollectionChangedAction.Replace:
-                    case NotifyCollectionChangedAction.Move:
-                        throw new InvalidOperationException($"Should be two changes recorded for a {change.Action}");
-                    case NotifyCollectionChangedAction.Reset:
-                        return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                var change = this.batch[0];
+                return new NotifyCollectionChangedEventArgs(change.Action.AsCollectionChangedAction(), change.Item, change.Index);
             }
 
-            if (changes.Count == 2)
+            if (this.batch.Count == 2)
             {
-                var c1 = changes[0];
-                var c2 = changes[1];
+                var c1 = this.batch[0];
+                var c2 = this.batch[1];
                 if (c1.Index == c2.Index && c1.Action != c2.Action)
                 {
                     if (Equals(c1.Item, c2.Item))
@@ -301,8 +285,8 @@ namespace Gu.Wpf.ValidationScope
                 if (Equals(c1.Item, c2.Item) &&
                     (IsAddAndRemove(c1.Action, c2.Action) || IsAddAndRemove(c2.Action, c1.Action)))
                 {
-                    var oldIndex = c1.Action == NotifyCollectionChangedAction.Remove ? c1.Index : c2.Index;
-                    var newIndex = c1.Action == NotifyCollectionChangedAction.Add ? c1.Index : c2.Index;
+                    var oldIndex = c1.Action == BatchItemChangeAction.Remove ? c1.Index : c2.Index;
+                    var newIndex = c1.Action == BatchItemChangeAction.Add ? c1.Index : c2.Index;
                     return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, c1.Item, newIndex, oldIndex);
                 }
             }
@@ -310,9 +294,25 @@ namespace Gu.Wpf.ValidationScope
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
         }
 
-        private static bool IsAddAndRemove(NotifyCollectionChangedAction first, NotifyCollectionChangedAction other)
+        protected IEnumerable<NotifyCollectionChangedEventArgs> GetCollectionChangedEventArgs()
         {
-            return first == NotifyCollectionChangedAction.Add && other == NotifyCollectionChangedAction.Remove;
+            foreach (var change in this.batch)
+            {
+                switch (change.Action)
+                {
+                    case BatchItemChangeAction.Add:
+                    case BatchItemChangeAction.Remove:
+                        yield return new NotifyCollectionChangedEventArgs(change.Action.AsCollectionChangedAction(), change.Item, change.Index);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        private static bool IsAddAndRemove(BatchItemChangeAction first, BatchItemChangeAction other)
+        {
+            return first == BatchItemChangeAction.Add && other == BatchItemChangeAction.Remove;
         }
 
         private class BatchChanges : Collection<BatchChangeItem<T>>, IDisposable

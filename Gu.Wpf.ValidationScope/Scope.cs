@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Linq;
@@ -124,21 +125,16 @@
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var newNode = (IErrorNode)e.NewValue;
+
             if (newNode != null)
             {
-                UpdateErrorsAndHasErrors(d, newNode.Errors, newNode.HasErrors);
-                foreach (var error in newNode.Errors)
-                {
-                    (d as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
-                    (d as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
-                }
-
+                UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
                 CollectionChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
                 (e.NewValue as ErrorNode)?.BindToSourceErrors();
             }
             else
             {
-                UpdateErrorsAndHasErrors(d, EmptyErrorsCollection, false);
+                UpdateErrorsAndHasErrors(d, GetErrors(d), Enumerable.Empty<ValidationError>(), EmptyErrorsCollection);
             }
 
             var oldNode = e.OldValue as IErrorNode;
@@ -146,11 +142,6 @@
             {
                 oldNode.Dispose();
                 CollectionChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
-                foreach (var error in oldNode.Errors)
-                {
-                    (d as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
-                    (d as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
-                }
             }
 
             d.SetCurrentValue(NodeProxyProperty, e.NewValue);
@@ -158,42 +149,40 @@
 
         private static void OnNodeErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            IEnumerable<ValidationError> removedErrors;
+            IEnumerable<ValidationError> addedErrors;
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Remove:
+                case NotifyCollectionChangedAction.Replace:
+                    removedErrors = e.OldItems?.Cast<ValidationError>() ?? Enumerable.Empty<ValidationError>();
+                    addedErrors = e.NewItems?.Cast<ValidationError>() ?? Enumerable.Empty<ValidationError>();
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    return;
+                case NotifyCollectionChangedAction.Reset:
+                    removedErrors = ((ErrorCollectionResetEventArgs)e).RemovedItems ?? Enumerable.Empty<ValidationError>();
+                    addedErrors = ((ErrorCollectionResetEventArgs)e).AddedItems ?? Enumerable.Empty<ValidationError>();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             var node = (IErrorNode)sender;
-            if (e.Action == NotifyCollectionChangedAction.Add && node.Errors.Count == 1)
-            {
-                UpdateErrorsAndHasErrors(node.Source, node.Errors, true);
-            }
 
-            if (e.Action == NotifyCollectionChangedAction.Remove && node.Errors.Count == 0)
-            {
-                UpdateErrorsAndHasErrors(node.Source, EmptyErrorsCollection, false);
-            }
-
-            if (e.NewItems != null)
-            {
-                foreach (var error in e.NewItems.OfType<ValidationError>())
-                {
-                    (node.Source as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
-                    (node.Source as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
-                }
-            }
-
-            if (e.OldItems != null)
-            {
-                foreach (var error in e.OldItems.OfType<ValidationError>())
-                {
-                    (node.Source as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
-                    (node.Source as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
-                }
-            }
+            UpdateErrorsAndHasErrors(node.Source, removedErrors, addedErrors, node.Errors);
         }
 
+        // this helper sets properties and raises events in the same order as System.Controls.Validation
         private static void UpdateErrorsAndHasErrors(
             DependencyObject dependencyObject,
-            ReadOnlyObservableCollection<ValidationError> errors,
-            bool hasError)
+            IEnumerable<ValidationError> removedErrors,
+            IEnumerable<ValidationError> addedErrors,
+            ReadOnlyObservableCollection<ValidationError> errors)
         {
-            if (hasError)
+            if (errors.Any())
             {
                 SetErrors(dependencyObject, errors);
                 SetHasErrors(dependencyObject, true);
@@ -202,6 +191,18 @@
             {
                 SetHasErrors(dependencyObject, false);
                 SetErrors(dependencyObject, EmptyErrorsCollection);
+            }
+
+            foreach (var error in removedErrors)
+            {
+                (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
+                (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
+            }
+
+            foreach (var error in addedErrors)
+            {
+                (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
+                (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
             }
         }
 

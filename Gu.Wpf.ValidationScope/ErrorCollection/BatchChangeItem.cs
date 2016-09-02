@@ -6,12 +6,12 @@ namespace Gu.Wpf.ValidationScope
     {
         internal static BatchChangeItem<T> CreateAdd<T>(T item, int index)
         {
-            return new BatchChangeItem<T>(item, index, NotifyCollectionChangedAction.Add);
+            return BatchChangeItem<T>.CreateAdd(item, index);
         }
 
         internal static BatchChangeItem<T> CreateRemove<T>(T item, int index)
         {
-            return new BatchChangeItem<T>(item, index, NotifyCollectionChangedAction.Remove);
+            return BatchChangeItem<T>.CreateRemove(item, index);
         }
     }
 }
