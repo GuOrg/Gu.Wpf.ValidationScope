@@ -13,6 +13,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [Test]
         public void Validation()
         {
+            // this is used as reference
             var groupBox = this.Window.GetByText<GroupBox>("Validation events");
             var expected = new List<string> { "HasError: False", "Empty" };
             var actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -94,10 +95,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(new[]
                            {
-                               "Action: Added Error: Value 'g' could not be converted. Source: ScopeTextBox1 OriginalSource: ScopeTextBox1",
-                               "Action: Added Error: Value 'g' could not be converted. Source: ScopeStackPanel OriginalSource: ScopeStackPanel",
-                               "Action: Added Error: Value 'g' could not be converted. Source:  OriginalSource: ",
-                               "Action: Added Error: Value 'g' could not be converted. Source:  OriginalSource: ",
                                "ValidationError: Value 'g' could not be converted.",
                                "HasError: True",
                                "Action: Added Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
@@ -111,10 +108,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
             expected.AddRange( new[]
                            {
-                               "Action: Removed Error: Value 'g' could not be converted. Source: ScopeTextBox1 OriginalSource: ScopeTextBox1",
-                               "Action: Removed Error: Value 'g' could not be converted. Source: ScopeStackPanel OriginalSource: ScopeStackPanel",
-                               "Action: Removed Error: Value 'g' could not be converted. Source:  OriginalSource: ",
-                               "Action: Removed Error: Value 'g' could not be converted. Source:  OriginalSource: ",
                                "HasError: False",
                                "Empty",
                                "Action: Removed Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
@@ -137,10 +130,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange( new[]
                            {
-                               "Action: Added Error: Value 'g' could not be converted. Source: ScopeTextBox1 OriginalSource: ScopeTextBox1",
-                               "Action: Added Error: Value 'g' could not be converted. Source: ScopeStackPanel OriginalSource: ScopeStackPanel",
-                               "Action: Added Error: Value 'g' could not be converted. Source:  OriginalSource: ",
-                               "Action: Added Error: Value 'g' could not be converted. Source:  OriginalSource: ",
                                "ValidationError: Value 'g' could not be converted.",
                                "HasError: True",
                                "Action: Added Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
@@ -154,10 +143,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(new[]
                            {
-                               "Action: Added Error: Value 'h' could not be converted. Source: ScopeTextBox2 OriginalSource: ScopeTextBox2",
-                               "Action: Added Error: Value 'h' could not be converted. Source: ScopeStackPanel OriginalSource: ScopeStackPanel",
-                               "Action: Added Error: Value 'h' could not be converted. Source:  OriginalSource: ",
-                               "Action: Added Error: Value 'h' could not be converted. Source:  OriginalSource: ",
                                "Action: Added Error: Value 'h' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
                            });
 
@@ -168,15 +153,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             expected.AddRange(new[]
-                           {
-                               "Action: Removed Error: Value 'g' could not be converted. Source: ScopeTextBox1 OriginalSource: ScopeTextBox1",
-                               "Action: Removed Error: Value 'g' could not be converted. Source: ScopeStackPanel OriginalSource: ScopeStackPanel",
-                               "Action: Removed Error: Value 'g' could not be converted. Source:  OriginalSource: ",
-                               "Action: Removed Error: Value 'g' could not be converted. Source:  OriginalSource: ",
-                               "HasError: False",
-                               "Empty",
-                               "Action: Removed Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
-                           });
+            {
+                "HasError: False",
+                "Empty",
+                "Action: Removed Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
+                "Action: Removed Error: Value 'h' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
+            });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");

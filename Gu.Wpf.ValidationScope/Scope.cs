@@ -15,7 +15,7 @@
         /// <summary>The error event is raised even if the bindings does not notify.</summary>
         public static readonly RoutedEvent ErrorEvent = EventManager.RegisterRoutedEvent(
             "ValidationError",
-            RoutingStrategy.Bubble,
+            RoutingStrategy.Direct,
             typeof(EventHandler<ScopeValidationErrorEventArgs>),
             typeof(Scope));
 
@@ -123,17 +123,16 @@
 
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var oldNode = e.OldValue as IErrorNode;
-            if (oldNode != null)
-            {
-                oldNode.Dispose();
-                CollectionChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
-            }
-
             var newNode = (IErrorNode)e.NewValue;
             if (newNode != null)
             {
                 UpdateErrorsAndHasErrors(d, newNode.Errors, newNode.HasErrors);
+                foreach (var error in newNode.Errors)
+                {
+                    (d as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
+                    (d as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
+                }
+
                 CollectionChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
                 (e.NewValue as ErrorNode)?.BindToSourceErrors();
             }
@@ -142,19 +141,30 @@
                 UpdateErrorsAndHasErrors(d, EmptyErrorsCollection, false);
             }
 
+            var oldNode = e.OldValue as IErrorNode;
+            if (oldNode != null)
+            {
+                oldNode.Dispose();
+                CollectionChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
+                foreach (var error in oldNode.Errors)
+                {
+                    (d as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
+                    (d as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
+                }
+            }
+
             d.SetCurrentValue(NodeProxyProperty, e.NewValue);
         }
 
         private static void OnNodeErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var node = (IErrorNode)sender;
-            if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems.Count == 1)
+            if (e.Action == NotifyCollectionChangedAction.Add && node.Errors.Count == 1)
             {
                 UpdateErrorsAndHasErrors(node.Source, node.Errors, true);
-                return;
             }
 
-            if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems.Count == 1)
+            if (e.Action == NotifyCollectionChangedAction.Remove && node.Errors.Count == 0)
             {
                 UpdateErrorsAndHasErrors(node.Source, EmptyErrorsCollection, false);
             }
@@ -187,11 +197,6 @@
             {
                 SetErrors(dependencyObject, errors);
                 SetHasErrors(dependencyObject, true);
-                foreach (var error in errors)
-                {
-                    (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
-                    (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
-                }
             }
             else
             {
