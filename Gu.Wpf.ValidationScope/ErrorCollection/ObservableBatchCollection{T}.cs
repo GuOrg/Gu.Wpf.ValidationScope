@@ -1,6 +1,7 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
@@ -36,44 +37,8 @@ namespace Gu.Wpf.ValidationScope
             newItems = newItems ?? Enumerable.Empty<T>();
             using (this.BeginChange())
             {
-                using (var enumerator = newItems.GetEnumerator())
-                {
-                    var index = 0;
-                    var addCurrent = false;
-
-                    while (index < this.Count && enumerator.MoveNext())
-                    {
-                        if (Equals(this.Items[index], enumerator.Current))
-                        {
-                            index++;
-                        }
-                        else
-                        {
-                            addCurrent = true;
-                            break;
-                        }
-                    }
-
-                    for (var i = this.Count - 1; i >= index; i--)
-                    {
-                        this.batch.Add(BatchChangeItem.CreateRemove(this.Items[i], i));
-                        this.Items.RemoveAt(i);
-                    }
-
-                    if (addCurrent)
-                    {
-                        this.batch.Add(BatchChangeItem.CreateAdd(enumerator.Current, index));
-                        this.Items.Add(enumerator.Current);
-                        index++;
-                    }
-
-                    while (enumerator.MoveNext())
-                    {
-                        this.batch.Add(BatchChangeItem.CreateAdd(enumerator.Current, index));
-                        this.Items.Add(enumerator.Current);
-                        index++;
-                    }
-                }
+                this.ClearItems();
+                this.AddRange(newItems);
             }
         }
 
@@ -139,7 +104,7 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
-        public IDisposable BeginChange()
+        protected IDisposable BeginChange()
         {
             return this.batch.Start();
         }
@@ -294,31 +259,18 @@ namespace Gu.Wpf.ValidationScope
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
         }
 
-        protected IEnumerable<NotifyCollectionChangedEventArgs> GetCollectionChangedEventArgs()
-        {
-            foreach (var change in this.batch)
-            {
-                switch (change.Action)
-                {
-                    case BatchItemChangeAction.Add:
-                    case BatchItemChangeAction.Remove:
-                        yield return new NotifyCollectionChangedEventArgs(change.Action.AsCollectionChangedAction(), change.Item, change.Index);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
-
         private static bool IsAddAndRemove(BatchItemChangeAction first, BatchItemChangeAction other)
         {
             return first == BatchItemChangeAction.Add && other == BatchItemChangeAction.Remove;
         }
 
-        private class BatchChanges : Collection<BatchChangeItem<T>>, IDisposable
+        private class BatchChanges : IReadOnlyList<BatchChangeItem<T>>, IDisposable
         {
             private readonly ObservableBatchCollection<T> source;
             private readonly object gate = new object();
+
+            private readonly List<BatchChangeItem<T>> items = new List<BatchChangeItem<T>>();
+            private readonly List<NotifyCollectionChangedEventArgs> args = new List<NotifyCollectionChangedEventArgs>();
 
             public BatchChanges(ObservableBatchCollection<T> source)
             {
@@ -326,6 +278,10 @@ namespace Gu.Wpf.ValidationScope
             }
 
             public bool IsProcessing { get; private set; }
+
+            public int Count => this.items.Count;
+
+            public BatchChangeItem<T> this[int index] => this.items[index];
 
             void IDisposable.Dispose()
             {
@@ -337,7 +293,7 @@ namespace Gu.Wpf.ValidationScope
                     }
 
                     this.source.NotifyBatch();
-                    this.Clear();
+                    this.items.Clear();
                     this.IsProcessing = false;
                 }
             }
@@ -354,6 +310,15 @@ namespace Gu.Wpf.ValidationScope
                     this.IsProcessing = true;
                     return this;
                 }
+            }
+
+            public IEnumerator<BatchChangeItem<T>> GetEnumerator() => this.items.GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+            internal void Add(BatchChangeItem<T> item)
+            {
+                this.items.Add(item);
             }
         }
     }
