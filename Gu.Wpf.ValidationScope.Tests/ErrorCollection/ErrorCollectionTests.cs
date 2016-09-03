@@ -1,15 +1,11 @@
 ﻿namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
     using System.Windows.Controls;
-
-    using Gu.Wpf.ValidationScope.Tests.Helpers;
 
     using NUnit.Framework;
     using ErrorCollection = Gu.Wpf.ValidationScope.ErrorCollection;

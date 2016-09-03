@@ -24,8 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>Gu.Wpf.ValidationScope.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Gu.Wpf.ValidationScope.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -52,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ErrorCollection\BatchChangeItem.cs" />
     <Compile Include="ErrorCollection\BatchItemChangeAction.cs" />
+    <Compile Include="ErrorCollection\BatchItemChangeActionExt.cs" />
     <Compile Include="ErrorCollection\ErrorCollectionResetEventArgs.cs" />
     <Compile Include="ErrorCollection\ObservableBatchCollection{T}.cs" />
     <Compile Include="InputTypes\DefaultInputTypesExtension.cs" />
@@ -69,7 +69,6 @@
     </Compile>
     <Compile Include="Internal\BindingHelper.cs" />
     <Compile Include="Internal\BooleanBoxes.cs" />
-    <Compile Include="Internal\ImmutableList.cs" />
     <Compile Include="ErrorCollection\BatchChangeItem{T}.cs" />
     <Compile Include="Internal\Is.cs" />
     <Compile Include="Scope.cs" />

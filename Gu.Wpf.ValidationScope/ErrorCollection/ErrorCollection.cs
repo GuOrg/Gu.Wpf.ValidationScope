@@ -8,7 +8,6 @@
     internal class ErrorCollection : ObservableBatchCollection<ValidationError>
     {
         public ErrorCollection()
-            : base()
         {
         }
 

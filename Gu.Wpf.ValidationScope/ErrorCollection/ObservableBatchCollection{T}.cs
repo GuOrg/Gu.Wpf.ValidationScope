@@ -1,3 +1,4 @@
+// ReSharper disable StaticMemberInGenericType
 namespace Gu.Wpf.ValidationScope
 {
     using System;
@@ -40,16 +41,6 @@ namespace Gu.Wpf.ValidationScope
                 this.ClearItems();
                 this.AddRange(newItems);
             }
-        }
-
-        private static bool Equals(T first, T other)
-        {
-            if (typeof(T).IsValueType)
-            {
-                return first.Equals(other);
-            }
-
-            return ReferenceEquals(first, other);
         }
 
         public void AddRange(IEnumerable<T> newItems)
@@ -262,6 +253,16 @@ namespace Gu.Wpf.ValidationScope
         private static bool IsAddAndRemove(BatchItemChangeAction first, BatchItemChangeAction other)
         {
             return first == BatchItemChangeAction.Add && other == BatchItemChangeAction.Remove;
+        }
+
+        private static bool Equals(T first, T other)
+        {
+            if (typeof(T).IsValueType)
+            {
+                return first.Equals(other);
+            }
+
+            return ReferenceEquals(first, other);
         }
 
         private class BatchChanges : IReadOnlyList<BatchChangeItem<T>>, IDisposable

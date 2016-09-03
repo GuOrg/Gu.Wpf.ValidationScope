@@ -85,11 +85,6 @@
             base.SetItem(index, item);
         }
 
-        protected virtual bool IsCompatible(Type type)
-        {
-            return IsCompatibleType(type);
-        }
-
         private void VerifyCompatible(Type type)
         {
             if (!IsCompatibleType(type))

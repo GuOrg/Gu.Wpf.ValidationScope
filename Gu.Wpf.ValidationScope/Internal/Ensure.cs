@@ -1,9 +1,10 @@
+// ReSharper disable UnusedParameter.Global
 namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Diagnostics;
 
-    internal static partial class Ensure
+    internal static class Ensure
     {
         internal static void NotNull<T>(T value, string parameterName)
             where T : class

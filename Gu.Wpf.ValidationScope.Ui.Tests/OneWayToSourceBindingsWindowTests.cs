@@ -1,9 +1,8 @@
+// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System.Collections.Generic;
     using System.Linq;
-
-    using Gu.Wpf.ValidationScope.Demo;
 
     using NUnit.Framework;
 

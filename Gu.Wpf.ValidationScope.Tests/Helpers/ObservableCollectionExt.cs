@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests.Helpers
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections;

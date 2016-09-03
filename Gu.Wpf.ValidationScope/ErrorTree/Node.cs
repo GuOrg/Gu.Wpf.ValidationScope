@@ -42,7 +42,10 @@ namespace Gu.Wpf.ValidationScope
                 this.InitializeErrors();
                 this.CollectionChanged += value;
             }
-            remove { this.CollectionChanged -= value; }
+            remove
+            {
+                this.CollectionChanged -= value;
+            }
         }
 
         [field: NonSerialized]

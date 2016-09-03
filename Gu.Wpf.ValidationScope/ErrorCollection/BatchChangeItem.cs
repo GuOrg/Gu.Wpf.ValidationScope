@@ -1,7 +1,5 @@
 namespace Gu.Wpf.ValidationScope
 {
-    using System.Collections.Specialized;
-
     internal static class BatchChangeItem
     {
         internal static BatchChangeItem<T> CreateAdd<T>(T item, int index)

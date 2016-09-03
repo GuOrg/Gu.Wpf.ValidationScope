@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <ControlTemplate x:Key="ControlTemplate"
                          TargetType="{x:Type ContentControl}">
+            <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
             <TextBox Text="{Binding Content.IntValue, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
         </ControlTemplate>
 

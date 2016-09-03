@@ -21,8 +21,10 @@
                     <TextBlock x:Name="Event">
                         <Run Text="{Binding Action, Mode=OneWay, StringFormat='Action: {0}'}" />
                         <Run Text="{Binding Error.ErrorContent, Mode=OneWay, StringFormat='Error: {0}'}" />
+                        <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
                         <Run Text="{Binding Source.Name, Mode=OneWay, StringFormat='Source: {0}'}" />     
                         <Run Text="{Binding OriginalSource.Name, Mode=OneWay, StringFormat='OriginalSource: {0}'}" />
+                        <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
                     </TextBlock>
                 </DataTemplate>
             </demo:EventTemplateSelector.ValidationErrorEventArgsTemplate>
@@ -32,8 +34,10 @@
                     <TextBlock x:Name="Event">
                         <Run Text="{Binding Action, Mode=OneWay, StringFormat='Action: {0}'}" />
                         <Run Text="{Binding Error.ErrorContent, Mode=OneWay, StringFormat='Error: {0}'}" />
+                        <!-- ReSharper disable Xaml.BindingWithContextNotResolved -->
                         <Run Text="{Binding Source.Name, Mode=OneWay, StringFormat='Source: {0}'}" />     
                         <Run Text="{Binding OriginalSource.Name, Mode=OneWay, StringFormat='OriginalSource: {0}'}" />
+                        <!-- ReSharper restore Xaml.BindingWithContextNotResolved -->
                     </TextBlock>
                 </DataTemplate>
             </demo:EventTemplateSelector.ScopeValidationErrorEventArgsTemplate>

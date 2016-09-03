@@ -8,8 +8,6 @@
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
 
-    using Gu.Wpf.ValidationScope.Tests.Helpers;
-
     using NUnit.Framework;
 
     [Apartment(ApartmentState.STA)]

@@ -43,6 +43,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             var uri = new Uri(Assembly.GetExecutingAssembly().CodeBase);
             var directoryName = Path.GetDirectoryName(uri.LocalPath);
             var fileName = Path.GetFileNameWithoutExtension(uri.LocalPath).Replace("Ui.Tests", "Demo");
+            // ReSharper disable once AssignNullToNotNullAttribute
             var fullFileName = Path.Combine(directoryName, fileName + ".exe");
             return fullFileName;
         }

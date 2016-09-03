@@ -8,6 +8,8 @@
 
     public static partial class Scope
     {
+#pragma warning disable SA1202 // Elements must be ordered by access
+
         private static readonly Binding BindingNotSet = new Binding { Mode = BindingMode.OneWayToSource };
 
         public static readonly DependencyProperty HasErrorBindingProperty = DependencyProperty.RegisterAttached(
@@ -48,6 +50,8 @@
             typeof(IErrorNode),
             typeof(Scope),
             new PropertyMetadata(default(IErrorNode)));
+
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
