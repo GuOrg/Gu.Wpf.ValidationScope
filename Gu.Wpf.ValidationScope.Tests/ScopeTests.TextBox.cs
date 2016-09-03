@@ -43,8 +43,8 @@
             textBox.SetForInputTypes(inputTypes);
             Assert.AreEqual(false, Scope.GetHasError(textBox));
             var errorNode = (ErrorNode)Scope.GetNode(textBox);
-            var errorArgs = errorNode.Errors.SubscribeAllEvents();
-            var nodeArgs = errorNode.SubscribeAllEvents();
+            var errorArgs = errorNode.Errors.SubscribeObservableCollectionEvents();
+            var nodeArgs = errorNode.SubscribeObservableCollectionEvents();
 
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
@@ -55,20 +55,20 @@
             errorNode = (ErrorNode)Scope.GetNode(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
-            CollectionAssert.AreEqual(new[] { TestValidationError.GetFor(textBox) }, errorNode.Errors);
+            CollectionAssert.AreEqual(new[] { ValidationErrorFactory.GetFor(textBox) }, errorNode.Errors);
 
             var expectedErrorArgs = new List<EventArgs>
                                    {
                                        new PropertyChangedEventArgs("Count"),
                                        new PropertyChangedEventArgs("Item[]"),
-                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, TestValidationError.GetFor(textBox), 0)
+                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, ValidationErrorFactory.GetFor(textBox), 0)
                                    };
             CollectionAssert.AreEqual(expectedErrorArgs, errorArgs, ObservableCollectionArgsComparer.Default);
             var expectedNodeArgs = new List<EventArgs>
                                        {
                                            new PropertyChangedEventArgs("Count"),
                                            new PropertyChangedEventArgs("Item[]"),
-                                           new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, TestValidationError.GetFor(textBox), 0),
+                                           new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, ValidationErrorFactory.GetFor(textBox), 0),
                                            new PropertyChangedEventArgs("HasErrors"),
                                        };
             CollectionAssert.AreEqual(expectedNodeArgs, nodeArgs, ObservableCollectionArgsComparer.Default);
@@ -82,12 +82,12 @@
 
             expectedErrorArgs.Add(new PropertyChangedEventArgs("Count"));
             expectedErrorArgs.Add(new PropertyChangedEventArgs("Item[]"));
-            expectedErrorArgs.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, TestValidationError.GetFor(textBox), 0));
+            expectedErrorArgs.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, ValidationErrorFactory.GetFor(textBox), 0));
             CollectionAssert.AreEqual(expectedErrorArgs, errorArgs, ObservableCollectionArgsComparer.Default);
 
             expectedNodeArgs.Add(new PropertyChangedEventArgs("Count"));
             expectedNodeArgs.Add(new PropertyChangedEventArgs("Item[]"));
-            expectedNodeArgs.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, TestValidationError.GetFor(textBox), 0));
+            expectedNodeArgs.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, ValidationErrorFactory.GetFor(textBox), 0));
             expectedNodeArgs.Add(new PropertyChangedEventArgs("HasErrors"));
             CollectionAssert.AreEqual(expectedNodeArgs, nodeArgs, ObservableCollectionArgsComparer.Default);
         }

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
+    using System.ComponentModel;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -40,7 +41,7 @@
             "Errors",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(Scope),
-            new PropertyMetadata(ErrorCollection.Empty, OnErrorsChanged));
+            new PropertyMetadata(ErrorCollection.EmptyValidationErrors, OnErrorsChanged));
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
@@ -128,7 +129,7 @@
             if (newNode != null)
             {
                 UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
-                newNode.ErrorCollection.ErrorsChanged += OnNodeErrorsChanged;
+                ErrorsChangedEventManager.AddHandler(newNode.ErrorCollection, OnNodeErrorsChanged);
                 (e.NewValue as ErrorNode)?.BindToSourceErrors();
             }
             else
@@ -140,16 +141,16 @@
             if (oldNode != null)
             {
                 oldNode.Dispose();
-                oldNode.ErrorCollection.ErrorsChanged -= OnNodeErrorsChanged;
+                ErrorsChangedEventManager.RemoveHandler(oldNode.ErrorCollection, OnNodeErrorsChanged);
             }
 
             d.SetCurrentValue(NodeProxyProperty, e.NewValue);
         }
 
-        private static void OnNodeErrorsChanged(object sender, ErrorCollectionChangedEventArgs e)
+        private static void OnNodeErrorsChanged(object sender, ErrorsChangedEventArgs e)
         {
             var node = (IErrorNode)sender;
-            UpdateErrorsAndHasErrors(node.Source, e.RemovedItems, e.AddedItems, node.Errors);
+            UpdateErrorsAndHasErrors(node.Source, e.Removed, e.Added, node.Errors);
         }
 
         // this helper sets properties and raises events in the same order as System.Controls.Validation
@@ -167,7 +168,7 @@
             else
             {
                 SetHasErrors(dependencyObject, false);
-                SetErrors(dependencyObject, ErrorCollection.Empty);
+                SetErrors(dependencyObject, ErrorCollection.EmptyValidationErrors);
             }
 
             foreach (var error in removedErrors)

@@ -7,16 +7,16 @@ namespace Gu.Wpf.ValidationScope.Tests
     using System.Windows.Controls;
     using System.Windows.Data;
 
-    public class TestValidationError : ValidationError
+    public class ValidationErrorFactory : ValidationError
     {
-        private static readonly List<Tuple<UIElement, TestValidationError>> Cache = new List<Tuple<UIElement, TestValidationError>>();
+        private static readonly List<Tuple<UIElement, ValidationErrorFactory>> Cache = new List<Tuple<UIElement, ValidationErrorFactory>>();
 
-        private TestValidationError(object bindingInError)
+        private ValidationErrorFactory(object bindingInError)
             : base(TestValidationRule.Default, bindingInError)
         {
         }
 
-        public static TestValidationError GetFor(BindingExpression expression)
+        public static ValidationErrorFactory GetFor(BindingExpression expression)
         {
             var source = (UIElement)expression.ParentBinding.Source;
             var match = Cache.SingleOrDefault(x => ReferenceEquals(x.Item1, source));
@@ -25,18 +25,18 @@ namespace Gu.Wpf.ValidationScope.Tests
                 return match.Item2;
             }
 
-            var error = new TestValidationError(expression.ParentBinding);
+            var error = new ValidationErrorFactory(expression.ParentBinding);
             Cache.Add(Tuple.Create(source, error));
 
             return error;
         }
 
-        public static TestValidationError Create()
+        public static ValidationErrorFactory Create()
         {
-            return new TestValidationError(new Binding());
+            return new ValidationErrorFactory(new Binding());
         }
 
-        public static TestValidationError GetFor(UIElement element)
+        public static ValidationErrorFactory GetFor(UIElement element)
         {
             return Cache.SingleOrDefault(x => ReferenceEquals(x.Item1, element))?.Item2;
         }

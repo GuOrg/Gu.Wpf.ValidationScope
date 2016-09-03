@@ -79,9 +79,8 @@ namespace Gu.Wpf.ValidationScope
                 return;
             }
 
-            var oldValue = (ReadOnlyObservableCollection<ValidationError>)e.OldValue;
-            var newValue = (ReadOnlyObservableCollection<ValidationError>)e.NewValue;
-            node.ErrorCollection.Update(oldValue, newValue);
+            node.ErrorCollection.Remove((ReadOnlyObservableCollection<ValidationError>)e.OldValue);
+            node.ErrorCollection.Add((ReadOnlyObservableCollection<ValidationError>)e.NewValue);
             BubbleRoute.Notify(node);
         }
     }

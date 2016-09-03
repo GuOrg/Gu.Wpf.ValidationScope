@@ -5,14 +5,15 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using NUnit.Framework;
 
     public static class ObservableCollectionExt
     {
-        public static EventList<T> SubscribeAllEvents<T>(this T col)
+        public static EventList<T> SubscribeObservableCollectionEvents<T>(this T col)
              where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
         {
             return new EventList<T>(col);
- }
+        }
 
         public class EventList<T> : Collection<EventArgs>, IDisposable
                         where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
@@ -34,11 +35,13 @@
 
             private void Add(object sender, NotifyCollectionChangedEventArgs e)
             {
+                Assert.AreSame(this.source, sender);
                 this.Add(e);
             }
 
             private void Add(object sender, PropertyChangedEventArgs e)
             {
+                Assert.AreSame(this.source, sender);
                 this.Add(e);
             }
         }

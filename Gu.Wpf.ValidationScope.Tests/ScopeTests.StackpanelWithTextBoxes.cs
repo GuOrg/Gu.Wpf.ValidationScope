@@ -67,13 +67,13 @@
                 errorNode = (ScopeNode)Scope.GetNode(stackPanel);
                 Assert.AreEqual(stackPanel, errorNode.Source);
                 Assert.AreEqual(1, errorNode.Children.Count);
-                CollectionAssert.AreEqual(new[] { TestValidationError.GetFor(textBox) }, errorNode.Errors);
+                CollectionAssert.AreEqual(new[] { ValidationErrorFactory.GetFor(textBox) }, errorNode.Errors);
 
                 Assert.AreEqual(true, Scope.GetHasError(textBox));
                 errorNode = (ErrorNode)Scope.GetNode(textBox);
                 Assert.AreEqual(textBox, errorNode.Source);
                 CollectionAssert.IsEmpty(errorNode.Children);
-                CollectionAssert.AreEqual(new[] { TestValidationError.GetFor(textBox) }, errorNode.Errors);
+                CollectionAssert.AreEqual(new[] { ValidationErrorFactory.GetFor(textBox) }, errorNode.Errors);
 
                 textBox.ClearValidationError();
                 Assert.AreEqual(false, Scope.GetHasError(stackPanel));

@@ -1,5 +1,6 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
+    using System;
     using System.Windows;
     using System.Windows.Media;
 
@@ -7,51 +8,52 @@
     {
         internal static void Notify(ErrorNode errorNode)
         {
-            var source = errorNode.Source;
-            if (source == null)
-            {
-                return;
-            }
+            throw new NotImplementedException();
+            //var source = errorNode.Source;
+            //if (source == null)
+            //{
+            //    return;
+            //}
 
-            var parent = VisualTreeHelper.GetParent(source);
-            Node childNode = errorNode;
-            while (parent != null)
-            {
-                if (Scope.GetForInputTypes(parent) == null)
-                {
-                    break;
-                }
+            //var parent = VisualTreeHelper.GetParent(source);
+            //Node childNode = errorNode;
+            //while (parent != null)
+            //{
+            //    if (Scope.GetForInputTypes(parent) == null)
+            //    {
+            //        break;
+            //    }
 
-                var parentNode = (Node)parent.GetValue(Scope.NodeProperty);
-                if (ShouldRemoveChildNode(parentNode, childNode))
-                {
-                    parentNode.RemoveChild(childNode);
-                    if (parentNode is ScopeNode && parentNode.Children.Count == 0)
-                    {
-                        Scope.SetNode(parent, null);
-                    }
-                    else
-                    {
-                        parentNode.RefreshErrors();
-                    }
-                }
-                else if (ShouldAddChildNode(parent, childNode, source))
-                {
-                    if (parentNode == null)
-                    {
-                        parentNode = new ScopeNode(parent, childNode);
-                        Scope.SetNode(parent, parentNode);
-                    }
-                    else
-                    {
-                        parentNode.AddChild(childNode);
-                        parentNode.RefreshErrors();
-                    }
-                }
+            //    var parentNode = (Node)parent.GetValue(Scope.NodeProperty);
+            //    if (ShouldRemoveChildNode(parentNode, childNode))
+            //    {
+            //        parentNode.RemoveChild(childNode);
+            //        if (parentNode is ScopeNode && parentNode.Children.Count == 0)
+            //        {
+            //            Scope.SetNode(parent, null);
+            //        }
+            //        else
+            //        {
+            //            parentNode.RefreshErrors();
+            //        }
+            //    }
+            //    else if (ShouldAddChildNode(parent, childNode, source))
+            //    {
+            //        if (parentNode == null)
+            //        {
+            //            parentNode = new ScopeNode(parent, childNode);
+            //            Scope.SetNode(parent, parentNode);
+            //        }
+            //        else
+            //        {
+            //            parentNode.AddChild(childNode);
+            //            parentNode.RefreshErrors();
+            //        }
+            //    }
 
-                childNode = parentNode;
-                parent = VisualTreeHelper.GetParent(parent);
-            }
+            //    childNode = parentNode;
+            //    parent = VisualTreeHelper.GetParent(parent);
+            //}
         }
 
         private static bool ShouldRemoveChildNode(Node parentNode, Node childNode)

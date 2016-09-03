@@ -1,8 +1,6 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
-    using System;
     using System.Collections.ObjectModel;
-
     using JetBrains.Annotations;
 
     internal class ChildCollection : ReadOnlyObservableCollection<IErrorNode>

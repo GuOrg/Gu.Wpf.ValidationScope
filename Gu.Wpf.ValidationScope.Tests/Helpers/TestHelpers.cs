@@ -18,7 +18,7 @@
             var expression = BindingOperations.GetBindingExpression(textBox, ProxyProperty)
                              ?? textBox.Bind(ProxyProperty).OneWayTo(textBox, TextBox.TextProperty);
 
-            Validation.MarkInvalid(expression, TestValidationError.GetFor(expression));
+            Validation.MarkInvalid(expression, ValidationErrorFactory.GetFor(expression));
         }
 
         public static void ClearValidationError(this TextBox textBox)

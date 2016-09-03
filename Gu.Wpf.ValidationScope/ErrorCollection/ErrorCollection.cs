@@ -5,48 +5,44 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
+    using System.Diagnostics;
+    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
 
     internal sealed class ErrorCollection : ReadOnlyObservableCollection<ValidationError>, IDisposable
     {
-        internal static readonly ErrorCollection Empty = new ErrorCollection(null);
-
-        internal static readonly ReadOnlyObservableCollection<ValidationError> EmptyValidationErrors =
-            Validation.GetErrors(new DependencyObject());
+        internal static readonly ReadOnlyObservableCollection<ValidationError> EmptyValidationErrors = Validation.GetErrors(new DependencyObject());
 
         private readonly MergedErrorsCollection errors;
 
         public ErrorCollection()
-            : this(new MergedErrorsCollection(this))
+            : this(new MergedErrorsCollection())
         {
         }
 
         private ErrorCollection(MergedErrorsCollection errors)
-            : base(errors ?? new ObservableCollection<ValidationError>())
+            : base(errors)
         {
             this.errors = errors;
+            this.errors.ErrorCollection = this;
         }
 
-        public event EventHandler<ErrorCollectionChangedEventArgs> ErrorsChanged;
+        public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
 
         public void Dispose()
         {
-            throw new NotImplementedException("remove all subscriptions");
-            throw new NotImplementedException("clear");
+            this.errors.Dispose();
         }
 
         internal void Add(ReadOnlyObservableCollection<ValidationError> newErrors)
         {
             this.errors.Add(newErrors);
-            this.ErrorsChanged?.Invoke(this, new ErrorCollectionChangedEventArgs(EmptyValidationErrors, newErrors));
         }
 
         internal void Remove(ReadOnlyObservableCollection<ValidationError> oldErrors)
         {
             this.errors.Remove(oldErrors);
-            this.ErrorsChanged?.Invoke(this, new ErrorCollectionChangedEventArgs(oldErrors, EmptyValidationErrors));
         }
 
         internal void Add(IErrorNode errorNode)
@@ -59,50 +55,95 @@
             this.Remove(errorNode.Errors);
         }
 
-        private class MergedErrorsCollection : ObservableCollection<ValidationError>
+        private void OnAddedErrors(IReadOnlyList<ValidationError> added)
+        {
+            this.ErrorsChanged?.Invoke(this, new ErrorsChangedEventArgs(EmptyValidationErrors, added));
+        }
+
+        private void OnRemovedErrors(IReadOnlyList<ValidationError> removed)
+        {
+            this.ErrorsChanged?.Invoke(this, new ErrorsChangedEventArgs(removed, EmptyValidationErrors));
+        }
+
+        private class MergedErrorsCollection : ObservableCollection<ValidationError>, IDisposable
         {
             private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
             private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
             private static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 
-            private readonly List<PositionedCollection> collections = new List<PositionedCollection>();
-            private readonly ErrorCollection errorCollection;
+            private readonly List<ReadOnlyObservableCollection<ValidationError>> collections = new List<ReadOnlyObservableCollection<ValidationError>>();
 
-            public MergedErrorsCollection(ErrorCollection errorCollection)
+            internal ErrorCollection ErrorCollection { get; set; }
+
+            public void Dispose()
             {
-                this.errorCollection = errorCollection;
+                for (var i = this.collections.Count - 1; i >= 0; i--)
+                {
+                    this.Remove(this.collections[i]);
+                }
             }
 
-            internal void Add(ReadOnlyObservableCollection<ValidationError> newErrors)
+            internal void Add(ReadOnlyObservableCollection<ValidationError> errors)
             {
-                if (newErrors == EmptyValidationErrors)
+                if (errors == null)
                 {
                     return;
                 }
 
-                this.collections.Add(new PositionedCollection(newErrors, this.Count));
-                this.AddRange(newErrors);
-                CollectionChangedEventManager.AddHandler(newErrors, this.OnErrorsChanged);
-            }
-
-            internal void Remove(ReadOnlyObservableCollection<ValidationError> oldErrors)
-            {
-                if (oldErrors == EmptyValidationErrors)
+                Debug.Assert(!this.collections.Contains(errors), "!this.collections.Contains(errors)");
+                if (errors == EmptyValidationErrors)
                 {
                     return;
                 }
 
-                CollectionChangedEventManager.RemoveHandler(oldErrors, this.OnErrorsChanged);
-                var index = this.IndexOf(oldErrors);
-                var collection = this.collections[index];
-                this.RemoveRange(collection);
-                for (int i = index; i < this.collections.Count; i++)
+                this.AddRange(errors);
+                var errorCollection = errors as ErrorCollection;
+                if (errorCollection != null)
                 {
-                    this.collections[i].Shift(-collection.Errors.Count);
+                    ErrorsChangedEventManager.AddHandler(errorCollection, this.OnErrorsChanged);
                 }
+                else
+                {
+                    CollectionChangedEventManager.AddHandler(errors, this.OnErrorsCollectionChanged);
+                }
+
+                this.collections.Add(errors);
             }
 
-            private void AddRange(ReadOnlyObservableCollection<ValidationError> errors)
+            internal void Remove(ReadOnlyObservableCollection<ValidationError> errors)
+            {
+                if (errors == null)
+                {
+                    return;
+                }
+
+                Debug.Assert(this.collections.Contains(errors), "this.collections.Contains(errors)");
+                if (errors == EmptyValidationErrors)
+                {
+                    return;
+                }
+
+                this.RemoveRange(errors);
+                var errorCollection = errors as ErrorCollection;
+                if (errorCollection != null)
+                {
+                    ErrorsChangedEventManager.RemoveHandler(errorCollection, this.OnErrorsChanged);
+                }
+                else
+                {
+                    CollectionChangedEventManager.RemoveHandler(errors, this.OnErrorsCollectionChanged);
+                }
+
+                this.collections.Remove(errors);
+            }
+
+            protected override void MoveItem(int oldIndex, int newIndex) => ThrowNotSupported();
+
+            protected override void SetItem(int index, ValidationError item) => ThrowNotSupported();
+
+            protected override void ClearItems() => ThrowNotSupported();
+
+            private void AddRange(IReadOnlyList<ValidationError> errors)
             {
                 if (errors.Count == 0)
                 {
@@ -112,6 +153,7 @@
                 if (errors.Count == 1)
                 {
                     this.Add(errors[0]);
+                    this.ErrorCollection.OnAddedErrors(errors);
                     return;
                 }
 
@@ -121,75 +163,64 @@
                 }
 
                 this.RaiseReset();
+                this.ErrorCollection.OnAddedErrors(errors);
             }
 
-            private void RemoveRange(PositionedCollection errors)
+            private void RemoveRange(IReadOnlyList<ValidationError> errors)
             {
-                if (errors.Errors.Count == 0)
+                if (errors.Count == 0)
                 {
                     return;
                 }
 
-                if (errors.Errors.Count == 1)
+                if (errors.Count == 1)
                 {
-                    this.RemoveAt(errors.StartIndex);
+                    this.Remove(errors[0]);
+                    this.ErrorCollection.OnRemovedErrors(errors);
                     return;
                 }
 
-                for (int i = 0; i < errors.EndIndex; i++)
+                foreach (var error in errors)
                 {
-                    this.Items.RemoveAt(errors.StartIndex);
+                    this.Items.Remove(error);
                 }
 
                 this.RaiseReset();
+                this.ErrorCollection.OnRemovedErrors(errors);
             }
 
-            private int IndexOf(ReadOnlyObservableCollection<ValidationError> errors)
+            private static void ThrowNotSupported([CallerMemberName] string caller = null)
             {
-                for (int i = 0; i < this.collections.Count; i++)
-                {
-                    if (ReferenceEquals(this.collections[i].Errors, errors))
-                    {
-                        return i;
-                    }
-                }
-
-                throw new ArgumentOutOfRangeException(nameof(errors), "Could not find a match for errors");
+                throw new NotSupportedException($"{nameof(MergedErrorsCollection)} does not support {caller}");
             }
 
-            private void OnErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
+            private void OnErrorsChanged(object sender, ErrorsChangedEventArgs e)
             {
-                var index = this.IndexOf((ReadOnlyObservableCollection<ValidationError>)sender);
-                var collection = this.collections[index];
+                this.RemoveRange(e.Removed);
+                this.AddRange(e.Added);
+            }
 
+            private void OnErrorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            {
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        var newError = collection.Errors[collection.Errors.Count - 1];
-                        this.InsertItem(collection.EndIndex + 1, newError);
-                        this.errorCollection.ErrorsChanged.Invoke(this.errorCollection, new ErrorCollectionChangedEventArgs(EmptyValidationErrors, new[] { newError }));
+                        var newError = (ValidationError)e.NewItems[0];
+                        this.Add(newError);
+                        this.ErrorCollection.OnAddedErrors(new[] { newError });
                         break;
                     case NotifyCollectionChangedAction.Remove:
-                        var oldError = this[collection.EndIndex];
-                        this.RemoveAt(collection.EndIndex);
-                        this.errorCollection.ErrorsChanged.Invoke(this.errorCollection, new ErrorCollectionChangedEventArgs(new[] { oldError }, EmptyValidationErrors));
+                        var oldError = (ValidationError)e.OldItems[0];
+                        this.Remove(oldError);
+                        this.ErrorCollection.OnRemovedErrors(new[] { oldError });
                         break;
+                    case NotifyCollectionChangedAction.Reset:
                     case NotifyCollectionChangedAction.Replace:
                     case NotifyCollectionChangedAction.Move:
-                    case NotifyCollectionChangedAction.Reset:
                         // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Validation.cs,507
                         throw new NotSupportedException("Only add or remove should ever happen.");
                     default:
                         throw new ArgumentOutOfRangeException();
-                }
-
-                var shift = collection.UpdateEnd();
-                if (shift != 0)
-                {
-                    for (int i = index; i < this.collections.Count; i++)
-                    {
-                        this.collections[i].Shift(shift);
-                    }
                 }
             }
 
@@ -198,35 +229,6 @@
                 this.OnPropertyChanged(CountPropertyChangedEventArgs);
                 this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
                 this.OnCollectionChanged(NotifyCollectionResetEventArgs);
-            }
-
-            private class PositionedCollection
-            {
-                public PositionedCollection(ReadOnlyObservableCollection<ValidationError> errors, int startIndex)
-                {
-                    this.Errors = errors;
-                    this.StartIndex = startIndex;
-                    this.UpdateEnd();
-                }
-
-                internal ReadOnlyObservableCollection<ValidationError> Errors { get; }
-
-                internal int StartIndex { get; private set; }
-
-                internal int EndIndex { get; private set; }
-
-                internal void Shift(int n)
-                {
-                    this.StartIndex += n;
-                    this.EndIndex += n;
-                }
-
-                internal int UpdateEnd()
-                {
-                    var before = this.EndIndex;
-                    this.EndIndex = this.StartIndex + this.Errors.Count - 1;
-                    return before - this.EndIndex;
-                }
             }
         }
     }

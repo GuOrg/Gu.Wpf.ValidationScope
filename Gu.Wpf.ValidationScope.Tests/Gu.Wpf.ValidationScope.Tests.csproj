@@ -49,13 +49,15 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="Helpers\ErrorCollectionExt.cs" />
+    <Compile Include="Helpers\ErrorsChangedEventArgsComparer.cs" />
+    <Compile Include="Helpers\Factory.cs" />
     <Compile Include="Helpers\NotifyCollectionChangedEventArgsComparer.cs" />
     <Compile Include="Helpers\GenericComparer.cs" />
     <Compile Include="Helpers\ObservableCollectionArgsComparer.cs" />
     <Compile Include="Helpers\ObservableCollectionExt.cs" />
     <Compile Include="Helpers\PropertyChangedEventArgsComparer.cs" />
-    <Compile Include="Helpers\BatchChangeItemComparer.cs" />
-    <Compile Include="Helpers\TestValidationError.cs" />
+    <Compile Include="Helpers\ValidationErrorFactory.cs" />
     <Compile Include="Helpers\TestValidationRule.cs" />
     <Compile Include="ErrorCollection\ErrorCollectionTests.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverterTests.cs" />
