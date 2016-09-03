@@ -11,7 +11,6 @@
     public static partial class Scope
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
-        private static readonly ReadOnlyObservableCollection<ValidationError> EmptyErrorsCollection = new ReadOnlyObservableCollection<ValidationError>(new ObservableBatchCollection<ValidationError>());
 
         /// <summary>The error event is raised even if the bindings does not notify.</summary>
         public static readonly RoutedEvent ErrorEvent = EventManager.RegisterRoutedEvent(
@@ -41,7 +40,7 @@
             "Errors",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(Scope),
-            new PropertyMetadata(EmptyErrorsCollection, OnErrorsChanged));
+            new PropertyMetadata(ErrorCollection.Empty, OnErrorsChanged));
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
@@ -124,55 +123,33 @@
 
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var newNode = (IErrorNode)e.NewValue;
+            var newNode = (Node)e.NewValue;
 
             if (newNode != null)
             {
                 UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
-                CollectionChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
+                newNode.ErrorCollection.ErrorsChanged += OnNodeErrorsChanged;
                 (e.NewValue as ErrorNode)?.BindToSourceErrors();
             }
             else
             {
-                UpdateErrorsAndHasErrors(d, GetErrors(d), Enumerable.Empty<ValidationError>(), EmptyErrorsCollection);
+                UpdateErrorsAndHasErrors(d, GetErrors(d), ErrorCollection.EmptyValidationErrors, ErrorCollection.EmptyValidationErrors);
             }
 
-            var oldNode = e.OldValue as IErrorNode;
+            var oldNode = (Node)e.OldValue;
             if (oldNode != null)
             {
                 oldNode.Dispose();
-                CollectionChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
+                oldNode.ErrorCollection.ErrorsChanged -= OnNodeErrorsChanged;
             }
 
             d.SetCurrentValue(NodeProxyProperty, e.NewValue);
         }
 
-        private static void OnNodeErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private static void OnNodeErrorsChanged(object sender, ErrorCollectionChangedEventArgs e)
         {
-            IEnumerable<ValidationError> removedErrors;
-            IEnumerable<ValidationError> addedErrors;
-
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                case NotifyCollectionChangedAction.Remove:
-                case NotifyCollectionChangedAction.Replace:
-                    removedErrors = e.OldItems?.Cast<ValidationError>() ?? Enumerable.Empty<ValidationError>();
-                    addedErrors = e.NewItems?.Cast<ValidationError>() ?? Enumerable.Empty<ValidationError>();
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    return;
-                case NotifyCollectionChangedAction.Reset:
-                    removedErrors = ((ErrorCollectionResetEventArgs)e).RemovedItems ?? Enumerable.Empty<ValidationError>();
-                    addedErrors = ((ErrorCollectionResetEventArgs)e).AddedItems ?? Enumerable.Empty<ValidationError>();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
             var node = (IErrorNode)sender;
-
-            UpdateErrorsAndHasErrors(node.Source, removedErrors, addedErrors, node.Errors);
+            UpdateErrorsAndHasErrors(node.Source, e.RemovedItems, e.AddedItems, node.Errors);
         }
 
         // this helper sets properties and raises events in the same order as System.Controls.Validation
@@ -190,7 +167,7 @@
             else
             {
                 SetHasErrors(dependencyObject, false);
-                SetErrors(dependencyObject, EmptyErrorsCollection);
+                SetErrors(dependencyObject, ErrorCollection.Empty);
             }
 
             foreach (var error in removedErrors)

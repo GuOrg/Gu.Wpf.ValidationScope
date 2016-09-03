@@ -5,13 +5,13 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
+    using System.Windows.Media;
 
     [DebuggerDisplay("ErrorNode Errors: {errors?.Count ?? 0}, Source: {Source}")]
-    internal sealed class ErrorNode : Node, IWeakEventListener
+    internal sealed class ErrorNode : Node
     {
         private static readonly DependencyProperty ValidationErrorsProxyProperty = DependencyProperty.RegisterAttached(
             "ValidationErrorsProxy",
@@ -25,7 +25,6 @@ namespace Gu.Wpf.ValidationScope
         private readonly Binding errorsBinding;
 
         private ErrorNode(Binding errorsBinding)
-            : base(false)
         {
             this.errorsBinding = errorsBinding;
         }
@@ -50,60 +49,9 @@ namespace Gu.Wpf.ValidationScope
             return new ErrorNode(binding);
         }
 
-        bool IWeakEventListener.ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
-        {
-            if (managerType == typeof(CollectionChangedEventManager))
-            {
-                this.RefreshErrors();
-                BubbleRoute.Notify(this);
-                return true;
-            }
-
-            return false;
-        }
-
         internal void BindToSourceErrors()
         {
             BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ValidationErrorsProxyProperty, this.errorsBinding);
-        }
-
-        internal IReadOnlyList<ValidationError> GetValidationErrors()
-        {
-            // not sure if  we need to protect against null here but doing it to be safe in case GC collects the binding.
-            var source = this.Source;
-            if (source == null || BindingOperations.GetBindingExpression(source, ValidationErrorsProxyProperty) == null)
-            {
-                return EmptyValidationErrors;
-            }
-
-            return Validation.GetErrors(source) ?? EmptyValidationErrors;
-        }
-
-        protected override IReadOnlyList<ValidationError> GetAllErrors()
-        {
-            if (this.Source == null)
-            {
-                // not sure if  we need to protect against null here but doing it to be safe in case GC collects the binding.
-                return EmptyValidationErrors;
-            }
-
-            var errors = this.GetValidationErrors();
-            if (this.AllChildren.Any())
-            {
-                var allErrors = this.AllChildren.OfType<ErrorNode>()
-                    .SelectMany(x => x.GetValidationErrors())
-                    .ToList();
-                if (errors != null)
-                {
-                    allErrors.AddRange(errors);
-                }
-
-                return allErrors;
-            }
-            else
-            {
-                return errors ?? EmptyValidationErrors;
-            }
         }
 
         protected override void Dispose(bool disposing)
@@ -116,16 +64,10 @@ namespace Gu.Wpf.ValidationScope
             var source = this.Source;
             if (source != null)
             {
-                var value = source.GetValue(ValidationErrorsProxyProperty);
-                if (value != null)
-                {
-                    CollectionChangedEventManager.RemoveListener((INotifyCollectionChanged)value, this);
-                }
-
                 BindingOperations.ClearBinding(source, ValidationErrorsProxyProperty);
-                this.RefreshErrors();
-                BubbleRoute.Notify(this);
             }
+
+            base.Dispose(true);
         }
 
         private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -138,18 +80,8 @@ namespace Gu.Wpf.ValidationScope
             }
 
             var oldValue = (ReadOnlyObservableCollection<ValidationError>)e.OldValue;
-            if (oldValue != null)
-            {
-                CollectionChangedEventManager.RemoveListener(oldValue, node);
-            }
-
             var newValue = (ReadOnlyObservableCollection<ValidationError>)e.NewValue;
-            if (newValue != null)
-            {
-                CollectionChangedEventManager.AddListener(newValue, node);
-            }
-
-            node.RefreshErrors();
+            node.ErrorCollection.Update(oldValue, newValue);
             BubbleRoute.Notify(node);
         }
     }

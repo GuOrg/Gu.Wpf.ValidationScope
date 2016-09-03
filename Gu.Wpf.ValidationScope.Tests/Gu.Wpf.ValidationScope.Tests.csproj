@@ -49,7 +49,6 @@
     </When>
   </Choose>
   <ItemGroup>
-    <Compile Include="ErrorCollection\ObservableBatchCollectionTests.Refresh.cs" />
     <Compile Include="Helpers\NotifyCollectionChangedEventArgsComparer.cs" />
     <Compile Include="Helpers\GenericComparer.cs" />
     <Compile Include="Helpers\ObservableCollectionArgsComparer.cs" />
@@ -59,7 +58,6 @@
     <Compile Include="Helpers\TestValidationError.cs" />
     <Compile Include="Helpers\TestValidationRule.cs" />
     <Compile Include="ErrorCollection\ErrorCollectionTests.cs" />
-    <Compile Include="ErrorCollection\ObservableBatchCollectionTests.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScopeTests.TextBox.cs" />

@@ -49,11 +49,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ErrorCollection\BatchChangeItem.cs" />
-    <Compile Include="ErrorCollection\BatchItemChangeAction.cs" />
-    <Compile Include="ErrorCollection\BatchItemChangeActionExt.cs" />
-    <Compile Include="ErrorCollection\ErrorCollectionResetEventArgs.cs" />
-    <Compile Include="ErrorCollection\ObservableBatchCollection{T}.cs" />
+    <Compile Include="ErrorCollection\ErrorCollectionChangedEventArgs.cs" />
+    <Compile Include="ErrorTree\ChildCollection.cs" />
     <Compile Include="InputTypes\DefaultInputTypesExtension.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverter.cs" />
     <Compile Include="Internal\BubbleRoute.cs" />
@@ -69,7 +66,6 @@
     </Compile>
     <Compile Include="Internal\BindingHelper.cs" />
     <Compile Include="Internal\BooleanBoxes.cs" />
-    <Compile Include="ErrorCollection\BatchChangeItem{T}.cs" />
     <Compile Include="Internal\Is.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
