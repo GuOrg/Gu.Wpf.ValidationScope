@@ -34,5 +34,10 @@
         {
             return this.children.Remove(child);
         }
+
+        internal void RemoveAt(int index)
+        {
+            this.children.RemoveAt(index);
+        }
     }
 }

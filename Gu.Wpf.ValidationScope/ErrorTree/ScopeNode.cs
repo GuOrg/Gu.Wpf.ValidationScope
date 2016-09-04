@@ -9,8 +9,7 @@ namespace Gu.Wpf.ValidationScope
     {
         private readonly WeakReference<DependencyObject> sourceReference;
 
-        public ScopeNode(DependencyObject source, IErrorNode child)
-            : base(child)
+        public ScopeNode(DependencyObject source)
         {
             this.sourceReference = new WeakReference<DependencyObject>(source);
         }

@@ -1,14 +1,11 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
-    using System.Windows.Media;
 
     [DebuggerDisplay("ErrorNode Errors: {errors?.Count ?? 0}, Source: {Source}")]
     internal sealed class ErrorNode : Node
@@ -27,6 +24,7 @@ namespace Gu.Wpf.ValidationScope
         private ErrorNode(Binding errorsBinding)
         {
             this.errorsBinding = errorsBinding;
+            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ValidationErrorsProxyProperty, this.errorsBinding);
         }
 
         public override DependencyObject Source => (DependencyObject)this.errorsBinding.Source;
@@ -47,11 +45,6 @@ namespace Gu.Wpf.ValidationScope
             };
 
             return new ErrorNode(binding);
-        }
-
-        internal void BindToSourceErrors()
-        {
-            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ValidationErrorsProxyProperty, this.errorsBinding);
         }
 
         protected override void Dispose(bool disposing)
@@ -81,7 +74,6 @@ namespace Gu.Wpf.ValidationScope
 
             node.ErrorCollection.Remove((ReadOnlyObservableCollection<ValidationError>)e.OldValue);
             node.ErrorCollection.Add((ReadOnlyObservableCollection<ValidationError>)e.NewValue);
-            BubbleRoute.Notify(node);
         }
     }
 }

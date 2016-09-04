@@ -19,12 +19,6 @@ namespace Gu.Wpf.ValidationScope
         private readonly Lazy<ChildCollection> children = new Lazy<ChildCollection>(() => new ChildCollection());
         private bool disposed;
 
-        protected Node(IErrorNode child)
-            : this()
-        {
-            this.AddChild(child);
-        }
-
         protected Node()
         {
             ((INotifyCollectionChanged)this.ErrorCollection).CollectionChanged += this.OnErrorsCollectionChanged;
@@ -57,6 +51,8 @@ namespace Gu.Wpf.ValidationScope
         int IReadOnlyCollection<ValidationError>.Count => this.Errors.Count;
 
         public abstract DependencyObject Source { get; }
+
+        public Node ParentNode { get; private set; }
 
         internal IEnumerable<Node> AllChildren
         {
@@ -97,7 +93,7 @@ namespace Gu.Wpf.ValidationScope
             this.Dispose(true);
         }
 
-        internal void RemoveChild(IErrorNode errorNode)
+        internal void RemoveChild(Node childNode)
         {
             if (this.children.IsValueCreated == false)
             {
@@ -105,27 +101,29 @@ namespace Gu.Wpf.ValidationScope
             }
 
             var hasErrorsBefore = this.HasErrors;
-            if (!this.children.Value.Remove(errorNode))
+            if (!this.children.Value.Remove(childNode))
             {
                 throw new InvalidOperationException("Cannot remove child that was not added");
             }
 
-            this.ErrorCollection.Remove(errorNode);
+            childNode.ParentNode = null;
+            this.ErrorCollection.Remove(childNode);
             if (hasErrorsBefore != this.HasErrors)
             {
                 this.OnPropertyChanged(nameof(this.HasErrors));
             }
         }
 
-        internal void AddChild(IErrorNode errorNode)
+        internal void AddChild(Node childNode)
         {
             var hasErrorsBefore = this.HasErrors;
-            if (this.children.Value.TryAdd(errorNode))
+            if (!this.children.Value.TryAdd(childNode))
             {
                 return;
             }
 
-            this.ErrorCollection.Add(errorNode);
+            childNode.ParentNode = this;
+            this.ErrorCollection.Add(childNode);
             if (hasErrorsBefore != this.HasErrors)
             {
                 this.OnPropertyChanged(nameof(this.HasErrors));
@@ -136,8 +134,19 @@ namespace Gu.Wpf.ValidationScope
         {
             if (disposing)
             {
+                this.ParentNode?.RemoveChild(this);
                 ((INotifyCollectionChanged)this.ErrorCollection).CollectionChanged -= this.OnErrorsCollectionChanged;
                 ((INotifyPropertyChanged)this.ErrorCollection).PropertyChanged -= this.OnErrorsPropertyChanged;
+                if (this.children.IsValueCreated)
+                {
+                    for (var i = this.children.Value.Count - 1; i >= 0; i--)
+                    {
+                        var child = this.children.Value[i];
+                        this.ErrorCollection.Remove(child.Errors);
+                        this.children.Value.RemoveAt(i);
+                    }
+                }
+
                 this.ErrorCollection.Dispose();
             }
         }

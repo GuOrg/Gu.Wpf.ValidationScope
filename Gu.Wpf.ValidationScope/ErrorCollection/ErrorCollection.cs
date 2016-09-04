@@ -47,12 +47,12 @@
 
         internal void Add(IErrorNode errorNode)
         {
-            this.Add(errorNode.Errors);
+            this.Add(errorNode?.Errors);
         }
 
         internal void Remove(IErrorNode errorNode)
         {
-            this.Remove(errorNode.Errors);
+            this.Remove(errorNode?.Errors);
         }
 
         private void OnAddedErrors(IReadOnlyList<ValidationError> added)
@@ -117,12 +117,12 @@
                     return;
                 }
 
-                Debug.Assert(this.collections.Contains(errors), "this.collections.Contains(errors)");
                 if (errors == EmptyValidationErrors)
                 {
                     return;
                 }
 
+                Debug.Assert(this.collections.Contains(errors), "this.collections.Contains(errors)");
                 this.RemoveRange(errors);
                 var errorCollection = errors as ErrorCollection;
                 if (errorCollection != null)

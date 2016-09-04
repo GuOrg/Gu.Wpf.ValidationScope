@@ -3,22 +3,16 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
-    using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Documents;
+    using System.Windows.Media;
 
     public static partial class Scope
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
-
-        /// <summary>The error event is raised even if the bindings does not notify.</summary>
-        public static readonly RoutedEvent ErrorEvent = EventManager.RegisterRoutedEvent(
-            "ValidationError",
-            RoutingStrategy.Direct,
-            typeof(EventHandler<ScopeValidationErrorEventArgs>),
-            typeof(Scope));
 
         public static readonly DependencyProperty ForInputTypesProperty = DependencyProperty.RegisterAttached(
             "ForInputTypes",
@@ -27,7 +21,18 @@
             new FrameworkPropertyMetadata(
                 null,
                 FrameworkPropertyMetadataOptions.Inherits,
-                OnScopeForChanged));
+                OnScopeForChanged,
+                OnScopeForCoerce));
+
+        private static object OnScopeForCoerce(DependencyObject d, object basevalue)
+        {
+            if (d is Adorner || d is AdornerLayer)
+            {
+                return null;
+            }
+
+            return d is FrameworkElement ? basevalue : null;
+        }
 
         private static readonly DependencyPropertyKey HasErrorPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "HasError",
@@ -53,33 +58,11 @@
 
         public static readonly DependencyProperty NodeProperty = NodePropertyKey.DependencyProperty;
 
-        /// <summary>
-        ///     Adds a handler for the ValidationError attached event
-        /// </summary>
-        /// <param name="element">UIElement or ContentElement that listens to this event</param>
-        /// <param name="handler">Event Handler to be added</param>
-        public static void AddErrorHandler(DependencyObject element, EventHandler<ScopeValidationErrorEventArgs> handler)
-        {
-            (element as UIElement)?.AddHandler(ErrorEvent, handler);
-            (element as ContentElement)?.AddHandler(ErrorEvent, handler);
-        }
-
-        /// <summary>
-        ///     Removes a handler for the ValidationError attached event
-        /// </summary>
-        /// <param name="element">UIElement or ContentElement that listens to this event</param>
-        /// <param name="handler">Event Handler to be removed</param>
-        public static void RemoveErrorHandler(DependencyObject element, EventHandler<ScopeValidationErrorEventArgs> handler)
-        {
-            (element as UIElement)?.RemoveHandler(ErrorEvent, handler);
-            (element as ContentElement)?.RemoveHandler(ErrorEvent, handler);
-        }
-
-        public static void SetForInputTypes(this UIElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
+        public static void SetForInputTypes(this FrameworkElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static InputTypeCollection GetForInputTypes(DependencyObject element) => (InputTypeCollection)element.GetValue(ForInputTypesProperty);
+        public static InputTypeCollection GetForInputTypes(FrameworkElement element) => (InputTypeCollection)element?.GetValue(ForInputTypesProperty);
 
         private static void SetHasErrors(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
 
@@ -103,45 +86,78 @@
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static IErrorNode GetNode(DependencyObject element) => (IErrorNode)element.GetValue(NodeProperty);
+        public static IErrorNode GetNode(DependencyObject element) => (IErrorNode)element?.GetValue(NodeProperty);
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
+        internal static bool IsScopeFor(this DependencyObject parent, DependencyObject source)
+        {
+            if (parent == null || source == null)
+            {
+                return false;
+            }
+
+            var inputTypes = GetForInputTypes(parent as FrameworkElement);
+            if (inputTypes == null)
+            {
+                return false;
+            }
+
+            if (inputTypes.IsInputType(source) ||
+                inputTypes.Contains(typeof(Scope)))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (((InputTypeCollection)e.NewValue)?.IsInputType(d) == true)
-            {
-                if (GetNode(d) == null)
-                {
-                    SetNode(d, ErrorNode.CreateFor(d));
-                }
-            }
-            else if (((InputTypeCollection)e.OldValue)?.IsInputType(d) == true)
+            var newValue = (InputTypeCollection)e.NewValue;
+            if (newValue == null)
             {
                 d.ClearValue(NodePropertyKey);
+                return;
+            }
+
+            if (newValue.IsInputType(d))
+            {
+                Debug.Print($"Created ErrorNode for {d}");
+                SetNode(d, ErrorNode.CreateFor(d));
+            }
+            else
+            {
+                Debug.Print($"Created ScopeNode for {d}");
+                SetNode(d, new ScopeNode(d));
             }
         }
 
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var newNode = (Node)e.NewValue;
-
-            if (newNode != null)
-            {
-                UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
-                ErrorsChangedEventManager.AddHandler(newNode.ErrorCollection, OnNodeErrorsChanged);
-                (e.NewValue as ErrorNode)?.BindToSourceErrors();
-            }
-            else
-            {
-                UpdateErrorsAndHasErrors(d, GetErrors(d), ErrorCollection.EmptyValidationErrors, ErrorCollection.EmptyValidationErrors);
-            }
-
+            var parent = VisualTreeHelper.GetParent(d);
             var oldNode = (Node)e.OldValue;
             if (oldNode != null)
             {
                 oldNode.Dispose();
                 ErrorsChangedEventManager.RemoveHandler(oldNode.ErrorCollection, OnNodeErrorsChanged);
+            }
+
+            if (newNode != null)
+            {
+                UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
+                if (parent.IsScopeFor(d))
+                {
+                    var parentNode = (Node)GetNode(parent);
+                    parentNode?.AddChild(newNode);
+                }
+
+                ErrorsChangedEventManager.AddHandler(newNode.ErrorCollection, OnNodeErrorsChanged);
+            }
+            else
+            {
+                UpdateErrorsAndHasErrors(d, GetErrors(d), ErrorCollection.EmptyValidationErrors, ErrorCollection.EmptyValidationErrors);
             }
 
             d.SetCurrentValue(NodeProxyProperty, e.NewValue);
@@ -171,13 +187,13 @@
                 SetErrors(dependencyObject, ErrorCollection.EmptyValidationErrors);
             }
 
-            foreach (var error in removedErrors)
+            foreach (var error in removedErrors.Except(addedErrors))
             {
                 (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
                 (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
             }
 
-            foreach (var error in addedErrors)
+            foreach (var error in addedErrors.Except(removedErrors))
             {
                 (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
                 (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));

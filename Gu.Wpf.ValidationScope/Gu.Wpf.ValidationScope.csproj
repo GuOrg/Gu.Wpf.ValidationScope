@@ -54,7 +54,6 @@
     <Compile Include="ErrorTree\ChildCollection.cs" />
     <Compile Include="InputTypes\DefaultInputTypesExtension.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverter.cs" />
-    <Compile Include="Internal\BubbleRoute.cs" />
     <Compile Include="Internal\Ensure.cs" />
     <Compile Include="ErrorCollection\ErrorCollection.cs" />
     <Compile Include="ErrorTree\ErrorNode.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="InputTypes\InputTypeCollection.cs" />
     <Compile Include="InputTypes\InputTypesExtension.cs" />
     <Compile Include="ErrorTree\ScopeNode.cs" />
+    <Compile Include="Scope.Events.cs" />
     <Compile Include="Scope.OneWayToSourceBindings.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
