@@ -15,7 +15,7 @@
 
         public static ValidationError CreateValidationError()
         {
-            return ValidationErrorFactory.Create();
+            return TestValidationError.Create();
         }
 
         public static object CreateAddedEventArgs(params ValidationError[] errors)

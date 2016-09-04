@@ -143,6 +143,11 @@
 
             protected override void ClearItems() => ThrowNotSupported();
 
+            private static void ThrowNotSupported([CallerMemberName] string caller = null)
+            {
+                throw new NotSupportedException($"{nameof(MergedErrorsCollection)} does not support {caller}");
+            }
+
             private void AddRange(IReadOnlyList<ValidationError> errors)
             {
                 if (errors.Count == 0)
@@ -187,11 +192,6 @@
 
                 this.RaiseReset();
                 this.ErrorCollection.OnRemovedErrors(errors);
-            }
-
-            private static void ThrowNotSupported([CallerMemberName] string caller = null)
-            {
-                throw new NotSupportedException($"{nameof(MergedErrorsCollection)} does not support {caller}");
             }
 
             private void OnErrorsChanged(object sender, ErrorsChangedEventArgs e)

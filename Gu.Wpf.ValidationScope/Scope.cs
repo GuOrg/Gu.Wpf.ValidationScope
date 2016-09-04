@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Data;
     using System.Windows.Documents;
     using System.Windows.Media;
 
@@ -91,10 +92,23 @@
                 return false;
             }
 
-            if (inputTypes.IsInputType(source) ||
-                inputTypes.Contains(typeof(Scope)))
+            var node = GetNode(source);
+            if (node is ValidNode)
+            {
+                return false;
+            }
+
+            if (inputTypes.Contains(typeof(Scope)) && node is ScopeNode)
             {
                 return true;
+            }
+
+            foreach (var error in node.Errors)
+            {
+                if (inputTypes.IsInputType(((BindingExpressionBase)error.BindingInError).Target))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -114,7 +128,7 @@
                 var errorNode = GetNode(d) as InputNode;
                 if (errorNode == null)
                 {
-                    errorNode = InputNode.CreateFor(d);
+                    errorNode = new InputNode((FrameworkElement)d);
                     SetNode(d, errorNode);
                 }
                 else
@@ -142,6 +156,7 @@
             var newNode = e.NewValue as ErrorNode;
             if (newNode != null)
             {
+                (newNode as InputNode)?.BindToSourceErrors();
                 UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
                 ErrorsChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
             }
@@ -194,13 +209,6 @@
         {
             if ((bool)e.NewValue)
             {
-                if (GetNode(d) is ScopeNode)
-                {
-                    SetNode(d, ValidNode.Default);
-                }
-            }
-            else
-            {
                 var parent = VisualTreeHelper.GetParent(d);
                 if (parent.IsScopeFor(d))
                 {
@@ -216,6 +224,13 @@
                     {
                         parentNode.AddChild(errorNode);
                     }
+                }
+            }
+            else
+            {
+                if (GetNode(d) is ScopeNode)
+                {
+                    SetNode(d, ValidNode.Default);
                 }
             }
 

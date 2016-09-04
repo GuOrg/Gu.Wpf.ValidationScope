@@ -64,20 +64,20 @@
             CurrentManager.ProtectedRemoveHandler(source, handler);
         }
 
-        /// <summary>Return a new list to hold listeners to the event.</summary>
+        /// <inheritdoc/>
         protected override ListenerList NewListenerList()
         {
             return new ListenerList<ErrorsChangedEventArgs>();
         }
 
-        /// <summary>Listen to the given source for the event.</summary>
+        /// <inheritdoc/>
         protected override void StartListening(object source)
         {
             var typedSource = (INotifyErrorsChanged)source;
             typedSource.ErrorsChanged += this.OnErrorsChanged;
         }
 
-        /// <summary>Stop listening to the given source for the event.</summary>
+        /// <inheritdoc/>
         protected override void StopListening(object source)
         {
             var typedSource = (INotifyErrorsChanged)source;

@@ -7,44 +7,34 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows.Controls;
     using System.Windows.Data;
 
-    [DebuggerDisplay("InputNode Errors: {errors?.Count ?? 0}, Source: {Source}")]
+    [DebuggerDisplay("InputNode Errors: {Errors?.Count ?? 0}, Source: {Source}")]
     internal sealed class InputNode : ErrorNode
     {
         private static readonly DependencyProperty ValidationErrorsProxyProperty = DependencyProperty.RegisterAttached(
             "ValidationErrorsProxy",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(Scope),
-            new PropertyMetadata(
-                null,
-                OnErrorsProxyChanged));
+            new PropertyMetadata(null, OnErrorsProxyChanged));
 
         private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
         private readonly Binding errorsBinding;
 
-        private InputNode(Binding errorsBinding)
+        internal InputNode(FrameworkElement source)
         {
-            this.errorsBinding = errorsBinding;
-            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ValidationErrorsProxyProperty, this.errorsBinding);
+            this.errorsBinding = new Binding
+            {
+                Path = ErrorsPropertyPath,
+                Mode = BindingMode.OneWay,
+                Source = source,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
         }
 
         public override DependencyObject Source => (DependencyObject)this.errorsBinding.Source;
 
-        public static InputNode CreateFor(DependencyObject dependencyObject)
+        internal void BindToSourceErrors()
         {
-            if (!(dependencyObject is UIElement || dependencyObject is ContentElement))
-            {
-                throw new InvalidOperationException($"Cannot create InputNode for type: {dependencyObject?.GetType()}");
-            }
-
-            var binding = new Binding
-            {
-                Path = ErrorsPropertyPath,
-                Mode = BindingMode.OneWay,
-                Source = dependencyObject,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-
-            return new InputNode(binding);
+            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ValidationErrorsProxyProperty, this.errorsBinding);
         }
 
         protected override void Dispose(bool disposing)

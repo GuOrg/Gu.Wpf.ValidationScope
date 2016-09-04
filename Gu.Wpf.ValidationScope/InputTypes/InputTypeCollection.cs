@@ -15,7 +15,6 @@
     {
         public static readonly InputTypeCollection Default = new InputTypeCollection
         {
-            typeof(Scope),
             typeof(TextBoxBase),
             typeof(ComboBox),
             typeof(ToggleButton),
