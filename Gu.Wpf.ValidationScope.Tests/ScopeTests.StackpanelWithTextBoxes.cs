@@ -25,27 +25,44 @@
                 stackPanel.SetForInputTypes(inputTypes);
 
                 Assert.AreEqual(false, Scope.GetHasError(stackPanel));
-                Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
-
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(stackPanel));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(textBox));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
                 var errorNode = (InputNode)Scope.GetNode(textBox);
+                Assert.AreEqual(false, errorNode.HasErrors);
+                Assert.AreNotSame(ErrorCollection.EmptyValidationErrors, errorNode.Errors);
+                CollectionAssert.IsEmpty(errorNode.Errors);
+                CollectionAssert.IsEmpty(errorNode.Children);
 
                 var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
                 textBox.SetValidationError(validationError);
 
                 Assert.AreEqual(true, Scope.GetHasError(stackPanel));
-                Assert.IsInstanceOf<ScopeNode>(Scope.GetNode(stackPanel));
-
                 Assert.AreEqual(true, Scope.GetHasError(textBox));
+                var expectedErrors = new[] { validationError };
+                CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(stackPanel));
+                CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(textBox));
+
+                var scopeNode =(ScopeNode) Scope.GetNode(stackPanel);
+                CollectionAssert.AreEqual(new[] { errorNode }, scopeNode.Children);
                 Assert.AreSame(errorNode, Scope.GetNode(textBox));
+                Assert.AreEqual(true, scopeNode.HasErrors);
+                Assert.AreEqual(true, errorNode.HasErrors);
+                CollectionAssert.AreEqual(expectedErrors, scopeNode.Errors);
+                CollectionAssert.AreEqual(expectedErrors, errorNode.Errors);
 
                 textBox.ClearValidationError(validationError);
-
                 Assert.AreEqual(false, Scope.GetHasError(stackPanel));
-                Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
-
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(stackPanel));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(textBox));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
                 Assert.AreSame(errorNode, Scope.GetNode(textBox));
+                Assert.AreEqual(false, errorNode.HasErrors);
+                Assert.AreNotSame(ErrorCollection.EmptyValidationErrors, errorNode.Errors);
+                CollectionAssert.IsEmpty(errorNode.Errors);
+                CollectionAssert.IsEmpty(errorNode.Children);
             }
 
             [Test]

@@ -65,7 +65,7 @@
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(DependencyObject))]
-        public static ReadOnlyObservableCollection<ValidationError> GetErrors(this DependencyObject element)
+        public static ReadOnlyObservableCollection<ValidationError> GetErrors(DependencyObject element)
         {
             return (ReadOnlyObservableCollection<ValidationError>)element.GetValue(ErrorsProperty);
         }
