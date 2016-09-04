@@ -53,13 +53,15 @@
     <Compile Include="ErrorCollection\ErrorsChangedEventManager.cs" />
     <Compile Include="ErrorCollection\INotifyErrorsChanged.cs" />
     <Compile Include="ErrorTree\ChildCollection.cs" />
+    <Compile Include="ErrorTree\ValidNode.cs" />
+    <Compile Include="ErrorTree\Node.cs" />
     <Compile Include="InputTypes\DefaultInputTypesExtension.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverter.cs" />
     <Compile Include="Internal\Ensure.cs" />
     <Compile Include="ErrorCollection\ErrorCollection.cs" />
-    <Compile Include="ErrorTree\ErrorNode.cs" />
+    <Compile Include="ErrorTree\InputNode.cs" />
     <Compile Include="ErrorTree\IErrorNode.cs" />
-    <Compile Include="ErrorTree\Node.cs" />
+    <Compile Include="ErrorTree\ErrorNode.cs" />
     <Compile Include="InputTypes\InputTypesExtensionCtors.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

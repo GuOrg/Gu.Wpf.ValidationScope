@@ -20,18 +20,7 @@
             new FrameworkPropertyMetadata(
                 null,
                 FrameworkPropertyMetadataOptions.Inherits,
-                OnScopeForChanged,
-                OnScopeForCoerce));
-
-        private static object OnScopeForCoerce(DependencyObject d, object basevalue)
-        {
-            if (d is Adorner || d is AdornerLayer)
-            {
-                return null;
-            }
-
-            return d is FrameworkElement ? basevalue : null;
-        }
+                OnScopeForChanged));
 
         private static readonly DependencyPropertyKey HasErrorPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "HasError",
@@ -50,10 +39,10 @@
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey NodePropertyKey = DependencyProperty.RegisterAttachedReadOnly(
-            "Node",
+            "ErrorNode",
             typeof(IErrorNode),
             typeof(Scope),
-            new PropertyMetadata(default(IErrorNode), OnNodeChanged));
+            new PropertyMetadata(ValidNode.Default, OnNodeChanged));
 
         public static readonly DependencyProperty NodeProperty = NodePropertyKey.DependencyProperty;
 
@@ -116,18 +105,16 @@
             var newValue = (InputTypeCollection)e.NewValue;
             if (newValue == null)
             {
-                Debug.Print($"Removed Node for {d}");
-                d.ClearValue(NodePropertyKey);
+                d.SetValue(NodePropertyKey, ValidNode.Default);
                 return;
             }
 
             if (newValue.IsInputType(d))
             {
-                var errorNode = GetNode(d) as ErrorNode;
+                var errorNode = GetNode(d) as InputNode;
                 if (errorNode == null)
                 {
-                    Debug.Print($"Created ErrorNode for {d}");
-                    errorNode = ErrorNode.CreateFor(d);
+                    errorNode = InputNode.CreateFor(d);
                     SetNode(d, errorNode);
                 }
                 else
@@ -135,42 +122,27 @@
                     var parent = VisualTreeHelper.GetParent(d);
                     if (parent.IsScopeFor(d))
                     {
-                        var parentNode = (Node)GetNode(parent);
+                        var parentNode = (ErrorNode)GetNode(parent);
                         parentNode?.AddChild(errorNode);
                     }
-                }
-            }
-            else
-            {
-                var scopeNode = GetNode(d) as ScopeNode;
-                if (scopeNode != null)
-                {
-                    Debug.Print($"Created ScopeNode for {d}");
-                    SetNode(d, new ScopeNode(d));
                 }
             }
         }
 
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var newNode = (Node)e.NewValue;
-            var parent = VisualTreeHelper.GetParent(d);
-            var oldNode = (Node)e.OldValue;
+            Debug.Print($"Set Node = {e.NewValue?.GetType().Name ?? "null"} for {d}");
+            var oldNode = e.OldValue as ErrorNode;
             if (oldNode != null)
             {
                 oldNode.Dispose();
                 ErrorsChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
             }
 
+            var newNode = e.NewValue as ErrorNode;
             if (newNode != null)
             {
                 UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
-                if (parent.IsScopeFor(d))
-                {
-                    var parentNode = (Node)GetNode(parent);
-                    parentNode?.AddChild(newNode);
-                }
-
                 ErrorsChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
             }
             else
@@ -183,7 +155,7 @@
 
         private static void OnNodeErrorsChanged(object sender, ErrorsChangedEventArgs e)
         {
-            var node = (Node)sender;
+            var node = (ErrorNode)sender;
             UpdateErrorsAndHasErrors(node.Source, e.Removed, e.Added, node.Errors);
         }
 
@@ -220,6 +192,33 @@
 
         private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if ((bool)e.NewValue)
+            {
+                if (GetNode(d) is ScopeNode)
+                {
+                    SetNode(d, ValidNode.Default);
+                }
+            }
+            else
+            {
+                var parent = VisualTreeHelper.GetParent(d);
+                if (parent.IsScopeFor(d))
+                {
+                    var parentNode = GetNode(parent) as ErrorNode;
+                    var errorNode = (ErrorNode)GetNode(d);
+                    if (parentNode == null)
+                    {
+                        parentNode = new ScopeNode(parent);
+                        parentNode.AddChild(errorNode);
+                        SetNode(parent, parentNode);
+                    }
+                    else
+                    {
+                        parentNode.AddChild(errorNode);
+                    }
+                }
+            }
+
             d.SetCurrentValue(HasErrorProxyProperty, e.NewValue);
         }
 

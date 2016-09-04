@@ -1,79 +1,191 @@
+// ReSharper disable ArrangeThisQualifier
 namespace Gu.Wpf.ValidationScope
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Data;
 
-    [DebuggerDisplay("ErrorNode Errors: {errors?.Count ?? 0}, Source: {Source}")]
-    internal sealed class ErrorNode : Node
+    using JetBrains.Annotations;
+
+    internal abstract class ErrorNode : Node, IErrorNode, INotifyErrorsChanged
     {
-        private static readonly DependencyProperty ValidationErrorsProxyProperty = DependencyProperty.RegisterAttached(
-            "ValidationErrorsProxy",
-            typeof(ReadOnlyObservableCollection<ValidationError>),
-            typeof(Scope),
-            new PropertyMetadata(
-                null,
-                OnErrorsProxyChanged));
+        private readonly Lazy<ChildCollection> children = new Lazy<ChildCollection>(() => new ChildCollection());
 
-        private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
-        private readonly Binding errorsBinding;
-
-        private ErrorNode(Binding errorsBinding)
+        protected ErrorNode()
         {
-            this.errorsBinding = errorsBinding;
-            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ValidationErrorsProxyProperty, this.errorsBinding);
+            this.ErrorCollection.ErrorsChanged += this.OnErrorCollectionErrorsChanged;
+            ((INotifyCollectionChanged)this.ErrorCollection).CollectionChanged += this.OnErrorsCollectionChanged;
+            ((INotifyPropertyChanged)this.ErrorCollection).PropertyChanged += this.OnErrorsPropertyChanged;
         }
 
-        public override DependencyObject Source => (DependencyObject)this.errorsBinding.Source;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public static ErrorNode CreateFor(DependencyObject dependencyObject)
+        public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
+
+        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
         {
-            if (!(dependencyObject is UIElement || dependencyObject is ContentElement))
+            add
             {
-                throw new InvalidOperationException($"Cannot create ErrorNode for type: {dependencyObject?.GetType()}");
+                this.CollectionChanged += value;
             }
-
-            var binding = new Binding
+            remove
             {
-                Path = ErrorsPropertyPath,
-                Mode = BindingMode.OneWay,
-                Source = dependencyObject,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-            };
-
-            return new ErrorNode(binding);
+                this.CollectionChanged -= value;
+            }
         }
 
-        protected override void Dispose(bool disposing)
+        [field: NonSerialized]
+        private event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        public override bool HasErrors => this.ErrorCollection.Any();
+
+        public override ReadOnlyObservableCollection<ValidationError> Errors => this.ErrorCollection;
+
+        public override ReadOnlyObservableCollection<IErrorNode> Children => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
+
+        int IReadOnlyCollection<ValidationError>.Count => this.Errors.Count;
+
+        public abstract DependencyObject Source { get; }
+
+        public ErrorNode ParentNode { get; private set; }
+
+        internal IEnumerable<ErrorNode> AllChildren
         {
-            if (!disposing)
+            get
+            {
+                if (!this.children.IsValueCreated)
+                {
+                    yield break;
+                }
+
+                foreach (var errorNode in this.children.Value.Cast<ErrorNode>())
+                {
+                    yield return errorNode;
+                    foreach (var child in errorNode.AllChildren)
+                    {
+                        yield return child;
+                    }
+                }
+            }
+        }
+
+        internal ErrorCollection ErrorCollection { get; } = new ErrorCollection();
+
+        protected bool Disposed { get; private set; }
+
+        ValidationError IReadOnlyList<ValidationError>.this[int index] => this.Errors[index];
+
+        IEnumerator<ValidationError> IEnumerable<ValidationError>.GetEnumerator() => this.Errors.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => this.Errors.GetEnumerator();
+
+        public void Dispose()
+        {
+            if (this.Disposed)
             {
                 return;
             }
 
-            var source = this.Source;
-            if (source != null)
-            {
-                BindingOperations.ClearBinding(source, ValidationErrorsProxyProperty);
-            }
-
-            base.Dispose(true);
+            this.Disposed = true;
+            this.Dispose(true);
         }
 
-        private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        internal void RemoveChild(ErrorNode childNode)
         {
-            var node = (ErrorNode)d.GetValue(Scope.NodeProperty);
-            if (node == null)
+            if (this.children.IsValueCreated == false)
             {
-                // this happens when disposing
+                throw new InvalidOperationException("Cannot remove child when no child is added");
+            }
+
+            var hasErrorsBefore = this.HasErrors;
+            if (!this.children.Value.Remove(childNode))
+            {
+                throw new InvalidOperationException("Cannot remove child that was not added");
+            }
+
+            childNode.ParentNode = null;
+            this.ErrorCollection.Remove(childNode);
+            if (hasErrorsBefore != this.HasErrors)
+            {
+                this.OnPropertyChanged(nameof(this.HasErrors));
+            }
+        }
+
+        internal void AddChild(ErrorNode childNode)
+        {
+            if (ReferenceEquals(childNode.ParentNode, this))
+            {
                 return;
             }
 
-            node.ErrorCollection.Remove((ReadOnlyObservableCollection<ValidationError>)e.OldValue);
-            node.ErrorCollection.Add((ReadOnlyObservableCollection<ValidationError>)e.NewValue);
+            childNode.ParentNode?.RemoveChild(childNode);
+            var hasErrorsBefore = this.HasErrors;
+            if (!this.children.Value.TryAdd(childNode))
+            {
+                return;
+            }
+
+            childNode.ParentNode = this;
+            this.ErrorCollection.Add(childNode);
+            if (hasErrorsBefore != this.HasErrors)
+            {
+                this.OnPropertyChanged(nameof(this.HasErrors));
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.ParentNode?.RemoveChild(this);
+                this.ErrorCollection.ErrorsChanged -= this.OnErrorCollectionErrorsChanged;
+                ((INotifyCollectionChanged)this.ErrorCollection).CollectionChanged -= this.OnErrorsCollectionChanged;
+                ((INotifyPropertyChanged)this.ErrorCollection).PropertyChanged -= this.OnErrorsPropertyChanged;
+                if (this.children.IsValueCreated)
+                {
+                    for (var i = this.children.Value.Count - 1; i >= 0; i--)
+                    {
+                        var child = this.children.Value[i];
+                        this.ErrorCollection.Remove(child.Errors);
+                        this.children.Value.RemoveAt(i);
+                    }
+                }
+
+                this.ErrorCollection.Dispose();
+            }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
+        {
+            this.PropertyChanged?.Invoke(this, args);
+        }
+
+        private void OnErrorCollectionErrorsChanged(object sender, ErrorsChangedEventArgs e)
+        {
+            this.ErrorsChanged?.Invoke(this, e);
+        }
+
+        private void OnErrorsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.OnPropertyChanged(e);
+        }
+
+        private void OnErrorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            this.CollectionChanged?.Invoke(this, e);
         }
     }
 }

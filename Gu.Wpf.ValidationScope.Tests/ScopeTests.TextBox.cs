@@ -20,7 +20,7 @@
             var inputTypes = new InputTypeCollection { typeof(TextBox), typeof(Selector) };
             textBox.SetForInputTypes(inputTypes);
             Assert.AreEqual(false, Scope.GetHasError(textBox));
-            var errorNode = (ErrorNode)Scope.GetNode(textBox);
+            var errorNode = (InputNode)Scope.GetNode(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
         }
@@ -42,7 +42,7 @@
             var inputTypes = new InputTypeCollection { typeof(TextBox), typeof(Selector) };
             textBox.SetForInputTypes(inputTypes);
             Assert.AreEqual(false, Scope.GetHasError(textBox));
-            var errorNode = (ErrorNode)Scope.GetNode(textBox);
+            var errorNode = (InputNode)Scope.GetNode(textBox);
             var errorArgs = errorNode.Errors.SubscribeObservableCollectionEvents();
             var nodeArgs = errorNode.SubscribeObservableCollectionEvents();
 
@@ -52,7 +52,7 @@
 
             textBox.SetValidationError();
             Assert.AreEqual(true, Scope.GetHasError(textBox));
-            errorNode = (ErrorNode)Scope.GetNode(textBox);
+            errorNode = (InputNode)Scope.GetNode(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
             CollectionAssert.AreEqual(new[] { ValidationErrorFactory.GetFor(textBox) }, errorNode.Errors);
@@ -75,7 +75,7 @@
 
             textBox.ClearValidationError();
             Assert.AreEqual(false, Scope.GetHasError(textBox));
-            errorNode = (ErrorNode)Scope.GetNode(textBox);
+            errorNode = (InputNode)Scope.GetNode(textBox);
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
             CollectionAssert.IsEmpty(errorNode.Errors);

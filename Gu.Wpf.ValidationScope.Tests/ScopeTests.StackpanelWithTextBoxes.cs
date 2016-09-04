@@ -20,11 +20,11 @@
                 var inputTypes = new InputTypeCollection { typeof(TextBox), typeof(Selector) };
                 stackPanel.SetForInputTypes(inputTypes);
                 Assert.AreEqual(false, Scope.GetHasError(stackPanel));
-                var errorNode = (Node)Scope.GetNode(stackPanel);
+                var errorNode = (ErrorNode)Scope.GetNode(stackPanel);
                 Assert.AreEqual(null, errorNode);
 
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
-                errorNode = (ErrorNode)Scope.GetNode(textBox);
+                errorNode = (InputNode)Scope.GetNode(textBox);
                 Assert.AreEqual(textBox, errorNode.Source);
                 CollectionAssert.IsEmpty(errorNode.Children);
             }
@@ -53,11 +53,11 @@
                 stackPanel.SetForInputTypes(inputTypes);
 
                 Assert.AreEqual(false, Scope.GetHasError(stackPanel));
-                var errorNode = (Node)Scope.GetNode(stackPanel);
+                var errorNode = (ErrorNode)Scope.GetNode(stackPanel);
                 Assert.AreEqual(null, errorNode);
 
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
-                errorNode = (Node)Scope.GetNode(textBox);
+                errorNode = (ErrorNode)Scope.GetNode(textBox);
                 Assert.AreEqual(textBox, errorNode.Source);
                 CollectionAssert.IsEmpty(errorNode.Children);
                 CollectionAssert.IsEmpty(errorNode.Errors);
@@ -70,7 +70,7 @@
                 CollectionAssert.AreEqual(new[] { ValidationErrorFactory.GetFor(textBox) }, errorNode.Errors);
 
                 Assert.AreEqual(true, Scope.GetHasError(textBox));
-                errorNode = (ErrorNode)Scope.GetNode(textBox);
+                errorNode = (InputNode)Scope.GetNode(textBox);
                 Assert.AreEqual(textBox, errorNode.Source);
                 CollectionAssert.IsEmpty(errorNode.Children);
                 CollectionAssert.AreEqual(new[] { ValidationErrorFactory.GetFor(textBox) }, errorNode.Errors);
@@ -81,7 +81,7 @@
                 Assert.AreEqual(null, errorNode);
 
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
-                errorNode = (ErrorNode)Scope.GetNode(textBox);
+                errorNode = (InputNode)Scope.GetNode(textBox);
                 Assert.AreEqual(textBox, errorNode.Source);
                 CollectionAssert.IsEmpty(errorNode.Children);
                 CollectionAssert.IsEmpty(errorNode.Errors);
