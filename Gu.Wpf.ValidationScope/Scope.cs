@@ -40,7 +40,7 @@
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey NodePropertyKey = DependencyProperty.RegisterAttachedReadOnly(
-            "ErrorNode",
+            "Node",
             typeof(IErrorNode),
             typeof(Scope),
             new PropertyMetadata(ValidNode.Default, OnNodeChanged));

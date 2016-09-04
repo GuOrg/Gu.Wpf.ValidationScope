@@ -9,6 +9,8 @@
         private int intValue;
         private string stringValue;
 
+        private double doubleValue;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int IntValue
@@ -24,6 +26,20 @@
                     return;
                 }
                 this.intValue = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public double DoubleValue
+        {
+            get
+            {
+                return this.doubleValue;
+            }
+            set
+            {
+                if (value.Equals(this.doubleValue)) return;
+                this.doubleValue = value;
                 this.OnPropertyChanged();
             }
         }

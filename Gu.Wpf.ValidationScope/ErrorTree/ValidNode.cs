@@ -48,7 +48,7 @@ namespace Gu.Wpf.ValidationScope
         [Conditional("DEBUG")]
         private static void DoNothing()
         {
-            Debug.Assert(false, "Should never be called");
+            //Debug.Assert(false, "Should never be called");
         }
     }
 }

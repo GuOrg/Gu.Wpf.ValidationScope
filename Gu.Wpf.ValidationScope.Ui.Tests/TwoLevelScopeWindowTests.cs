@@ -14,7 +14,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             var childCountBlock = this.Window.Get<Label>(AutomationIDs.ChildCountTextBlock);
 
-            Assert.AreEqual(string.Empty, childCountBlock.Text);
+            Assert.AreEqual("Children: 0", childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
             var textBox1 = this.Window.Get<TextBox>(AutomationIDs.TextBox1);
             textBox1.EnterSingle('a');
@@ -31,7 +31,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
             textBox1.EnterSingle('1');
-            Assert.AreEqual(string.Empty, childCountBlock.Text);
+            Assert.AreEqual("Children: 0", childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
         }
     }
