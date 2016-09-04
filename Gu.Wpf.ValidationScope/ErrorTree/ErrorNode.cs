@@ -78,6 +78,23 @@ namespace Gu.Wpf.ValidationScope
             this.Dispose(true);
         }
 
+        internal bool TryRemoveChild(ErrorNode childNode)
+        {
+            if (this.children.IsValueCreated == false)
+            {
+                return false;
+            }
+
+            if (this.children.Value.Remove(childNode))
+            {
+                childNode.ParentNode = null;
+                this.ErrorCollection.Remove(childNode);
+                return true;
+            }
+
+            return false;
+        }
+
         internal void RemoveChild(ErrorNode childNode)
         {
             if (this.children.IsValueCreated == false)

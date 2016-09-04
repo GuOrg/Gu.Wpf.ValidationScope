@@ -75,7 +75,7 @@
                                             ElementName=Form}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
+                    <TextBlock x:Name="ErrorTextBlock"
                                Foreground="Red"
                                Text="{Binding ErrorContent}" />
                 </DataTemplate>

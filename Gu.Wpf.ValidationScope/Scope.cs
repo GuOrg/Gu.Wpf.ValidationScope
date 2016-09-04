@@ -115,6 +115,11 @@
 
         private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (d.GetType().FullName == "System.Windows.Documents.CaretElement")
+            {
+                return;
+            }
+
             var newValue = (InputTypeCollection)e.NewValue;
             if (newValue == null)
             {
@@ -209,9 +214,9 @@
 
         private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            var parent = VisualTreeHelper.GetParent(d);
             if ((bool)e.NewValue)
             {
-                var parent = VisualTreeHelper.GetParent(d);
                 if (parent.IsScopeFor(d))
                 {
                     var parentNode = GetNode(parent) as ErrorNode;
@@ -230,6 +235,13 @@
             }
             else
             {
+                var parentNode = GetNode(parent) as ErrorNode;
+                if (parentNode != null)
+                {
+                    var childNode = GetNode(d) as ErrorNode;
+                    parentNode.TryRemoveChild(childNode);
+                }
+
                 if (GetNode(d) is ScopeNode)
                 {
                     SetNode(d, ValidNode.Default);

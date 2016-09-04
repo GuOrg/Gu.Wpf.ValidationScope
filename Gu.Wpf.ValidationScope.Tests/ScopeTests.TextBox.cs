@@ -76,7 +76,7 @@
 
             textBox.ClearValidationError(validationError);
             Assert.AreEqual(false, Scope.GetHasError(textBox));
-            errorNode = (InputNode)Scope.GetNode(textBox);
+            Assert.AreSame(errorNode, Scope.GetNode(textBox));
             Assert.AreEqual(textBox, errorNode.Source);
             CollectionAssert.IsEmpty(errorNode.Children);
             CollectionAssert.IsEmpty(errorNode.Errors);

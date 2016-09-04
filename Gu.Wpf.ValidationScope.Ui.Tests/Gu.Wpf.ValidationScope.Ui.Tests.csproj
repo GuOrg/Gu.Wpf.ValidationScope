@@ -55,6 +55,7 @@
     <Compile Include="Helpers\DumpAppDomain.cs" />
     <Compile Include="Helpers\KeyboardExt.cs" />
     <Compile Include="Helpers\WindowTests.cs" />
+    <Compile Include="LiveErrorsWindowTests.cs" />
     <Compile Include="NotifyDataErrorInfoWindowTests.cs" />
     <Compile Include="OneWayToSourceBindingsWindowTests.cs" />
     <Compile Include="ParentChildScopesWindowTests.cs" />

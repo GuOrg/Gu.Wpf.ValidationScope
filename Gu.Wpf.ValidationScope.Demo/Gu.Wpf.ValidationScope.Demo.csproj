@@ -123,6 +123,9 @@
       <DependentUpon>DynamicTypesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UiTestWindows\EventTemplateSelector.cs" />
+    <Compile Include="UiTestWindows\LiveErrorsWindow.xaml.cs">
+      <DependentUpon>LiveErrorsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UiTestWindows\ScopeEvents.cs" />
     <Compile Include="UiTestWindows\EventsOrderWindow.xaml.cs">
       <DependentUpon>EventsOrderWindow.xaml</DependentUpon>
@@ -232,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UiTestWindows\EventsOrderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\LiveErrorsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
