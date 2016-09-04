@@ -1,6 +1,5 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
-    using System.Collections.Generic;
     using System.Linq;
 
     using NUnit.Framework;
