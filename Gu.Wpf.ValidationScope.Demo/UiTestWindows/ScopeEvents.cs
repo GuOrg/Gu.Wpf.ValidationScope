@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+﻿// ReSharper disable UnusedMember.Local
+namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;

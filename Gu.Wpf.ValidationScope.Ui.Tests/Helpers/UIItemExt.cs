@@ -3,7 +3,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Automation;
-    using Gu.Wpf.ValidationScope.Demo;
 
     using TestStack.White.InputDevices;
     using TestStack.White.UIItems;

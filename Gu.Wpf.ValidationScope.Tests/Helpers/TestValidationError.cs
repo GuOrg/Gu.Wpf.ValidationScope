@@ -15,7 +15,7 @@ namespace Gu.Wpf.ValidationScope.Tests
 
         public static TestValidationError GetFor(BindingExpressionBase expression)
         {
-            return new TestValidationError(expression); ;
+            return new TestValidationError(expression);
         }
 
         public static TestValidationError Create()

@@ -1,10 +1,8 @@
 ﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
-    using System.Collections;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
-    using System.ComponentModel;
+
     using NUnit.Framework;
 
     public static class ErrorCollectionExt

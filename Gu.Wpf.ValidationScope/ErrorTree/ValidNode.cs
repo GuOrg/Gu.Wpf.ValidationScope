@@ -17,17 +17,20 @@ namespace Gu.Wpf.ValidationScope
         {
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged
+        //// ReSharper disable ValueParameterNotUsed
+        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
         {
             add { DoNothing(); }
             remove { DoNothing(); }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
             add { DoNothing(); }
             remove { DoNothing(); }
         }
+
+        //// ReSharper restore ValueParameterNotUsed
 
         public override bool HasErrors => false;
 

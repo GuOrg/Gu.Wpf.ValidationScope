@@ -4,8 +4,6 @@
 
     using TestStack.White.UIItems;
 
-    using Gu.Wpf.ValidationScope.Demo;
-
     public class OneLevelScopeWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "OneLevelScopeWindow";

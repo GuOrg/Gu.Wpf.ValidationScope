@@ -69,6 +69,7 @@
     </Compile>
     <Compile Include="Internal\BindingHelper.cs" />
     <Compile Include="Internal\BooleanBoxes.cs" />
+    <Compile Include="Internal\EnumerableExt.cs" />
     <Compile Include="Internal\Is.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

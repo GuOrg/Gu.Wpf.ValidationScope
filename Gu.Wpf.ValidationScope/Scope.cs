@@ -7,7 +7,6 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
-    using System.Windows.Documents;
     using System.Windows.Media;
 
     public static partial class Scope
@@ -192,6 +191,7 @@
                 SetErrors(dependencyObject, ErrorCollection.EmptyValidationErrors);
             }
 
+            // ReSharper disable PossibleMultipleEnumeration
             foreach (var error in removedErrors.Except(addedErrors))
             {
                 (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
@@ -203,6 +203,8 @@
                 (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
                 (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
             }
+
+            // ReSharper restore PossibleMultipleEnumeration
         }
 
         private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
