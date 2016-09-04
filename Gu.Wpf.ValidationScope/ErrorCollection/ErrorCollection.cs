@@ -100,7 +100,7 @@
                 var errorCollection = errors as ErrorCollection;
                 if (errorCollection != null)
                 {
-                    errorCollection.ErrorsChanged += this.OnErrorsChanged;
+                    ErrorsChangedEventManager.AddHandler(errorCollection, this.OnErrorsChanged);
                 }
                 else
                 {
@@ -127,7 +127,7 @@
                 var errorCollection = errors as ErrorCollection;
                 if (errorCollection != null)
                 {
-                    errorCollection.ErrorsChanged -= this.OnErrorsChanged;
+                    ErrorsChangedEventManager.RemoveHandler(errorCollection, this.OnErrorsChanged);
                 }
                 else
                 {

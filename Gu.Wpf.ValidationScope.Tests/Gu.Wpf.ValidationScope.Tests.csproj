@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ErrorCollection\ErrorCollectionTests.cs" />
     <Compile Include="ErrorCollection\ErrorCollectionTests.Nested.cs" />
+    <Compile Include="ErrorCollection\ErrorsChangedEventManagerTest.cs" />
     <Compile Include="Helpers\ErrorCollectionExt.cs" />
     <Compile Include="Helpers\ErrorsChangedEventArgsComparer.cs" />
     <Compile Include="Helpers\Factory.cs" />
