@@ -14,18 +14,21 @@ namespace Gu.Wpf.ValidationScope
 
     using JetBrains.Annotations;
 
-    internal abstract class Node : IErrorNode
+    internal abstract class Node : IErrorNode, INotifyErrorsChanged
     {
         private readonly Lazy<ChildCollection> children = new Lazy<ChildCollection>(() => new ChildCollection());
         private bool disposed;
 
         protected Node()
         {
+            this.ErrorCollection.ErrorsChanged += this.OnErrorCollectionErrorsChanged;
             ((INotifyCollectionChanged)this.ErrorCollection).CollectionChanged += this.OnErrorsCollectionChanged;
             ((INotifyPropertyChanged)this.ErrorCollection).PropertyChanged += this.OnErrorsPropertyChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
 
         event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
         {
@@ -116,6 +119,12 @@ namespace Gu.Wpf.ValidationScope
 
         internal void AddChild(Node childNode)
         {
+            if (ReferenceEquals(childNode.ParentNode, this))
+            {
+                return;
+            }
+
+            childNode.ParentNode?.RemoveChild(childNode);
             var hasErrorsBefore = this.HasErrors;
             if (!this.children.Value.TryAdd(childNode))
             {
@@ -135,6 +144,7 @@ namespace Gu.Wpf.ValidationScope
             if (disposing)
             {
                 this.ParentNode?.RemoveChild(this);
+                this.ErrorCollection.ErrorsChanged -= this.OnErrorCollectionErrorsChanged;
                 ((INotifyCollectionChanged)this.ErrorCollection).CollectionChanged -= this.OnErrorsCollectionChanged;
                 ((INotifyPropertyChanged)this.ErrorCollection).PropertyChanged -= this.OnErrorsPropertyChanged;
                 if (this.children.IsValueCreated)
@@ -160,6 +170,11 @@ namespace Gu.Wpf.ValidationScope
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             this.PropertyChanged?.Invoke(this, args);
+        }
+
+        private void OnErrorCollectionErrorsChanged(object sender, ErrorsChangedEventArgs e)
+        {
+            this.ErrorsChanged?.Invoke(this, e);
         }
 
         private void OnErrorsPropertyChanged(object sender, PropertyChangedEventArgs e)

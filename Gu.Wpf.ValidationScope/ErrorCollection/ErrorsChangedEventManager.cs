@@ -4,7 +4,7 @@
     using System.Windows;
 
     /// <summary>
-    /// Manager for the ErrorCollection.Errors event.
+    /// Manager for the INotifyErrorsChanged.ErrorsChanged event.
     /// Inspired by: http://referencesource.microsoft.com/#WindowsBase/Base/System/Collections/Specialized/CollectionChangedEventManager.cs,7537b339109a7418
     /// </summary>
     internal class ErrorsChangedEventManager : WeakEventManager
@@ -33,7 +33,7 @@
         }
 
         /// <summary>Add a listener to the given source's event.</summary>
-        public static void AddListener(ErrorCollection source, IWeakEventListener listener)
+        public static void AddListener(INotifyErrorsChanged source, IWeakEventListener listener)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(listener, nameof(listener));
@@ -41,7 +41,7 @@
         }
 
         /// <summary>Remove a listener to the given source's event.</summary>
-        public static void RemoveListener(ErrorCollection source, IWeakEventListener listener)
+        public static void RemoveListener(INotifyErrorsChanged source, IWeakEventListener listener)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(listener, nameof(listener));
@@ -49,7 +49,7 @@
         }
 
         /// <summary>Add a handler for the given source's event.</summary>
-        public static void AddHandler(ErrorCollection source, EventHandler<ErrorsChangedEventArgs> handler)
+        public static void AddHandler(INotifyErrorsChanged source, EventHandler<ErrorsChangedEventArgs> handler)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(handler, nameof(handler));
@@ -57,7 +57,7 @@
         }
 
         /// <summary>Remove a handler for the given source's event.</summary>
-        public static void RemoveHandler(ErrorCollection source, EventHandler<ErrorsChangedEventArgs> handler)
+        public static void RemoveHandler(INotifyErrorsChanged source, EventHandler<ErrorsChangedEventArgs> handler)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(handler, nameof(handler));
@@ -73,14 +73,14 @@
         /// <summary>Listen to the given source for the event.</summary>
         protected override void StartListening(object source)
         {
-            ErrorCollection typedSource = (ErrorCollection)source;
+            var typedSource = (INotifyErrorsChanged)source;
             typedSource.ErrorsChanged += this.OnErrorsChanged;
         }
 
         /// <summary>Stop listening to the given source for the event.</summary>
         protected override void StopListening(object source)
         {
-            ErrorCollection typedSource = (ErrorCollection)source;
+            var typedSource = (INotifyErrorsChanged)source;
             typedSource.ErrorsChanged -= this.OnErrorsChanged;
         }
 

@@ -1,6 +1,5 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
@@ -117,19 +116,38 @@
             var newValue = (InputTypeCollection)e.NewValue;
             if (newValue == null)
             {
+                Debug.Print($"Removed Node for {d}");
                 d.ClearValue(NodePropertyKey);
                 return;
             }
 
             if (newValue.IsInputType(d))
             {
-                Debug.Print($"Created ErrorNode for {d}");
-                SetNode(d, ErrorNode.CreateFor(d));
+                var errorNode = GetNode(d) as ErrorNode;
+                if (errorNode == null)
+                {
+                    Debug.Print($"Created ErrorNode for {d}");
+                    errorNode = ErrorNode.CreateFor(d);
+                    SetNode(d, errorNode);
+                }
+                else
+                {
+                    var parent = VisualTreeHelper.GetParent(d);
+                    if (parent.IsScopeFor(d))
+                    {
+                        var parentNode = (Node)GetNode(parent);
+                        parentNode?.AddChild(errorNode);
+                    }
+                }
             }
             else
             {
-                Debug.Print($"Created ScopeNode for {d}");
-                SetNode(d, new ScopeNode(d));
+                var scopeNode = GetNode(d) as ScopeNode;
+                if (scopeNode != null)
+                {
+                    Debug.Print($"Created ScopeNode for {d}");
+                    SetNode(d, new ScopeNode(d));
+                }
             }
         }
 
@@ -141,7 +159,7 @@
             if (oldNode != null)
             {
                 oldNode.Dispose();
-                ErrorsChangedEventManager.RemoveHandler(oldNode.ErrorCollection, OnNodeErrorsChanged);
+                ErrorsChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
             }
 
             if (newNode != null)
@@ -153,7 +171,7 @@
                     parentNode?.AddChild(newNode);
                 }
 
-                ErrorsChangedEventManager.AddHandler(newNode.ErrorCollection, OnNodeErrorsChanged);
+                ErrorsChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
             }
             else
             {
@@ -165,7 +183,7 @@
 
         private static void OnNodeErrorsChanged(object sender, ErrorsChangedEventArgs e)
         {
-            var node = (IErrorNode)sender;
+            var node = (Node)sender;
             UpdateErrorsAndHasErrors(node.Source, e.Removed, e.Added, node.Errors);
         }
 

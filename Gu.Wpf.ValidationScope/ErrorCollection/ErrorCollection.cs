@@ -10,7 +10,7 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    internal sealed class ErrorCollection : ReadOnlyObservableCollection<ValidationError>, IDisposable
+    internal sealed class ErrorCollection : ReadOnlyObservableCollection<ValidationError>, IDisposable, INotifyErrorsChanged
     {
         internal static readonly ReadOnlyObservableCollection<ValidationError> EmptyValidationErrors = Validation.GetErrors(new DependencyObject());
 

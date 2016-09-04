@@ -5,7 +5,6 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Windows;
     using System.Windows.Controls;
 
     public interface IErrorNode : IReadOnlyList<ValidationError>, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable
@@ -15,7 +14,5 @@ namespace Gu.Wpf.ValidationScope
         ReadOnlyObservableCollection<ValidationError> Errors { get; }
 
         ReadOnlyObservableCollection<IErrorNode> Children { get; }
-
-        DependencyObject Source { get; }
     }
 }

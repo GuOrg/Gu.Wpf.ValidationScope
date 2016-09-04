@@ -20,7 +20,7 @@
                 var inputTypes = new InputTypeCollection { typeof(TextBox), typeof(Selector) };
                 stackPanel.SetForInputTypes(inputTypes);
                 Assert.AreEqual(false, Scope.GetHasError(stackPanel));
-                IErrorNode errorNode = (ScopeNode)Scope.GetNode(stackPanel);
+                var errorNode = (Node)Scope.GetNode(stackPanel);
                 Assert.AreEqual(null, errorNode);
 
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
@@ -53,11 +53,11 @@
                 stackPanel.SetForInputTypes(inputTypes);
 
                 Assert.AreEqual(false, Scope.GetHasError(stackPanel));
-                IErrorNode errorNode = (ScopeNode)Scope.GetNode(stackPanel);
+                var errorNode = (Node)Scope.GetNode(stackPanel);
                 Assert.AreEqual(null, errorNode);
 
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
-                errorNode = (ErrorNode)Scope.GetNode(textBox);
+                errorNode = (Node)Scope.GetNode(textBox);
                 Assert.AreEqual(textBox, errorNode.Source);
                 CollectionAssert.IsEmpty(errorNode.Children);
                 CollectionAssert.IsEmpty(errorNode.Errors);

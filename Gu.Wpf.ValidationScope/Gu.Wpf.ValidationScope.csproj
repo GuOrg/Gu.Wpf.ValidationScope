@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ErrorCollection\ErrorsChangedEventArgs.cs" />
     <Compile Include="ErrorCollection\ErrorsChangedEventManager.cs" />
+    <Compile Include="ErrorCollection\INotifyErrorsChanged.cs" />
     <Compile Include="ErrorTree\ChildCollection.cs" />
     <Compile Include="InputTypes\DefaultInputTypesExtension.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverter.cs" />
