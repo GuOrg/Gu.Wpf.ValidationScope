@@ -78,7 +78,7 @@
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
-        internal static bool IsScopeFor(this DependencyObject parent, DependencyObject source)
+        private static bool IsScopeFor(this DependencyObject parent, DependencyObject source)
         {
             if (parent == null || source == null)
             {
@@ -235,13 +235,6 @@
             }
             else
             {
-                var parentNode = GetNode(parent) as ErrorNode;
-                if (parentNode != null)
-                {
-                    var childNode = GetNode(d) as ErrorNode;
-                    parentNode.TryRemoveChild(childNode);
-                }
-
                 if (GetNode(d) is ScopeNode)
                 {
                     SetNode(d, ValidNode.Default);

@@ -9,8 +9,11 @@
     /// </summary>
     internal class ErrorsChangedEventManager : WeakEventManager
     {
+        private readonly EventHandler<ErrorsChangedEventArgs> eventHandler;
+
         private ErrorsChangedEventManager()
         {
+            this.eventHandler = this.DeliverEvent;
         }
 
         // get the event manager for the current thread
@@ -74,19 +77,14 @@
         protected override void StartListening(object source)
         {
             var typedSource = (INotifyErrorsChanged)source;
-            typedSource.ErrorsChanged += this.OnErrorsChanged;
+            typedSource.ErrorsChanged += this.eventHandler;
         }
 
         /// <inheritdoc/>
         protected override void StopListening(object source)
         {
             var typedSource = (INotifyErrorsChanged)source;
-            typedSource.ErrorsChanged -= this.OnErrorsChanged;
-        }
-
-        private void OnErrorsChanged(object sender, ErrorsChangedEventArgs args)
-        {
-            this.DeliverEvent(sender, args);
+            typedSource.ErrorsChanged -= this.eventHandler;
         }
     }
 }

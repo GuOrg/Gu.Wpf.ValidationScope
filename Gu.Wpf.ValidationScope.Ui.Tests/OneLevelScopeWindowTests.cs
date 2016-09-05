@@ -17,15 +17,15 @@
             Assert.AreEqual("Children: 0", childCountBlock.Text);
 
             var intBox1 = this.Window.Get<TextBox>("IntValue1");
-            intBox1.EnterSingle('a');
+            intBox1.Enter('a');
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, this.Window.GetErrors());
 
-            intBox1.EnterSingle('b');
+            intBox1.Enter('b');
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(new[] { "Value 'b' could not be converted." }, this.Window.GetErrors());
 
-            intBox1.EnterSingle('1');
+            intBox1.Enter('1');
             Assert.AreEqual("Children: 0", childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
         }
@@ -39,19 +39,19 @@
             Assert.AreEqual("Children: 0", childCountBlock.Text);
 
             var intBox1 = this.Window.Get<TextBox>("IntValue1");
-            intBox1.EnterSingle('a');
+            intBox1.Enter('a');
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, this.Window.GetErrors());
 
-            intBox1.EnterSingle('1');
+            intBox1.Enter('1');
             Assert.AreEqual("Children: 0", childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
 
-            intBox1.EnterSingle('b');
+            intBox1.Enter('b');
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(new[] { "Value 'b' could not be converted." }, this.Window.GetErrors());
 
-            intBox1.EnterSingle('2');
+            intBox1.Enter('2');
             Assert.AreEqual("Children: 0", childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
         }
@@ -65,21 +65,21 @@
             Assert.AreEqual("Children: 0", childCountBlock.Text);
 
             var intBox1 = this.Window.Get<TextBox>("IntValue1");
-            intBox1.EnterSingle('a');
+            intBox1.Enter('a');
             CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, this.Window.GetErrors());
             Assert.AreEqual("Children: 1", childCountBlock.Text);
 
             var doubleBox = this.Window.Get<TextBox>("DoubleValue");
-            doubleBox.EnterSingle('b');
+            doubleBox.Enter('b');
             Assert.AreEqual("Children: 2", childCountBlock.Text);
             var expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
             CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
 
-            intBox1.EnterSingle('1');
+            intBox1.Enter('1');
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(new[] { "Value 'b' could not be converted." }, this.Window.GetErrors());
 
-            doubleBox.EnterSingle('2');
+            doubleBox.Enter('2');
             Assert.AreEqual("Children: 0", childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
         }
@@ -93,17 +93,17 @@
             Assert.AreEqual("Children: 0", childCountBlock.Text);
 
             var intBox1 = this.Window.Get<TextBox>("IntValue1");
-            intBox1.EnterSingle('a');
+            intBox1.Enter('a');
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, this.Window.GetErrors());
 
             var intBox2 = this.Window.Get<TextBox>("IntValue2");
-            intBox2.EnterSingle('b');
+            intBox2.Enter('b');
             Assert.AreEqual("Children: 2", childCountBlock.Text);
             var expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
             CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
 
-            intBox1.EnterSingle('1');
+            intBox1.Enter('1');
             Assert.AreEqual("Children: 0", childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
         }

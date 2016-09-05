@@ -13,7 +13,7 @@ namespace Gu.Wpf.ValidationScope
 
     internal abstract class ErrorNode : Node, IErrorNode, INotifyErrorsChanged
     {
-        private static readonly PropertyChangedEventArgs HasErrorsPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(HasErrors));
+        private static readonly PropertyChangedEventArgs HasErrorsPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(HasError));
         private readonly Lazy<ChildCollection> children = new Lazy<ChildCollection>(() => new ChildCollection());
 
         protected ErrorNode()
@@ -25,7 +25,7 @@ namespace Gu.Wpf.ValidationScope
 
         public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
 
-        public override bool HasErrors => this.ErrorCollection.Any();
+        public override bool HasError => this.ErrorCollection.Any();
 
         public override ReadOnlyObservableCollection<ValidationError> Errors => this.ErrorCollection;
 
@@ -50,50 +50,17 @@ namespace Gu.Wpf.ValidationScope
             this.Dispose(true);
         }
 
-        internal bool TryRemoveChild(ErrorNode childNode)
-        {
-            if (this.children.IsValueCreated == false)
-            {
-                return false;
-            }
-
-            if (this.children.Value.Remove(childNode))
-            {
-                childNode.ParentNode = null;
-                this.ErrorCollection.Remove(childNode);
-                return true;
-            }
-
-            return false;
-        }
-
-        internal void RemoveChild(ErrorNode childNode)
-        {
-            if (this.children.IsValueCreated == false)
-            {
-                throw new InvalidOperationException("Cannot remove child when no child is added");
-            }
-
-            if (!this.children.Value.Remove(childNode))
-            {
-                throw new InvalidOperationException("Cannot remove child that was not added");
-            }
-
-            childNode.ParentNode = null;
-            this.ErrorCollection.Remove(childNode);
-        }
-
         internal void AddChild(ErrorNode childNode)
         {
             if (ReferenceEquals(childNode.ParentNode, this))
             {
-                return;
+                throw new InvalidOperationException("Trying to add child twice, child.Parent == this.");
             }
 
             childNode.ParentNode?.RemoveChild(childNode);
             if (!this.children.Value.TryAdd(childNode))
             {
-                return;
+                throw new InvalidOperationException("Trying to add child twice.");
             }
 
             childNode.ParentNode = this;
@@ -140,6 +107,22 @@ namespace Gu.Wpf.ValidationScope
             }
 
             this.ErrorsChanged?.Invoke(this, e);
+        }
+
+        private void RemoveChild(ErrorNode childNode)
+        {
+            if (this.children.IsValueCreated == false)
+            {
+                throw new InvalidOperationException("Cannot remove child when no child is added");
+            }
+
+            if (!this.children.Value.Remove(childNode))
+            {
+                throw new InvalidOperationException("Cannot remove child that was not added");
+            }
+
+            childNode.ParentNode = null;
+            this.ErrorCollection.Remove(childNode);
         }
     }
 }

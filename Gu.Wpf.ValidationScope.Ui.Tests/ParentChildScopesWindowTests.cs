@@ -15,11 +15,11 @@
         {
             CollectionAssert.IsEmpty(this.Window.GetErrors());
             var textBox1 = this.Window.Get<GroupBox>(AutomationIDs.TextBoxScope).Get<TextBox>(AutomationIDs.TextBox1);
-            textBox1.EnterSingle('a');
+            textBox1.Enter('a');
             CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, this.Window.GetErrors());
 
             var textBox2 = this.Window.Get<GroupBox>(AutomationIDs.TextBoxScope).Get<TextBox>(AutomationIDs.TextBox2);
-            textBox2.EnterSingle('b');
+            textBox2.Enter('b');
             var expectedErrors = new[]
             {
                     "Value 'a' could not be converted.",
@@ -28,11 +28,11 @@
             CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
 
             var comboBox1 = this.Window.Get<GroupBox>(AutomationIDs.TextBoxScope).Get<ComboBox>(AutomationIDs.ComboBox1);
-            comboBox1.EnterSingle('c');
+            comboBox1.Enter('c');
             CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
 
             var comboBox2 = this.Window.Get<GroupBox>(AutomationIDs.ComboBoxScope).Get<ComboBox>(AutomationIDs.ComboBox1);
-            comboBox2.EnterSingle('d');
+            comboBox2.Enter('d');
             expectedErrors = new[]
             {
                     "Value 'a' could not be converted.",
@@ -42,18 +42,18 @@
             CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
 
             var textBox3 = this.Window.Get<GroupBox>(AutomationIDs.ComboBoxScope).Get<TextBox>(AutomationIDs.TextBox1);
-            textBox3.EnterSingle('e');
+            textBox3.Enter('e');
             CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
 
-            textBox1.EnterSingle('1');
+            textBox1.Enter('1');
             CollectionAssert.IsEmpty(this.Window.GetErrors());
 
             var textBox4 = this.Window.Get<GroupBox>(AutomationIDs.NoScope).Get<TextBox>(AutomationIDs.TextBox1);
-            textBox4.EnterSingle('e');
+            textBox4.Enter('e');
             CollectionAssert.IsEmpty(this.Window.GetErrors());
 
             var comboBox3 = this.Window.Get<GroupBox>(AutomationIDs.NoScope).Get<ComboBox>(AutomationIDs.ComboBox1);
-            comboBox3.EnterSingle('f');
+            comboBox3.Enter('f');
             CollectionAssert.IsEmpty(this.Window.GetErrors());
         }
     }

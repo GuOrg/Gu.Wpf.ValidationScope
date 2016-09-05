@@ -24,14 +24,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual("HasError: False", hasErrorBlock.Text);
             CollectionAssert.AreEqual(Enumerable.Empty<string>(), actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox.EnterSingle('g');
+            textBox.Enter('g');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             CollectionAssert.AreEqual("HasError: True", hasErrorBlock.Text);
             actual = groupBox.GetMultiple<Label>(ErrorTextBlockName).Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(new[] { "Value 'g' could not be converted." }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox.EnterSingle('h');
+            textBox.Enter('h');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             CollectionAssert.AreEqual("HasError: True", hasErrorBlock.Text);
@@ -55,14 +55,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual("HasError: False", hasErrorBlock.Text);
             CollectionAssert.AreEqual(Enumerable.Empty<string>(), actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox.EnterSingle('g');
+            textBox.Enter('g');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             CollectionAssert.AreEqual("HasError: True", hasErrorBlock.Text);
             actual = groupBox.GetMultiple<Label>(ErrorTextBlockName).Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(new[] { "Value 'g' could not be converted." }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox.EnterSingle('h');
+            textBox.Enter('h');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             CollectionAssert.AreEqual("HasError: True", hasErrorBlock.Text);
@@ -86,14 +86,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual("HasError: False", hasErrorBlock.Text);
             CollectionAssert.AreEqual(Enumerable.Empty<string>(), actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox.EnterSingle('g');
+            textBox.Enter('g');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             CollectionAssert.AreEqual("HasError: True", hasErrorBlock.Text);
             actual = groupBox.GetMultiple<Label>(ErrorTextBlockName).Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(new[] { "Value 'g' could not be converted." }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox.EnterSingle('h');
+            textBox.Enter('h');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             CollectionAssert.AreEqual("HasError: True", hasErrorBlock.Text);
@@ -118,14 +118,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual("HasError: False", hasErrorBlock.Text);
             CollectionAssert.AreEqual(Enumerable.Empty<string>(), actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox1.EnterSingle('g');
+            textBox1.Enter('g');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             CollectionAssert.AreEqual("HasError: True", hasErrorBlock.Text);
             actual = groupBox.GetMultiple<Label>(ErrorTextBlockName).Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(new[] { "Value 'g' could not be converted." }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox2.EnterSingle('h');
+            textBox2.Enter('h');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
             CollectionAssert.AreEqual("HasError: True", hasErrorBlock.Text);

@@ -67,6 +67,9 @@
             <StackPanel>
                 <TextBlock x:Name="ScopeTextBoxHasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), ElementName=ScopeIntValueTextBox, StringFormat='HasError: {0}'}" />
                 <ItemsControl ItemTemplate="{StaticResource ValidationErrorTemplate}" ItemsSource="{Binding Path=(validation:Scope.Errors), ElementName=ScopeIntValueTextBox}" />
+
+                <TextBlock x:Name="ScopeTextBoxNodeHasErrorTextBlock" Text="{Binding Path=(validation:Scope.Node).HasError, ElementName=ScopeIntValueTextBox, StringFormat='HasError: {0}'}" />
+                <ItemsControl ItemTemplate="{StaticResource ValidationErrorTemplate}" ItemsSource="{Binding Path=(validation:Scope.Node).Errors, ElementName=ScopeIntValueTextBox}" />
             </StackPanel>
         </GroupBox>
 

@@ -60,6 +60,7 @@
     <Compile Include="Helpers\ObservableCollectionArgsComparer.cs" />
     <Compile Include="Helpers\ObservableCollectionExt.cs" />
     <Compile Include="Helpers\PropertyChangedEventArgsComparer.cs" />
+    <Compile Include="Helpers\PropertyChangedExt.cs" />
     <Compile Include="Helpers\ScopeEventsExt.cs" />
     <Compile Include="Helpers\ScopeValidationErrorEventArgsComparer.cs" />
     <Compile Include="Helpers\TestValidationError.cs" />

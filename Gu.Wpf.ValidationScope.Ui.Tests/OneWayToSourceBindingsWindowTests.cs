@@ -23,7 +23,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             AssertErrors(viewModelErrorsGroupBox, hasError, errors);
 
             var textBox1 = this.Window.Get<TextBox>("TextBox1");
-            textBox1.EnterSingle('a');
+            textBox1.Enter('a');
             hasError = "HasError: True";
             errors = new[] { "Value 'a' could not be converted." };
             AssertErrors(viewErrorsGroupBox, hasError, errors);
@@ -31,12 +31,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
 
             var textBox2 = this.Window.Get<TextBox>("TextBox2");
-            textBox2.EnterSingle('b');
+            textBox2.Enter('b');
             errors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
             AssertErrors(viewErrorsGroupBox, hasError, errors);
             AssertErrors(viewModelErrorsGroupBox, hasError, errors);
 
-            textBox1.EnterSingle('1');
+            textBox1.Enter('1');
             hasError = "HasError: False";
             errors = Enumerable.Empty<string>();
             AssertErrors(viewErrorsGroupBox, hasError, errors);

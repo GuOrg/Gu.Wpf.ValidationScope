@@ -145,6 +145,9 @@
     <Compile Include="UiTestWindows\ScopeIsErrorScopeWindow.xaml.cs">
       <DependentUpon>ScopeIsErrorScopeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiTestWindows\ScopeTextBoxWindow.xaml.cs">
+      <DependentUpon>ScopeTextBoxWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UiTestWindows\TwoLevelScopeWindow.xaml.cs">
       <DependentUpon>TwoLevelScopeWindow.xaml</DependentUpon>
     </Compile>
@@ -259,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UiTestWindows\ScopeIsErrorScopeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ScopeTextBoxWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -20,7 +20,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox = this.Window.Get<TextBox>("ValidationTextBox");
-            textBox.EnterSingle('g');
+            textBox.Enter('g');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(
                 new[]
@@ -56,7 +56,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox = this.Window.Get<TextBox>("ScopeTextBox");
-            textBox.EnterSingle('g');
+            textBox.Enter('g');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(new[]
                                {
@@ -92,7 +92,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox1 = this.Window.Get<GroupBox>("ScopeGroupBox").Get<TextBox>("ScopeTextBox1");
-            textBox1.EnterSingle('g');
+            textBox1.Enter('g');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(new[]
                            {
@@ -128,7 +128,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox1 = this.Window.Get<GroupBox>("ScopeGroupBox").Get<TextBox>("ScopeTextBox1");
-            textBox1.EnterSingle('g');
+            textBox1.Enter('g');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange( new[]
                            {
@@ -141,7 +141,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox2 = this.Window.Get<GroupBox>("ScopeGroupBox").Get<TextBox>("ScopeTextBox2");
-            textBox2.EnterSingle('h');
+            textBox2.Enter('h');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(new[]
                            {

@@ -67,6 +67,7 @@
     <Compile Include="Helpers\Info.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\UIItemExt.cs" />
+    <Compile Include="ScopeTextBoxWindowTests.cs" />
     <Compile Include="TwoLevelScopeWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>

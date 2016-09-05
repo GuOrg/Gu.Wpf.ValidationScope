@@ -21,7 +21,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.Window.GetErrors());
 
             var textBox1 = this.Window.Get<TextBox>(AutomationIDs.TextBox1);
-            textBox1.EnterSingle('a');
+            textBox1.Enter('a');
             Assert.AreEqual(string.Empty, childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
 
@@ -34,7 +34,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.Window.GetErrors());
 
             var comboBox1 = this.Window.Get<ComboBox>(AutomationIDs.ComboBox1);
-            comboBox1.EnterSingle('b');
+            comboBox1.Enter('b');
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(new[] { "Value 'b' could not be converted." }, this.Window.GetErrors());
 

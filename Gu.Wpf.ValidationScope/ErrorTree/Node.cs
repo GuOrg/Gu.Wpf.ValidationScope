@@ -5,7 +5,7 @@ namespace Gu.Wpf.ValidationScope
 
     internal abstract class Node
     {
-        public abstract bool HasErrors { get; }
+        public abstract bool HasError { get; }
 
         public abstract ReadOnlyObservableCollection<ValidationError> Errors { get; }
 

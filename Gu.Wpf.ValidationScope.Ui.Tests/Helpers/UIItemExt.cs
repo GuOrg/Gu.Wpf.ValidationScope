@@ -4,10 +4,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using System.Linq;
     using System.Windows.Automation;
 
+    using TestStack.White;
     using TestStack.White.InputDevices;
     using TestStack.White.UIItems;
     using TestStack.White.UIItems.Finders;
     using TestStack.White.UIItems.ListBoxItems;
+    using TestStack.White.UIItems.WindowItems;
 
     public static class UIItemExt
     {
@@ -43,13 +45,16 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                             .ToList();
         }
 
-        public static void EnterSingle(this TextBox textBox, char @char)
+        public static void Enter(this TextBox textBox, char @char)
         {
+            var window = textBox.GetParent<Window>();
+            window.WaitWhileBusy();
             textBox.DoubleClick();
             Keyboard.Instance.Send(new string(@char, 1), textBox.ActionListener);
+            window.WaitWhileBusy();
         }
 
-        public static void EnterSingle(this ComboBox comboBox, char @char)
+        public static void Enter(this ComboBox comboBox, char @char)
         {
             comboBox.DoubleClick();
             Keyboard.Instance.Send(new string(@char, 1), comboBox.ActionListener);
@@ -57,11 +62,11 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
         public static IEnumerable<IUIItem> Ancestors(this IUIItem item)
         {
-            var parent = item.GetParent<IUIItem>();
+            var parent = item.GetParent<IUIItemContainer>();
             while (parent != null)
             {
                 yield return parent;
-                parent = parent.GetParent<IUIItem>();
+                parent = parent.GetParent<IUIItemContainer>();
             }
         }
     }

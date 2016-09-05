@@ -1,10 +1,12 @@
 ﻿<Application x:Class="Gu.Wpf.ValidationScope.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope">
     <!--<Application.StartupUri>MainWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/OneLevelScopeWindow.xaml</Application.StartupUri>-->
+    <Application.StartupUri>UiTestWindows/ScopeTextBoxWindow.xaml</Application.StartupUri>
     <!--<Application.StartupUri>UiTestWindows/EventsOrderWindow.xaml</Application.StartupUri>-->
-    <Application.StartupUri>UiTestWindows/LiveErrorsWindow.xaml</Application.StartupUri>
+    <!--<Application.StartupUri>UiTestWindows/LiveErrorsWindow.xaml</Application.StartupUri>-->
     <Application.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -14,5 +16,36 @@
         <Style TargetType="{x:Type CheckBox}">
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+
+        <DataTemplate x:Key="ErrorTemplate" DataType="{x:Type ValidationError}">
+            <TextBlock x:Name="ErrorTextBlock"
+                       Foreground="Red"
+                       Text="{Binding ErrorContent}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="ErrorNodeTemplate" DataType="{x:Type validation:IErrorNode}">
+            <StackPanel>
+                <TextBlock x:Name="NodeTypeTextBlock" Text="{Binding}" />
+                <TextBlock x:Name="ChildCountTextBlock" Text="{Binding Children.Count, StringFormat='Children: {0}'}" />
+
+                <TextBlock x:Name="HasErrorTextBlock" Text="{Binding HasError, FallbackValue='HasError: null', StringFormat='HasError: {0}'}" />
+
+
+                <ItemsControl x:Name="ErrorList"
+                              MinHeight="150"
+                              ItemTemplate="{StaticResource ErrorTemplate}"
+                              ItemsSource="{Binding Errors}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ScopeTemplate" DataType="{x:Type FrameworkElement}">
+            <StackPanel>
+                <TextBlock x:Name="HasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), StringFormat='HasError: {0}'}" />
+
+                <ItemsControl x:Name="ErrorList"
+                                  ItemTemplate="{StaticResource ErrorTemplate}"
+                                  ItemsSource="{Binding Path=(validation:Scope.Errors)}" />
+            </StackPanel>
+        </DataTemplate>
     </Application.Resources>
 </Application>

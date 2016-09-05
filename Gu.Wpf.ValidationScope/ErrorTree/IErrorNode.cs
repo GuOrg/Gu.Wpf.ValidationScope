@@ -7,7 +7,7 @@ namespace Gu.Wpf.ValidationScope
 
     public interface IErrorNode : INotifyPropertyChanged, IDisposable
     {
-        bool HasErrors { get; }
+        bool HasError { get; }
 
         ReadOnlyObservableCollection<ValidationError> Errors { get; }
 

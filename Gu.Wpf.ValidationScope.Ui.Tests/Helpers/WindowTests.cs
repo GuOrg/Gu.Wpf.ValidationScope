@@ -34,5 +34,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.SHIFT);
             this.application?.Dispose();
         }
+
+        protected void PressTab()
+        {
+            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
+        }
     }
 }

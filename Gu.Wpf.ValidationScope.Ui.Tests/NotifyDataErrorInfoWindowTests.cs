@@ -18,12 +18,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual(string.Empty, childCountBlock.Text);
             CollectionAssert.IsEmpty(this.Window.GetErrors());
             var textBox1 = this.Window.Get<TextBox>(AutomationIDs.TextBox1);
-            textBox1.EnterSingle('a');
+            textBox1.Enter('a');
             Assert.AreEqual("Children: 1", childCountBlock.Text);
             CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, this.Window.GetErrors());
 
             var textBox2 = this.Window.Get<TextBox>(AutomationIDs.TextBox2);
-            textBox2.EnterSingle('b');
+            textBox2.Enter('b');
             var expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
             Assert.AreEqual("Children: 2", childCountBlock.Text);
             CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());

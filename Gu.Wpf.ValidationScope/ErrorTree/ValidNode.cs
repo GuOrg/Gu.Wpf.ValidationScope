@@ -16,13 +16,13 @@ namespace Gu.Wpf.ValidationScope
 
         event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
+            //// ReSharper disable ValueParameterNotUsed
             add { DoNothing(); }
             remove { DoNothing(); }
+            //// ReSharper restore ValueParameterNotUsed
         }
 
-        //// ReSharper restore ValueParameterNotUsed
-
-        public override bool HasErrors => false;
+        public override bool HasError => false;
 
         public override ReadOnlyObservableCollection<ValidationError> Errors { get; } = ErrorCollection.EmptyValidationErrors;
 

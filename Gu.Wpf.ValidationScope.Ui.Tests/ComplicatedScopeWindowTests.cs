@@ -19,21 +19,21 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             this.AssertErrors(Enumerable.Empty<string>());
             var textBox1 = this.Window.Get<GroupBox>(AutomationIDs.TextBoxScope).Get<TextBox>(AutomationIDs.TextBox1);
-            textBox1.EnterSingle('a');
+            textBox1.Enter('a');
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             this.AssertErrors(expectedErrors);
 
             var textBox2 = this.Window.Get<GroupBox>(AutomationIDs.TextBoxScope).Get<TextBox>(AutomationIDs.TextBox2);
-            textBox2.EnterSingle('b');
+            textBox2.Enter('b');
             expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
             this.AssertErrors(expectedErrors);
 
             var comboBox1 = this.Window.Get<GroupBox>(AutomationIDs.TextBoxScope).Get<ComboBox>(AutomationIDs.ComboBox1);
-            comboBox1.EnterSingle('c');
+            comboBox1.Enter('c');
             this.AssertErrors(expectedErrors);
 
             var comboBox2 = this.Window.Get<GroupBox>(AutomationIDs.ComboBoxScope).Get<ComboBox>(AutomationIDs.ComboBox1);
-            comboBox2.EnterSingle('d');
+            comboBox2.Enter('d');
             expectedErrors = new[]
                                  {
                                      "Value 'a' could not be converted.",
@@ -43,10 +43,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.AssertErrors(expectedErrors);
 
             var textBox3 = this.Window.Get<GroupBox>(AutomationIDs.ComboBoxScope).Get<TextBox>(AutomationIDs.TextBox1);
-            textBox3.EnterSingle('e');
+            textBox3.Enter('e');
             this.AssertErrors(expectedErrors);
 
-            textBox1.EnterSingle('1');
+            textBox1.Enter('1');
             this.AssertErrors(Enumerable.Empty<string>());
         }
 

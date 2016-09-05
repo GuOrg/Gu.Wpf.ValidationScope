@@ -1,0 +1,43 @@
+﻿<Window x:Class="Gu.Wpf.ValidationScope.Demo.ScopeTextBoxWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+        xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
+        Title="ScopeTextBoxWindow">
+    <Window.Resources />
+    <Window.DataContext>
+        <demo:ViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition MinWidth="50" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0"
+                   Grid.Column="0"
+                   Text="IntValue" />
+        <TextBox x:Name="TextBox"
+                 Grid.Row="0"
+                 Grid.Column="1"
+                 validation:Scope.ForInputTypes="TextBox"
+                 Text="{Binding IntValue,
+                                UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2">
+            <GroupBox Header="Scope">
+                <ContentPresenter ContentTemplate="{StaticResource ScopeTemplate}" Content="{Binding .,ElementName=TextBox}" />
+            </GroupBox>
+
+            <GroupBox Header="Node">
+                <ContentPresenter ContentTemplate="{StaticResource ErrorNodeTemplate}" Content="{Binding Path=(validation:Scope.Node), ElementName=TextBox}" />
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Window>
