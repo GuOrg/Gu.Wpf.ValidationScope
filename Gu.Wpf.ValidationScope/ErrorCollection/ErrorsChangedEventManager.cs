@@ -84,7 +84,6 @@
             typedSource.ErrorsChanged -= this.OnErrorsChanged;
         }
 
-        // event handler for CollectionChanged event
         private void OnErrorsChanged(object sender, ErrorsChangedEventArgs args)
         {
             this.DeliverEvent(sender, args);

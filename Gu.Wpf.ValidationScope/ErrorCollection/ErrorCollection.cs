@@ -45,14 +45,14 @@
             this.errors.Remove(oldErrors);
         }
 
-        internal void Add(IErrorNode errorNode)
+        internal void Add(ErrorNode errorNode)
         {
-            this.Add(errorNode?.Errors);
+            this.Add(errorNode?.ErrorCollection);
         }
 
-        internal void Remove(IErrorNode errorNode)
+        internal void Remove(ErrorNode errorNode)
         {
-            this.Remove(errorNode?.Errors);
+            this.Remove(errorNode?.ErrorCollection);
         }
 
         private void OnAddedErrors(IReadOnlyList<ValidationError> added)

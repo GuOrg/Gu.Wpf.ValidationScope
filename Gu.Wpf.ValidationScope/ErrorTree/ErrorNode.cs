@@ -2,10 +2,7 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -22,36 +19,17 @@ namespace Gu.Wpf.ValidationScope
         protected ErrorNode()
         {
             this.ErrorCollection.ErrorsChanged += this.OnErrorCollectionErrorsChanged;
-            ((INotifyCollectionChanged)this.ErrorCollection).CollectionChanged += this.OnErrorsCollectionChanged;
-            ((INotifyPropertyChanged)this.ErrorCollection).PropertyChanged += this.OnErrorsPropertyChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
 
-        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
-        {
-            add
-            {
-                this.CollectionChanged += value;
-            }
-            remove
-            {
-                this.CollectionChanged -= value;
-            }
-        }
-
-        [field: NonSerialized]
-        private event NotifyCollectionChangedEventHandler CollectionChanged;
-
         public override bool HasErrors => this.ErrorCollection.Any();
 
         public override ReadOnlyObservableCollection<ValidationError> Errors => this.ErrorCollection;
 
         public override ReadOnlyObservableCollection<IErrorNode> Children => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
-
-        int IReadOnlyCollection<ValidationError>.Count => this.Errors.Count;
 
         public abstract DependencyObject Source { get; }
 
@@ -60,12 +38,6 @@ namespace Gu.Wpf.ValidationScope
         internal ErrorCollection ErrorCollection { get; } = new ErrorCollection();
 
         protected bool Disposed { get; private set; }
-
-        ValidationError IReadOnlyList<ValidationError>.this[int index] => this.Errors[index];
-
-        IEnumerator<ValidationError> IEnumerable<ValidationError>.GetEnumerator() => this.Errors.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => this.Errors.GetEnumerator();
 
         public void Dispose()
         {
@@ -134,8 +106,6 @@ namespace Gu.Wpf.ValidationScope
             {
                 this.ParentNode?.RemoveChild(this);
                 this.ErrorCollection.ErrorsChanged -= this.OnErrorCollectionErrorsChanged;
-                ((INotifyCollectionChanged)this.ErrorCollection).CollectionChanged -= this.OnErrorsCollectionChanged;
-                ((INotifyPropertyChanged)this.ErrorCollection).PropertyChanged -= this.OnErrorsPropertyChanged;
                 if (this.children.IsValueCreated)
                 {
                     for (var i = this.children.Value.Count - 1; i >= 0; i--)
@@ -170,16 +140,6 @@ namespace Gu.Wpf.ValidationScope
             }
 
             this.ErrorsChanged?.Invoke(this, e);
-        }
-
-        private void OnErrorsPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            this.OnPropertyChanged(e);
-        }
-
-        private void OnErrorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            this.CollectionChanged?.Invoke(this, e);
         }
     }
 }

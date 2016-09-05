@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo.UiTestWindows
+﻿namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Windows;
 
@@ -6,7 +6,7 @@
     {
         public LiveErrorsWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
