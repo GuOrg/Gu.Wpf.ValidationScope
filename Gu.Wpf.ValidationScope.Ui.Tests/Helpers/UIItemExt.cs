@@ -47,17 +47,18 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
         public static void Enter(this TextBox textBox, char @char)
         {
-            var window = textBox.GetParent<Window>();
-            window.WaitWhileBusy();
+            textBox.Click();
             textBox.DoubleClick();
             Keyboard.Instance.Send(new string(@char, 1), textBox.ActionListener);
-            window.WaitWhileBusy();
+            WindowTests.StaticWindow?.WaitWhileBusy();
         }
 
         public static void Enter(this ComboBox comboBox, char @char)
         {
+            comboBox.Click();
             comboBox.DoubleClick();
             Keyboard.Instance.Send(new string(@char, 1), comboBox.ActionListener);
+            WindowTests.StaticWindow?.WaitWhileBusy();
         }
 
         public static IEnumerable<IUIItem> Ancestors(this IUIItem item)

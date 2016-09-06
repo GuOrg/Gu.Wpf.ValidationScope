@@ -4,7 +4,6 @@
 
     using NUnit.Framework;
     using TestStack.White.UIItems;
-    using TestStack.White.WindowsAPI;
 
     public class ScopeTextBoxWindowTests : WindowTests
     {
@@ -27,6 +26,13 @@
         public string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
 
         public string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.TextBox.Enter("0");
+            this.PressTab();
+        }
 
         [Test]
         public void CheckNodeType()
@@ -55,7 +61,7 @@
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
-            Assert.AreEqual("Children: 1", this.ChildCount);
+            Assert.AreEqual("Children: 0", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
@@ -65,7 +71,7 @@
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
-            Assert.AreEqual("Children: 1", this.ChildCount);
+            Assert.AreEqual("Children: 0", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
@@ -128,7 +134,7 @@
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
-            Assert.AreEqual("Children: 1", this.ChildCount);
+            Assert.AreEqual("Children: 0", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
@@ -146,7 +152,7 @@
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
-            Assert.AreEqual("Children: 1", this.ChildCount);
+            Assert.AreEqual("Children: 0", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
