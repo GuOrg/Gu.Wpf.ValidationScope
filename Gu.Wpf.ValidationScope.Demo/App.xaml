@@ -43,8 +43,8 @@
                 <TextBlock x:Name="HasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), StringFormat='HasError: {0}'}" />
 
                 <ItemsControl x:Name="ErrorList"
-                                  ItemTemplate="{StaticResource ErrorTemplate}"
-                                  ItemsSource="{Binding Path=(validation:Scope.Errors)}" />
+                              ItemTemplate="{StaticResource ErrorTemplate}"
+                              ItemsSource="{Binding Path=(validation:Scope.Errors)}" />
             </StackPanel>
         </DataTemplate>
     </Application.Resources>

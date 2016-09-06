@@ -52,7 +52,7 @@
 
 
         [Test]
-        public void AddRemoveError()
+        public void AddThenRemoveError()
         {
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
@@ -83,14 +83,14 @@
         }
 
         [Test]
-        public void AddRemoveErrorTwice()
+        public void AddThenRemoveErrorTwice()
         {
-            this.AddRemoveError();
-            this.AddRemoveError();
+            this.AddThenRemoveError();
+            this.AddThenRemoveError();
         }
 
         [Test]
-        public void UpdatesResetOneByOne()
+        public void AddTwoErrorsThenRemoveThemOneByOne()
         {
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
@@ -141,7 +141,7 @@
         }
 
         [Test]
-        public void UpdatesResetBothAtOnce()
+        public void AddTwoErrorsThenThenRemoveBothAtOnce()
         {
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
@@ -182,8 +182,9 @@
         }
 
         [Test]
-        public void UpdatesErrorThenReset()
+        public void AddThenUpdateErrorThenRemoveIt()
         {
+            Assert.Inconclusive("dunno if wpf can do this");
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -193,7 +194,6 @@
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
             this.IntTextBox1.Enter('a');
-
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -204,11 +204,11 @@
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.IntTextBox1.Enter('b');
-            expectedErrors = new[] { "Value 'b' could not be converted." };
+            expectedErrors = new[] {  "Value 'b' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
-            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("Children: 1", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
@@ -220,7 +220,7 @@
             Assert.AreEqual("Children: 0", this.ChildCount);
             Assert.AreEqual("HasError: False", this.NodeHasError);
             CollectionAssert.IsEmpty(this.NodeErrors);
-            Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
         }
     }
 }

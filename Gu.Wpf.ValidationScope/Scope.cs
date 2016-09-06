@@ -78,7 +78,7 @@
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
-        private static bool IsScopeFor(this DependencyObject parent, DependencyObject source)
+        internal static bool IsScopeFor(this DependencyObject parent, DependencyObject source)
         {
             if (parent == null || source == null)
             {

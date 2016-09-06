@@ -3,13 +3,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Automation;
-
-    using TestStack.White;
     using TestStack.White.InputDevices;
     using TestStack.White.UIItems;
     using TestStack.White.UIItems.Finders;
     using TestStack.White.UIItems.ListBoxItems;
-    using TestStack.White.UIItems.WindowItems;
     using TestStack.White.WindowsAPI;
 
     public static class UIItemExt

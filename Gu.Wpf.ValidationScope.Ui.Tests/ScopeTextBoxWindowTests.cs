@@ -45,7 +45,7 @@
         }
 
         [Test]
-        public void AddRemoveError()
+        public void AddThenRemoveError()
         {
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
@@ -76,15 +76,16 @@
         }
 
         [Test]
-        public void AddRemoveErrorTwice()
+        public void AddThenRemoveErrorTwice()
         {
-            this.AddRemoveError();
-            this.AddRemoveError();
+            this.AddThenRemoveError();
+            this.AddThenRemoveError();
         }
 
         [Test]
-        public void UpdatesErrorThenReset()
+        public void AddThenUpdateErrorThenRemoveIt()
         {
+            Assert.Inconclusive("dunno if wpf can do this");
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
