@@ -12,8 +12,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border BorderBrush="{Binding Path=(validation:Scope.HasError),
@@ -38,7 +36,7 @@
                            Text="IntValue" />
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
-                         x:Name="IntValue1"
+                         x:Name="IntTextBox1"
                          Text="{Binding IntValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="1"
@@ -46,7 +44,7 @@
                            Text="IntValue" />
                 <TextBox Grid.Row="1"
                          Grid.Column="1"
-                         x:Name="IntValue2"
+                         x:Name="IntTextBox2"
                          Text="{Binding IntValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
 
@@ -55,31 +53,21 @@
                            Text="DoubleValue" />
                 <TextBox Grid.Row="2"
                          Grid.Column="1"
-                         x:Name="DoubleValue"
+                         x:Name="DoubleTextBox"
                          Text="{Binding DoubleValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Border>
 
-        <TextBlock Grid.Row="1"
-                   x:Name="ChildCountTextBlock"
-                   Foreground="Red"
-                   Text="{Binding Path=(validation:Scope.Node).Children.Count,
-                                  ElementName=Form,
-                                  StringFormat='Children: {0}'}" />
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0">
+            <GroupBox Header="Scope">
+                <ContentPresenter ContentTemplate="{StaticResource ScopeTemplate}" Content="{Binding .,ElementName=Form}" />
+            </GroupBox>
 
-        <ItemsControl Grid.Row="2"
-                      MinHeight="150"
-                      x:Name="ErrorList"
-                      ItemsSource="{Binding Path=(validation:Scope.Node),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock x:Name="ErrorTextBlock"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+            <GroupBox Header="Node">
+                <ContentPresenter ContentTemplate="{StaticResource ErrorNodeTemplate}" Content="{Binding Path=(validation:Scope.Node), ElementName=Form}" />
+            </GroupBox>
+        </StackPanel>
     </Grid>
 </UserControl>

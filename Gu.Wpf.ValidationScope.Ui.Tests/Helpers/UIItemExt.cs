@@ -10,6 +10,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using TestStack.White.UIItems.Finders;
     using TestStack.White.UIItems.ListBoxItems;
     using TestStack.White.UIItems.WindowItems;
+    using TestStack.White.WindowsAPI;
 
     public static class UIItemExt
     {
@@ -47,9 +48,19 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
         public static void Enter(this TextBox textBox, char @char)
         {
-            textBox.Click();
-            textBox.DoubleClick();
+            WindowTests.StaticWindow?.WaitWhileBusy();
+            textBox.SelectAllText();
             Keyboard.Instance.Send(new string(@char, 1), textBox.ActionListener);
+            WindowTests.StaticWindow?.WaitWhileBusy();
+        }
+
+        public static void SelectAllText(this TextBox textBox)
+        {
+            WindowTests.StaticWindow?.WaitWhileBusy();
+            textBox.Focus();
+            Keyboard.Instance.HoldKey(KeyboardInput.SpecialKeys.CONTROL);
+            Keyboard.Instance.Send("a", textBox.ActionListener);
+            Keyboard.Instance.LeaveKey(KeyboardInput.SpecialKeys.CONTROL);
             WindowTests.StaticWindow?.WaitWhileBusy();
         }
 
