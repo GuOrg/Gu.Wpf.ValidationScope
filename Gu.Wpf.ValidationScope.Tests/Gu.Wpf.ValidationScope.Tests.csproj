@@ -50,8 +50,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ErrorCollection\ErrorCollectionTests.cs" />
-    <Compile Include="ErrorCollection\ErrorCollectionTests.Nested.cs" />
-    <Compile Include="ErrorCollection\ErrorsChangedEventManagerTest.cs" />
     <Compile Include="Helpers\ErrorCollectionExt.cs" />
     <Compile Include="Helpers\ErrorsChangedEventArgsComparer.cs" />
     <Compile Include="Helpers\Factory.cs" />
@@ -65,7 +63,6 @@
     <Compile Include="Helpers\ScopeValidationErrorEventArgsComparer.cs" />
     <Compile Include="Helpers\TestValidationError.cs" />
     <Compile Include="Helpers\TestValidationRule.cs" />
-    <Compile Include="ErrorCollection\ErrorCollectionTests.ReadonlyObservableCollection.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScopeTests.TextBox.cs" />

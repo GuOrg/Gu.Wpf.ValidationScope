@@ -1,19 +1,20 @@
 ﻿namespace Gu.Wpf.ValidationScope
 {
-    using System;
     using System.Collections.Generic;
+    using System.Windows;
     using System.Windows.Controls;
 
-    internal class ErrorsChangedEventArgs : EventArgs
+    public class ErrorsChangedEventArgs : RoutedEventArgs
     {
-        public ErrorsChangedEventArgs(IReadOnlyList<ValidationError> removed, IReadOnlyList<ValidationError> added)
+        public ErrorsChangedEventArgs(IEnumerable<ValidationError> removed, IEnumerable<ValidationError> added)
         {
-            this.Removed = removed;
-            this.Added = added;
+            this.RoutedEvent = Scope.ErrorsChangedEvent;
+            this.Removed = removed ?? ErrorCollection.EmptyValidationErrors;
+            this.Added = added ?? ErrorCollection.EmptyValidationErrors;
         }
 
-        internal IReadOnlyList<ValidationError> Removed { get; }
+        internal IEnumerable<ValidationError> Removed { get; }
 
-        internal IReadOnlyList<ValidationError> Added { get; }
+        internal IEnumerable<ValidationError> Added { get; }
     }
 }

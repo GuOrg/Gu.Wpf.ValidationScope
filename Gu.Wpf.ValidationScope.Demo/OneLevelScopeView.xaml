@@ -59,15 +59,9 @@
             </Grid>
         </Border>
 
-        <StackPanel Grid.Row="1"
-                    Grid.Column="0">
-            <GroupBox Header="Scope">
-                <ContentPresenter ContentTemplate="{StaticResource ScopeTemplate}" Content="{Binding .,ElementName=Form}" />
-            </GroupBox>
-
-            <GroupBox Header="Node">
-                <ContentPresenter ContentTemplate="{StaticResource ErrorNodeTemplate}" Content="{Binding Path=(validation:Scope.Node), ElementName=Form}" />
-            </GroupBox>
-        </StackPanel>
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>

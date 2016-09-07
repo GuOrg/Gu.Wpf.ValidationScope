@@ -109,8 +109,7 @@
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var textBoxEvents = textBox.SubscribeScopeEvents();
-                var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) };
-                textBox.SetForInputTypes(inputTypes);
+                textBox.SetForInputTypes(new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) });
                 var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
                 textBox.SetValidationError(validationError);
                 var expectedEvents = new List<ScopeValidationErrorEventArgs>
@@ -124,6 +123,5 @@
                 CollectionAssert.AreEqual(expectedEvents, textBoxEvents, ScopeValidationErrorEventArgsComparer.Default);
             }
         }
-
     }
 }

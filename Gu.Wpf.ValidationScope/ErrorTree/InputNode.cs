@@ -1,7 +1,10 @@
 namespace Gu.Wpf.ValidationScope
 {
+    using System;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.Diagnostics;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
@@ -9,11 +12,11 @@ namespace Gu.Wpf.ValidationScope
     [DebuggerDisplay("InputNode Errors: {Errors?.Count ?? 0}, Source: {Source}")]
     internal sealed class InputNode : ErrorNode
     {
-        private static readonly DependencyProperty ValidationErrorsProxyProperty = DependencyProperty.RegisterAttached(
-            "ValidationErrorsProxy",
+        private static readonly DependencyProperty SourceErrorsProperty = DependencyProperty.RegisterAttached(
+            "SourceErrors",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(Scope),
-            new PropertyMetadata(null, OnErrorsProxyChanged));
+            new PropertyMetadata(ValidationScope.ErrorCollection.EmptyValidationErrors, OnErrorsProxyChanged));
 
         private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
         private readonly Binding errorsBinding;
@@ -33,7 +36,7 @@ namespace Gu.Wpf.ValidationScope
 
         internal void BindToSourceErrors()
         {
-            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, ValidationErrorsProxyProperty, this.errorsBinding);
+            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, SourceErrorsProperty, this.errorsBinding);
         }
 
         protected override void Dispose(bool disposing)
@@ -46,7 +49,7 @@ namespace Gu.Wpf.ValidationScope
             var source = this.Source;
             if (source != null)
             {
-                BindingOperations.ClearBinding(source, ValidationErrorsProxyProperty);
+                BindingOperations.ClearBinding(source, SourceErrorsProperty);
             }
 
             base.Dispose(true);
@@ -61,8 +64,41 @@ namespace Gu.Wpf.ValidationScope
                 return;
             }
 
-            node.ErrorCollection.Remove((ReadOnlyObservableCollection<ValidationError>)e.OldValue);
-            node.ErrorCollection.Add((ReadOnlyObservableCollection<ValidationError>)e.NewValue);
+            var oldErrors = (ReadOnlyObservableCollection<ValidationError>)e.OldValue;
+            if (ShouldTrack(oldErrors))
+            {
+                CollectionChangedEventManager.RemoveHandler(oldErrors, node.OnSourceErrorsChanged);
+            }
+
+            var newErrors = (ReadOnlyObservableCollection<ValidationError>)e.NewValue;
+            node.ErrorCollection.Remove(oldErrors);
+            node.ErrorCollection.Add(newErrors);
+
+            if (ShouldTrack(newErrors))
+            {
+                CollectionChangedEventManager.AddHandler(newErrors, node.OnSourceErrorsChanged);
+            }
+        }
+
+        private void OnSourceErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    this.ErrorCollection.Add(e.NewItems.Cast<ValidationError>());
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    this.ErrorCollection.Remove(e.OldItems.Cast<ValidationError>());
+                    break;
+                default:
+                    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Validation.cs,507
+                    throw new ArgumentOutOfRangeException(nameof(e), e.Action, "Should only ever be add or remove.");
+            }
+        }
+
+        private static bool ShouldTrack(ReadOnlyObservableCollection<ValidationError> errors)
+        {
+            return errors != null && !ReferenceEquals(errors, ValidationScope.ErrorCollection.EmptyValidationErrors);
         }
     }
 }

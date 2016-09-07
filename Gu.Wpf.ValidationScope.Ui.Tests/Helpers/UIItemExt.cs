@@ -43,6 +43,13 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                             .ToList();
         }
 
+        public static IReadOnlyList<string> GetChildren(this UIItemContainer container)
+        {
+            return container.GetMultiple<Label>("ChildTextBlock")
+                            .Select(x => x.Text)
+                            .ToList();
+        }
+
         public static void Enter(this TextBox textBox, char @char)
         {
             WindowTests.StaticWindow?.WaitWhileBusy();

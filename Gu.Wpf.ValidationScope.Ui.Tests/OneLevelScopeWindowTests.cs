@@ -28,6 +28,8 @@
 
         public IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
 
+        public IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
+
         public string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
 
         public string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
@@ -50,7 +52,6 @@
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
         }
 
-
         [Test]
         public void AddThenRemoveError()
         {
@@ -70,6 +71,7 @@
             Assert.AreEqual("Children: 1", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.IntTextBox1.Enter('1');
@@ -102,32 +104,40 @@
 
             this.IntTextBox1.Enter('a');
             var expectedErrors = new[] { "Value 'a' could not be converted." };
+            var expectedChildren = new[] { "System.Windows.Controls.TextBox: a" };
+
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
             Assert.AreEqual("Children: 1", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(expectedChildren, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.DoubleTextBox.Enter('b');
             expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+            expectedChildren = new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b" };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
             Assert.AreEqual("Children: 2", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(expectedChildren, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.IntTextBox1.Enter('1');
             expectedErrors = new[] { "Value 'b' could not be converted." };
+            expectedChildren = new[] { "System.Windows.Controls.TextBox: b" };
+
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
             Assert.AreEqual("Children: 1", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(expectedChildren, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.DoubleTextBox.Enter('2');
@@ -153,22 +163,26 @@
 
             this.IntTextBox1.Enter('a');
             var expectedErrors = new[] { "Value 'a' could not be converted." };
+            var expectedChildren = new[] { "System.Windows.Controls.TextBox: a" };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
             Assert.AreEqual("Children: 1", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(expectedChildren, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.IntTextBox2.Enter('b');
             expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+            expectedChildren = new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b" };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
             Assert.AreEqual("Children: 2", this.ChildCount);
             Assert.AreEqual("HasError: True", this.NodeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(expectedChildren, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.IntTextBox1.Enter('1');

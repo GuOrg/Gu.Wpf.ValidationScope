@@ -28,16 +28,12 @@
                  validation:Scope.ForInputTypes="TextBox"
                  Text="{Binding IntValue,
                                 UpdateSourceTrigger=PropertyChanged}" />
-        <StackPanel Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="2">
-            <GroupBox Header="Scope">
-                <ContentPresenter ContentTemplate="{StaticResource ScopeTemplate}" Content="{Binding .,ElementName=TextBox}" />
-            </GroupBox>
 
-            <GroupBox Header="Node">
-                <ContentPresenter ContentTemplate="{StaticResource ErrorNodeTemplate}" Content="{Binding Path=(validation:Scope.Node), ElementName=TextBox}" />
-            </GroupBox>
-        </StackPanel>
+        <ContentPresenter Grid.Row="1"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          Content="{Binding .,
+                                            ElementName=TextBox}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </Window>

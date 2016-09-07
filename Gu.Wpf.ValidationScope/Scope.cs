@@ -6,8 +6,6 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Data;
-    using System.Windows.Media;
 
     public static partial class Scope
     {
@@ -70,48 +68,13 @@
             return (ReadOnlyObservableCollection<ValidationError>)element.GetValue(ErrorsProperty);
         }
 
-        internal static void SetNode(DependencyObject element, IErrorNode value) => element.SetValue(NodePropertyKey, value);
+        private static void SetNode(DependencyObject element, IErrorNode value) => element.SetValue(NodePropertyKey, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static IErrorNode GetNode(DependencyObject element) => (IErrorNode)element?.GetValue(NodeProperty);
 
 #pragma warning restore SA1202 // Elements must be ordered by access
-
-        internal static bool IsScopeFor(this DependencyObject parent, DependencyObject source)
-        {
-            if (parent == null || source == null)
-            {
-                return false;
-            }
-
-            var inputTypes = GetForInputTypes(parent as FrameworkElement);
-            if (inputTypes == null)
-            {
-                return false;
-            }
-
-            var node = GetNode(source);
-            if (node is ValidNode)
-            {
-                return false;
-            }
-
-            if (inputTypes.Contains(typeof(Scope)) && node is ScopeNode)
-            {
-                return true;
-            }
-
-            foreach (var error in node.Errors)
-            {
-                if (inputTypes.IsInputType(((BindingExpressionBase)error.BindingInError).Target))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
 
         private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -127,22 +90,13 @@
                 return;
             }
 
-            if (newValue.IsInputType(d))
+            if (newValue.Contains(d))
             {
-                var errorNode = GetNode(d) as InputNode;
-                if (errorNode == null)
+                var inputNode = GetNode(d) as InputNode;
+                if (inputNode == null)
                 {
-                    errorNode = new InputNode((FrameworkElement)d);
-                    SetNode(d, errorNode);
-                }
-                else
-                {
-                    var parent = VisualTreeHelper.GetParent(d);
-                    if (parent.IsScopeFor(d))
-                    {
-                        var parentNode = (ErrorNode)GetNode(parent);
-                        parentNode?.AddChild(errorNode);
-                    }
+                    inputNode = new InputNode((FrameworkElement)d);
+                    SetNode(d, inputNode);
                 }
             }
         }
@@ -153,8 +107,8 @@
             var oldNode = e.OldValue as ErrorNode;
             if (oldNode != null)
             {
-                oldNode.Dispose();
                 ErrorsChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
+                oldNode.Dispose();
             }
 
             var newNode = e.NewValue as ErrorNode;
@@ -194,16 +148,26 @@
             {
                 SetHasErrors(dependencyObject, false);
                 SetErrors(dependencyObject, ErrorCollection.EmptyValidationErrors);
+                if (GetNode(dependencyObject) is ScopeNode)
+                {
+                    SetNode(dependencyObject, ValidNode.Default);
+                }
             }
 
             // ReSharper disable PossibleMultipleEnumeration
-            foreach (var error in removedErrors.Except(addedErrors))
+            var removed = removedErrors.Except(addedErrors).AsReadOnly();
+            var added = addedErrors.Except(removedErrors).AsReadOnly();
+            dependencyObject.NotifyParent(removed, added);
+            (dependencyObject as UIElement)?.RaiseEvent(new ErrorsChangedEventArgs(removed, added));
+            (dependencyObject as ContentElement)?.RaiseEvent(new ErrorsChangedEventArgs(removed, added));
+
+            foreach (var error in removed)
             {
                 (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
                 (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Removed));
             }
 
-            foreach (var error in addedErrors.Except(removedErrors))
+            foreach (var error in added)
             {
                 (dependencyObject as UIElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
                 (dependencyObject as ContentElement)?.RaiseEvent(new ScopeValidationErrorEventArgs(error, ValidationErrorEventAction.Added));
@@ -214,33 +178,6 @@
 
         private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var parent = VisualTreeHelper.GetParent(d);
-            if ((bool)e.NewValue)
-            {
-                if (parent.IsScopeFor(d))
-                {
-                    var parentNode = GetNode(parent) as ErrorNode;
-                    var errorNode = (ErrorNode)GetNode(d);
-                    if (parentNode == null)
-                    {
-                        parentNode = new ScopeNode(parent);
-                        parentNode.AddChild(errorNode);
-                        SetNode(parent, parentNode);
-                    }
-                    else
-                    {
-                        parentNode.AddChild(errorNode);
-                    }
-                }
-            }
-            else
-            {
-                if (GetNode(d) is ScopeNode)
-                {
-                    SetNode(d, ValidNode.Default);
-                }
-            }
-
             d.SetCurrentValue(HasErrorProxyProperty, e.NewValue);
         }
 

@@ -18,7 +18,7 @@ namespace Gu.Wpf.ValidationScope
 
         protected ErrorNode()
         {
-            this.ErrorCollection.ErrorsChanged += this.OnErrorCollectionErrorsChanged;
+            this.ErrorCollection.ErrorsChanged += this.OnErrorsChanged;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -29,13 +29,13 @@ namespace Gu.Wpf.ValidationScope
 
         public override ReadOnlyObservableCollection<ValidationError> Errors => this.ErrorCollection;
 
-        public override ReadOnlyObservableCollection<IErrorNode> Children => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
+        public override ReadOnlyObservableCollection<IErrorNode> Children => this.ChildCollection;
 
         public abstract DependencyObject Source { get; }
 
-        public ErrorNode ParentNode { get; private set; }
-
         internal ErrorCollection ErrorCollection { get; } = new ErrorCollection();
+
+        internal ChildCollection ChildCollection => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
 
         protected bool Disposed { get; private set; }
 
@@ -50,47 +50,9 @@ namespace Gu.Wpf.ValidationScope
             this.Dispose(true);
         }
 
-        internal void AddChild(ErrorNode childNode)
-        {
-            if (ReferenceEquals(childNode.ParentNode, this))
-            {
-                throw new InvalidOperationException("Trying to add child twice, child.Parent == this.");
-            }
-
-            childNode.ParentNode?.RemoveChild(childNode);
-            if (!this.children.Value.TryAdd(childNode))
-            {
-                throw new InvalidOperationException("Trying to add child twice.");
-            }
-
-            childNode.ParentNode = this;
-            this.ErrorCollection.Add(childNode);
-        }
-
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                this.ParentNode?.RemoveChild(this);
-                this.ErrorCollection.ErrorsChanged -= this.OnErrorCollectionErrorsChanged;
-                if (this.children.IsValueCreated)
-                {
-                    for (var i = this.children.Value.Count - 1; i >= 0; i--)
-                    {
-                        var child = this.children.Value[i];
-                        this.ErrorCollection.Remove(child.Errors);
-                        this.children.Value.RemoveAt(i);
-                    }
-                }
-
-                this.ErrorCollection.Dispose();
-            }
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.ErrorCollection.ErrorsChanged -= this.OnErrorsChanged;
         }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
@@ -98,7 +60,7 @@ namespace Gu.Wpf.ValidationScope
             this.PropertyChanged?.Invoke(this, args);
         }
 
-        private void OnErrorCollectionErrorsChanged(object sender, ErrorsChangedEventArgs e)
+        private void OnErrorsChanged(object sender, ErrorsChangedEventArgs e)
         {
             if ((this.Errors.Count == 0 && e.Removed.Any()) ||
                 Enumerable.SequenceEqual(this.Errors, e.Added))
@@ -107,22 +69,6 @@ namespace Gu.Wpf.ValidationScope
             }
 
             this.ErrorsChanged?.Invoke(this, e);
-        }
-
-        private void RemoveChild(ErrorNode childNode)
-        {
-            if (this.children.IsValueCreated == false)
-            {
-                throw new InvalidOperationException("Cannot remove child when no child is added");
-            }
-
-            if (!this.children.Value.Remove(childNode))
-            {
-                throw new InvalidOperationException("Cannot remove child that was not added");
-            }
-
-            childNode.ParentNode = null;
-            this.ErrorCollection.Remove(childNode);
         }
     }
 }

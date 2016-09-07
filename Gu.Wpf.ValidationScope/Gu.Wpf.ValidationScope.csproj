@@ -52,6 +52,7 @@
     <Compile Include="ErrorCollection\ErrorsChangedEventArgs.cs" />
     <Compile Include="ErrorCollection\ErrorsChangedEventManager.cs" />
     <Compile Include="ErrorCollection\INotifyErrorsChanged.cs" />
+    <Compile Include="ErrorCollection\ObservableBatchCollection.cs" />
     <Compile Include="ErrorTree\ChildCollection.cs" />
     <Compile Include="ErrorTree\ValidNode.cs" />
     <Compile Include="ErrorTree\Node.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Internal\BooleanBoxes.cs" />
     <Compile Include="Internal\EnumerableExt.cs" />
     <Compile Include="Internal\Is.cs" />
+    <Compile Include="Scope.BubbleRoute.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

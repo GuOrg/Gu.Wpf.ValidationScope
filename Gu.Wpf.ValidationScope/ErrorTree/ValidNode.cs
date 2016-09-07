@@ -31,9 +31,6 @@ namespace Gu.Wpf.ValidationScope
         void IDisposable.Dispose() => DoNothing();
 
         [Conditional("DEBUG")]
-        private static void DoNothing()
-        {
-            //// Debug.Assert(false, "Should never be called");
-        }
+        private static void DoNothing() { /* nop */ }
     }
 }

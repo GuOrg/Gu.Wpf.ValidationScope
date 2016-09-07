@@ -51,7 +51,7 @@
         /// Check if the collection contains <paramref name="dependencyObject"/> or a type that is a subclass of <paramref name="dependencyObject"/>
         /// </summary>
         /// <returns>True if <paramref name="dependencyObject"/> is an input type registered for the collection.</returns>
-        public bool IsInputType(DependencyObject dependencyObject)
+        public bool Contains(DependencyObject dependencyObject)
         {
             if (dependencyObject == null)
             {
