@@ -15,7 +15,7 @@
     </Window.Resources>
 
     <Window.DataContext>
-        <demo:ViewModel />
+        <demo:NotifyDataErrorInfoVm />
     </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -27,19 +27,18 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <TextBox x:Name="ValidationIntValueTextBox" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox x:Name="ValidationErrorTextBox" Text="{Binding Error1}" />
+        </StackPanel>
 
-        <TextBox x:Name="ValidationIntValueTextBox"
-                 Grid.Row="0"
-                 Grid.Column="0"
-                 Text="{Binding IntValue1,
-                                UpdateSourceTrigger=PropertyChanged}" />
-
-        <TextBox x:Name="ScopeIntValueTextBox"
-                 Grid.Row="0"
-                 Grid.Column="1"
-                 validation:Scope.ForInputTypes="TextBox"
-                 Text="{Binding IntValue1,
-                                UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBox x:Name="ScopeIntValueTextBox"
+                     validation:Scope.ForInputTypes="TextBox"
+                     Text="{Binding IntValue1,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox x:Name="ScopeErrorTextBox" Text="{Binding Error1}" />
+        </StackPanel>
 
         <GroupBox x:Name="ScopeGroupBox"
                   Grid.Row="0"
@@ -47,8 +46,9 @@
                   validation:Scope.ForInputTypes="TextBox">
             <StackPanel x:Name="ScopeStackPanel">
                 <TextBox x:Name="ScopeIntValueTextBox1" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox x:Name="ScopeIntValueTextBox2" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox x:Name="ScopeDoubleValueTextBox" Text="{Binding DoubleValue, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeErrorTextBox1" Text="{Binding Error1}" />
+                <TextBox x:Name="ScopeIntValueTextBox2" Text="{Binding IntValue2, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeErrorTextBox2" Text="{Binding Error2}" />
             </StackPanel>
         </GroupBox>
 
@@ -56,30 +56,24 @@
                   Grid.Column="0"
                   Header="Validation errors">
             <StackPanel>
-                <TextBlock x:Name="ValidationHasErrorTextBlock" Text="{Binding Path=(Validation.HasError), ElementName=ValidationIntValueTextBox, StringFormat='HasError: {0}'}" />
-                <ItemsControl ItemTemplate="{StaticResource ValidationErrorTemplate}" ItemsSource="{Binding Path=(Validation.Errors), ElementName=ValidationIntValueTextBox}" />
+                <TextBlock x:Name="HasErrorTextBlock" Text="{Binding Path=(Validation.HasError), ElementName=ValidationIntValueTextBox, StringFormat='HasError: {0}'}" />
+                <TextBlock Text="Errors:" />
+                <ItemsControl x:Name="ErrorList"
+                              ItemTemplate="{StaticResource ErrorTemplate}"
+                              ItemsSource="{Binding Path=(Validation.Errors), ElementName=ValidationIntValueTextBox}" />
             </StackPanel>
         </GroupBox>
 
         <GroupBox Grid.Row="1"
                   Grid.Column="1"
                   Header="Scope textbox errors">
-            <StackPanel>
-                <TextBlock x:Name="ScopeTextBoxHasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), ElementName=ScopeIntValueTextBox, StringFormat='HasError: {0}'}" />
-                <ItemsControl ItemTemplate="{StaticResource ValidationErrorTemplate}" ItemsSource="{Binding Path=(validation:Scope.Errors), ElementName=ScopeIntValueTextBox}" />
-
-                <TextBlock x:Name="ScopeTextBoxNodeHasErrorTextBlock" Text="{Binding Path=(validation:Scope.Node).HasError, ElementName=ScopeIntValueTextBox, StringFormat='HasError: {0}'}" />
-                <ItemsControl ItemTemplate="{StaticResource ValidationErrorTemplate}" ItemsSource="{Binding Path=(validation:Scope.Node).Errors, ElementName=ScopeIntValueTextBox}" />
-            </StackPanel>
+            <ContentPresenter Content="{Binding ., ElementName=ScopeIntValueTextBox}" ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
         </GroupBox>
 
         <GroupBox Grid.Row="1"
                   Grid.Column="2"
                   Header="Scope errors">
-            <StackPanel>
-                <TextBlock x:Name="ScopeGroupBoxHasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), ElementName=ScopeGroupBox, StringFormat='HasError: {0}'}" />
-                <ItemsControl ItemTemplate="{StaticResource ValidationErrorTemplate}" ItemsSource="{Binding Path=(validation:Scope.Errors), ElementName=ScopeGroupBox}" />
-            </StackPanel>
+            <ContentPresenter Content="{Binding ., ElementName=ScopeGroupBox}" ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
         </GroupBox>
     </Grid>
 </Window>

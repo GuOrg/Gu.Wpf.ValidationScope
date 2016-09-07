@@ -1,7 +1,6 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Windows.Controls;
 
     public class ValidNode : Node
