@@ -44,7 +44,7 @@
 
         public static readonly DependencyProperty NodeProperty = NodePropertyKey.DependencyProperty;
 
-        public static void SetForInputTypes(this FrameworkElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
+        public static void SetForInputTypes(FrameworkElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]

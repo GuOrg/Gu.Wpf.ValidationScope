@@ -20,7 +20,7 @@
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) };
-                textBox.SetForInputTypes(inputTypes);
+                Scope.SetForInputTypes(textBox, inputTypes);
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
                 CollectionAssert.IsEmpty(Scope.GetErrors(textBox));
 
@@ -48,7 +48,7 @@
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var inputTypes = new InputTypeCollection { typeof(Selector), typeof(Slider) };
-                textBox.SetForInputTypes(inputTypes);
+                Scope.SetForInputTypes(textBox, inputTypes);
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
                 Assert.AreEqual(ValidNode.Default, Scope.GetNode(textBox));
 
@@ -64,7 +64,7 @@
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) };
-                textBox.SetForInputTypes(inputTypes);
+                Scope.SetForInputTypes(textBox, inputTypes);
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
                 var errorNode = (InputNode)Scope.GetNode(textBox);
                 var errorArgs = errorNode.Errors.SubscribeObservableCollectionEvents();
@@ -109,7 +109,7 @@
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var textBoxEvents = textBox.SubscribeScopeEvents();
-                textBox.SetForInputTypes(new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) });
+                Scope.SetForInputTypes(textBox, new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) });
                 var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
                 textBox.SetValidationError(validationError);
                 var expectedEvents = new List<ScopeValidationErrorEventArgs>

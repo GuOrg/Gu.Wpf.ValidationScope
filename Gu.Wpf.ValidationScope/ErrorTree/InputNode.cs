@@ -80,6 +80,11 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
+        private static bool ShouldTrack(ReadOnlyObservableCollection<ValidationError> errors)
+        {
+            return errors != null && !ReferenceEquals(errors, ValidationScope.ErrorCollection.EmptyValidationErrors);
+        }
+
         private void OnSourceErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -94,11 +99,6 @@ namespace Gu.Wpf.ValidationScope
                     // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Validation.cs,507
                     throw new ArgumentOutOfRangeException(nameof(e), e.Action, "Should only ever be add or remove.");
             }
-        }
-
-        private static bool ShouldTrack(ReadOnlyObservableCollection<ValidationError> errors)
-        {
-            return errors != null && !ReferenceEquals(errors, ValidationScope.ErrorCollection.EmptyValidationErrors);
         }
     }
 }

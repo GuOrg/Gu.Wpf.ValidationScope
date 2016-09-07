@@ -68,8 +68,8 @@
             </Grid>
         </Border>
 
-        <ListBox Grid.Row="1"
-                 AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TypeListBox}"
+        <ListBox x:Name="TypeListBox"
+                 Grid.Row="1"
                  SelectedItem="{x:Null}"
                  SelectionChanged="OnTypesListSelectionChanged"
                  SelectionMode="Extended">
