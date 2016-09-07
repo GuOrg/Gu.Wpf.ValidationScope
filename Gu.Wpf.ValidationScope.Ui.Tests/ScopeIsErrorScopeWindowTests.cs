@@ -1,8 +1,6 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System.Collections.Generic;
-
-    using Gu.Wpf.ValidationScope.Demo;
     using NUnit.Framework;
 
     using TestStack.White.UIItems;
@@ -81,6 +79,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
 
             this.HasErrorCheckBox.Checked = false;
+            expectedErrors = new[] { "Value 'a' could not be converted." };
             this.Window.WaitWhileBusy();
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -101,31 +100,55 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         }
 
         [Test]
-        public void Updates2()
+        public void AddTextBoxErrorThenNotifyErrorThenRemoveTextBoxThenRemoveNotifyError()
         {
-            var childCountBlock = this.Window.Get<Label>(AutomationIDs.ChildCountTextBlock);
+            Assert.AreEqual("HasError: False", this.ScopeHasError);
+            CollectionAssert.IsEmpty(this.ScopeErrors);
 
-            Assert.AreEqual("Children: 0", childCountBlock.Text);
-            CollectionAssert.IsEmpty(this.Window.GetErrors());
-            var textBox1 = this.Window.Get<TextBox>(AutomationIDs.TextBox1);
-            textBox1.Enter('a');
-            Assert.AreEqual("Children: 1", childCountBlock.Text);
-            CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted." }, this.Window.GetErrors());
+            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("HasError: False", this.NodeHasError);
+            CollectionAssert.IsEmpty(this.NodeErrors);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
 
-            var hasErrorBox = this.Window.Get<CheckBox>(AutomationIDs.HasErrorsBox);
-            hasErrorBox.Checked = true;
-            var expectedErrors = new[] { "Value 'a' could not be converted.", "INotifyDataErrorInfo error" };
-            Assert.AreEqual("Children: 1", childCountBlock.Text);
-            CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
+            this.TextBox.Enter('a');
+            var expectedErrors = new[] { "Value 'a' could not be converted." };
+            Assert.AreEqual("HasError: True", this.ScopeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
-            textBox1.Enter('1');
+            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("HasError: True", this.NodeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
+
+            this.HasErrorCheckBox.Checked = true;
+            expectedErrors = new[] { "Value 'a' could not be converted.", "INotifyDataErrorInfo error" };
+            Assert.AreEqual("HasError: True", this.ScopeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
+
+            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("HasError: True", this.NodeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
+
+            this.TextBox.Enter('1');
             expectedErrors = new[] { "INotifyDataErrorInfo error" };
-            Assert.AreEqual("Children: 0", childCountBlock.Text);
-            CollectionAssert.AreEqual(expectedErrors, this.Window.GetErrors());
+            Assert.AreEqual("HasError: True", this.ScopeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 
-            hasErrorBox.Checked = false;
-            Assert.AreEqual("Children: 0", childCountBlock.Text);
-            CollectionAssert.IsEmpty(this.Window.GetErrors());
+            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("HasError: True", this.NodeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
+
+
+            this.HasErrorCheckBox.Checked = false;
+            Assert.AreEqual("HasError: False", this.ScopeHasError);
+            CollectionAssert.IsEmpty(this.ScopeErrors);
+
+            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("HasError: False", this.NodeHasError);
+            CollectionAssert.IsEmpty(this.NodeErrors);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
         }
     }
 }
