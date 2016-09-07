@@ -1,8 +1,10 @@
-﻿namespace Gu.Wpf.ValidationScope
+﻿// ReSharper disable PossibleMultipleEnumeration
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -49,12 +51,18 @@
 
         private void OnAddedErrors(IEnumerable<ValidationError> added)
         {
-            this.ErrorsChanged?.Invoke(this, new ErrorsChangedEventArgs(EmptyValidationErrors, added));
+            if (added.Any())
+            {
+                this.ErrorsChanged?.Invoke(this, new ErrorsChangedEventArgs(EmptyValidationErrors, added));
+            }
         }
 
         private void OnRemovedErrors(IEnumerable<ValidationError> removed)
         {
-            this.ErrorsChanged?.Invoke(this, new ErrorsChangedEventArgs(removed, EmptyValidationErrors));
+            if (removed.Any())
+            {
+                this.ErrorsChanged?.Invoke(this, new ErrorsChangedEventArgs(removed, EmptyValidationErrors));
+            }
         }
     }
 }

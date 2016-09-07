@@ -148,16 +148,17 @@
             {
                 SetHasErrors(dependencyObject, false);
                 SetErrors(dependencyObject, ErrorCollection.EmptyValidationErrors);
-                if (GetNode(dependencyObject) is ScopeNode)
-                {
-                    SetNode(dependencyObject, ValidNode.Default);
-                }
             }
 
             // ReSharper disable PossibleMultipleEnumeration
             var removed = removedErrors.Except(addedErrors).AsReadOnly();
             var added = addedErrors.Except(removedErrors).AsReadOnly();
-            dependencyObject.NotifyParent(removed, added);
+            if (added.Count == 0 && removed.Count == 0)
+            {
+                return;
+            }
+
+            dependencyObject.UpdateParent(removed, added);
             (dependencyObject as UIElement)?.RaiseEvent(new ErrorsChangedEventArgs(removed, added));
             (dependencyObject as ContentElement)?.RaiseEvent(new ErrorsChangedEventArgs(removed, added));
 

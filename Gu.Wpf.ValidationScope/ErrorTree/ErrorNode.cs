@@ -26,13 +26,13 @@ namespace Gu.Wpf.ValidationScope
 
         public override ReadOnlyObservableCollection<ValidationError> Errors => this.ErrorCollection;
 
-        public override ReadOnlyObservableCollection<ErrorNode> Children => this.ChildCollection;
+        public override ReadOnlyObservableCollection<ErrorNode> Children => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
 
         public abstract DependencyObject Source { get; }
 
         internal ErrorCollection ErrorCollection { get; } = new ErrorCollection();
 
-        internal ChildCollection ChildCollection => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
+        internal ChildCollection ChildCollection => this.children.Value;
 
         protected bool Disposed { get; private set; }
 

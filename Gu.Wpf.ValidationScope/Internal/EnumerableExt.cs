@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.ValidationScope
+﻿// ReSharper disable PossibleMultipleEnumeration
+namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -43,7 +44,7 @@
 
         internal static IReadOnlyList<ValidationError> AsReadOnly(this IEnumerable<ValidationError> source)
         {
-            if (ReferenceEquals(source, ErrorCollection.EmptyValidationErrors))
+            if (!source.Any())
             {
                 return ErrorCollection.EmptyValidationErrors;
             }

@@ -1,4 +1,6 @@
-﻿namespace Gu.Wpf.ValidationScope
+﻿// ReSharper disable StaticMemberInGenericType
+// ReSharper disable PossibleMultipleEnumeration
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;
@@ -57,13 +59,6 @@
             }
         }
 
-        private void RaiseReset()
-        {
-            this.OnPropertyChanged(CountPropertyChangedEventArgs);
-            this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
-            this.OnCollectionChanged(NotifyCollectionResetEventArgs);
-        }
-
         private static EmptyOneOrMore EmptyOneOrMany(IEnumerable<T> items)
         {
             if (items == null)
@@ -100,6 +95,13 @@
             }
 
             return EmptyOneOrMore.Many;
+        }
+
+        private void RaiseReset()
+        {
+            this.OnPropertyChanged(CountPropertyChangedEventArgs);
+            this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
+            this.OnCollectionChanged(NotifyCollectionResetEventArgs);
         }
 
         private enum EmptyOneOrMore

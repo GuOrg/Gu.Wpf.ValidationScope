@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.ValidationScope
+﻿// ReSharper disable PossibleMultipleEnumeration
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +11,7 @@
 
     public static partial class Scope
     {
-        private static void NotifyParent(this DependencyObject source, IEnumerable<ValidationError> removed, IEnumerable<ValidationError> added)
+        private static void UpdateParent(this DependencyObject source, IEnumerable<ValidationError> removed, IEnumerable<ValidationError> added)
         {
             if (source == null)
             {
@@ -52,6 +53,10 @@
                 parentNode.ChildCollection.Remove(childNode);
                 parentNode.ErrorCollection.Remove(removed);
                 parentNode.ErrorCollection.Remove(childNode.Errors);
+                if (parentNode is ScopeNode && parentNode.Errors.Count == 0)
+                {
+                    SetNode(parent, ValidNode.Default);
+                }
             }
         }
 
@@ -90,7 +95,7 @@
                 return true;
             }
 
-            foreach (var error in Scope.GetErrors(source))
+            foreach (var error in GetErrors(source))
             {
                 if (inputTypes.Contains(error.Target()))
                 {
