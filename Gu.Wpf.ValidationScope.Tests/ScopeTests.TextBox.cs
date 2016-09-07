@@ -87,7 +87,7 @@
                                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, validationError, 0)
                                    };
                 CollectionAssert.AreEqual(expectedErrorArgs, errorArgs, ObservableCollectionArgsComparer.Default);
-                CollectionAssert.AreEqual(new[] { new PropertyChangedEventArgs("HasErrors") }, nodeArgs, PropertyChangedEventArgsComparer.Default);
+                CollectionAssert.AreEqual(new[] { new PropertyChangedEventArgs(nameof(Node.HasError)) }, nodeArgs, PropertyChangedEventArgsComparer.Default);
 
                 textBox.ClearValidationError(validationError);
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
@@ -101,7 +101,7 @@
                 expectedErrorArgs.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, validationError, 0));
                 CollectionAssert.AreEqual(expectedErrorArgs, errorArgs, ObservableCollectionArgsComparer.Default);
 
-                CollectionAssert.AreEqual(new[] { new PropertyChangedEventArgs("HasErrors"), new PropertyChangedEventArgs("HasErrors") }, nodeArgs, PropertyChangedEventArgsComparer.Default);
+                CollectionAssert.AreEqual(new[] { new PropertyChangedEventArgs(nameof(Node.HasError)), new PropertyChangedEventArgs(nameof(Node.HasError)) }, nodeArgs, PropertyChangedEventArgsComparer.Default);
             }
 
             [Test]
