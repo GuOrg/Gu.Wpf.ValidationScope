@@ -111,7 +111,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.IntTextBox1.Enter('a');
+            this.IntComboBoxBox1.Enter('a');
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -122,7 +122,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.IntTextBox1.Enter('1');
+            this.IntComboBoxBox1.Enter('1');
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
