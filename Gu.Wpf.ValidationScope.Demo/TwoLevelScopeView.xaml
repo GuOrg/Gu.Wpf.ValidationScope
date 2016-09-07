@@ -12,8 +12,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
@@ -26,48 +24,44 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition MinWidth="50"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Text="SomeIntValue" />
+                           Text="IntValue" />
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
-                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
+                         x:Name="IntTextBox1"
                          Text="{Binding IntValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
-                           Text="SameIntValue" />
+                           Text="IntValue" />
                 <TextBox Grid.Row="1"
                          Grid.Column="1"
-                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox2}"
+                         x:Name="IntTextBox2"
                          Text="{Binding IntValue,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="DoubleValue" />
+                <TextBox Grid.Row="2"
+                         Grid.Column="1"
+                         x:Name="DoubleTextBox"
+                         Text="{Binding DoubleValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Border>
 
-        <TextBlock Grid.Row="1"
-                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
-                   Foreground="Red"
-                   Text="{Binding Path=(validation:Scope.Node).Children.Count,
-                                  ElementName=Form,
-                                  StringFormat='Children: {0}'}" />
-
-        <ItemsControl Grid.Row="2"
-                      ItemsSource="{Binding Path=(validation:Scope.Node),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>

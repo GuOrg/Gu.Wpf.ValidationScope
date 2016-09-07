@@ -4,7 +4,8 @@
              xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope">
     <!--<Application.StartupUri>MainWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/ScopeTextBoxWindow.xaml</Application.StartupUri>-->
-    <Application.StartupUri>UiTestWindows/OneLevelScopeWindow.xaml</Application.StartupUri>
+    <!--<Application.StartupUri>UiTestWindows/OneLevelScopeWindow.xaml</Application.StartupUri>-->
+    <Application.StartupUri>UiTestWindows/TwoLevelScopeWindow.xaml</Application.StartupUri>
     
     <!--<Application.StartupUri>UiTestWindows/EventsOrderWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/LiveErrorsWindow.xaml</Application.StartupUri>-->
