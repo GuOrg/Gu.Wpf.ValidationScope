@@ -12,17 +12,17 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         protected override string WindowName { get; } = "ComplicatedScopeWindow";
 
-        public TextBox IntTextBox1 => this.Window.Get<TextBox>("IntTextBox1");
+        public TextBox TextBoxScopeTextBox1 => this.Window.Get<TextBox>("TextBoxScopeTextBox1");
 
-        public TextBox IntTextBox2 => this.Window.Get<TextBox>("IntTextBox2");
+        public TextBox TextBoxScopeTextBox2 => this.Window.Get<TextBox>("TextBoxScopeTextBox2");
 
-        public TextBox IntTextBox3 => this.Window.Get<TextBox>("IntTextBox3");
+        public ComboBox TextBoxScopeComboBox1 => this.Window.Get<ComboBox>("TextBoxScopeComboBox1");
 
-        public TextBox IntTextBox4 => this.Window.Get<TextBox>("IntTextBox4");
+        public TextBox ComboBoxScopeTextBox1 => this.Window.Get<TextBox>("ComboBoxScopeTextBox1");
 
-        public ComboBox IntComboBoxBox1 => this.Window.Get<ComboBox>("IntComboBox1");
+        public TextBox ComboBoxScopeTextBox2 => this.Window.Get<TextBox>("ComboBoxScopeTextBox2");
 
-        public ComboBox IntComboBoxBox2 => this.Window.Get<ComboBox>("IntComboBox2");
+        public ComboBox ComboBoxScopeComboBox2 => this.Window.Get<ComboBox>("ComboBoxScopeComboBox2");
 
         public GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
 
@@ -45,8 +45,8 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [SetUp]
         public void SetUp()
         {
-            this.IntTextBox1.Enter('0');
-            this.IntComboBoxBox2.Enter('0');
+            this.TextBoxScopeTextBox1.Enter("0");
+            this.TextBoxScopeTextBox2.Enter("0");
             this.PressTab();
             this.Window.WaitWhileBusy();
         }
@@ -55,9 +55,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         public void CheckNodeType()
         {
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
-            this.IntTextBox1.Enter('a');
+            this.TextBoxScopeTextBox1.Enter('a');
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
-            this.IntTextBox1.Enter('1');
+            this.TextBoxScopeTextBox1.Enter('1');
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
         }
 
@@ -72,7 +72,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.IntTextBox1.Enter('a');
+            this.TextBoxScopeTextBox1.Enter('a');
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -83,7 +83,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.IntTextBox1.Enter('1');
+            this.TextBoxScopeTextBox1.Enter('1');
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -111,7 +111,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.IntComboBoxBox1.Enter('a');
+            this.ComboBoxScopeComboBox2.Enter('a');
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -122,7 +122,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.IntComboBoxBox1.Enter('1');
+            this.ComboBoxScopeComboBox2.Enter('1');
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -150,7 +150,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.IntTextBox3.Enter('a');
+            this.ComboBoxScopeTextBox1.Enter('a');
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -171,7 +171,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.IntComboBoxBox1.Enter('a');
+            this.TextBoxScopeComboBox1.Enter('a');
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -192,7 +192,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.IntTextBox1.Enter('a');
+            this.TextBoxScopeTextBox1.Enter('a');
             var expectedErrors = new[] { "Value 'a' could not be converted." };
 
             Assert.AreEqual("HasError: True", this.ScopeHasError);
@@ -204,7 +204,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.IntComboBoxBox2.Enter('b');
+            this.ComboBoxScopeComboBox2.Enter('b');
             expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -215,7 +215,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.IntTextBox1.Enter('1');
+            this.ComboBoxScopeTextBox1.Enter('1');
             expectedErrors = new[] { "Value 'b' could not be converted." };
 
             Assert.AreEqual("HasError: True", this.ScopeHasError);
@@ -227,7 +227,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.IntComboBoxBox2.Enter('2');
+            this.ComboBoxScopeTextBox2.Enter('2');
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -248,7 +248,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.IntTextBox1.Enter('a');
+            this.TextBoxScopeTextBox2.Enter('a');
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -259,7 +259,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.IntTextBox2.Enter('b');
+            this.ComboBoxScopeComboBox2.Enter('b');
             expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -270,7 +270,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.IntTextBox1.Enter('1');
+            this.TextBoxScopeTextBox2.Enter('1');
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 

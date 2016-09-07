@@ -35,8 +35,8 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
-                                   Text="IntValue:" />
-                        <TextBox x:Name="IntTextBox1"
+                                   Text="IntValue1" />
+                        <TextBox x:Name="TextBoxScopeTextBox1"
                                  Grid.Row="0"
                                  Grid.Column="1"
                                  Text="{Binding IntValue1,
@@ -44,17 +44,17 @@
 
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
-                                   Text="IntValue:" />
-                        <TextBox x:Name="IntTextBox2"
+                                   Text="IntValue2" />
+                        <TextBox x:Name="TextBoxScopeTextBox2"
                                  Grid.Row="1"
                                  Grid.Column="1"
-                                 Text="{Binding IntValue1,
+                                 Text="{Binding IntValue2,
                                                 UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Text="IntValue:" />
-                        <ComboBox x:Name="IntComboBox1"
+                                   Text="IntValue1" />
+                        <ComboBox x:Name="TextBoxScopeComboBox1"
                                   Grid.Row="2"
                                   Grid.Column="1"
                                   IsEditable="True"
@@ -77,17 +77,17 @@
 
                         <TextBlock Grid.Row="0"
                                    Grid.Column="0"
-                                   Text="IntValue:" />
-                        <TextBox x:Name="IntTextBox3"
+                                   Text="IntValue1" />
+                        <TextBox x:Name="ComboBoxScopeTextBox1"
                                  Grid.Row="0"
                                  Grid.Column="1"
-                                 Text="{Binding IntValue2,
+                                 Text="{Binding IntValue1,
                                                 UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="1"
                                    Grid.Column="0"
-                                   Text="IntValue:" />
-                        <TextBox x:Name="IntTextBox4"
+                                   Text="IntValue2" />
+                        <TextBox x:Name="ComboBoxScopeTextBox2"
                                  Grid.Row="1"
                                  Grid.Column="1"
                                  Text="{Binding IntValue2,
@@ -95,8 +95,8 @@
 
                         <TextBlock Grid.Row="2"
                                    Grid.Column="0"
-                                   Text="IntValue:" />
-                        <ComboBox x:Name="IntComboBox2"
+                                   Text="IntValue2" />
+                        <ComboBox x:Name="ComboBoxScopeComboBox2"
                                   Grid.Row="2"
                                   Grid.Column="1"
                                   IsEditable="True"

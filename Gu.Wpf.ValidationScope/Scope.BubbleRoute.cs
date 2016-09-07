@@ -68,6 +68,11 @@ namespace Gu.Wpf.ValidationScope
                 return false;
             }
 
+            if (inputTypes.Contains(typeof(Scope)))
+            {
+                return true;
+            }
+
             return inputTypes.Contains(error.Target());
         }
 
@@ -85,7 +90,7 @@ namespace Gu.Wpf.ValidationScope
             }
 
             var node = GetNode(source);
-            if (node is ValidNode)
+            if (node is ValidNode || node.Errors.Count == 0)
             {
                 return false;
             }
