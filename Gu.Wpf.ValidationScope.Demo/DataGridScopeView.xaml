@@ -30,22 +30,9 @@
                 AutomationProperties.AutomationId="{x:Static local:AutomationIDs.LoseFocusButton}"
                 Content="Lose focus" />
 
-        <TextBlock Grid.Row="2"
-                   Foreground="Red"
-                   Text="{Binding Path=(validation:Scope.Node).Children.Count,
-                                  ElementName=Form,
-                                  StringFormat='Children: {0}'}" />
-
-        <ItemsControl Grid.Row="3"
-                      ItemsSource="{Binding Path=(validation:Scope.Node),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ContentPresenter Grid.Row="2"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>
