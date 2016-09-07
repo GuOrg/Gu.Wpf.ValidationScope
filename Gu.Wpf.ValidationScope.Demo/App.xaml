@@ -1,12 +1,15 @@
 ﻿<Application x:Class="Gu.Wpf.ValidationScope.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope">
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
+             mc:Ignorable="d">
     <!--<Application.StartupUri>MainWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/ScopeTextBoxWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/OneLevelScopeWindow.xaml</Application.StartupUri>-->
     <Application.StartupUri>UiTestWindows/TwoLevelScopeWindow.xaml</Application.StartupUri>
-    
+
     <!--<Application.StartupUri>UiTestWindows/EventsOrderWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/LiveErrorsWindow.xaml</Application.StartupUri>-->
     <Application.Resources>
@@ -26,13 +29,13 @@
         </DataTemplate>
 
 
-        <DataTemplate x:Key="ChildTemplate" DataType="{x:Type validation:IErrorNode}">
+        <DataTemplate x:Key="ChildTemplate" DataType="{x:Type validation:ErrorNode}">
             <TextBlock x:Name="ChildTextBlock"
                        Foreground="Blue"
                        Text="{Binding Source}" />
         </DataTemplate>
 
-        <DataTemplate x:Key="ErrorNodeTemplate" DataType="{x:Type validation:IErrorNode}">
+        <DataTemplate x:Key="ErrorNodeTemplate" DataType="{x:Type validation:ErrorNode}">
             <StackPanel>
                 <TextBlock x:Name="NodeTypeTextBlock" Text="{Binding}" />
                 <TextBlock x:Name="ChildCountTextBlock"
@@ -61,16 +64,17 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="ErrorScopeAndNodeTemplate"  DataType="{x:Type FrameworkElement}">
-            <StackPanel >
+        <DataTemplate x:Key="ErrorScopeAndNodeTemplate" DataType="{x:Type FrameworkElement}">
+            <StackPanel>
                 <GroupBox Header="Scope">
-                    <ContentPresenter ContentTemplate="{StaticResource ScopeTemplate}" Content="{Binding}" />
+                    <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ScopeTemplate}" />
                 </GroupBox>
 
                 <GroupBox Header="Node">
-                    <ContentPresenter ContentTemplate="{StaticResource ErrorNodeTemplate}" Content="{Binding Path=.(validation:Scope.Node)}" />
+                    <ContentPresenter Content="{Binding Path=.(validation:Scope.Node)}" ContentTemplate="{StaticResource ErrorNodeTemplate}" />
                 </GroupBox>
             </StackPanel>
         </DataTemplate>
     </Application.Resources>
 </Application>
+

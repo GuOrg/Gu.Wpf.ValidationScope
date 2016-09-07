@@ -38,7 +38,7 @@
 
         private static readonly DependencyPropertyKey NodePropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "Node",
-            typeof(IErrorNode),
+            typeof(Node),
             typeof(Scope),
             new PropertyMetadata(ValidNode.Default, OnNodeChanged));
 
@@ -68,11 +68,11 @@
             return (ReadOnlyObservableCollection<ValidationError>)element.GetValue(ErrorsProperty);
         }
 
-        private static void SetNode(DependencyObject element, IErrorNode value) => element.SetValue(NodePropertyKey, value);
+        private static void SetNode(DependencyObject element, Node value) => element.SetValue(NodePropertyKey, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static IErrorNode GetNode(DependencyObject element) => (IErrorNode)element?.GetValue(NodeProperty);
+        public static Node GetNode(DependencyObject element) => (Node)element?.GetValue(NodeProperty);
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 

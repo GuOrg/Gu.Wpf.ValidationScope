@@ -10,7 +10,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows.Data;
 
     [DebuggerDisplay("InputNode Errors: {Errors?.Count ?? 0}, Source: {Source}")]
-    internal sealed class InputNode : ErrorNode
+    public sealed class InputNode : ErrorNode
     {
         private static readonly DependencyProperty SourceErrorsProperty = DependencyProperty.RegisterAttached(
             "SourceErrors",

@@ -11,9 +11,7 @@
     {
         private int intValue;
         private bool hasError;
-
-        private IErrorNode node;
-
+        private Node node;
         private ReadOnlyObservableCollection<ValidationError> errors;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -66,7 +64,7 @@
             }
         }
 
-        public IErrorNode Node
+        public Node Node
         {
             get
             {

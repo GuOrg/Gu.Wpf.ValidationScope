@@ -47,9 +47,9 @@
 
         private static readonly DependencyProperty NodeProxyProperty = DependencyProperty.RegisterAttached(
             "NodeProxy",
-            typeof(IErrorNode),
+            typeof(Node),
             typeof(Scope),
-            new PropertyMetadata(default(IErrorNode)));
+            new PropertyMetadata(default(Node)));
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 

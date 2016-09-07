@@ -5,13 +5,10 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;
 
-    using JetBrains.Annotations;
-
-    internal abstract class ErrorNode : Node, IErrorNode, INotifyErrorsChanged
+    public abstract class ErrorNode : Node, INotifyErrorsChanged, INotifyPropertyChanged
     {
         private static readonly PropertyChangedEventArgs HasErrorsPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(HasError));
         private readonly Lazy<ChildCollection> children = new Lazy<ChildCollection>(() => new ChildCollection());
@@ -29,7 +26,7 @@ namespace Gu.Wpf.ValidationScope
 
         public override ReadOnlyObservableCollection<ValidationError> Errors => this.ErrorCollection;
 
-        public override ReadOnlyObservableCollection<IErrorNode> Children => this.ChildCollection;
+        public override ReadOnlyObservableCollection<ErrorNode> Children => this.ChildCollection;
 
         public abstract DependencyObject Source { get; }
 

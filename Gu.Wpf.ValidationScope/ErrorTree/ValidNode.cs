@@ -1,12 +1,10 @@
 namespace Gu.Wpf.ValidationScope
 {
-    using System;
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Windows.Controls;
 
-    internal class ValidNode : Node, IErrorNode
+    public class ValidNode : Node
     {
         public static readonly ValidNode Default = new ValidNode();
 
@@ -14,21 +12,11 @@ namespace Gu.Wpf.ValidationScope
         {
         }
 
-        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
-        {
-            //// ReSharper disable ValueParameterNotUsed
-            add { DoNothing(); }
-            remove { DoNothing(); }
-            //// ReSharper restore ValueParameterNotUsed
-        }
-
         public override bool HasError => false;
 
         public override ReadOnlyObservableCollection<ValidationError> Errors { get; } = ErrorCollection.EmptyValidationErrors;
 
-        public override ReadOnlyObservableCollection<IErrorNode> Children { get; } = ChildCollection.Empty;
-
-        void IDisposable.Dispose() => DoNothing();
+        public override ReadOnlyObservableCollection<ErrorNode> Children { get; } = ChildCollection.Empty;
 
         [Conditional("DEBUG")]
         private static void DoNothing() { /* nop */ }
