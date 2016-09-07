@@ -16,14 +16,10 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{Binding Path=(validation:Scope.HasError),
-                                      Converter={local:BoolToBrushConverter},
-                                      ElementName=Form}"
-                BorderThickness="1">
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
             <Grid IsSharedSizeScope="True">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"
-                                      SharedSizeGroup="LabelColumn" />
+                    <ColumnDefinition Width="Auto" SharedSizeGroup="LabelColumn" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -32,11 +28,12 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <HeaderedContentControl x:Name="Form"
-                                        Grid.Column="0" Grid.ColumnSpan="2"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        validation:Scope.ForInputTypes="HeaderedContentControl, TextBox"
                                         Content="{Binding HasErrors,
                                                           ValidatesOnNotifyDataErrors=True}"
-                                        Header="Header"
-                                        validation:Scope.ForInputTypes="HeaderedContentControl, TextBox">
+                                        Header="Header">
                     <HeaderedContentControl.Template>
                         <ControlTemplate TargetType="{x:Type HeaderedContentControl}">
                             <Grid>
@@ -46,8 +43,8 @@
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{TemplateBinding Header}" />
 
-                                <TextBox Grid.Column="1"
-                                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
+                                <TextBox x:Name="TextBox"
+                                         Grid.Column="1"
                                          Text="{Binding DataContext.IntValue,
                                                         UpdateSourceTrigger=PropertyChanged,
                                                         RelativeSource={RelativeSource AncestorType={x:Type HeaderedContentControl}}}" />
@@ -56,32 +53,20 @@
                     </HeaderedContentControl.Template>
                 </HeaderedContentControl>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="INotifyDataErrorInfo" />
-                <CheckBox Grid.Row="1" Grid.Column="1"
-                          AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="INotifyDataErrorInfo" />
+                <CheckBox x:Name="HasErrorCheckBox"
+                          Grid.Row="1"
+                          Grid.Column="1"
                           IsChecked="{Binding HasErrors}" />
             </Grid>
         </Border>
 
-        <TextBlock Grid.Row="1"
-                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
-                   Foreground="Red"
-                   Text="{Binding Path=(validation:Scope.Node).Children.Count,
-                                  ElementName=Form,
-                                  StringFormat='Children: {0}'}" />
-        
-        <ItemsControl Grid.Row="2"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validation:Scope.Node),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>
 

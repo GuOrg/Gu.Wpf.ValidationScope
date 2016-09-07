@@ -49,7 +49,7 @@ namespace Gu.Wpf.ValidationScope.Demo
         {
             return this.hasErrors && propertyName == nameof(this.HasErrors)
                 ? new[] { "INotifyDataErrorInfo error" }
-                : Enumerable.Empty<string>();
+                : null;
         }
 
         protected virtual void OnErrorsChanged([CallerMemberName] string propertyName = null)
