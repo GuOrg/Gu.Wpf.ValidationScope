@@ -6,26 +6,42 @@
 
     public class ViewModel : INotifyPropertyChanged
     {
-        private int intValue;
+        private int intValue1;
         private string stringValue;
 
         private double doubleValue;
 
+        private int intValue2;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int IntValue
+        public int IntValue1
         {
             get
             {
-                return this.intValue;
+                return this.intValue1;
             }
             set
             {
-                if (value == this.intValue)
+                if (value == this.intValue1)
                 {
                     return;
                 }
-                this.intValue = value;
+                this.intValue1 = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public int IntValue2
+        {
+            get
+            {
+                return this.intValue2;
+            }
+            set
+            {
+                if (value == this.intValue2) return;
+                this.intValue2 = value;
                 this.OnPropertyChanged();
             }
         }

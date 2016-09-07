@@ -79,7 +79,7 @@
                  Grid.Row="0"
                  Grid.Column="0"
                  demo:ValidationEvents.Track="True"
-                 Text="{Binding IntValue,
+                 Text="{Binding IntValue1,
                                 UpdateSourceTrigger=PropertyChanged,
                                 NotifyOnValidationError=True}" />
 
@@ -88,7 +88,7 @@
                  Grid.Column="1"
                  demo:ScopeEvents.Track="True"
                  validation:Scope.ForInputTypes="TextBox"
-                 Text="{Binding IntValue,
+                 Text="{Binding IntValue1,
                                 UpdateSourceTrigger=PropertyChanged}" />
 
         <GroupBox x:Name="ScopeGroupBox"
@@ -97,8 +97,8 @@
                   demo:ScopeEvents.Track="True"
                   validation:Scope.ForInputTypes="TextBox">
             <StackPanel x:Name="ScopeStackPanel">
-                <TextBox x:Name="ScopeTextBox1" Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox x:Name="ScopeTextBox2" Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeTextBox1" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeTextBox2" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </GroupBox>
 

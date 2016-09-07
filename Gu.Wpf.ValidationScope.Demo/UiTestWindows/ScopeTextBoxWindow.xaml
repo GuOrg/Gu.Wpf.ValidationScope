@@ -26,7 +26,7 @@
                  Grid.Row="0"
                  Grid.Column="1"
                  validation:Scope.ForInputTypes="TextBox"
-                 Text="{Binding IntValue,
+                 Text="{Binding IntValue1,
                                 UpdateSourceTrigger=PropertyChanged}" />
 
         <ContentPresenter Grid.Row="1"

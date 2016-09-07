@@ -31,14 +31,14 @@
         <TextBox x:Name="ValidationIntValueTextBox"
                  Grid.Row="0"
                  Grid.Column="0"
-                 Text="{Binding IntValue,
+                 Text="{Binding IntValue1,
                                 UpdateSourceTrigger=PropertyChanged}" />
 
         <TextBox x:Name="ScopeIntValueTextBox"
                  Grid.Row="0"
                  Grid.Column="1"
                  validation:Scope.ForInputTypes="TextBox"
-                 Text="{Binding IntValue,
+                 Text="{Binding IntValue1,
                                 UpdateSourceTrigger=PropertyChanged}" />
 
         <GroupBox x:Name="ScopeGroupBox"
@@ -46,8 +46,8 @@
                   Grid.Column="2"
                   validation:Scope.ForInputTypes="TextBox">
             <StackPanel x:Name="ScopeStackPanel">
-                <TextBox x:Name="ScopeIntValueTextBox1" Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
-                <TextBox x:Name="ScopeIntValueTextBox2" Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeIntValueTextBox1" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeIntValueTextBox2" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBox x:Name="ScopeDoubleValueTextBox" Text="{Binding DoubleValue, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </GroupBox>

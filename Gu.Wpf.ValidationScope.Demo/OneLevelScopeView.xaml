@@ -37,7 +37,7 @@
                 <TextBox Grid.Row="0"
                          Grid.Column="1"
                          x:Name="IntTextBox1"
-                         Text="{Binding IntValue,
+                         Text="{Binding IntValue1,
                                         UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
@@ -45,7 +45,7 @@
                 <TextBox Grid.Row="1"
                          Grid.Column="1"
                          x:Name="IntTextBox2"
-                         Text="{Binding IntValue,
+                         Text="{Binding IntValue1,
                                         UpdateSourceTrigger=PropertyChanged}" />
 
                 <TextBlock Grid.Row="2"

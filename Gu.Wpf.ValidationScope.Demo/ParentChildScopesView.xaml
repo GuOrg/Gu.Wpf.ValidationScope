@@ -41,7 +41,7 @@
                         <TextBox Grid.Row="0"
                                  Grid.Column="1"
                                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
-                                 Text="{Binding IntValue,
+                                 Text="{Binding IntValue1,
                                                 UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="1"
@@ -50,7 +50,7 @@
                         <TextBox Grid.Row="1"
                                  Grid.Column="1"
                                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox2}"
-                                 Text="{Binding IntValue,
+                                 Text="{Binding IntValue1,
                                                 UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="2"
@@ -60,7 +60,7 @@
                                   Grid.Column="1"
                                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComboBox1}"
                                   IsEditable="True"
-                                  Text="{Binding IntValue,
+                                  Text="{Binding IntValue1,
                                                  UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                 </GroupBox>
@@ -84,7 +84,7 @@
                         <TextBox Grid.Row="0"
                                  Grid.Column="1"
                                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
-                                 Text="{Binding IntValue,
+                                 Text="{Binding IntValue1,
                                                 UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="1"
@@ -93,7 +93,7 @@
                         <TextBox Grid.Row="1"
                                  Grid.Column="1"
                                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox2}"
-                                 Text="{Binding IntValue,
+                                 Text="{Binding IntValue1,
                                                 UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="2"
@@ -103,7 +103,7 @@
                                   Grid.Column="1"
                                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComboBox1}"
                                   IsEditable="True"
-                                  Text="{Binding IntValue,
+                                  Text="{Binding IntValue1,
                                                  UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                 </GroupBox>
@@ -126,7 +126,7 @@
                         <TextBox Grid.Row="0"
                                  Grid.Column="1"
                                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
-                                 Text="{Binding IntValue,
+                                 Text="{Binding IntValue1,
                                                 UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="1"
@@ -135,7 +135,7 @@
                         <TextBox Grid.Row="1"
                                  Grid.Column="1"
                                  AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox2}"
-                                 Text="{Binding IntValue,
+                                 Text="{Binding IntValue1,
                                                 UpdateSourceTrigger=PropertyChanged}" />
 
                         <TextBlock Grid.Row="2"
@@ -145,7 +145,7 @@
                                   Grid.Column="1"
                                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComboBox1}"
                                   IsEditable="True"
-                                  Text="{Binding IntValue,
+                                  Text="{Binding IntValue1,
                                                  UpdateSourceTrigger=PropertyChanged}" />
                     </Grid>
                 </GroupBox>
