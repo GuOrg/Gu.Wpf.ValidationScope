@@ -10,6 +10,14 @@
         <DataTemplate DataType="{x:Type local:ViewModel}">
             <TextBox Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
         </DataTemplate>
+
+        <DataTemplate  x:Key="IntValue1" DataType="{x:Type local:ViewModel}">
+            <TextBox Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+        </DataTemplate>
+        
+        <DataTemplate  x:Key="IntValue2" DataType="{x:Type local:ViewModel}">
+            <TextBox Text="{Binding IntValue2, UpdateSourceTrigger=PropertyChanged}" />
+        </DataTemplate>
     </UserControl.Resources>
     <UserControl.DataContext>
         <local:ViewModel />
@@ -29,7 +37,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -37,32 +45,32 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Text="SomeIntValue" />
+                           Text="IntValue" />
                 <ContentPresenter Grid.Row="0"
                                   Grid.Column="1"
-                                  Content="{Binding}"
-                                  local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox1}" />
+                                  Content="{Binding}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
-                           Text="SameIntValue" />
+                           Text="IntValue" />
                 <ContentPresenter Grid.Row="1"
                                   Grid.Column="1"
-                                  Content="{Binding}"
-                                  local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox2}" />
+                                  ContentTemplate="{StaticResource IntValue1}"
+                                  Content="{Binding}"/>
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="IntValue" />
+                <ContentPresenter Grid.Row="2"
+                                  Grid.Column="1"
+                                  ContentTemplate="{StaticResource IntValue2}"
+                                  Content="{Binding}"/>
             </Grid>
         </Border>
-        <ItemsControl Grid.Row="1"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validation:Scope.Node),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorTextBlock}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>
