@@ -195,10 +195,9 @@
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
         }
 
-        [Test]
+        [Test, Explicit("dunno if wpf can do this")]
         public void AddThenUpdateErrorThenRemoveIt()
         {
-            Assert.Inconclusive("dunno if wpf can do this");
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 

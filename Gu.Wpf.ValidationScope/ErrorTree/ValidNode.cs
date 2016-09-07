@@ -17,8 +17,5 @@ namespace Gu.Wpf.ValidationScope
         public override ReadOnlyObservableCollection<ValidationError> Errors { get; } = ErrorCollection.EmptyValidationErrors;
 
         public override ReadOnlyObservableCollection<ErrorNode> Children { get; } = ChildCollection.Empty;
-
-        [Conditional("DEBUG")]
-        private static void DoNothing() { /* nop */ }
     }
 }
