@@ -3,7 +3,10 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    /// <summary>EventArgs for Scope.ValidationError event. Wrote this class as <see cref="ValidationErrorEventArgs"/> as internal ctor.</summary>
+    /// <summary>
+    /// EventArgs for Scope.ValidationError event.
+    /// Wrote this class as <see cref="ValidationErrorEventArgs"/> as internal ctor.
+    /// </summary>
     public class ScopeValidationErrorEventArgs : RoutedEventArgs
     {
         internal ScopeValidationErrorEventArgs(ValidationError validationError, ValidationErrorEventAction action)

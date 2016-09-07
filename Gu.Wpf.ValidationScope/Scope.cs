@@ -7,6 +7,7 @@
     using System.Windows;
     using System.Windows.Controls;
 
+    /// <summary>Provides attached properties and events for validation scopes.</summary>
     public static partial class Scope
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
@@ -18,7 +19,7 @@
             new FrameworkPropertyMetadata(
                 null,
                 FrameworkPropertyMetadataOptions.Inherits,
-                OnScopeForChanged));
+                OnForInputTypesChanged));
 
         private static readonly DependencyPropertyKey HasErrorPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "HasError",
@@ -76,7 +77,7 @@
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
-        private static void OnScopeForChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnForInputTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d.GetType().FullName == "System.Windows.Documents.CaretElement")
             {

@@ -104,7 +104,6 @@
     <Compile Include="DataTemplatesView.xaml.cs">
       <DependentUpon>DataTemplatesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SelectedItemsToInputTypeCollectionConverter.cs" />
     <Compile Include="TwoLevelScopeView.xaml.cs">
       <DependentUpon>TwoLevelScopeView.xaml</DependentUpon>
     </Compile>

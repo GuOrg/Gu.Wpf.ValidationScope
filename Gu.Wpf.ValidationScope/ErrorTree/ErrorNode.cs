@@ -8,18 +8,23 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows;
     using System.Windows.Controls;
 
+    /// <summary>Base class for a node that has validation errors.</summary>
     public abstract class ErrorNode : Node, INotifyErrorsChanged, INotifyPropertyChanged
     {
         private static readonly PropertyChangedEventArgs HasErrorsPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(HasError));
         private readonly Lazy<ChildCollection> children = new Lazy<ChildCollection>(() => new ChildCollection());
+        private bool disposed;
 
+        /// <summary>Initializes a new instance of the <see cref="ErrorNode"/> class.</summary>
         protected ErrorNode()
         {
             this.ErrorCollection.ErrorsChanged += this.OnErrorsChanged;
         }
 
+        /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>Notifies when <see cref="Errors"/> changes.</summary>
         public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
 
         public override bool HasError => this.ErrorCollection.Any();
@@ -28,22 +33,22 @@ namespace Gu.Wpf.ValidationScope
 
         public override ReadOnlyObservableCollection<ErrorNode> Children => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
 
+        /// <summary>Gets the source element for this node.</summary>
         public abstract DependencyObject Source { get; }
 
         internal ErrorCollection ErrorCollection { get; } = new ErrorCollection();
 
         internal ChildCollection ChildCollection => this.children.Value;
 
-        protected bool Disposed { get; private set; }
-
+        /// <inheritdoc />
         public void Dispose()
         {
-            if (this.Disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            this.Disposed = true;
+            this.disposed = true;
             this.Dispose(true);
         }
 
