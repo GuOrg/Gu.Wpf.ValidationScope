@@ -194,46 +194,5 @@
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
         }
-
-        [Test, Explicit("dunno if wpf can do this")]
-        public void AddThenUpdateErrorThenRemoveIt()
-        {
-            Assert.AreEqual("HasError: False", this.ScopeHasError);
-            CollectionAssert.IsEmpty(this.ScopeErrors);
-
-            Assert.AreEqual("Children: 0", this.ChildCount);
-            Assert.AreEqual("HasError: False", this.NodeHasError);
-            CollectionAssert.IsEmpty(this.NodeErrors);
-            Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
-
-            this.IntTextBox1.Enter('a');
-            var expectedErrors = new[] { "Value 'a' could not be converted." };
-            Assert.AreEqual("HasError: True", this.ScopeHasError);
-            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
-
-            Assert.AreEqual("Children: 1", this.ChildCount);
-            Assert.AreEqual("HasError: True", this.NodeHasError);
-            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
-            Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
-
-            this.IntTextBox1.Enter('b');
-            expectedErrors = new[] {  "Value 'b' could not be converted." };
-            Assert.AreEqual("HasError: True", this.ScopeHasError);
-            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
-
-            Assert.AreEqual("Children: 1", this.ChildCount);
-            Assert.AreEqual("HasError: True", this.NodeHasError);
-            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
-            Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
-
-            this.IntTextBox1.Enter('1');
-            Assert.AreEqual("HasError: False", this.ScopeHasError);
-            CollectionAssert.IsEmpty(this.ScopeErrors);
-
-            Assert.AreEqual("Children: 0", this.ChildCount);
-            Assert.AreEqual("HasError: False", this.NodeHasError);
-            CollectionAssert.IsEmpty(this.NodeErrors);
-            Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
-        }
     }
 }
