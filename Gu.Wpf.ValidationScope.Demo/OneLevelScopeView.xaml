@@ -14,12 +14,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{Binding Path=(validation:Scope.HasError),
-                                      Converter={local:BoolToBrushConverter},
-                                      ElementName=Form}"
-                BorderThickness="1">
-            <Grid x:Name="Form"
-                  validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
+            <Grid x:Name="Form" validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
                 <!--  this is where we define our scope, we do so by telling the scope what types of control sto track  -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -29,31 +25,31 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition MinWidth="50"/>
+                    <ColumnDefinition MinWidth="50" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
                            Text="IntValue" />
-                <TextBox Grid.Row="0"
+                <TextBox x:Name="IntTextBox1"
+                         Grid.Row="0"
                          Grid.Column="1"
-                         x:Name="IntTextBox1"
                          Text="{Binding IntValue1,
                                         UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
                            Text="IntValue" />
-                <TextBox Grid.Row="1"
+                <TextBox x:Name="IntTextBox2"
+                         Grid.Row="1"
                          Grid.Column="1"
-                         x:Name="IntTextBox2"
                          Text="{Binding IntValue1,
                                         UpdateSourceTrigger=PropertyChanged}" />
 
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
                            Text="DoubleValue" />
-                <TextBox Grid.Row="2"
+                <TextBox x:Name="DoubleTextBox"
+                         Grid.Row="2"
                          Grid.Column="1"
-                         x:Name="DoubleTextBox"
                          Text="{Binding DoubleValue,
                                         UpdateSourceTrigger=PropertyChanged}" />
             </Grid>

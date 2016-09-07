@@ -20,14 +20,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox = this.Window.Get<TextBox>("ValidationTextBox");
-            textBox.Enter('g');
+            textBox.Enter('a');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(
                 new[]
                     {
-                        "ValidationError: Value 'g' could not be converted.",
+                        "ValidationError: Value 'a' could not be converted.",
                         "HasError: True",
-                        "Action: Added Error: Value 'g' could not be converted. Source: ValidationTextBox OriginalSource: ValidationTextBox"
+                        "Action: Added Error: Value 'a' could not be converted. Source: ValidationTextBox OriginalSource: ValidationTextBox"
                     });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -40,7 +40,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                            {
                                "HasError: False",
                                "Empty",
-                               "Action: Removed Error: Value 'g' could not be converted. Source: ValidationTextBox OriginalSource: ValidationTextBox"
+                               "Action: Removed Error: Value 'a' could not be converted. Source: ValidationTextBox OriginalSource: ValidationTextBox"
                            });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -56,13 +56,13 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox = this.Window.Get<TextBox>("ScopeTextBox");
-            textBox.Enter('g');
+            textBox.Enter('a');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(new[]
                                {
-                                   "ValidationError: Value 'g' could not be converted.",
+                                   "ValidationError: Value 'a' could not be converted.",
                                    "HasError: True",
-                                   "Action: Added Error: Value 'g' could not be converted. Source: ScopeTextBox OriginalSource: ScopeTextBox"
+                                   "Action: Added Error: Value 'a' could not be converted. Source: ScopeTextBox OriginalSource: ScopeTextBox"
                                });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -75,7 +75,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                            {
                                "HasError: False",
                                "Empty",
-                               "Action: Removed Error: Value 'g' could not be converted. Source: ScopeTextBox OriginalSource: ScopeTextBox"
+                               "Action: Removed Error: Value 'a' could not be converted. Source: ScopeTextBox OriginalSource: ScopeTextBox"
                            });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -92,13 +92,13 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox1 = this.Window.Get<GroupBox>("ScopeGroupBox").Get<TextBox>("ScopeTextBox1");
-            textBox1.Enter('g');
+            textBox1.Enter('a');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(new[]
                            {
-                               "ValidationError: Value 'g' could not be converted.",
+                               "ValidationError: Value 'a' could not be converted.",
                                "HasError: True",
-                               "Action: Added Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
+                               "Action: Added Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
                            });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -111,7 +111,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                            {
                                "HasError: False",
                                "Empty",
-                               "Action: Removed Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
+                               "Action: Removed Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
                            });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -128,24 +128,24 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox1 = this.Window.Get<GroupBox>("ScopeGroupBox").Get<TextBox>("ScopeTextBox1");
-            textBox1.Enter('g');
+            textBox1.Enter('a');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange( new[]
                            {
-                               "ValidationError: Value 'g' could not be converted.",
+                               "ValidationError: Value 'a' could not be converted.",
                                "HasError: True",
-                               "Action: Added Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
+                               "Action: Added Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
                            });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
             var textBox2 = this.Window.Get<GroupBox>("ScopeGroupBox").Get<TextBox>("ScopeTextBox2");
-            textBox2.Enter('h');
+            textBox2.Enter('b');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
             expected.AddRange(new[]
                            {
-                               "Action: Added Error: Value 'h' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
+                               "Action: Added Error: Value 'b' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
                            });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();
@@ -156,10 +156,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
             expected.AddRange(new[]
             {
-                "Action: Removed Error: Value 'g' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
+                "Action: Removed Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
                 "HasError: False",
                 "Empty",
-                "Action: Removed Error: Value 'h' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
+                "Action: Removed Error: Value 'b' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox",
             });
 
             actual = groupBox.GetMultiple<Label>("Event").Select(x => x.Text).ToArray();

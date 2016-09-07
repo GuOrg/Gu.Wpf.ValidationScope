@@ -11,7 +11,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         protected override string WindowName { get; } = "DataTemplatesWindow";
 
-
         public TextBox IntTextBox1 => this.Window.Get<TextBox>(SearchCriteria.Indexed(0));
 
         public TextBox IntTextBox2 => this.Window.Get<TextBox>(SearchCriteria.Indexed(1));
@@ -39,8 +38,8 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [SetUp]
         public void SetUp()
         {
-            this.IntTextBox1.Enter('0');
-            this.IntTextBox3.Enter('0');
+            this.IntTextBox1.Enter("0");
+            this.IntTextBox3.Enter("0");
             this.PressTab();
             this.Window.WaitWhileBusy();
         }

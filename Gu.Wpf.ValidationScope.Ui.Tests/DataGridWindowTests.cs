@@ -12,7 +12,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         protected override string WindowName { get; } = "DataGridWindow";
 
-
         public GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
 
         public IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();

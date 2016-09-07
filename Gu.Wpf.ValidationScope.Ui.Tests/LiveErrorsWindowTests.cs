@@ -170,10 +170,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, node.GetErrors());
             CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            textBox2.Enter('h');
+            textBox2.Enter('b');
             Assert.AreEqual("HasError: True", node.Get<Label>("HasErrorTextBlock").Text);
             Assert.AreEqual("HasError: True", scope.Get<Label>("HasErrorTextBlock").Text);
-            expected = new[] { "Value 'g' could not be converted.", "error 1", "Value 'h' could not be converted." };
+            expected = new[] { "Value 'g' could not be converted.", "error 1", "Value 'b' could not be converted." };
             CollectionAssert.AreEqual(expected, node.GetErrors());
             CollectionAssert.AreEqual(expected, scope.GetErrors());
 
@@ -181,14 +181,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.PressTab();
             Assert.AreEqual("HasError: True", node.Get<Label>("HasErrorTextBlock").Text);
             Assert.AreEqual("HasError: True", scope.Get<Label>("HasErrorTextBlock").Text);
-            expected = new[] { "Value 'g' could not be converted.", "error 1", "Value 'h' could not be converted.", "error 2" };
+            expected = new[] { "Value 'g' could not be converted.", "error 1", "Value 'b' could not be converted.", "error 2" };
             CollectionAssert.AreEqual(expected, node.GetErrors());
             CollectionAssert.AreEqual(expected, scope.GetErrors());
 
             textBox1.Text = "1";
             Assert.AreEqual("HasError: True", node.Get<Label>("HasErrorTextBlock").Text);
             Assert.AreEqual("HasError: True", scope.Get<Label>("HasErrorTextBlock").Text);
-            expected = new[] { "error 1", "Value 'h' could not be converted.", "error 2" };
+            expected = new[] { "error 1", "Value 'b' could not be converted.", "error 2" };
             CollectionAssert.AreEqual(expected, node.GetErrors());
             CollectionAssert.AreEqual(expected, scope.GetErrors());
 

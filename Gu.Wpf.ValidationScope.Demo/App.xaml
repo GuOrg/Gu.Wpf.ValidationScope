@@ -10,12 +10,13 @@
     <!--<Application.StartupUri>UiTestWindows/OneLevelScopeWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/TwoLevelScopeWindow.xaml</Application.StartupUri>-->
 
-    <!--<Application.StartupUri>UiTestWindows/ControlTemplatesWindow.xaml</Application.StartupUri>
-    <Application.StartupUri>UiTestWindows/DataTemplatesWindow.xaml</Application.StartupUri>-->
-    <!--<Application.StartupUri>UiTestWindows/NotifyDataErrorInfoWindow.xaml</Application.StartupUri>
-    <Application.StartupUri>UiTestWindows/DataGridWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/ControlTemplatesWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/DataTemplatesWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/NotifyDataErrorInfoWindow.xaml</Application.StartupUri-->
+    <!--<Application.StartupUri>UiTestWindows/DataGridWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/ParentChildScopesWindow.xaml</Application.StartupUri>-->
-    <Application.StartupUri>UiTestWindows/ScopeIsErrorScopeWindow.xaml</Application.StartupUri>
+    <!--<Application.StartupUri>UiTestWindows/ScopeIsErrorScopeWindow.xaml</Application.StartupUri>-->
+    <Application.StartupUri>UiTestWindows/DynamicTypesWindow.xaml</Application.StartupUri>
     <!--<Application.StartupUri>UiTestWindows/EventsOrderWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/LiveErrorsWindow.xaml</Application.StartupUri>-->
     <Application.Resources>
@@ -53,7 +54,7 @@
                               ItemsSource="{Binding Children}" />
 
                 <TextBlock x:Name="HasErrorTextBlock" Text="{Binding HasError, FallbackValue='HasError: null', StringFormat='HasError: {0}'}" />
-                <TextBlock Text="Errors:" />
+                <TextBlock Foreground="Red" Text="{Binding Errors.Count, StringFormat='Errors: {0}'}" />
                 <ItemsControl x:Name="ErrorList"
                               ItemTemplate="{StaticResource ErrorTemplate}"
                               ItemsSource="{Binding Errors}" />
@@ -63,7 +64,8 @@
         <DataTemplate x:Key="ScopeTemplate" DataType="{x:Type FrameworkElement}">
             <StackPanel>
                 <TextBlock x:Name="HasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), StringFormat='HasError: {0}'}" />
-                <TextBlock Text="Errors:" />
+                <TextBlock Foreground="Red" Text="{Binding Path=(validation:Scope.Errors).Count, StringFormat='Errors: {0}'}" />
+
                 <ItemsControl x:Name="ErrorList"
                               ItemTemplate="{StaticResource ErrorTemplate}"
                               ItemsSource="{Binding Path=(validation:Scope.Errors)}" />
