@@ -56,16 +56,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         }
 
         [Test]
-        public void SaveWindow()
-        {
-            var fileName = System.IO.Path.Combine(Info.ArtifactsDirectory(), this.WindowName + ".bmp");
-            using (var image = this.Window.VisibleImage)
-            {
-                image.Save(fileName);
-            }
-        }
-
-        [Test]
         public void CheckNodeType()
         {
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);

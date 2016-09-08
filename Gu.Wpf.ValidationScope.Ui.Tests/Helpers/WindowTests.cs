@@ -43,5 +43,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
         }
+
+        public void SaveWindowScreenshotToArtifacsDir()
+        {
+            var fileName = System.IO.Path.Combine(Info.ArtifactsDirectory(), this.WindowName + ".bmp");
+            using (var image = this.Window.VisibleImage)
+            {
+                image.Save(fileName);
+            }
+        }
     }
 }
