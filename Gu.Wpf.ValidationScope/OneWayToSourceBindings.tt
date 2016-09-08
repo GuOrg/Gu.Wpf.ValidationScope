@@ -1,0 +1,129 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".generated.cs" #>
+namespace Gu.Wpf.ValidationScope
+{
+    using System.Collections.ObjectModel;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Data;
+
+    public class OneWayToSourceBindings : FrameworkElement
+    {
+<#
+    var properties = new[]
+                           {
+                               new PropertyMetaData("HasError", "bool"), 
+                               new PropertyMetaData("Errors", "ReadOnlyObservableCollection<ValidationError>"), 
+                               new PropertyMetaData("Node", "Node"), 
+                           };
+	foreach(var property in properties)
+	{
+		 #>
+        public static readonly DependencyProperty <#= property.Name #>Property = DependencyProperty.Register(
+            nameof(<#= property.Name #>),
+            typeof(<#= property.Type #>),
+            typeof(OneWayToSourceBindings),
+            new PropertyMetadata(default(<#= property.Type #>)));
+
+<#
+	} #>
+        internal static readonly DependencyProperty ElementProperty = DependencyProperty.Register(
+            "Element",
+            typeof(UIElement),
+            typeof(OneWayToSourceBindings),
+            new PropertyMetadata(default(UIElement), OnElementChanged));
+
+<#
+	foreach(var property in properties)
+	{
+		 #>
+        private static readonly DependencyProperty <#= property.Name #>ProxyProperty = DependencyProperty.RegisterAttached(
+            "<#= property.Name #>Proxy",
+            typeof(<#= property.Type #>),
+            typeof(OneWayToSourceBindings),
+            new PropertyMetadata(default(<#= property.Type #>), On<#= property.Name #>ProxyChanged));
+
+<#
+	}
+
+	foreach(var property in properties)
+	{
+		 #>
+        public <#= property.Type #> <#= property.Name #>
+        {
+            get { return (<#= property.Type #>)this.GetValue(<#= property.Name #>Property); }
+            set { this.SetValue(<#= property.Name #>Property, value); }
+        }
+
+<#
+	}
+
+	foreach(var property in properties)
+	{
+		 #>
+        private static void On<#= property.Name #>ProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            d.SetCurrentValue(<#= property.Name #>Property, e.NewValue);
+        }
+
+<#
+	} #>
+        private static void OnElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue == null)
+            {
+                BindingOperations.ClearBinding(d, DataContextProperty);
+<#
+	foreach(var property in properties)
+	{
+		 #>
+                BindingOperations.ClearBinding(d, <#= property.Name #>ProxyProperty);
+<#
+	} #>
+            }
+            else
+            {
+                d.Bind(DataContextProperty)
+                 .OneWayTo(e.NewValue, DataContextProperty);
+
+<#
+	foreach(var property in properties)
+	{
+		 #>
+                d.Bind(<#= property.Name #>ProxyProperty)
+                 .OneWayTo(e.NewValue, Scope.<#= property.Name #>Property);
+<#
+		WriteLineIfNotLast(property, properties);
+	} #>
+            }
+        }
+    }
+}
+<#+
+
+    private void WriteLineIfNotLast<T>(T item, IEnumerable<T> items)
+		where T : class 
+    {
+        if (!ReferenceEquals(items.Last(), item))
+        {
+            this.WriteLine("");
+        }
+    }
+
+    private class PropertyMetaData 
+    {
+        public readonly string Name;
+
+        public readonly string Type;
+
+        public PropertyMetaData(string name, string type)
+        {
+            this.Name = name;
+            this.Type = type;
+        }
+    }
+#>
