@@ -16,7 +16,8 @@
     <!--<Application.StartupUri>UiTestWindows/DataGridWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/ParentChildScopesWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/ScopeIsErrorScopeWindow.xaml</Application.StartupUri>-->
-    <Application.StartupUri>UiTestWindows/DynamicTypesWindow.xaml</Application.StartupUri>
+    <!--<Application.StartupUri>UiTestWindows/DynamicTypesWindow.xaml</Application.StartupUri>-->
+    <Application.StartupUri>UiTestWindows/OneWayToSourceBindingsWindow.xaml</Application.StartupUri>
     <!--<Application.StartupUri>UiTestWindows/EventsOrderWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/LiveErrorsWindow.xaml</Application.StartupUri>-->
     <Application.Resources>

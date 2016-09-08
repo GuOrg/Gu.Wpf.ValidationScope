@@ -8,11 +8,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     using TestStack.White.UIItems;
 
+    [Explicit("don't thinks we want this mess")]
     public class OneWayToSourceBindingsWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "OneWayToSourceBindingsWindow";
 
-        [Test, Explicit("dunno if we want this.")]
+        [Test]
         public void Updates()
         {
             var viewErrorsGroupBox = this.Window.GetByText<GroupBox>("ElementName binding");
