@@ -38,13 +38,29 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             return processStartInfo;
         }
 
+        internal static string TestAssemblyFullFileName()
+        {
+           return new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+        }
+
+        internal static string TestAssemblyDirectory() => Path.GetDirectoryName(TestAssemblyFullFileName());
+
+        internal static string ArtifactsDirectory()
+        {
+            // ReSharper disable PossibleNullReferenceException
+            var root = new DirectoryInfo(TestAssemblyFullFileName()).Parent.Parent.Parent.Parent.FullName;
+            // ReSharper restore PossibleNullReferenceException
+            var artifacts = Path.Combine(root, "artifacts");
+            Directory.CreateDirectory(artifacts);
+            return artifacts;
+        }
+
         private static string GetExeFileName()
         {
-            var uri = new Uri(Assembly.GetExecutingAssembly().CodeBase);
-            var directoryName = Path.GetDirectoryName(uri.LocalPath);
-            var fileName = Path.GetFileNameWithoutExtension(uri.LocalPath).Replace("Ui.Tests", "Demo");
+            // ReSharper disable once PossibleNullReferenceException
+            var fileName = Path.GetFileNameWithoutExtension(TestAssemblyFullFileName()).Replace("Ui.Tests", "Demo");
             // ReSharper disable once AssignNullToNotNullAttribute
-            var fullFileName = Path.Combine(directoryName, fileName + ".exe");
+            var fullFileName = Path.Combine(TestAssemblyDirectory(), fileName + ".exe");
             return fullFileName;
         }
     }

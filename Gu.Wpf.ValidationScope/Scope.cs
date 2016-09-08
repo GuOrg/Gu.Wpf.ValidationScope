@@ -51,12 +51,6 @@
             typeof(Scope),
             new PropertyMetadata(default(OneWayToSourceBindings), OnWayToSourceBindingsChanged));
 
-        private static void OnWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((OneWayToSourceBindings)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
-            ((OneWayToSourceBindings)e.NewValue)?.SetValue(OneWayToSourceBindings.ElementProperty, d);
-        }
-
         public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
         {
             element.SetValue(OneWayToSourceBindingsProperty, value);
@@ -100,6 +94,12 @@
         public static Node GetNode(DependencyObject element) => (Node)element?.GetValue(NodeProperty);
 
 #pragma warning restore SA1202 // Elements must be ordered by access
+
+        private static void OnWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((OneWayToSourceBindings)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
+            ((OneWayToSourceBindings)e.NewValue)?.SetValue(OneWayToSourceBindings.ElementProperty, d);
+        }
 
         private static void OnForInputTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

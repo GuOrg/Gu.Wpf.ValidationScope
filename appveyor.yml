@@ -1,5 +1,9 @@
 version: 1.0.{build}
 configuration: Release
 platform: Any CPU
+
+artifacts:
+  path: artifacts
+
 build:
   verbosity: minimal
