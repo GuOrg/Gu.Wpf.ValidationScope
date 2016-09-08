@@ -27,14 +27,11 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
-            <Grid x:Name="Form"
-                  validation:Scope.ErrorsBinding="{Binding Errors}"
-                  validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}"
-                  validation:Scope.HasErrorBinding="{Binding HasError,
-                                                             Mode=OneWayToSource}"
-                  validation:Scope.NodeBinding="{Binding Node,
-                                                         Mode=OneWayToSource}">
+            <Grid x:Name="Form" validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
                 <!--  this is where we define our scope, we do so by telling the scope what types of control sto track  -->
+                <validation:Scope.OneWayToSourceBindings>
+                    <validation:OneWayToSourceBindings HasError="{Binding HasError}" />
+                </validation:Scope.OneWayToSourceBindings>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

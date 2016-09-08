@@ -25,7 +25,7 @@
             "HasError",
             typeof(bool),
             typeof(Scope),
-            new PropertyMetadata(BooleanBoxes.False, OnHasErrorChanged));
+            new PropertyMetadata(BooleanBoxes.False));
 
         public static readonly DependencyProperty HasErrorProperty = HasErrorPropertyKey.DependencyProperty;
 
@@ -33,7 +33,7 @@
             "Errors",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(Scope),
-            new PropertyMetadata(ErrorCollection.EmptyValidationErrors, OnErrorsChanged));
+            new PropertyMetadata(ErrorCollection.EmptyValidationErrors));
 
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
@@ -44,6 +44,30 @@
             new PropertyMetadata(ValidNode.Default, OnNodeChanged));
 
         public static readonly DependencyProperty NodeProperty = NodePropertyKey.DependencyProperty;
+
+        public static readonly DependencyProperty OneWayToSourceBindingsProperty = DependencyProperty.RegisterAttached(
+            "OneWayToSourceBindings",
+            typeof(OneWayToSourceBindings),
+            typeof(Scope),
+            new PropertyMetadata(default(OneWayToSourceBindings), OnWayToSourceBindingsChanged));
+
+        private static void OnWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((OneWayToSourceBindings)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
+            ((OneWayToSourceBindings)e.NewValue)?.SetValue(OneWayToSourceBindings.ElementProperty, d);
+        }
+
+        public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
+        {
+            element.SetValue(OneWayToSourceBindingsProperty, value);
+        }
+
+        [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
+        [AttachedPropertyBrowsableForType(typeof(UIElement))]
+        public static OneWayToSourceBindings GetOneWayToSourceBindings(this UIElement element)
+        {
+            return (OneWayToSourceBindings)element.GetValue(OneWayToSourceBindingsProperty);
+        }
 
         public static void SetForInputTypes(FrameworkElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
 
@@ -154,8 +178,6 @@
             {
                 UpdateErrorsAndHasErrors(d, GetErrors(d), ErrorCollection.EmptyValidationErrors, ErrorCollection.EmptyValidationErrors);
             }
-
-            d.SetCurrentValue(NodeProxyProperty, e.NewValue);
         }
 
         private static void OnNodeErrorsChanged(object sender, ErrorsChangedEventArgs e)
@@ -207,16 +229,6 @@
             }
 
             // ReSharper restore PossibleMultipleEnumeration
-        }
-
-        private static void OnHasErrorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            d.SetCurrentValue(HasErrorProxyProperty, e.NewValue);
-        }
-
-        private static void OnErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            d.SetCurrentValue(ErrorsProxyProperty, e.NewValue);
         }
     }
 }

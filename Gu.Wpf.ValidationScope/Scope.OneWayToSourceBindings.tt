@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ assembly name="System.Core" #>
-<#@ output extension=".generated.cs" #>
+<#@ output extension=".generated.txt" #>
 #pragma warning disable SA1202 // Elements must be ordered by access
 namespace Gu.Wpf.ValidationScope
 {

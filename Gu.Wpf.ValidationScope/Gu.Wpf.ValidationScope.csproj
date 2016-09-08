@@ -71,6 +71,7 @@
     <Compile Include="Internal\BooleanBoxes.cs" />
     <Compile Include="Internal\EnumerableExt.cs" />
     <Compile Include="Internal\Is.cs" />
+    <Compile Include="OneWayToSourceBindings.cs" />
     <Compile Include="Scope.BubbleRoute.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -80,11 +81,6 @@
     <Compile Include="InputTypes\InputTypesExtension.cs" />
     <Compile Include="ErrorTree\ScopeNode.cs" />
     <Compile Include="Scope.Events.cs" />
-    <Compile Include="Scope.OneWayToSourceBindings.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Scope.OneWayToSourceBindings.tt</DependentUpon>
-    </Compile>
     <Compile Include="ScopeValidationErrorEventArgs.cs" />
     <None Include="Gu.Wpf.ValidationScope.ruleset" />
     <None Include="paket.references" />
@@ -104,9 +100,14 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InputTypesExtensionCtors.generated.cs</LastGenOutput>
     </Content>
+    <Resource Include="Scope.OneWayToSourceBindings.generated.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Scope.OneWayToSourceBindings.tt</DependentUpon>
+    </Resource>
     <Content Include="Scope.OneWayToSourceBindings.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Scope.OneWayToSourceBindings.generated.cs</LastGenOutput>
+      <LastGenOutput>Scope.OneWayToSourceBindings.generated.txt</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
