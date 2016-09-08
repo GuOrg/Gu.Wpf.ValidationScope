@@ -122,6 +122,14 @@
     <Compile Include="UiTestWindows\DynamicTypesWindow.xaml.cs">
       <DependentUpon>DynamicTypesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiTestWindows\EventTemplateSelector.cs" />
+    <Compile Include="UiTestWindows\LiveErrorsWindow.xaml.cs">
+      <DependentUpon>LiveErrorsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UiTestWindows\ScopeEvents.cs" />
+    <Compile Include="UiTestWindows\EventsOrderWindow.xaml.cs">
+      <DependentUpon>EventsOrderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UiTestWindows\NotifyDataErrorInfoWindow.xaml.cs">
       <DependentUpon>NotifyDataErrorInfoWindow.xaml</DependentUpon>
     </Compile>
@@ -137,9 +145,13 @@
     <Compile Include="UiTestWindows\ScopeIsErrorScopeWindow.xaml.cs">
       <DependentUpon>ScopeIsErrorScopeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiTestWindows\ScopeTextBoxWindow.xaml.cs">
+      <DependentUpon>ScopeTextBoxWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UiTestWindows\TwoLevelScopeWindow.xaml.cs">
       <DependentUpon>TwoLevelScopeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiTestWindows\ValidationEvents.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="ComplicatedScopeView.xaml">
       <SubType>Designer</SubType>
@@ -225,6 +237,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UiTestWindows\EventsOrderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\LiveErrorsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UiTestWindows\NotifyDataErrorInfoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -242,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UiTestWindows\ScopeIsErrorScopeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ScopeTextBoxWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

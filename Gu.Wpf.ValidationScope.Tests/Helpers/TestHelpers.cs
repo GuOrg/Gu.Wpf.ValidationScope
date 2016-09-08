@@ -4,25 +4,21 @@
     using System.Windows.Controls;
     using System.Windows.Data;
 
+    using NUnit.Framework;
+
     public static class TestHelpers
     {
-        public static readonly DependencyProperty ProxyProperty = DependencyProperty.RegisterAttached(
-            "Proxy",
-            typeof(object),
-            typeof(TestHelpers),
-            new PropertyMetadata(default(object)));
-
-        public static void SetValidationError(this TextBox textBox)
+        public static void SetValidationError(this DependencyObject textBox, ValidationError error)
         {
-            var expression = BindingOperations.GetBindingExpression(textBox, ProxyProperty)
-                             ?? textBox.Bind(ProxyProperty).OneWayTo(textBox, TextBox.TextProperty);
-
-            Validation.MarkInvalid(expression, TestValidationError.GetFor(expression));
+            var expression = (BindingExpressionBase)error.BindingInError;
+            Assert.AreSame(textBox, expression.Target);
+            Validation.MarkInvalid(expression, error);
         }
 
-        public static void ClearValidationError(this TextBox textBox)
+        public static void ClearValidationError(this TextBox textBox, ValidationError error)
         {
-            var expression = BindingOperations.GetBindingExpression(textBox, ProxyProperty);
+            var expression = (BindingExpressionBase)error.BindingInError;
+            Assert.AreSame(textBox, expression.Target);
             Validation.ClearInvalid(expression);
         }
     }

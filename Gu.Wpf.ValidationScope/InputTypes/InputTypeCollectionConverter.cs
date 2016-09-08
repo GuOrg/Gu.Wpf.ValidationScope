@@ -153,6 +153,7 @@
                 AppDomain.CurrentDomain.AssemblyLoad += (sender, args) => AddCompatibleTypes(args.LoadedAssembly);
             }
 
+            // ReSharper disable once UnusedMember.Local
             public static string ErrorText => ErrorBuilder.ToString();
 
             public static Type FindType(string typeName)

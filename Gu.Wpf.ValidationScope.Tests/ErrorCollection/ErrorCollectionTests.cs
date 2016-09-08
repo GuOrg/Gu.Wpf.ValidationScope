@@ -1,92 +1,57 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests.ErrorCollection
+namespace Gu.Wpf.ValidationScope.Tests
 {
-    using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
-    using System.ComponentModel;
     using System.Windows.Controls;
 
-    using Gu.Wpf.ValidationScope.Tests.Helpers;
-
     using NUnit.Framework;
-    using ErrorCollection = Gu.Wpf.ValidationScope.ErrorCollection;
 
     public class ErrorCollectionTests
     {
         [Test]
-        public void RefreshAddSingle()
+        public void EmptyValidationErrors()
+        {
+            Assert.NotNull(ErrorCollection.EmptyValidationErrors);
+            CollectionAssert.IsEmpty(ErrorCollection.EmptyValidationErrors);
+        }
+
+        [Test]
+        public void AddEmptyValidationErrors()
+        {
+            var errors = new ErrorCollection();
+            var actualEvents = errors.SubscribeObservableCollectionEvents();
+            errors.Add(ErrorCollection.EmptyValidationErrors);
+            CollectionAssert.IsEmpty(actualEvents);
+            CollectionAssert.IsEmpty(errors);
+        }
+
+        [Test]
+        public void AddWithOne()
         {
             var reference = new ObservableCollection<ValidationError>();
-            var expectedEvents = reference.SubscribeAllEvents();
+            var referenceEvents = reference.SubscribeObservableCollectionEvents();
             var errors = new ErrorCollection();
-            var allEvents = errors.SubscribeAllEvents();
-            var newErrors = Create(1);
-            errors.Refresh(newErrors);
-            reference.Add(newErrors[0]);
-
-            CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
+            var changes = errors.SubscribeErrorCollectionEvents();
+            var actualEvents = errors.SubscribeObservableCollectionEvents();
+            var error = Factory.CreateValidationError();
+            errors.Add(Factory.CreateReadOnlyObservableCollection(error));
+            reference.Add(error);
             CollectionAssert.AreEqual(reference, errors);
+            CollectionAssert.AreEqual(referenceEvents, actualEvents, ObservableCollectionArgsComparer.Default);
+            CollectionAssert.AreEqual(new[] { Factory.CreateAddedEventArgs(error) }, changes, ErrorsChangedEventArgsComparer.Default);
         }
 
         [Test]
-        public void RefreshAddMany()
+        public void AddWithTwo()
         {
-            var error = TestValidationError.Create();
-            var errors = new ErrorCollection { error };
-            var allEvents = errors.SubscribeAllEvents();
-            var newErrors = Create(3);
-            errors.Refresh(newErrors);
-
-            var expectedEvents = new List<EventArgs>
-                                   {
-                                       new PropertyChangedEventArgs("Count"),
-                                       new PropertyChangedEventArgs("Item[]"),
-                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
-                                   };
-            CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
-            CollectionAssert.AreEqual(newErrors, errors);
-        }
-
-        [Test]
-        public void RefreshRemoveSingleEmpty()
-        {
-            var error = TestValidationError.Create();
-            var reference = new ObservableCollection<ValidationError> { error };
-            var expectedEvents = reference.SubscribeAllEvents();
-            var errors = new ErrorCollection { error };
-            var allEvents = errors.SubscribeAllEvents();
-            errors.Refresh(new ValidationError[0]);
-            reference.Remove(error);
-
-            CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
-            CollectionAssert.AreEqual(reference, errors);
-        }
-
-        [Test]
-        public void RefreshRemoveSingleNull()
-        {
-            var error = TestValidationError.Create();
-            var reference = new ObservableCollection<ValidationError> { error };
-            var expectedEvents = reference.SubscribeAllEvents();
-            var errors = new ErrorCollection { error };
-            var allEvents = errors.SubscribeAllEvents();
-            errors.Refresh(null);
-            reference.Remove(error);
-
-            CollectionAssert.AreEqual(expectedEvents, allEvents, ObservableCollectionArgsComparer.Default);
-            CollectionAssert.AreEqual(reference, errors);
-        }
-
-        private static ReadOnlyObservableCollection<ValidationError> Create(int n)
-        {
-            var errors = new ObservableCollection<ValidationError>();
-            for (int i = 0; i < n; i++)
-            {
-                errors.Add(TestValidationError.Create());
-            }
-
-            return new ReadOnlyObservableCollection<ValidationError>(errors);
+            var errors = new ErrorCollection();
+            var changes = errors.SubscribeErrorCollectionEvents();
+            var actualEvents = errors.SubscribeObservableCollectionEvents();
+            var error1 = Factory.CreateValidationError();
+            var error2 = Factory.CreateValidationError();
+            errors.Add(Factory.CreateReadOnlyObservableCollection(error1, error2));
+            CollectionAssert.AreEqual(new[] { error1, error2 }, errors);
+            CollectionAssert.AreEqual(Factory.ResetArgs(), actualEvents, ObservableCollectionArgsComparer.Default);
+            CollectionAssert.AreEqual(new[] { Factory.CreateAddedEventArgs(error1, error2) }, changes, ErrorsChangedEventArgsComparer.Default);
         }
     }
 }

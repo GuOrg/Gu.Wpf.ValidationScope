@@ -1,0 +1,81 @@
+﻿<Window x:Class="Gu.Wpf.ValidationScope.Demo.LiveErrorsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
+        Title="LiveErrorsWindow"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <DataTemplate x:Key="ValidationErrorTemplate" DataType="{x:Type ValidationError}">
+            <TextBlock x:Name="ErrorTextBlock" Text="{Binding ErrorContent}" />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <demo:NotifyDataErrorInfoVm />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <TextBox x:Name="ValidationIntValueTextBox" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox x:Name="ValidationErrorTextBox" Text="{Binding Error1}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <TextBox x:Name="ScopeIntValueTextBox"
+                     validation:Scope.ForInputTypes="TextBox"
+                     Text="{Binding IntValue1,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox x:Name="ScopeErrorTextBox" Text="{Binding Error1}" />
+        </StackPanel>
+
+        <GroupBox x:Name="ScopeGroupBox"
+                  Grid.Row="0"
+                  Grid.Column="2"
+                  validation:Scope.ForInputTypes="TextBox">
+            <StackPanel x:Name="ScopeStackPanel">
+                <TextBox x:Name="ScopeIntValueTextBox1" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeErrorTextBox1" Text="{Binding Error1}" />
+                <TextBox x:Name="ScopeIntValueTextBox2" Text="{Binding IntValue2, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeErrorTextBox2" Text="{Binding Error2}" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1"
+                  Grid.Column="0"
+                  Header="Validation errors">
+            <StackPanel>
+                <TextBlock x:Name="HasErrorTextBlock" Text="{Binding Path=(Validation.HasError), ElementName=ValidationIntValueTextBox, StringFormat='HasError: {0}'}" />
+                <TextBlock Text="Errors:" />
+                <ItemsControl x:Name="ErrorList"
+                              ItemTemplate="{StaticResource ErrorTemplate}"
+                              ItemsSource="{Binding Path=(Validation.Errors),
+                                                    ElementName=ValidationIntValueTextBox}" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1"
+                  Grid.Column="1"
+                  Header="Scope textbox errors">
+            <ContentPresenter Content="{Binding ., ElementName=ScopeIntValueTextBox}" ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+        </GroupBox>
+
+        <GroupBox Grid.Row="1"
+                  Grid.Column="2"
+                  Header="Scope errors">
+            <ContentPresenter Content="{Binding ., ElementName=ScopeGroupBox}" ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+        </GroupBox>
+    </Grid>
+</Window>

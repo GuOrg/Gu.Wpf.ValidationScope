@@ -24,8 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>Gu.Wpf.ValidationScope.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\Gu.Wpf.ValidationScope.XML</DocumentationFile>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -50,16 +49,19 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ErrorCollection\BatchChangeItem.cs" />
-    <Compile Include="ErrorCollection\ObservableBatchCollection{T}.cs" />
+    <Compile Include="ErrorCollection\ErrorsChangedEventArgs.cs" />
+    <Compile Include="ErrorCollection\ErrorsChangedEventManager.cs" />
+    <Compile Include="ErrorCollection\INotifyErrorsChanged.cs" />
+    <Compile Include="ErrorCollection\ObservableBatchCollection.cs" />
+    <Compile Include="ErrorTree\ChildCollection.cs" />
+    <Compile Include="ErrorTree\ValidNode.cs" />
+    <Compile Include="ErrorTree\Node.cs" />
     <Compile Include="InputTypes\DefaultInputTypesExtension.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverter.cs" />
-    <Compile Include="Internal\BubbleRoute.cs" />
     <Compile Include="Internal\Ensure.cs" />
     <Compile Include="ErrorCollection\ErrorCollection.cs" />
+    <Compile Include="ErrorTree\InputNode.cs" />
     <Compile Include="ErrorTree\ErrorNode.cs" />
-    <Compile Include="ErrorTree\IErrorNode.cs" />
-    <Compile Include="ErrorTree\Node.cs" />
     <Compile Include="InputTypes\InputTypesExtensionCtors.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -67,8 +69,9 @@
     </Compile>
     <Compile Include="Internal\BindingHelper.cs" />
     <Compile Include="Internal\BooleanBoxes.cs" />
-    <Compile Include="Internal\ImmutableList.cs" />
-    <Compile Include="ErrorCollection\BatchChangeItem{T}.cs" />
+    <Compile Include="Internal\EnumerableExt.cs" />
+    <Compile Include="Internal\Is.cs" />
+    <Compile Include="Scope.BubbleRoute.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -76,11 +79,17 @@
     <Compile Include="InputTypes\InputTypeCollection.cs" />
     <Compile Include="InputTypes\InputTypesExtension.cs" />
     <Compile Include="ErrorTree\ScopeNode.cs" />
+    <Compile Include="Scope.Events.cs" />
+    <Compile Include="OneWayToSourceBindings.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OneWayToSourceBindings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScopeValidationErrorEventArgs.cs" />
     <None Include="Gu.Wpf.ValidationScope.ruleset" />
     <None Include="paket.references" />
     <None Include="paket.template" />
     <AppDesigner Include="Properties\" />
-    <Compile Include="Scope.OneWayToSourceBindings.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -94,6 +103,10 @@
     <Content Include="InputTypes\InputTypesExtensionCtors.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InputTypesExtensionCtors.generated.cs</LastGenOutput>
+    </Content>
+    <Content Include="OneWayToSourceBindings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OneWayToSourceBindings.generated.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

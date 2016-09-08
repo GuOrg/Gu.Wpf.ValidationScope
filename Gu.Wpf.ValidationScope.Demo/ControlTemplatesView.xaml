@@ -4,16 +4,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:validationScope="http://gu.se/ValidationScope"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <ControlTemplate x:Key="ControlTemplate"
-                         TargetType="{x:Type ContentControl}">
-            <TextBox Text="{Binding Content.IntValue, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
+        <ControlTemplate x:Key="ControlTemplate" TargetType="{x:Type Control}">
+            <TextBox x:Name="IntBox"
+                     MinWidth="50"
+                     Text="{Binding IntValue1,
+                                    UpdateSourceTrigger=PropertyChanged}" />
         </ControlTemplate>
 
-        <Style x:Key="Style"
-               TargetType="{x:Type ContentControl}">
+        <Style x:Key="Style" TargetType="{x:Type Control}">
             <Setter Property="Template" Value="{StaticResource ControlTemplate}" />
             <Setter Property="Focusable" Value="False" />
         </Style>
@@ -27,16 +28,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
-                                      Converter={local:BoolToBrushConverter},
-                                      ElementName=Form}"
-                BorderThickness="1">
-            <Grid x:Name="Form"
-                  validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
+            <Grid x:Name="Form" validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -44,37 +41,46 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Text="SomeIntValue" />
-                <ContentControl Grid.Row="0"
-                                Grid.Column="1"
-                                Content="{Binding}"
-                                Focusable="False"
-                                Template="{StaticResource ControlTemplate}"
-                                local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox1}" />
+                           Text="IntValue" />
+                <Control Grid.Row="0"
+                         Grid.Column="1"
+                         Focusable="False"
+                         Template="{StaticResource ControlTemplate}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
-                           Text="SameIntValue" />
+                           Text="IntValue" />
 
-                <ContentControl Grid.Row="1"
-                                Grid.Column="1"
-                                Content="{Binding}"
-                                Style="{StaticResource Style}"
-                                local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox2}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="IntValue" />
+
+                <Control Grid.Row="1"
+                         Grid.Column="1"
+                         Style="{StaticResource Style}" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="IntValue" />
+                
+                <Control Grid.Row="2"
+                         Grid.Column="1"
+                         Focusable="False">
+                    <Control.Template>
+                        <ControlTemplate TargetType="{x:Type Control}">
+                            <TextBox x:Name="IntBox"
+                                     MinWidth="50"
+                                     Text="{Binding IntValue2,
+                                                    UpdateSourceTrigger=PropertyChanged}" />
+                        </ControlTemplate>
+                    </Control.Template>
+                </Control>
             </Grid>
         </Border>
 
-        <ItemsControl Grid.Row="1"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>

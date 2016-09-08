@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.ValidationScope.Demo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{2FAF8740-9A52-4300-8C32-7B59CB13E4F1}"
 	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 		.paket\paket.targets = .paket\paket.targets

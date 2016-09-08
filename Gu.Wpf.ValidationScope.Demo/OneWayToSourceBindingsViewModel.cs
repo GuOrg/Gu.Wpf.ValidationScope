@@ -1,7 +1,9 @@
 ﻿namespace Gu.Wpf.ValidationScope.Demo
 {
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Windows.Controls;
 
     using JetBrains.Annotations;
 
@@ -9,8 +11,8 @@
     {
         private int intValue;
         private bool hasError;
-
-        private IErrorNode errors;
+        private Node node;
+        private ReadOnlyObservableCollection<ValidationError> errors;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -48,7 +50,7 @@
             }
         }
 
-        public IErrorNode Errors
+        public ReadOnlyObservableCollection<ValidationError> Errors
         {
             get
             {
@@ -56,11 +58,25 @@
             }
             set
             {
-                if (Equals(value, this.errors))
+                if (Equals(value, this.errors)) return;
+                this.errors = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public Node Node
+        {
+            get
+            {
+                return this.node;
+            }
+            set
+            {
+                if (Equals(value, this.node))
                 {
                     return;
                 }
-                this.errors = value;
+                this.node = value;
                 this.OnPropertyChanged();
             }
         }

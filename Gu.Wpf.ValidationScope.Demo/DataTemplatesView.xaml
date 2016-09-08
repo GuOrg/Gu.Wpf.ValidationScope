@@ -4,11 +4,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:validationScope="http://gu.se/ValidationScope"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type local:ViewModel}">
-            <TextBox Text="{Binding IntValue, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+        </DataTemplate>
+
+        <DataTemplate  x:Key="IntValue1" DataType="{x:Type local:ViewModel}">
+            <TextBox Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+        </DataTemplate>
+        
+        <DataTemplate  x:Key="IntValue2" DataType="{x:Type local:ViewModel}">
+            <TextBox Text="{Binding IntValue2, UpdateSourceTrigger=PropertyChanged}" />
         </DataTemplate>
     </UserControl.Resources>
     <UserControl.DataContext>
@@ -20,16 +28,16 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError),
                                       Converter={local:BoolToBrushConverter},
                                       ElementName=Form}"
                 BorderThickness="1">
             <Grid x:Name="Form"
-                  validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+                  validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -37,32 +45,32 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Text="SomeIntValue" />
+                           Text="IntValue" />
                 <ContentPresenter Grid.Row="0"
                                   Grid.Column="1"
-                                  Content="{Binding}"
-                                  local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox1}" />
+                                  Content="{Binding}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
-                           Text="SameIntValue" />
+                           Text="IntValue" />
                 <ContentPresenter Grid.Row="1"
                                   Grid.Column="1"
-                                  Content="{Binding}"
-                                  local:AutomationIDs.TextBoxId="{x:Static local:AutomationIDs.TextBox2}" />
+                                  ContentTemplate="{StaticResource IntValue1}"
+                                  Content="{Binding}"/>
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="IntValue" />
+                <ContentPresenter Grid.Row="2"
+                                  Grid.Column="1"
+                                  ContentTemplate="{StaticResource IntValue2}"
+                                  Content="{Binding}"/>
             </Grid>
         </Border>
-        <ItemsControl Grid.Row="1"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>

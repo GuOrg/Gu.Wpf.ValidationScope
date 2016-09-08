@@ -39,4 +39,5 @@ $tf*/
 *.dll
 packages/*
 publish/*
+[Aa]rtifacts/
 .vs/*

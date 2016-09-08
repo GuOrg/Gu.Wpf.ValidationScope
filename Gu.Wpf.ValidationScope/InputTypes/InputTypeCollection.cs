@@ -13,11 +13,12 @@
     [TypeConverter(typeof(InputTypeCollectionConverter))]
     public class InputTypeCollection : Collection<Type>
     {
+        /// <summary>Contains Scope, TextBoxBase, ComboBox, ToggleButton and Slider.</summary>
         public static readonly InputTypeCollection Default = new InputTypeCollection
         {
             typeof(Scope),
             typeof(TextBoxBase),
-            typeof(ComboBox),
+            typeof(Selector),
             typeof(ToggleButton),
             typeof(Slider)
         };
@@ -52,7 +53,7 @@
         /// Check if the collection contains <paramref name="dependencyObject"/> or a type that is a subclass of <paramref name="dependencyObject"/>
         /// </summary>
         /// <returns>True if <paramref name="dependencyObject"/> is an input type registered for the collection.</returns>
-        public bool IsInputType(DependencyObject dependencyObject)
+        public bool Contains(DependencyObject dependencyObject)
         {
             if (dependencyObject == null)
             {
@@ -83,11 +84,6 @@
         {
             this.VerifyCompatible(item);
             base.SetItem(index, item);
-        }
-
-        protected virtual bool IsCompatible(Type type)
-        {
-            return IsCompatibleType(type);
         }
 
         private void VerifyCompatible(Type type)

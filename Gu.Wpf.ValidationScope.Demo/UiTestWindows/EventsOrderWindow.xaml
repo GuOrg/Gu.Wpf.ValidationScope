@@ -1,0 +1,125 @@
+﻿<Window x:Class="Gu.Wpf.ValidationScope.Demo.EventsOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
+        Title="EventsOrderWindow"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d">
+    <Window.Resources>
+        <demo:EventTemplateSelector x:Key="EventTemplateSelector">
+            <demo:EventTemplateSelector.StringTemplate>
+                <DataTemplate>
+                    <TextBlock x:Name="Event" Text="{Binding}" />
+                </DataTemplate>
+            </demo:EventTemplateSelector.StringTemplate>
+
+            <demo:EventTemplateSelector.ValidationErrorEventArgsTemplate>
+                <DataTemplate DataType="{x:Type ValidationErrorEventArgs}">
+                    <TextBlock x:Name="Event">
+                        <Run Text="{Binding Action, Mode=OneWay, StringFormat='Action: {0}'}" />
+                        <Run Text="{Binding Error.ErrorContent, Mode=OneWay, StringFormat='Error: {0}'}" />
+                        <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                        <Run Text="{Binding Source.Name, Mode=OneWay, StringFormat='Source: {0}'}" />
+                        <Run Text="{Binding OriginalSource.Name, Mode=OneWay, StringFormat='OriginalSource: {0}'}" />
+                        <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                    </TextBlock>
+                </DataTemplate>
+            </demo:EventTemplateSelector.ValidationErrorEventArgsTemplate>
+
+            <demo:EventTemplateSelector.ScopeValidationErrorEventArgsTemplate>
+                <DataTemplate DataType="{x:Type validation:ScopeValidationErrorEventArgs}">
+                    <TextBlock x:Name="Event">
+                        <Run Text="{Binding Action, Mode=OneWay, StringFormat='Action: {0}'}" />
+                        <Run Text="{Binding Error.ErrorContent, Mode=OneWay, StringFormat='Error: {0}'}" />
+                        <!--  ReSharper disable Xaml.BindingWithContextNotResolved  -->
+                        <Run Text="{Binding Source.Name, Mode=OneWay, StringFormat='Source: {0}'}" />
+                        <Run Text="{Binding OriginalSource.Name, Mode=OneWay, StringFormat='OriginalSource: {0}'}" />
+                        <!--  ReSharper restore Xaml.BindingWithContextNotResolved  -->
+                    </TextBlock>
+                </DataTemplate>
+            </demo:EventTemplateSelector.ScopeValidationErrorEventArgsTemplate>
+
+            <demo:EventTemplateSelector.ValidationErrorsCollectionTemplate>
+                <DataTemplate>
+                    <ItemsControl ItemsSource="{Binding}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type ValidationError}">
+                                <TextBlock x:Name="Event" Text="{Binding ErrorContent, Mode=OneWay, StringFormat='ValidationError: {0}'}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DataTemplate>
+            </demo:EventTemplateSelector.ValidationErrorsCollectionTemplate>
+
+            <demo:EventTemplateSelector.EmptyValidationErrorsCollectionTemplate>
+                <DataTemplate>
+                    <TextBlock x:Name="Event" Text="Empty" />
+                </DataTemplate>
+            </demo:EventTemplateSelector.EmptyValidationErrorsCollectionTemplate>
+        </demo:EventTemplateSelector>
+    </Window.Resources>
+    <Window.DataContext>
+        <demo:ViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBox x:Name="ValidationTextBox"
+                 Grid.Row="0"
+                 Grid.Column="0"
+                 demo:ValidationEvents.Track="True"
+                 Text="{Binding IntValue1,
+                                UpdateSourceTrigger=PropertyChanged,
+                                NotifyOnValidationError=True}" />
+
+        <TextBox x:Name="ScopeTextBox"
+                 Grid.Row="0"
+                 Grid.Column="1"
+                 demo:ScopeEvents.Track="True"
+                 validation:Scope.ForInputTypes="TextBox"
+                 Text="{Binding IntValue1,
+                                UpdateSourceTrigger=PropertyChanged}" />
+
+        <GroupBox x:Name="ScopeGroupBox"
+                  Grid.Row="0"
+                  Grid.Column="2"
+                  demo:ScopeEvents.Track="True"
+                  validation:Scope.ForInputTypes="TextBox">
+            <StackPanel x:Name="ScopeStackPanel">
+                <TextBox x:Name="ScopeTextBox1" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="ScopeTextBox2" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1"
+                  Grid.Column="0"
+                  Header="Validation events">
+            <ItemsControl ItemTemplateSelector="{StaticResource EventTemplateSelector}" ItemsSource="{Binding Path=(demo:ValidationEvents.Events), ElementName=ValidationTextBox}" />
+        </GroupBox>
+
+        <GroupBox Grid.Row="1"
+                  Grid.Column="1"
+                  Header="Scope textbox events">
+            <ItemsControl ItemTemplateSelector="{StaticResource EventTemplateSelector}" ItemsSource="{Binding Path=(demo:ScopeEvents.Events), ElementName=ScopeTextBox}" />
+        </GroupBox>
+
+
+        <GroupBox Grid.Row="1"
+                  Grid.Column="2"
+                  Header="Scope events">
+            <ItemsControl ItemTemplateSelector="{StaticResource EventTemplateSelector}" ItemsSource="{Binding Path=(demo:ScopeEvents.Events), ElementName=ScopeGroupBox}" />
+        </GroupBox>
+    </Grid>
+</Window>

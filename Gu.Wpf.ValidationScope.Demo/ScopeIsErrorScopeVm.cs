@@ -3,7 +3,6 @@ namespace Gu.Wpf.ValidationScope.Demo
     using System;
     using System.Collections;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.CompilerServices;
 
     using JetBrains.Annotations;
@@ -49,7 +48,7 @@ namespace Gu.Wpf.ValidationScope.Demo
         {
             return this.hasErrors && propertyName == nameof(this.HasErrors)
                 ? new[] { "INotifyDataErrorInfo error" }
-                : Enumerable.Empty<string>();
+                : null;
         }
 
         protected virtual void OnErrorsChanged([CallerMemberName] string propertyName = null)

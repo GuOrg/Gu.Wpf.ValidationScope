@@ -4,9 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:validationScope="http://gu.se/ValidationScope"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:DataGridScopeVm />
@@ -19,35 +17,21 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
-                BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
+                validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}"
+                BorderBrush="{Binding Path=(validation:Scope.HasError),
                                       Converter={local:BoolToBrushConverter},
                                       RelativeSource={RelativeSource Self}}"
-                BorderThickness="1"
-                validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
-            <DataGrid AutomationProperties.AutomationId="{x:Static local:AutomationIDs.DataGrid}"
-                      ItemsSource="{Binding Collection}" />
+                BorderThickness="1">
+            <DataGrid x:Name="DataGrid" ItemsSource="{Binding Collection}" />
         </Border>
 
-        <Button Grid.Row="1"
-                AutomationProperties.AutomationId="{x:Static local:AutomationIDs.LoseFocusButton}"
+        <Button x:Name="LoseFocusButton"
+                Grid.Row="1"
                 Content="Lose focus" />
 
-        <TextBlock Grid.Row="2"
-                   Foreground="Red"
-                   Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
-                                  ElementName=Form,
-                                  StringFormat='Children: {0}'}" />
-
-        <ItemsControl Grid.Row="3"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ContentPresenter Grid.Row="2"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>

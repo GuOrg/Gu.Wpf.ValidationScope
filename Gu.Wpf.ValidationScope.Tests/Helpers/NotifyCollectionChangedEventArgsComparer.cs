@@ -4,11 +4,11 @@
     using System.Collections.Specialized;
     using System.Linq;
 
-    public class NotifyCollectionChangedEventArgsComparer : GenericComparer<NotifyCollectionChangedEventArgs>
+    internal class NotifyCollectionChangedEventArgsComparer : GenericComparer<NotifyCollectionChangedEventArgs>
     {
         public static readonly NotifyCollectionChangedEventArgsComparer Default = new NotifyCollectionChangedEventArgsComparer();
 
-        public override int Compare(NotifyCollectionChangedEventArgs x, NotifyCollectionChangedEventArgs y)
+        protected override int Compare(NotifyCollectionChangedEventArgs x, NotifyCollectionChangedEventArgs y)
         {
             if (x.Action != y.Action)
             {

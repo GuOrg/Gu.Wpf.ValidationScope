@@ -30,7 +30,7 @@ using System.Windows.Markup;
 
 //// [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
-[assembly:ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.None)]
+[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.None)]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -42,9 +42,10 @@ using System.Windows.Markup;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.1.5.2")]
-[assembly: AssemblyFileVersion("0.1.5.2")]
-[assembly:InternalsVisibleTo("Gu.Wpf.ValidationScope.Tests")]
+[assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyFileVersion("0.2.0.0")]
+[assembly: InternalsVisibleTo("Gu.Wpf.ValidationScope.Tests")]
+[assembly: InternalsVisibleTo("Gu.Wpf.ValidationScope.Demo")]
 
-[assembly: XmlnsDefinition("http://gu.se/ValidationScope", "Gu.Wpf.ValidationScope")]
-[assembly: XmlnsPrefix("http://gu.se/ValidationScope", "validationScope")]
+[assembly: XmlnsDefinition("https://github.com/JohanLarsson/Gu.Wpf.ValidationScope", "Gu.Wpf.ValidationScope")]
+[assembly: XmlnsPrefix("https://github.com/JohanLarsson/Gu.Wpf.ValidationScope", "validation")]

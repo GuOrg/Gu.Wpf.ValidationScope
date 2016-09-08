@@ -10,15 +10,24 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         private Application application;
 
-        protected Window Window { get; private set; }
+        public static Window StaticWindow { get; private set; }
+
+        protected Window Window => StaticWindow;
 
         protected abstract string WindowName { get; }
+
+        public void RestartApplication()
+        {
+            this.OneTimeTearDown();
+            this.OneTimeSetUp();
+        }
 
         [OneTimeSetUp]
         public virtual void OneTimeSetUp()
         {
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
-            this.Window = this.application.GetWindow(this.WindowName);
+            StaticWindow = this.application.GetWindow(this.WindowName);
+            StaticWindow.WaitWhileBusy();
         }
 
         [OneTimeTearDown]
@@ -27,6 +36,21 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.CONTROL);
             this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.SHIFT);
             this.application?.Dispose();
+            StaticWindow = null;
+        }
+
+        protected void PressTab()
+        {
+            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
+        }
+
+        public void SaveWindowScreenshotToArtifacsDir()
+        {
+            var fileName = System.IO.Path.Combine(Info.ArtifactsDirectory(), this.WindowName + ".bmp");
+            using (var image = this.Window.VisibleImage)
+            {
+                image.Save(fileName);
+            }
         }
     }
 }

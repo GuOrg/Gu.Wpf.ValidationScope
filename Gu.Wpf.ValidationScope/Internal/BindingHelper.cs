@@ -1,12 +1,20 @@
 namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Data;
 
     internal static class BindingHelper
     {
         private static readonly Dictionary<DependencyProperty, PropertyPath> PropertyPaths = new Dictionary<DependencyProperty, PropertyPath>();
+
+        private static readonly MethodInfo CloneMethod = typeof(Binding).GetMethod("Clone", BindingFlags.Instance | BindingFlags.NonPublic, null, CallingConventions.Any, new[] { typeof(BindingMode) }, null);
+
+        internal static Binding Clone(this Binding binding, BindingMode mode)
+        {
+            return (Binding)CloneMethod.Invoke(binding, new object[] { mode });
+        }
 
         internal static BindingBuilder Bind(
             this DependencyObject target,
@@ -22,12 +30,12 @@ namespace Gu.Wpf.ValidationScope
             PropertyPath path)
         {
             var binding = new Binding
-                              {
-                                  Path = path,
-                                  Source = source,
-                                  Mode = BindingMode.OneWay,
-                                  UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                              };
+            {
+                Path = path,
+                Source = source,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
             return (BindingExpression)BindingOperations.SetBinding(target, targetProperty, binding);
         }
 
@@ -65,12 +73,12 @@ namespace Gu.Wpf.ValidationScope
             {
                 var sourcePath = GetPath(sourceProperty);
                 var binding = new Binding
-                                  {
-                                      Source = source,
-                                      Path = sourcePath,
-                                      Mode = BindingMode.TwoWay,
-                                      UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                                  };
+                {
+                    Source = source,
+                    Path = sourcePath,
+                    Mode = BindingMode.TwoWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                };
 
                 return (BindingExpression)BindingOperations.SetBinding(this.target, this.targetProperty, binding);
             }
@@ -78,10 +86,10 @@ namespace Gu.Wpf.ValidationScope
             internal BindingExpression OneWayTo(object source)
             {
                 var binding = new Binding
-                                  {
-                                      Source = source,
-                                      Mode = BindingMode.OneWay,
-                                  };
+                {
+                    Source = source,
+                    Mode = BindingMode.OneWay,
+                };
 
                 return (BindingExpression)BindingOperations.SetBinding(this.target, this.targetProperty, binding);
             }
@@ -89,12 +97,12 @@ namespace Gu.Wpf.ValidationScope
             internal BindingExpression OneWayTo(object source, PropertyPath sourcePath)
             {
                 var binding = new Binding
-                                  {
-                                      Path = sourcePath,
-                                      Source = source,
-                                      Mode = BindingMode.OneWay,
-                                      UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                                  };
+                {
+                    Path = sourcePath,
+                    Source = source,
+                    Mode = BindingMode.OneWay,
+                    UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                };
 
                 return (BindingExpression)BindingOperations.SetBinding(this.target, this.targetProperty, binding);
             }

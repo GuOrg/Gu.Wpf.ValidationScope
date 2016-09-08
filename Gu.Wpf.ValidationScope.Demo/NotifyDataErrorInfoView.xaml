@@ -4,9 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:validationScope="http://gu.se/ValidationScope"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
+             xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:NotifyDataErrorInfoVm />
@@ -18,69 +16,59 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{Binding Path=(validationScope:Scope.HasErrors),
-                                      Converter={local:BoolToBrushConverter},
-                                      ElementName=Form}"
-                BorderThickness="1">
-            <Grid x:Name="Form"
-                  validationScope:Scope.ForInputTypes="{x:Static validationScope:InputTypeCollection.Default}">
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
+            <Grid x:Name="Form" validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
+                    <ColumnDefinition MinWidth="50" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Text="SomeIntValue" />
-                <TextBox Grid.Row="0"
+                           Text="IntValue1" />
+                <TextBox x:Name="IntTextBox1"
+                         Grid.Row="0"
                          Grid.Column="1"
-                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox1}"
-                         Text="{Binding IntValue,
-                                        UpdateSourceTrigger=PropertyChanged,
-                                        ValidatesOnNotifyDataErrors=True}" />
+                         Text="{Binding IntValue1,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
-                           Text="SameIntValue" />
-                <TextBox Grid.Row="1"
+                           Text="Error:" />
+                <TextBox x:Name="ErrorTextBox1"
+                         Grid.Row="1"
                          Grid.Column="1"
-                         AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TextBox2}"
-                         Text="{Binding IntValue,
-                                        UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding Error1,
+                                        UpdateSourceTrigger=LostFocus}" />
 
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
-                           Text="Vm has errors" />
-                <CheckBox Grid.Row="2"
-                          Grid.Column="1"
-                          AutomationProperties.AutomationId="{x:Static local:AutomationIDs.HasErrorsBox}"
-                          IsChecked="{Binding HasErrors}" />
+                           Text="IntValue2" />
+                <TextBox x:Name="IntTextBox2"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         Text="{Binding IntValue2,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Grid.Row="3"
+                           Grid.Column="0"
+                           Text="Error:" />
+                <TextBox x:Name="ErrorTextBox2"
+                         Grid.Row="3"
+                         Grid.Column="1"
+                         Text="{Binding Error2,
+                                        UpdateSourceTrigger=LostFocus}" />
             </Grid>
         </Border>
 
-
-        <TextBlock Grid.Row="1"
-                   AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ChildCountTextBlock}"
-                   Foreground="Red"
-                   Text="{Binding Path=(validationScope:Scope.Errors).Children.Count,
-                                  ElementName=Form,
-                                  StringFormat='Children: {0}'}" />
-
-        <ItemsControl Grid.Row="2"
-                      AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorList}"
-                      ItemsSource="{Binding Path=(validationScope:Scope.Errors),
-                                            ElementName=Form}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type ValidationError}">
-                    <TextBlock AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ErrorText}"
-                               Foreground="Red"
-                               Text="{Binding ErrorContent}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
     </Grid>
 </UserControl>

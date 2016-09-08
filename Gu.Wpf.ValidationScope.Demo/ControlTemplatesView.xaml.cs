@@ -1,10 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo
 {
-    /// <summary>
-    /// Interaction logic for ScopeWithControlTemplates.xaml
-    /// </summary>
+    using System.Windows.Controls;
+
     public partial class ControlTemplatesView : UserControl
     {
         public ControlTemplatesView()

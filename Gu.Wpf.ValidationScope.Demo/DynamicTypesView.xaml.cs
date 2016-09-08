@@ -14,12 +14,9 @@
             this.InitializeComponent();
         }
 
-        private void OnTypesListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnTypesListSelectionChanged(object _, SelectionChangedEventArgs __)
         {
-            var selectedItems = ((ListBox)sender).SelectedItems.Cast<Type>();
-            var types = new InputTypeCollection();
-            types.AddRange(selectedItems);
-            Scope.SetForInputTypes(this.Form, types);
+            Scope.SetForInputTypes(this.Form, new InputTypeCollection(this.TypeListBox.SelectedItems.Cast<Type>()));
         }
     }
 }

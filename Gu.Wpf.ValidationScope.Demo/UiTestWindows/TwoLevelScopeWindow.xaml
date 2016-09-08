@@ -6,6 +6,7 @@
         xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
         Title="TwoLevelScopeWindow"
         SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <demo:TwoLevelScopeView />
 </Window>
