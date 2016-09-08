@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
         Title="LiveErrorsWindow"
-        Width="1024"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
         <DataTemplate x:Key="ValidationErrorTemplate" DataType="{x:Type ValidationError}">
@@ -60,7 +61,8 @@
                 <TextBlock Text="Errors:" />
                 <ItemsControl x:Name="ErrorList"
                               ItemTemplate="{StaticResource ErrorTemplate}"
-                              ItemsSource="{Binding Path=(Validation.Errors), ElementName=ValidationIntValueTextBox}" />
+                              ItemsSource="{Binding Path=(Validation.Errors),
+                                                    ElementName=ValidationIntValueTextBox}" />
             </StackPanel>
         </GroupBox>
 

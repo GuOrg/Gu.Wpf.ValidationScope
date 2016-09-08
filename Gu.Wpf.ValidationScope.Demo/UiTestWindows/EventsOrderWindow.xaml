@@ -7,6 +7,7 @@
         xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
         Title="EventsOrderWindow"
         SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
         <demo:EventTemplateSelector x:Key="EventTemplateSelector">
