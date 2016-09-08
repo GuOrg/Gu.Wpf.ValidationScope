@@ -12,17 +12,21 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         protected override string WindowName { get; } = "ComplicatedScopeWindow";
 
-        public TextBox TextBoxScopeTextBox1 => this.Window.Get<TextBox>("TextBoxScopeTextBox1");
+        public GroupBox TextBoxScope => this.Window.GetByText<GroupBox>("TextBoxScope");
 
-        public TextBox TextBoxScopeTextBox2 => this.Window.Get<TextBox>("TextBoxScopeTextBox2");
+        public GroupBox ComboBoxScope => this.Window.GetByText<GroupBox>("ComboBoxScope");
 
-        public ComboBox TextBoxScopeComboBox1 => this.Window.Get<ComboBox>("TextBoxScopeComboBox1");
+        public TextBox TextBoxScopeTextBox1 => this.TextBoxScope.Get<TextBox>("TextBoxScopeTextBox1");
 
-        public TextBox ComboBoxScopeTextBox1 => this.Window.Get<TextBox>("ComboBoxScopeTextBox1");
+        public TextBox TextBoxScopeTextBox2 => this.TextBoxScope.Get<TextBox>("TextBoxScopeTextBox2");
 
-        public TextBox ComboBoxScopeTextBox2 => this.Window.Get<TextBox>("ComboBoxScopeTextBox2");
+        public ComboBox TextBoxScopeComboBox1 => this.TextBoxScope.Get<ComboBox>("TextBoxScopeComboBox1");
 
-        public ComboBox ComboBoxScopeComboBox2 => this.Window.Get<ComboBox>("ComboBoxScopeComboBox2");
+        public TextBox ComboBoxScopeTextBox1 => this.ComboBoxScope.Get<TextBox>("ComboBoxScopeTextBox1");
+
+        public TextBox ComboBoxScopeTextBox2 => this.ComboBoxScope.Get<TextBox>("ComboBoxScopeTextBox2");
+
+        public ComboBox ComboBoxScopeComboBox2 => this.ComboBoxScope.Get<ComboBox>("ComboBoxScopeComboBox2");
 
         public GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
 
