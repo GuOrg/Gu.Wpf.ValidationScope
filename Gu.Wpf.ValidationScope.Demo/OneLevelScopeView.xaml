@@ -29,7 +29,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            Grid.Column="0"
-                           Text="IntValue" />
+                           Text="IntValue1" />
                 <TextBox x:Name="IntTextBox1"
                          Grid.Row="0"
                          Grid.Column="1"
@@ -37,7 +37,7 @@
                                         UpdateSourceTrigger=PropertyChanged}" />
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
-                           Text="IntValue" />
+                           Text="IntValue2" />
                 <TextBox x:Name="IntTextBox2"
                          Grid.Row="1"
                          Grid.Column="1"

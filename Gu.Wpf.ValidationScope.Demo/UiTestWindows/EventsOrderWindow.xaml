@@ -6,7 +6,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
         Title="EventsOrderWindow"
-        Width="1024"
         mc:Ignorable="d">
     <Window.Resources>
         <demo:EventTemplateSelector x:Key="EventTemplateSelector">
