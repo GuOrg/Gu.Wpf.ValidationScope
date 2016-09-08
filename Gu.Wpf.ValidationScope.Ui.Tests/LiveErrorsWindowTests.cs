@@ -14,6 +14,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         protected override string WindowName { get; } = "LiveErrorsWindow";
 
         [Test]
+        public void DumpWindow()
+        {
+            this.SaveWindowScreenshotToArtifacsDir();
+        }
+
+        [Test]
         public void Validation()
         {
             // this is used as reference

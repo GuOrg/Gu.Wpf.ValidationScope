@@ -47,6 +47,12 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         }
 
         [Test]
+        public void DumpWindow()
+        {
+            this.SaveWindowScreenshotToArtifacsDir();
+        }
+
+        [Test]
         public void CheckNodeType()
         {
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
