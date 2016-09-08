@@ -27,14 +27,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
-            <Grid x:Name="Form" validation:Scope.ForInputTypes="TextBox">
-                <validation:Scope.OneWayToSourceBindings>
-                    <validation:OneWayToSourceBindings Errors="{Binding Errors,
-                                                                          Mode=OneWayToSource}"
-                                                       HasError="{Binding HasError,
-                                                                          Mode=OneWayToSource}"
-                                                       Node="{Binding Node}" />
-                </validation:Scope.OneWayToSourceBindings>
+<Grid x:Name="Form" validation:Scope.ForInputTypes="TextBox">
+    <validation:Scope.OneWayToSourceBindings>
+        <validation:OneWayToSourceBindings Errors="{Binding Errors}"
+                                            HasError="{Binding HasError}"
+                                            Node="{Binding Node}" />
+    </validation:Scope.OneWayToSourceBindings>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -71,7 +69,7 @@
                     <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Errors), ElementName=Form, Mode=OneWay}" />
                 </GroupBox>
                 <GroupBox Header="Node">
-                    <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Node), ElementName=Form, Mode=OneWay}" />
+                    <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Path=(validation:Scope.Node).Errors, ElementName=Form, Mode=OneWay}" />
                 </GroupBox>
             </StackPanel>
         </GroupBox>
@@ -83,7 +81,7 @@
                     <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Errors, Mode=OneWay}" />
                 </GroupBox>
                 <GroupBox Header="Node">
-                    <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Node, Mode=OneWay}" />
+                    <ItemsControl ItemTemplate="{StaticResource ValidationErrorDataTemplate}" ItemsSource="{Binding Node.Errors, Mode=OneWay}" />
                 </GroupBox>
             </StackPanel>
         </GroupBox>

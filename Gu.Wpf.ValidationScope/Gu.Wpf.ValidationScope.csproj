@@ -71,7 +71,6 @@
     <Compile Include="Internal\BooleanBoxes.cs" />
     <Compile Include="Internal\EnumerableExt.cs" />
     <Compile Include="Internal\Is.cs" />
-    <Compile Include="OneWayToSourceBindings_.cs" />
     <Compile Include="Scope.BubbleRoute.cs" />
     <Compile Include="Scope.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

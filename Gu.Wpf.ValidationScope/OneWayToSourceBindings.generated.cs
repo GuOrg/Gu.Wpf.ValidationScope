@@ -11,19 +11,19 @@
             nameof(HasError),
             typeof(bool),
             typeof(OneWayToSourceBindings),
-            new PropertyMetadata(default(bool)));
+            new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty ErrorsProperty = DependencyProperty.Register(
             nameof(Errors),
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(OneWayToSourceBindings),
-            new PropertyMetadata(default(ReadOnlyObservableCollection<ValidationError>)));
+            new FrameworkPropertyMetadata(default(ReadOnlyObservableCollection<ValidationError>), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty NodeProperty = DependencyProperty.Register(
             nameof(Node),
             typeof(Node),
             typeof(OneWayToSourceBindings),
-            new PropertyMetadata(default(Node)));
+            new FrameworkPropertyMetadata(default(Node), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         internal static readonly DependencyProperty ElementProperty = DependencyProperty.Register(
             "Element",

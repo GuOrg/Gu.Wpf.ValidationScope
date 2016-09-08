@@ -27,7 +27,7 @@ namespace Gu.Wpf.ValidationScope
             nameof(<#= property.Name #>),
             typeof(<#= property.Type #>),
             typeof(OneWayToSourceBindings),
-            new PropertyMetadata(default(<#= property.Type #>)));
+            new FrameworkPropertyMetadata(default(<#= property.Type #>), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 <#
 	} #>

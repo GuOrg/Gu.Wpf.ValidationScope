@@ -8,39 +8,50 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     using TestStack.White.UIItems;
 
-    [Explicit("don't thinks we want this mess")]
     public class OneWayToSourceBindingsWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "OneWayToSourceBindingsWindow";
 
+        public GroupBox ViewErrorsGroupBox => this.Window.GetByText<GroupBox>("ElementName binding");
+
+        public GroupBox ViewModelErrorsGroupBox => this.Window.GetByText<GroupBox>("ViewModel binding");
+
+        public TextBox TextBox1 => this.Window.Get<TextBox>("TextBox1");
+
+        public TextBox TextBox2 => this.Window.Get<TextBox>("TextBox2");
+
+        [SetUp]
+        public void SetUp()
+        {
+            this.TextBox1.Enter("0");
+            this.TextBox2.Enter("0");
+            this.Window.WaitWhileBusy();
+        }
+
         [Test]
         public void Updates()
         {
-            var viewErrorsGroupBox = this.Window.GetByText<GroupBox>("ElementName binding");
-            var viewModelErrorsGroupBox = this.Window.GetByText<GroupBox>("ViewModel binding");
             var hasError = "HasError: False";
             var errors = Enumerable.Empty<string>();
-            AssertErrors(viewErrorsGroupBox, hasError, errors);
-            AssertErrors(viewModelErrorsGroupBox, hasError, errors);
+            AssertErrors(this.ViewErrorsGroupBox, hasError, errors);
+            AssertErrors(this.ViewModelErrorsGroupBox, hasError, errors);
 
-            var textBox1 = this.Window.Get<TextBox>("TextBox1");
-            textBox1.Enter('a');
+            this.TextBox1.Enter('a');
             hasError = "HasError: True";
             errors = new[] { "Value 'a' could not be converted." };
-            AssertErrors(viewErrorsGroupBox, hasError, errors);
-            AssertErrors(viewModelErrorsGroupBox, hasError, errors);
+            AssertErrors(this.ViewErrorsGroupBox, hasError, errors);
+            AssertErrors(this.ViewModelErrorsGroupBox, hasError, errors);
 
-            var textBox2 = this.Window.Get<TextBox>("TextBox2");
-            textBox2.Enter('b');
+            this.TextBox2.Enter('b');
             errors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
-            AssertErrors(viewErrorsGroupBox, hasError, errors);
-            AssertErrors(viewModelErrorsGroupBox, hasError, errors);
+            AssertErrors(this.ViewErrorsGroupBox, hasError, errors);
+            AssertErrors(this.ViewModelErrorsGroupBox, hasError, errors);
 
-            textBox1.Enter('1');
+            this.TextBox1.Enter('1');
             hasError = "HasError: False";
             errors = Enumerable.Empty<string>();
-            AssertErrors(viewErrorsGroupBox, hasError, errors);
-            AssertErrors(viewModelErrorsGroupBox, hasError, errors);
+            AssertErrors(this.ViewErrorsGroupBox, hasError, errors);
+            AssertErrors(this.ViewModelErrorsGroupBox, hasError, errors);
         }
 
         private static void AssertErrors(GroupBox groupBox, string hasError, IEnumerable<string> errors)

@@ -26,7 +26,8 @@ The samples assumes an xml namespace alias `xmlns:validation="https://github.com
   - [2.3. Errors](#23-errors)
   - [2.4. Node](#24-node)
   - [2.5. ErrorEvent](#25-errorevent)
-  - [2.5. ErrorsChangedEvent](#25-errorschangedevent)
+  - [2.6. ErrorsChangedEvent](#26-errorschangedevent)
+  - [2.7. OneWayToSourceBindings](#27-onewaytosourcebindings)
 - [3. InputTypeCollection](#3-inputtypecollection)
   - [3.1. Default](#31-default)
 - [4. InputTypes markupextension](#4-inputtypes-markupextension)
@@ -209,7 +210,7 @@ Does not require bindings to have `NotifyOnValidationError=True`
 </StackPanel>
 ```
 
-## 2.5. ErrorsChangedEvent
+## 2.6. ErrorsChangedEvent
 An event that notifies when errors are added and removed. The `ErrorEvent` notifies about each add and remove while `ErrorsChangedEvent`notifies once with a all added and removed events.
 Does not require bindings to have `NotifyOnValidationError=True`
 
@@ -220,6 +221,22 @@ Does not require bindings to have `NotifyOnValidationError=True`
         <TextBox Text="{Binding Value1}" />
         <TextBox Text="{Binding Value2}" />
     </StackPanel>
+</StackPanel>
+```
+
+## 2.7. OneWayToSourceBindings
+WPF does not allow binding readonly dependency properties even with `Mode=OneWayToSource`.
+As a workaround for this OneWayToSourceBindings can be used like this:
+
+```xaml
+<StackPanel x:Name="Form" validation:Scope.ForInputTypes="TextBox">
+    <validation:Scope.OneWayToSourceBindings>
+        <validation:OneWayToSourceBindings Errors="{Binding Errors}"
+                                           HasError="{Binding HasError}"
+                                           Node="{Binding Node}" />
+    </validation:Scope.OneWayToSourceBindings>
+    <TextBox Text="{Binding Value1}" />
+    <TextBox Text="{Binding Value2}" />
 </StackPanel>
 ```
 
@@ -257,16 +274,3 @@ This node type does not listen to validation errors for its source element.
 This node type is used for elements which has no errors or are not in a scope.
 This is immutable and a single instance is used for all.
 
-##### If you need to bind HasError to DataContext there is a hack exposed:
-```xaml
-<Grid x:Name="Form"
-        validation:Scope.ErrorsOneWayToSourceBinding="{Binding Errors,
-                                                               Mode=OneWayToSource}"
-        validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}"
-        validation:Scope.HasErrorOneWayToSourceBinding="{Binding HasError,
-                                                                 Mode=OneWayToSource}">
-        ...
-```
-
-This is a workaround for WPF's limitation of not allowing OneWayToSource bindings of readonly dependency properties.
-Updating the viewmodel property does nothing but changes in the view are sent to the viewmodel.
