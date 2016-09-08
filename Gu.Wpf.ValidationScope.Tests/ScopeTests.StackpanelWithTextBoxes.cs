@@ -63,6 +63,89 @@
             }
 
             [Test]
+            public void SetErrorTextBoxBeforeInputTypesThenSetInputTypesToNull()
+            {
+                var textBox = new System.Windows.Controls.TextBox();
+                var stackPanel = new StackPanel();
+                stackPanel.Children.Add(textBox);
+
+                var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
+                textBox.SetValidationError(validationError);
+                Assert.AreEqual(false, Scope.GetHasError(stackPanel));
+                Assert.AreEqual(false, Scope.GetHasError(textBox));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(stackPanel));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(textBox));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(textBox));
+
+                var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox) };
+                Scope.SetForInputTypes(stackPanel, inputTypes);
+                Assert.AreEqual(true, Scope.GetHasError(stackPanel));
+                Assert.AreEqual(true, Scope.GetHasError(textBox));
+                var expectedErrors = new[] { validationError };
+                CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(stackPanel));
+                CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(textBox));
+
+                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel);
+                var errorNode = (InputNode)Scope.GetNode(textBox);
+                CollectionAssert.AreEqual(new[] { errorNode }, scopeNode.Children);
+                Assert.AreSame(errorNode, Scope.GetNode(textBox));
+                Assert.AreEqual(true, scopeNode.HasError);
+                Assert.AreEqual(true, errorNode.HasError);
+                CollectionAssert.AreEqual(expectedErrors, scopeNode.Errors);
+                CollectionAssert.AreEqual(expectedErrors, errorNode.Errors);
+
+                Scope.SetForInputTypes(stackPanel, null);
+                Assert.AreEqual(false, Scope.GetHasError(stackPanel));
+                Assert.AreEqual(false, Scope.GetHasError(textBox));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(stackPanel));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(textBox));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(textBox));
+            }
+
+            [Test]
+            public void SetErrorTextBoxBeforeInputTypesThenSetInputTypesToSlider()
+            {
+                var textBox = new System.Windows.Controls.TextBox();
+                var stackPanel = new StackPanel();
+                stackPanel.Children.Add(textBox);
+
+                var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
+                textBox.SetValidationError(validationError);
+                Assert.AreEqual(false, Scope.GetHasError(stackPanel));
+                Assert.AreEqual(false, Scope.GetHasError(textBox));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(stackPanel));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(textBox));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(textBox));
+
+                Scope.SetForInputTypes(stackPanel, new InputTypeCollection { typeof(System.Windows.Controls.TextBox) });
+                Assert.AreEqual(true, Scope.GetHasError(stackPanel));
+                Assert.AreEqual(true, Scope.GetHasError(textBox));
+                var expectedErrors = new[] { validationError };
+                CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(stackPanel));
+                CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(textBox));
+
+                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel);
+                var errorNode = (InputNode)Scope.GetNode(textBox);
+                CollectionAssert.AreEqual(new[] { errorNode }, scopeNode.Children);
+                Assert.AreSame(errorNode, Scope.GetNode(textBox));
+                Assert.AreEqual(true, scopeNode.HasError);
+                Assert.AreEqual(true, errorNode.HasError);
+                CollectionAssert.AreEqual(expectedErrors, scopeNode.Errors);
+                CollectionAssert.AreEqual(expectedErrors, errorNode.Errors);
+
+                Scope.SetForInputTypes(stackPanel, new InputTypeCollection { typeof(System.Windows.Controls.Slider) });
+                Assert.AreEqual(false, Scope.GetHasError(stackPanel));
+                Assert.AreEqual(false, Scope.GetHasError(textBox));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(stackPanel));
+                Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(textBox));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
+                Assert.AreEqual(ValidNode.Default, Scope.GetNode(textBox));
+            }
+
+            [Test]
             public void NodesForSelectorAndSlider()
             {
                 var textBox = new System.Windows.Controls.TextBox();

@@ -12,7 +12,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         protected override string WindowName { get; } = "OneWayToSourceBindingsWindow";
 
-        [Test]
+        [Test, Explicit("dunno if we want this.")]
         public void Updates()
         {
             var viewErrorsGroupBox = this.Window.GetByText<GroupBox>("ElementName binding");
@@ -28,7 +28,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             errors = new[] { "Value 'a' could not be converted." };
             AssertErrors(viewErrorsGroupBox, hasError, errors);
             AssertErrors(viewModelErrorsGroupBox, hasError, errors);
-
 
             var textBox2 = this.Window.Get<TextBox>("TextBox2");
             textBox2.Enter('b');

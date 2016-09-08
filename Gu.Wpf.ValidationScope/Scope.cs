@@ -100,6 +100,31 @@
                     SetNode(d, inputNode);
                 }
             }
+            else
+            {
+                var errorNode = GetNode(d) as ErrorNode;
+                if (errorNode != null)
+                {
+                    var removed = errorNode.Errors.Where(error => !IsScopeFor(d, error)).ToArray();
+                    if (removed.Length > 0)
+                    {
+                        errorNode.ErrorCollection.Remove(removed);
+                        if (errorNode.Errors.Count == 0)
+                        {
+                            SetNode(d, ValidNode.Default);
+                        }
+                        else
+                        {
+                            var removeChildren = errorNode.Children.Where(c => !errorNode.Errors.Intersect(c.Errors).Any()).ToArray();
+                            foreach (var removeChild in removeChildren)
+                            {
+                                errorNode.ChildCollection.Remove(removeChild);
+                            }
+                        }
+                    }
+
+                }
+            }
         }
 
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

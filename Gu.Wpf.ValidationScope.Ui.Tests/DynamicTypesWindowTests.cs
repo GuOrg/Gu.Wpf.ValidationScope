@@ -43,7 +43,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [SetUp]
         public void Setup()
         {
-            this.TypeListBox.Select("System.Windows.Controls.Slider");
+            this.TextBox1.Enter("0");
+            this.TextBox2.Enter("0");
+            this.TypeListBox.Items[2].Click();
+            this.Window.WaitWhileBusy();
         }
 
         [Test]
@@ -86,6 +89,104 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
         }
+
+        [Test]
+        public void SetTextBoxErrorThenSelectTextBoxThenSelectSliderTwice()
+        {
+            this.SetTextBoxErrorThenSelectTextBoxThenSelectSlider();
+            this.SetTextBoxErrorThenSelectTextBoxThenSelectSlider();
+        }
+
+        [Test]
+        public void SetAllErrorsThenSetDifferentScopes()
+        {
+            Assert.AreEqual("HasError: False", this.ScopeHasError);
+            CollectionAssert.IsEmpty(this.ScopeErrors);
+
+            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("HasError: False", this.NodeHasError);
+            CollectionAssert.IsEmpty(this.NodeErrors);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
+
+            this.TextBox1.Enter('a');
+            this.TextBox2.Enter('b');
+            this.ComboBox1.Enter('c');
+            this.ComboBox2.Enter('d');
+            Assert.AreEqual("HasError: False", this.ScopeHasError);
+            CollectionAssert.IsEmpty(this.ScopeErrors);
+
+            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("HasError: False", this.NodeHasError);
+            CollectionAssert.IsEmpty(this.NodeErrors);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
+
+            this.TypeListBox.Select("System.Windows.Controls.TextBox");
+            var expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+            Assert.AreEqual("HasError: True", this.ScopeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
+
+            Assert.AreEqual("Children: 2", this.ChildCount);
+            Assert.AreEqual("HasError: True", this.NodeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b" }, this.NodeChildren);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
+
+            this.Window.Keyboard.HoldKey(KeyboardInput.SpecialKeys.CONTROL);
+            this.TypeListBox.Items[1].Click();
+            this.Window.Keyboard.LeaveKey(KeyboardInput.SpecialKeys.CONTROL);
+            expectedErrors = new[]
+            {
+                "Value 'a' could not be converted.",
+                "Value 'b' could not be converted.",
+                "Value 'c' could not be converted.",
+                "Value 'd' could not be converted."
+            };
+            Assert.AreEqual("HasError: True", this.ScopeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
+
+            Assert.AreEqual("Children: 4", this.ChildCount);
+            Assert.AreEqual("HasError: True", this.NodeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b", "System.Windows.Controls.ComboBox Items.Count:0", "System.Windows.Controls.ComboBox Items.Count:0" }, this.NodeChildren);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
+
+            //this.TypeListBox.Select("System.Windows.Controls.Primitives.Selector");
+            this.TypeListBox.Items[1].Click();
+            expectedErrors = new[]
+            {
+                "Value 'c' could not be converted.",
+                "Value 'd' could not be converted."
+            };
+            Assert.AreEqual("HasError: True", this.ScopeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
+
+            Assert.AreEqual("Children: 2", this.ChildCount);
+            Assert.AreEqual("HasError: True", this.NodeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(new[] { "System.Windows.Controls.ComboBox Items.Count:0", "System.Windows.Controls.ComboBox Items.Count:0" }, this.NodeChildren);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
+
+            this.ComboBox1.Enter('1');
+            expectedErrors = new[] { "Value 'd' could not be converted." };
+            Assert.AreEqual("HasError: True", this.ScopeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
+
+            Assert.AreEqual("Children: 1", this.ChildCount);
+            Assert.AreEqual("HasError: True", this.NodeHasError);
+            CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
+            CollectionAssert.AreEqual(new[] { "System.Windows.Controls.ComboBox Items.Count:0" }, this.NodeChildren);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
+
+            this.TypeListBox.Select("System.Windows.Controls.Slider");
+            Assert.AreEqual("HasError: False", this.ScopeHasError);
+            CollectionAssert.IsEmpty(this.ScopeErrors);
+
+            Assert.AreEqual("Children: 0", this.ChildCount);
+            Assert.AreEqual("HasError: False", this.NodeHasError);
+            CollectionAssert.IsEmpty(this.NodeErrors);
+            Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
+        }
+
 
         [Test]
         public void Updates()
