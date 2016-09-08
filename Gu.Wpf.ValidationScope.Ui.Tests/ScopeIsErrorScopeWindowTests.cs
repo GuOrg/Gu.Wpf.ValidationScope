@@ -80,7 +80,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
             this.HasErrorCheckBox.Checked = false;
             expectedErrors = new[] { "Value 'a' could not be converted." };
-            this.Window.WaitWhileBusy();
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
 

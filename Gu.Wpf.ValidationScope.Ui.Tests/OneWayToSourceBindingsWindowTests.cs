@@ -25,7 +25,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             this.TextBox1.Enter("0");
             this.TextBox2.Enter("0");
-            this.Window.WaitWhileBusy();
         }
 
         [Test]

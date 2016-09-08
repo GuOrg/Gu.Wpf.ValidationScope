@@ -27,12 +27,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
-<Grid x:Name="Form" validation:Scope.ForInputTypes="TextBox">
-    <validation:Scope.OneWayToSourceBindings>
-        <validation:OneWayToSourceBindings Errors="{Binding Errors}"
-                                            HasError="{Binding HasError}"
-                                            Node="{Binding Node}" />
-    </validation:Scope.OneWayToSourceBindings>
+            <Grid x:Name="Form" validation:Scope.ForInputTypes="TextBox">
+                <validation:Scope.OneWayToSourceBindings>
+                    <validation:OneWayToSourceBindings Errors="{Binding Errors}"
+                                                       HasError="{Binding HasError}"
+                                                       Node="{Binding Node}" />
+                </validation:Scope.OneWayToSourceBindings>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

@@ -52,7 +52,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.TextBoxScopeTextBox1.Enter("0");
             this.TextBoxScopeTextBox2.Enter("0");
             this.PressTab();
-            this.Window.WaitWhileBusy();
         }
 
         [Test]

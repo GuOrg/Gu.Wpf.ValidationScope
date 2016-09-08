@@ -41,7 +41,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.IntTextBox1.Enter("0");
             this.IntTextBox3.Enter("0");
             this.PressTab();
-            this.Window.WaitWhileBusy();
         }
 
         [Test]
