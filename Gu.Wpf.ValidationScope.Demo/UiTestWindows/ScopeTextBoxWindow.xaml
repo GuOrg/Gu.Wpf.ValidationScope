@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
         xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
-        Title="ScopeTextBoxWindow">
+        Title="ScopeTextBoxWindow"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources />
     <Window.DataContext>
         <demo:ViewModel />

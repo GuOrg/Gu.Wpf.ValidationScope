@@ -6,6 +6,7 @@
         xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
         Title="ParentChildScopesWindow"
         SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <demo:ParentChildScopesView />
 </Window>

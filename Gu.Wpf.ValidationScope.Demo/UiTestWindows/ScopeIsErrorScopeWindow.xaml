@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="ScopeIsErrorScopeWindow"
         SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <demo:ScopeIsErrorScopeView />
 </Window>
