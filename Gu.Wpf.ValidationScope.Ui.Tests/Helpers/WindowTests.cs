@@ -27,6 +27,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
             StaticWindow = this.application.GetWindow(this.WindowName);
+            StaticWindow.WaitWhileBusy();
         }
 
         [OneTimeTearDown]
