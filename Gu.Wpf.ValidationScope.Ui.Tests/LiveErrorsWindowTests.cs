@@ -2,8 +2,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System.Linq;
 
-    using Castle.Components.DictionaryAdapter.Xml;
-
     using NUnit.Framework;
 
     using TestStack.White.UIItems;

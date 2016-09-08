@@ -104,6 +104,7 @@ namespace Gu.Wpf.ValidationScope
             this.OnCollectionChanged(NotifyCollectionResetEventArgs);
         }
 
+#pragma warning disable SA1201 // I want it here
         private enum EmptyOneOrMore
         {
             Empty,

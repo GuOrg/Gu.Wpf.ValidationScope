@@ -102,27 +102,33 @@
             }
             else
             {
+                // below looks pretty expensive but
+                // a) Not expecting scope to change often.
+                // b) Not expecting many errors often.
+                // optimize if profiler points at it
+                // ReSharper disable once UseNullPropagation
                 var errorNode = GetNode(d) as ErrorNode;
-                if (errorNode != null)
+                if (errorNode == null)
                 {
-                    var removed = errorNode.Errors.Where(error => !IsScopeFor(d, error)).ToArray();
-                    if (removed.Length > 0)
+                    return;
+                }
+
+                var removedErrors = errorNode.Errors.Where(error => !IsScopeFor(d, error)).ToArray();
+                if (removedErrors.Length > 0)
+                {
+                    errorNode.ErrorCollection.Remove(removedErrors);
+                    if (errorNode.Errors.Count == 0)
                     {
-                        errorNode.ErrorCollection.Remove(removed);
-                        if (errorNode.Errors.Count == 0)
+                        SetNode(d, ValidNode.Default);
+                    }
+                    else
+                    {
+                        var removeChildren = errorNode.Children.Where(c => !errorNode.Errors.Intersect(c.Errors).Any()).ToArray();
+                        foreach (var removeChild in removeChildren)
                         {
-                            SetNode(d, ValidNode.Default);
-                        }
-                        else
-                        {
-                            var removeChildren = errorNode.Children.Where(c => !errorNode.Errors.Intersect(c.Errors).Any()).ToArray();
-                            foreach (var removeChild in removeChildren)
-                            {
-                                errorNode.ChildCollection.Remove(removeChild);
-                            }
+                            errorNode.ChildCollection.Remove(removeChild);
                         }
                     }
-
                 }
             }
         }

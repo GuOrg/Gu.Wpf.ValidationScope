@@ -2,7 +2,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System.Collections.Generic;
 
-    using Gu.Wpf.ValidationScope.Demo;
     using NUnit.Framework;
 
     using TestStack.White.UIItems;
@@ -11,6 +10,8 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     public class DataGridWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "DataGridWindow";
+
+        public ListView DataGrid => this.Window.Get<ListView>("DataGrid");
 
         public GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
 
@@ -41,8 +42,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            var dataGrid = this.Window.Get<ListView>(AutomationIDs.DataGrid);
-            var cell = dataGrid.Rows[0].Cells[0];
+            var cell = this.DataGrid.Rows[0].Cells[0];
             cell.Click();
             cell.Enter("a");
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);

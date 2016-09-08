@@ -1,7 +1,7 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System.Collections.Generic;
-    using Gu.Wpf.ValidationScope.Demo;
+
     using NUnit.Framework;
 
     using TestStack.White.UIItems;
