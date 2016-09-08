@@ -16,9 +16,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
-                validation:Scope.ForInputTypes="{validation:DefaultInputTypes}"
+                validation:Scope.ForInputTypes="Scope"
                 BorderBrush="{Binding Path=(validation:Scope.HasError),
-                                      Converter={local:BoolToBrushConverter},
+                                      Converter={local:BoolToBrushConverter WhenTrue=Red, WhenFalse=Transparent},
                                       RelativeSource={RelativeSource Self}}"
                 BorderThickness="1">
             <StackPanel>
@@ -64,7 +64,7 @@
                 </GroupBox>
 
                 <GroupBox Header="ComboBoxScope">
-                    <Grid validation:Scope.ForInputTypes="{validation:InputTypes {x:Type ComboBox}}">
+                    <Grid validation:Scope.ForInputTypes="ComboBox">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />

@@ -2,9 +2,9 @@
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension=".generated.cs" #>
+#pragma warning disable SA1202 // Elements must be ordered by access
 namespace Gu.Wpf.ValidationScope
 {
     using System;
@@ -22,7 +22,7 @@ namespace Gu.Wpf.ValidationScope
                            {
                                new PropertyMetaData("HasError", "bool"), 
                                new PropertyMetaData("Errors", "ReadOnlyObservableCollection<ValidationError>"), 
-                               new PropertyMetaData("Node", "IErrorNode"), 
+                               new PropertyMetaData("Node", "Node"), 
                            };
 	foreach(var property in properties)
 	{

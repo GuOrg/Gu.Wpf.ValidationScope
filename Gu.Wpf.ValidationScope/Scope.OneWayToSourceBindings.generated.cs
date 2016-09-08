@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.ValidationScope
+﻿#pragma warning disable SA1202 // Elements must be ordered by access
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.ObjectModel;
@@ -8,8 +9,6 @@
 
     public static partial class Scope
     {
-#pragma warning disable SA1202 // Elements must be ordered by access
-
         private static readonly Binding BindingNotSet = new Binding { Mode = BindingMode.OneWayToSource };
 
         public static readonly DependencyProperty HasErrorBindingProperty = DependencyProperty.RegisterAttached(
@@ -50,8 +49,6 @@
             typeof(Node),
             typeof(Scope),
             new PropertyMetadata(default(Node)));
-
-#pragma warning restore SA1202 // Elements must be ordered by access
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]

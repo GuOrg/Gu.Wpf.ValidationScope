@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter WhenTrue=Red, WhenFalse=Transparent}, ElementName=Form}" BorderThickness="1">
             <Grid x:Name="Form" validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
                 <!--  this is where we define our scope, we do so by telling the scope what types of control sto track  -->
                 <Grid.RowDefinitions>

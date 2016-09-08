@@ -13,11 +13,12 @@
     [TypeConverter(typeof(InputTypeCollectionConverter))]
     public class InputTypeCollection : Collection<Type>
     {
-        /// <summary>Contains TextBoxBase, ComboBox, ToggleButton and Slider.</summary>
+        /// <summary>Contains Scope, TextBoxBase, ComboBox, ToggleButton and Slider.</summary>
         public static readonly InputTypeCollection Default = new InputTypeCollection
         {
+            typeof(Scope),
             typeof(TextBoxBase),
-            typeof(ComboBox),
+            typeof(Selector),
             typeof(ToggleButton),
             typeof(Slider)
         };
