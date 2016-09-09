@@ -7,4 +7,4 @@ nuget JetBrains.Annotations
 group Test
   source http://nuget.org/api/v2
   nuget NUnit
-  nuget TestStack.White
+  nuget TestStack.White.Uia3 prerelease

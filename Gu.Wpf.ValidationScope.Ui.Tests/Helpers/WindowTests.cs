@@ -27,8 +27,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
             StaticWindow = this.application.GetWindow(this.WindowName);
-            StaticWindow.WaitWhileBusy();
-            this.SaveScreenshotToArtifacsDir("start");
+            //this.SaveScreenshotToArtifacsDir("start");
         }
 
         [OneTimeTearDown]
@@ -36,7 +35,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         {
             this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.CONTROL);
             this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.SHIFT);
-            this.SaveScreenshotToArtifacsDir("finish");
+            //this.SaveScreenshotToArtifacsDir("finish");
             this.application?.Dispose();
             StaticWindow = null;
         }
@@ -49,7 +48,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         private void SaveScreenshotToArtifacsDir(string suffix)
         {
             var fileName = System.IO.Path.Combine(Info.ArtifactsDirectory(), $"{this.WindowName}_{suffix}.png");
-            using (var image = new TestStack.White.ScreenCapture().CaptureScreenShot())
+            using (var image = new TestStack.White.ScreenCapture().CaptureDesktop())
             {
                 image.Save(fileName);
             }

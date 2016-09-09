@@ -36,10 +36,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         [SetUp]
         public void SetUp()
         {
-            this.IntTextBox1.Enter('0');
-            this.DoubleTextBox.Enter('0');
+            this.IntTextBox1.Enter("0");
+            this.DoubleTextBox.Enter("0");
             this.PressTab();
-            this.Window.WaitWhileBusy();
         }
 
         [Test]

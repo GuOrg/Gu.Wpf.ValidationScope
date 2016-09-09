@@ -52,38 +52,30 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
         public static void Enter(this TextBox textBox, char @char)
         {
-            WindowTests.StaticWindow?.WaitWhileBusy();
             textBox.SelectAllText();
             Keyboard.Instance.Send(new string(@char, 1), textBox.ActionListener);
-            WindowTests.StaticWindow?.WaitWhileBusy();
         }
 
         public static void SelectAllText(this TextBox textBox)
         {
-            WindowTests.StaticWindow?.WaitWhileBusy();
             textBox.Focus();
             Keyboard.Instance.HoldKey(KeyboardInput.SpecialKeys.CONTROL);
             Keyboard.Instance.Send("a", textBox.ActionListener);
             Keyboard.Instance.LeaveKey(KeyboardInput.SpecialKeys.CONTROL);
-            WindowTests.StaticWindow?.WaitWhileBusy();
         }
 
         public static void Enter(this ComboBox comboBox, char @char)
         {
-            WindowTests.StaticWindow?.WaitWhileBusy();
             comboBox.SelectAllText();
             Keyboard.Instance.Send(new string(@char, 1), comboBox.ActionListener);
-            WindowTests.StaticWindow?.WaitWhileBusy();
         }
 
         public static void SelectAllText(this ComboBox comboBox)
         {
-            WindowTests.StaticWindow?.WaitWhileBusy();
             comboBox.Focus();
             Keyboard.Instance.HoldKey(KeyboardInput.SpecialKeys.CONTROL);
             Keyboard.Instance.Send("a", comboBox.ActionListener);
             Keyboard.Instance.LeaveKey(KeyboardInput.SpecialKeys.CONTROL);
-            WindowTests.StaticWindow?.WaitWhileBusy();
         }
 
         public static IEnumerable<IUIItem> Ancestors(this IUIItem item)
