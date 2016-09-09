@@ -45,6 +45,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
         }
 
+        // ReSharper disable once UnusedMember.Local
         private void SaveScreenshotToArtifacsDir(string suffix)
         {
             var fileName = System.IO.Path.Combine(Info.ArtifactsDirectory(), $"{this.WindowName}_{suffix}.png");
