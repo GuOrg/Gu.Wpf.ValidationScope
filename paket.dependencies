@@ -1,5 +1,5 @@
 source http://www.nuget.org/api/v2/
-framework: >= net45
+framework: auto-detect
 
 nuget StyleCop.Analyzers
 nuget JetBrains.Annotations
