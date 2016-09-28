@@ -1,5 +1,4 @@
 source http://www.nuget.org/api/v2/
-framework: auto-detect
 
 group Analyzers
   source http://www.nuget.org/api/v2/
