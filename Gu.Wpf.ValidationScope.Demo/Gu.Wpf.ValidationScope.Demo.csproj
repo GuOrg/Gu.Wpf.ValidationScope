@@ -321,7 +321,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.2')">
       <ItemGroup>
         <Reference Include="JetBrains.Annotations">
-          <HintPath>..\packages\JetBrains.Annotations\lib\net\JetBrains.Annotations.dll</HintPath>
+          <HintPath>..\packages\analyzers\JetBrains.Annotations\lib\net\JetBrains.Annotations.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

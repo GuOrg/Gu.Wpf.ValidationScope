@@ -15,7 +15,7 @@ namespace Gu.Wpf.ValidationScope
         private static readonly DependencyProperty SourceErrorsProperty = DependencyProperty.RegisterAttached(
             "SourceErrors",
             typeof(ReadOnlyObservableCollection<ValidationError>),
-            typeof(Scope),
+            typeof(InputNode),
             new PropertyMetadata(ValidationScope.ErrorCollection.EmptyValidationErrors, OnErrorsProxyChanged));
 
         private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
