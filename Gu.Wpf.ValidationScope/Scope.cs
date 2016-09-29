@@ -69,7 +69,7 @@
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static InputTypeCollection GetForInputTypes(FrameworkElement element) => (InputTypeCollection)element?.GetValue(ForInputTypesProperty);
 
-        private static void SetHasErrors(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
+        private static void SetHasError(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
@@ -196,11 +196,11 @@
             if (errors.Any())
             {
                 SetErrors(dependencyObject, errors);
-                SetHasErrors(dependencyObject, true);
+                SetHasError(dependencyObject, true);
             }
             else
             {
-                SetHasErrors(dependencyObject, false);
+                SetHasError(dependencyObject, false);
                 SetErrors(dependencyObject, ErrorCollection.EmptyValidationErrors);
             }
 
