@@ -98,7 +98,7 @@
         private static void OnWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((OneWayToSourceBindings)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
-            ((OneWayToSourceBindings)e.NewValue)?.SetValue(OneWayToSourceBindings.ElementProperty, d);
+            ((OneWayToSourceBindings)e.NewValue)?.SetCurrentValue(OneWayToSourceBindings.ElementProperty, d);
         }
 
         private static void OnForInputTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

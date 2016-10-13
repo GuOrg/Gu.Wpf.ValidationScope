@@ -97,7 +97,7 @@ namespace Gu.Wpf.ValidationScope
                 d.Bind(<#= property.Name #>ProxyProperty)
                  .OneWayTo(e.NewValue, Scope.<#= property.Name #>Property);
 <#
-		WriteLineIfNotLast(property, properties);
+	    this.WriteLineIfNotLast(property, properties);
 	} #>
             }
         }
