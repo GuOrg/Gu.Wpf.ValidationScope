@@ -49,7 +49,7 @@
             "OneWayToSourceBindings",
             typeof(OneWayToSourceBindings),
             typeof(Scope),
-            new PropertyMetadata(default(OneWayToSourceBindings), OnWayToSourceBindingsChanged));
+            new PropertyMetadata(default(OneWayToSourceBindings), OnOneWayToSourceBindingsChanged));
 
         public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
         {
@@ -95,10 +95,10 @@
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 
-        private static void OnWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnOneWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((OneWayToSourceBindings)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
-            ((OneWayToSourceBindings)e.NewValue)?.SetCurrentValue(OneWayToSourceBindings.ElementProperty, d);
+            ((OneWayToSourceBindings)e.NewValue)?.SetCurrentValue(OneWayToSourceBindings.ElementProperty, d as UIElement);
         }
 
         private static void OnForInputTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

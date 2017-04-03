@@ -16,7 +16,7 @@ namespace Gu.Wpf.ValidationScope
             "SourceErrors",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(InputNode),
-            new PropertyMetadata(ValidationScope.ErrorCollection.EmptyValidationErrors, OnErrorsProxyChanged));
+            new PropertyMetadata(ValidationScope.ErrorCollection.EmptyValidationErrors, OnSourceErrorsChanged));
 
         private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
         private readonly Binding errorsBinding;
@@ -55,7 +55,7 @@ namespace Gu.Wpf.ValidationScope
             base.Dispose(true);
         }
 
-        private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSourceErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var node = Scope.GetNode(d) as InputNode;
             if (node == null)
