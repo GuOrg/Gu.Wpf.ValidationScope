@@ -9,23 +9,23 @@
     {
         protected override string WindowName { get; } = "ScopeTextBoxWindow";
 
-        public TextBox TextBox => this.Window.Get<TextBox>("TextBox");
+        private TextBox TextBox => this.Window.Get<TextBox>("TextBox");
 
-        public GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
+        private GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
 
-        public IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
+        private IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
 
-        public string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
+        private string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
 
-        public GroupBox Node => this.Window.GetByText<GroupBox>("Node");
+        private GroupBox Node => this.Window.GetByText<GroupBox>("Node");
 
-        public string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
+        private string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
 
-        public IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
+        private IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
 
-        public string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
+        private string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
 
-        public string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
+        private string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
 
         [SetUp]
         public void SetUp()

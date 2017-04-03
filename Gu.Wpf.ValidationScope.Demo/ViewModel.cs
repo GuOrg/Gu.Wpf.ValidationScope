@@ -21,12 +21,14 @@
             {
                 return this.intValue1;
             }
+
             set
             {
                 if (value == this.intValue1)
                 {
                     return;
                 }
+
                 this.intValue1 = value;
                 this.OnPropertyChanged();
             }
@@ -38,9 +40,14 @@
             {
                 return this.intValue2;
             }
+
             set
             {
-                if (value == this.intValue2) return;
+                if (value == this.intValue2)
+                {
+                    return;
+                }
+
                 this.intValue2 = value;
                 this.OnPropertyChanged();
             }
@@ -52,9 +59,14 @@
             {
                 return this.doubleValue;
             }
+
             set
             {
-                if (value.Equals(this.doubleValue)) return;
+                if (value.Equals(this.doubleValue))
+                {
+                    return;
+                }
+
                 this.doubleValue = value;
                 this.OnPropertyChanged();
             }
@@ -66,12 +78,14 @@
             {
                 return this.stringValue;
             }
+
             set
             {
                 if (value == this.stringValue)
                 {
                     return;
                 }
+
                 this.stringValue = value;
                 this.OnPropertyChanged();
             }

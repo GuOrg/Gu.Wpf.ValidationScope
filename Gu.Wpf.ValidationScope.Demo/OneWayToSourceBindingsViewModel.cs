@@ -22,12 +22,14 @@
             {
                 return this.intValue;
             }
+
             set
             {
                 if (value == this.intValue)
                 {
                     return;
                 }
+
                 this.intValue = value;
                 this.OnPropertyChanged();
             }
@@ -39,12 +41,14 @@
             {
                 return this.hasError;
             }
+
             set
             {
                 if (value == this.hasError)
                 {
                     return;
                 }
+
                 this.hasError = value;
                 this.OnPropertyChanged();
             }
@@ -56,9 +60,14 @@
             {
                 return this.errors;
             }
+
             set
             {
-                if (Equals(value, this.errors)) return;
+                if (Equals(value, this.errors))
+                {
+                    return;
+                }
+
                 this.errors = value;
                 this.OnPropertyChanged();
             }
@@ -70,12 +79,14 @@
             {
                 return this.node;
             }
+
             set
             {
                 if (Equals(value, this.node))
                 {
                     return;
                 }
+
                 this.node = value;
                 this.OnPropertyChanged();
             }

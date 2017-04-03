@@ -11,16 +11,25 @@ namespace Gu.Wpf.ValidationScope.Demo
     {
         private int intValue;
         private bool hasErrors;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public bool HasErrors
         {
-            get { return this.hasErrors; }
+            get
+            {
+                return this.hasErrors;
+            }
+
             set
             {
-                if (value == this.hasErrors) return;
+                if (value == this.hasErrors)
+                {
+                    return;
+                }
+
                 this.hasErrors = value;
                 this.OnPropertyChanged();
                 this.OnErrorsChanged();
@@ -29,10 +38,18 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public int IntValue
         {
-            get { return this.intValue; }
+            get
+            {
+                return this.intValue;
+            }
+
             set
             {
-                if (value == this.intValue) return;
+                if (value == this.intValue)
+                {
+                    return;
+                }
+
                 this.intValue = value;
                 this.OnPropertyChanged();
             }

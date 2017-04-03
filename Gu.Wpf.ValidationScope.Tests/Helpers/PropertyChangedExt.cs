@@ -12,7 +12,7 @@
         {
             return new EventList(source);
         }
-   
+
         public class EventList : Collection<PropertyChangedEventArgs>, IDisposable
         {
             private readonly INotifyPropertyChanged source;

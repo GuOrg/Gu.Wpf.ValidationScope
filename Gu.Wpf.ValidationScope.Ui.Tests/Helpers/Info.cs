@@ -16,7 +16,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 {
                     FileName = fileName,
                     UseShellExecute = false,
-                    //CreateNoWindow = true,
+                    ////CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true
                 };
@@ -31,7 +31,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 FileName = GetExeFileName(),
                 Arguments = args,
                 UseShellExecute = false,
-                //CreateNoWindow = false,
+                ////CreateNoWindow = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
@@ -47,9 +47,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
         internal static string ArtifactsDirectory()
         {
-            // ReSharper disable PossibleNullReferenceException
+            //// ReSharper disable PossibleNullReferenceException
             var root = new DirectoryInfo(TestAssemblyFullFileName()).Parent.Parent.Parent.Parent.FullName;
-            // ReSharper restore PossibleNullReferenceException
+            //// ReSharper restore PossibleNullReferenceException
             var artifacts = Path.Combine(root, "artifacts");
             Directory.CreateDirectory(artifacts);
             return artifacts;
@@ -57,9 +57,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
         private static string GetExeFileName()
         {
-            // ReSharper disable once PossibleNullReferenceException
+            //// ReSharper disable once PossibleNullReferenceException
             var fileName = Path.GetFileNameWithoutExtension(TestAssemblyFullFileName()).Replace("Ui.Tests", "Demo");
-            // ReSharper disable once AssignNullToNotNullAttribute
+            //// ReSharper disable once AssignNullToNotNullAttribute
             var fullFileName = Path.Combine(TestAssemblyDirectory(), fileName + ".exe");
             return fullFileName;
         }

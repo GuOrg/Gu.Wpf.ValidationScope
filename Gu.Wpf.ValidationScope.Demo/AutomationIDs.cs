@@ -39,6 +39,7 @@
         {
             return (string)element.GetValue(TextBoxIdProperty);
         }
+
         private static void OnTextBoxIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var textBox = d as TextBox;

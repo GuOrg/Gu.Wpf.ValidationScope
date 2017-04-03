@@ -11,41 +11,41 @@
     {
         protected override string WindowName { get; } = "ParentChildScopesWindow";
 
-        public TextBox TextBoxScopeTextBox1 => this.Window.Get<TextBox>("TextBoxScopeTextBox1");
+        private TextBox TextBoxScopeTextBox1 => this.Window.Get<TextBox>("TextBoxScopeTextBox1");
 
-        public TextBox TextBoxScopeTextBox2 => this.Window.Get<TextBox>("TextBoxScopeTextBox2");
+        private TextBox TextBoxScopeTextBox2 => this.Window.Get<TextBox>("TextBoxScopeTextBox2");
 
-        public ComboBox TextBoxScopeComboBox1 => this.Window.Get<ComboBox>("TextBoxScopeComboBox1");
+        private ComboBox TextBoxScopeComboBox1 => this.Window.Get<ComboBox>("TextBoxScopeComboBox1");
 
-        public TextBox ComboBoxScopeTextBox1 => this.Window.Get<TextBox>("ComboBoxScopeTextBox1");
+        private TextBox ComboBoxScopeTextBox1 => this.Window.Get<TextBox>("ComboBoxScopeTextBox1");
 
-        public TextBox ComboBoxScopeTextBox2 => this.Window.Get<TextBox>("ComboBoxScopeTextBox2");
+        private TextBox ComboBoxScopeTextBox2 => this.Window.Get<TextBox>("ComboBoxScopeTextBox2");
 
-        public ComboBox ComboBoxScopeComboBox2 => this.Window.Get<ComboBox>("ComboBoxScopeComboBox2");
+        private ComboBox ComboBoxScopeComboBox2 => this.Window.Get<ComboBox>("ComboBoxScopeComboBox2");
 
-        public TextBox NoScopeTextBox1 => this.Window.Get<TextBox>("NoScopeTextBox1");
+        private TextBox NoScopeTextBox1 => this.Window.Get<TextBox>("NoScopeTextBox1");
 
-        public TextBox NoScopeTextBox2 => this.Window.Get<TextBox>("NoScopeTextBox2");
+        private TextBox NoScopeTextBox2 => this.Window.Get<TextBox>("NoScopeTextBox2");
 
-        public ComboBox NoScopeComboBox1 => this.Window.Get<ComboBox>("NoScopeComboBox1");
+        private ComboBox NoScopeComboBox1 => this.Window.Get<ComboBox>("NoScopeComboBox1");
 
-        public GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
+        private GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
 
-        public IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
+        private IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
 
-        public string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
+        private string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
 
-        public GroupBox Node => this.Window.GetByText<GroupBox>("Node");
+        private GroupBox Node => this.Window.GetByText<GroupBox>("Node");
 
-        public string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
+        private string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
 
-        public IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
+        private IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
 
-        public IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
+        private IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
 
-        public string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
+        private string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
 
-        public string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
+        private string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
 
         [SetUp]
         public void SetUp()

@@ -149,7 +149,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b", "System.Windows.Controls.ComboBox Items.Count:0", "System.Windows.Controls.ComboBox Items.Count:0" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            //this.TypeListBox.Select("System.Windows.Controls.Primitives.Selector");
+            ////this.TypeListBox.Select("System.Windows.Controls.Primitives.Selector");
             this.TypeListBox.Items[1].Click();
             expectedErrors = new[]
             {

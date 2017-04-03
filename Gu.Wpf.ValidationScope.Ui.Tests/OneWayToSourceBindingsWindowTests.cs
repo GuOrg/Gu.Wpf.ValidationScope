@@ -12,13 +12,13 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         protected override string WindowName { get; } = "OneWayToSourceBindingsWindow";
 
-        public GroupBox ViewErrorsGroupBox => this.Window.GetByText<GroupBox>("ElementName binding");
+        private GroupBox ViewErrorsGroupBox => this.Window.GetByText<GroupBox>("ElementName binding");
 
-        public GroupBox ViewModelErrorsGroupBox => this.Window.GetByText<GroupBox>("ViewModel binding");
+        private GroupBox ViewModelErrorsGroupBox => this.Window.GetByText<GroupBox>("ViewModel binding");
 
-        public TextBox TextBox1 => this.Window.Get<TextBox>("TextBox1");
+        private TextBox TextBox1 => this.Window.Get<TextBox>("TextBox1");
 
-        public TextBox TextBox2 => this.Window.Get<TextBox>("TextBox2");
+        private TextBox TextBox2 => this.Window.Get<TextBox>("TextBox2");
 
         [SetUp]
         public void SetUp()

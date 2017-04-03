@@ -41,7 +41,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             actual = groupBox.GetMultiple<Label>(ErrorTextBlockName).Select(x => x.Text).ToArray();
             CollectionAssert.AreEqual(new[] { "error 1" }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            errorBox.Enter("");
+            errorBox.Enter(string.Empty);
             this.PressTab();
             Assert.AreEqual("HasError: False", hasErrorBlock.Text);
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
@@ -81,11 +81,11 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             textBox.Text = "1";
             Assert.AreEqual("HasError: True", node.Get<Label>("HasErrorTextBlock").Text);
             Assert.AreEqual("HasError: True", scope.Get<Label>("HasErrorTextBlock").Text);
-            expected = new[] {  "error 1" };
+            expected = new[] { "error 1" };
             CollectionAssert.AreEqual(expected, node.GetErrors());
             CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox.Enter("");
+            errorBox.Enter(string.Empty);
             this.PressTab();
             Assert.AreEqual("HasError: False", node.Get<Label>("HasErrorTextBlock").Text);
             Assert.AreEqual("HasError: False", scope.Get<Label>("HasErrorTextBlock").Text);
@@ -129,7 +129,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, node.GetErrors());
             CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox.Enter("");
+            errorBox.Enter(string.Empty);
             this.PressTab();
             Assert.AreEqual("HasError: False", node.Get<Label>("HasErrorTextBlock").Text);
             Assert.AreEqual("HasError: False", scope.Get<Label>("HasErrorTextBlock").Text);
@@ -197,7 +197,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, node.GetErrors());
             CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox2.Enter("");
+            errorBox2.Enter(string.Empty);
             this.PressTab();
             Assert.AreEqual("HasError: True", node.Get<Label>("HasErrorTextBlock").Text);
             Assert.AreEqual("HasError: True", scope.Get<Label>("HasErrorTextBlock").Text);
@@ -205,7 +205,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expected, node.GetErrors());
             CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox1.Enter("");
+            errorBox1.Enter(string.Empty);
             this.PressTab();
             Assert.AreEqual("HasError: False", node.Get<Label>("HasErrorTextBlock").Text);
             Assert.AreEqual("HasError: False", scope.Get<Label>("HasErrorTextBlock").Text);

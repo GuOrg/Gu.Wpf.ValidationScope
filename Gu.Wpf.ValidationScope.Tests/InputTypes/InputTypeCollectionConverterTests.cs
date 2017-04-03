@@ -26,7 +26,7 @@
         public void ConvertFailsFor(string name)
         {
             var converter = new InputTypeCollectionConverter();
-            var exception = Assert.Throws<InvalidOperationException>(()=> converter.ConvertFrom(name));
+            var exception = Assert.Throws<InvalidOperationException>(() => converter.ConvertFrom(name));
             Assert.AreEqual("Did not find a match for for Visual3D", exception.Message);
         }
 
@@ -39,14 +39,15 @@
 
         public class HappyPathData
         {
-            public readonly string Text;
-            public readonly IReadOnlyList<Type> Expected;
-
             public HappyPathData(string text, IReadOnlyList<Type> expected)
             {
                 this.Text = text;
                 this.Expected = expected;
             }
+
+            public string Text { get; }
+
+            public IReadOnlyList<Type> Expected { get; }
 
             public override string ToString() => this.Text;
         }

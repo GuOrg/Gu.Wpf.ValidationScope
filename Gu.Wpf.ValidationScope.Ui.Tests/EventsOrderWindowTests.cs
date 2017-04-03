@@ -107,7 +107,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             textBox1.Text = "1";
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
 
-            expected.AddRange( new[]
+            expected.AddRange(new[]
                            {
                                "HasError: False",
                                "Empty",
@@ -130,7 +130,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             var textBox1 = this.Window.Get<GroupBox>("ScopeGroupBox").Get<TextBox>("ScopeTextBox1");
             textBox1.Enter('a');
             this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
-            expected.AddRange( new[]
+            expected.AddRange(new[]
                            {
                                "ValidationError: Value 'a' could not be converted.",
                                "HasError: True",

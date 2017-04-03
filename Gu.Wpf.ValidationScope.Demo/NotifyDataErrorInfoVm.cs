@@ -24,10 +24,18 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public int IntValue1
         {
-            get { return this.intValue1; }
+            get
+            {
+                return this.intValue1;
+            }
+
             set
             {
-                if (value == this.intValue1) return;
+                if (value == this.intValue1)
+                {
+                    return;
+                }
+
                 this.intValue1 = value;
                 this.OnPropertyChanged();
             }
@@ -39,9 +47,14 @@ namespace Gu.Wpf.ValidationScope.Demo
             {
                 return this.error1;
             }
+
             set
             {
-                if (value == this.error1) return;
+                if (value == this.error1)
+                {
+                    return;
+                }
+
                 this.error1 = value;
                 this.OnPropertyChanged();
                 this.OnPropertyChanged(nameof(this.HasErrors));
@@ -55,9 +68,14 @@ namespace Gu.Wpf.ValidationScope.Demo
             {
                 return this.intValue2;
             }
+
             set
             {
-                if (value == this.intValue2) return;
+                if (value == this.intValue2)
+                {
+                    return;
+                }
+
                 this.intValue2 = value;
                 this.OnPropertyChanged();
             }
@@ -69,9 +87,14 @@ namespace Gu.Wpf.ValidationScope.Demo
             {
                 return this.error2;
             }
+
             set
             {
-                if (value == this.error2) return;
+                if (value == this.error2)
+                {
+                    return;
+                }
+
                 this.error2 = value;
                 this.OnPropertyChanged();
                 this.OnPropertyChanged(nameof(this.HasErrors));

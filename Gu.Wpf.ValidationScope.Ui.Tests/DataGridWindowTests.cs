@@ -11,25 +11,25 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         protected override string WindowName { get; } = "DataGridWindow";
 
-        public ListView DataGrid => this.Window.Get<ListView>("DataGrid");
+        private ListView DataGrid => this.Window.Get<ListView>("DataGrid");
 
-        public GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
+        private GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
 
-        public IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
+        private IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
 
-        public string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
+        private string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
 
-        public GroupBox Node => this.Window.GetByText<GroupBox>("Node");
+        private GroupBox Node => this.Window.GetByText<GroupBox>("Node");
 
-        public string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
+        private string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
 
-        public IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
+        private IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
 
-        public string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
+        private string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
 
-        public IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
+        private IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
 
-        public string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
+        private string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
 
         [Test]
         public void AddThenRemoveError()

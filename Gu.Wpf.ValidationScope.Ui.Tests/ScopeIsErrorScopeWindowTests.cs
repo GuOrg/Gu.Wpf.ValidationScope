@@ -139,7 +139,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(expectedErrors, this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.InputNode", this.NodeType);
 
-
             this.HasErrorCheckBox.Checked = false;
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
