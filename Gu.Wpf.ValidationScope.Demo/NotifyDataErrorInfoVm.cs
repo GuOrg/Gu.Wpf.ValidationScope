@@ -102,29 +102,29 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public IEnumerable GetErrors(string propertyName)
         {
             if (propertyName == nameof(this.IntValue1))
             {
                 return string.IsNullOrEmpty(this.error1)
-                           ? null
-                           : new[] { this.Error1 };
+                    ? null
+                    : new[] { this.Error1 };
             }
 
             if (propertyName == nameof(this.IntValue2))
             {
                 return string.IsNullOrEmpty(this.error2)
-                           ? null
-                           : new[] { this.Error2 };
+                    ? null
+                    : new[] { this.Error2 };
             }
 
             return Enumerable.Empty<object>();
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected virtual void OnErrorsChanged(string propertyName = null)

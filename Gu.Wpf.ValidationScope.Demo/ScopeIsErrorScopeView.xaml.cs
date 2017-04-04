@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for ScopeIsErrorScopeView.xaml
     /// </summary>

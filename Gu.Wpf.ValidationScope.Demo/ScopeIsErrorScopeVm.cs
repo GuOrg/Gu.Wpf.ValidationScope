@@ -55,17 +55,17 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         public IEnumerable GetErrors(string propertyName)
         {
             return this.hasErrors && propertyName == nameof(this.HasErrors)
                 ? new[] { "INotifyDataErrorInfo error" }
                 : null;
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected virtual void OnErrorsChanged([CallerMemberName] string propertyName = null)

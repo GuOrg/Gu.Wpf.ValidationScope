@@ -10,31 +10,31 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     {
         protected override string WindowName { get; } = "NotifyDataErrorInfoWindow";
 
-        public TextBox IntTextBox1 => this.Window.Get<TextBox>("IntTextBox1");
+        private TextBox IntTextBox1 => this.Window.Get<TextBox>("IntTextBox1");
 
-        public TextBox ErrorTextBox1 => this.Window.Get<TextBox>("ErrorTextBox1");
+        private TextBox ErrorTextBox1 => this.Window.Get<TextBox>("ErrorTextBox1");
 
-        public TextBox IntTextBox2 => this.Window.Get<TextBox>("IntTextBox2");
+        private TextBox IntTextBox2 => this.Window.Get<TextBox>("IntTextBox2");
 
-        public TextBox ErrorTextBox2 => this.Window.Get<TextBox>("ErrorTextBox2");
+        private TextBox ErrorTextBox2 => this.Window.Get<TextBox>("ErrorTextBox2");
 
-        public GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
+        private GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
 
-        public IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
+        private IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
 
-        public string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
+        private string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
 
-        public GroupBox Node => this.Window.GetByText<GroupBox>("Node");
+        private GroupBox Node => this.Window.GetByText<GroupBox>("Node");
 
-        public string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
+        private string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
 
-        public IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
+        private IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
 
-        public IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
+        private IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
 
-        public string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
+        private string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
 
-        public string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
+        private string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
 
         [SetUp]
         public void SetUp()
