@@ -9,6 +9,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
     public static class ScopeEvents
     {
+#pragma warning disable SA1202 // Elements must be ordered by access
         public static readonly DependencyProperty TrackProperty = DependencyProperty.RegisterAttached(
             "Track",
             typeof(bool),
@@ -58,6 +59,8 @@ namespace Gu.Wpf.ValidationScope.Demo
         {
             return (ObservableCollection<object>)element.GetValue(EventsProperty);
         }
+
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         private static void OnTrackChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
