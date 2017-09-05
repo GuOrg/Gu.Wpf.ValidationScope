@@ -1,21 +1,17 @@
 
 
 GROUP Analyzers
-FRAMEWORK: >= NET45
+RESTRICTION: >= net45
 NUGET
   remote: http://www.nuget.org/api/v2
-    Gu.Analyzers (0.1.11.23-dev)
-    JetBrains.Annotations (10.4)
-    StyleCop.Analyzers (1.0)
+    Gu.Analyzers (0.1.11.25-dev)
+    JetBrains.Annotations (11.0)
+    StyleCop.Analyzers (1.0.2)
     WpfAnalyzers (0.2.7.10)
 
 GROUP Test
-FRAMEWORK: >= NET45
+RESTRICTION: >= net45
 NUGET
   remote: http://www.nuget.org/api/v2
-    Castle.Core (3.3.3)
-    NUnit (3.5)
-    TestStack.White.Uia3 (0.14.0-uiacomwrapper0214)
-      Castle.Core (>= 3.3)
-      UIAComWrapper (>= 1.1.0.14)
-    UIAComWrapper (1.1.0.14)
+    Gu.Wpf.UiAutomation (0.1.6-dev)
+    NUnit (3.8.1)

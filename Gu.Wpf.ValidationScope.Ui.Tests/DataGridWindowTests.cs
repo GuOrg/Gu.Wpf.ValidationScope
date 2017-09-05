@@ -1,35 +1,32 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System.Collections.Generic;
-
+    using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
-
-    using TestStack.White.UIItems;
-    using TestStack.White.WindowsAPI;
 
     public class DataGridWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "DataGridWindow";
 
-        private ListView DataGrid => this.Window.Get<ListView>("DataGrid");
+        private DataGrid DataGrid => this.Window.FindDataGrid("DataGrid");
 
-        private GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
+        private GroupBox Scope => this.Window.FindGroupBox("Scope");
 
         private IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
 
-        private string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
+        private string ScopeHasError => this.Scope.FindTextBlock("HasErrorTextBlock").Text;
 
-        private GroupBox Node => this.Window.GetByText<GroupBox>("Node");
+        private GroupBox Node => this.Window.FindGroupBox("Node");
 
-        private string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
+        private string ChildCount => this.Node.FindTextBlock("ChildCountTextBlock").Text;
 
         private IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
 
-        private string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
+        private string NodeHasError => this.Node.FindTextBlock("HasErrorTextBlock").Text;
 
         private IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
 
-        private string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
+        private string NodeType => this.Node.FindTextBlock("NodeTypeTextBlock").Text;
 
         [Test]
         public void AddThenRemoveError()
@@ -42,10 +39,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            var cell = this.DataGrid.Rows[0].Cells[0];
+            var cell = this.DataGrid[0, 0];
             cell.Click();
             cell.Enter("a");
-            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
+            Keyboard.Type(Key.TAB);
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -56,11 +53,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.DataGrid Items.Count:3" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.SHIFT, KeyboardInput.SpecialKeys.TAB);
-            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.BACKSPACE);
+            cell.Click();
+            Keyboard.Type(Key.BACK);
             cell.Enter("2");
-            this.Window.Keyboard.PressSpecialKey(KeyboardInput.SpecialKeys.TAB);
-
+            Keyboard.Type(Key.TAB);
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 

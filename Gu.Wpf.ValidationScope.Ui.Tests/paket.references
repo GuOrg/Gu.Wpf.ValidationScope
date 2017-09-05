@@ -6,4 +6,4 @@ group Analyzers
 
 group Test
   NUnit
-  TestStack.White.Uia3
+  Gu.Wpf.UiAutomation

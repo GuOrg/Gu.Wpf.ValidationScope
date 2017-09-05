@@ -1,60 +1,60 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System.Collections.Generic;
-
+    using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
-
-    using TestStack.White.UIItems;
 
     public class NotifyDataErrorInfoWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "NotifyDataErrorInfoWindow";
 
-        private TextBox IntTextBox1 => this.Window.Get<TextBox>("IntTextBox1");
+        private TextBox IntTextBox1 => this.Window.FindTextBox("IntTextBox1");
 
-        private TextBox ErrorTextBox1 => this.Window.Get<TextBox>("ErrorTextBox1");
+        private TextBox ErrorTextBox1 => this.Window.FindTextBox("ErrorTextBox1");
 
-        private TextBox IntTextBox2 => this.Window.Get<TextBox>("IntTextBox2");
+        private TextBox IntTextBox2 => this.Window.FindTextBox("IntTextBox2");
 
-        private TextBox ErrorTextBox2 => this.Window.Get<TextBox>("ErrorTextBox2");
+        private TextBox ErrorTextBox2 => this.Window.FindTextBox("ErrorTextBox2");
 
-        private GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
+        private GroupBox Scope => this.Window.FindGroupBox("Scope");
 
         private IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
 
-        private string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
+        private string ScopeHasError => this.Scope.FindTextBlock("HasErrorTextBlock").Text;
 
-        private GroupBox Node => this.Window.GetByText<GroupBox>("Node");
+        private GroupBox Node => this.Window.FindGroupBox("Node");
 
-        private string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
+        private string ChildCount => this.Node.FindTextBlock("ChildCountTextBlock").Text;
 
         private IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
 
         private IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
 
-        private string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
+        private string NodeHasError => this.Node.FindTextBlock("HasErrorTextBlock").Text;
 
-        private string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
+        private string NodeType => this.Node.FindTextBlock("NodeTypeTextBlock").Text;
 
         [SetUp]
         public void SetUp()
         {
-            this.IntTextBox1.Enter('1');
-            this.IntTextBox2.Enter('2');
-            this.ErrorTextBox1.Enter(string.Empty);
-            this.ErrorTextBox2.Enter(string.Empty);
-            this.PressTab();
+            this.IntTextBox1.Text = "1";
+            this.IntTextBox2.Text = "2";
+            this.ErrorTextBox1.Text = string.Empty;
+            this.ErrorTextBox2.Text = string.Empty;
+            Keyboard.Type(Key.TAB);
         }
 
         [Test]
         public void CheckNodeType()
         {
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
-            this.ErrorTextBox1.Enter("error 1");
-            this.PressTab();
+
+            this.ErrorTextBox1.Text = "error 1";
+            Keyboard.Type(Key.TAB);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
+
             this.ErrorTextBox1.Enter(string.Empty);
-            this.PressTab();
+            Keyboard.Type(Key.TAB);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
         }
 
@@ -70,7 +70,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
             this.ErrorTextBox1.Enter("error 1");
-            this.PressTab();
+            Keyboard.Type(Key.TAB);
             var expectedErrors = new[] { "error 1" };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -82,7 +82,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.ErrorTextBox1.Enter(string.Empty);
-            this.PressTab();
+            Keyboard.Type(Key.TAB);
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -110,8 +110,8 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.ErrorTextBox1.Enter("error 1");
-            this.PressTab();
+            this.ErrorTextBox1.Text = "error 1";
+            Keyboard.Type(Key.TAB);
             var expectedErrors = new[] { "error 1" };
             var expectedChildren = new[] { "System.Windows.Controls.TextBox: 1" };
 
@@ -125,7 +125,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.ErrorTextBox2.Enter("error 2");
-            this.PressTab();
+            Keyboard.Type(Key.TAB);
             expectedErrors = new[] { "error 1", "error 2" };
             expectedChildren = new[] { "System.Windows.Controls.TextBox: 1", "System.Windows.Controls.TextBox: 2" };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
@@ -138,7 +138,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.ErrorTextBox1.Enter(string.Empty);
-            this.PressTab();
+            Keyboard.Type(Key.TAB);
             expectedErrors = new[] { "error 2" };
             expectedChildren = new[] { "System.Windows.Controls.TextBox: 2" };
 
@@ -152,7 +152,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.ErrorTextBox2.Enter(string.Empty);
-            this.PressTab();
+            Keyboard.Type(Key.TAB);
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -173,8 +173,8 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.ErrorTextBox1.Enter("error 1");
-            this.PressTab();
+            this.ErrorTextBox1.Text = "error 1";
+            Keyboard.Type(Key.TAB);
             var expectedErrors = new[] { "error 1" };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -186,7 +186,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.ErrorTextBox1.Enter("error 2");
-            this.PressTab();
+            Keyboard.Type(Key.TAB);
             expectedErrors = new[] { "error 2" };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -198,7 +198,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             this.ErrorTextBox1.Enter(string.Empty);
-            this.PressTab();
+            Keyboard.Type(Key.TAB);
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 

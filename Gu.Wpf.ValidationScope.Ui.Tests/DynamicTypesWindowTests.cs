@@ -1,51 +1,47 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System.Collections.Generic;
-
+    using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
-
-    using TestStack.White.UIItems;
-    using TestStack.White.UIItems.ListBoxItems;
-    using TestStack.White.WindowsAPI;
 
     public class DynamicTypesWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "DynamicTypesWindow";
 
-        private TextBox TextBox1 => this.Window.Get<TextBox>("TextBox1");
+        private TextBox TextBox1 => this.Window.FindTextBox("TextBox1");
 
-        private TextBox TextBox2 => this.Window.Get<TextBox>("TextBox2");
+        private TextBox TextBox2 => this.Window.FindTextBox("TextBox2");
 
-        private ComboBox ComboBox1 => this.Window.Get<ComboBox>("ComboBox1");
+        private ComboBox ComboBox1 => this.Window.FindComboBox("ComboBox1");
 
-        private ComboBox ComboBox2 => this.Window.Get<ComboBox>("ComboBox2");
+        private ComboBox ComboBox2 => this.Window.FindComboBox("ComboBox2");
 
-        private ListBox TypeListBox => this.Window.Get<ListBox>("TypeListBox");
+        private ListBox TypeListBox => this.Window.FindListBox("TypeListBox");
 
-        private GroupBox Scope => this.Window.GetByText<GroupBox>("Scope");
+        private GroupBox Scope => this.Window.FindGroupBox("Scope");
 
         private IReadOnlyList<string> ScopeErrors => this.Scope.GetErrors();
 
-        private string ScopeHasError => this.Scope.Get<Label>("HasErrorTextBlock").Text;
+        private string ScopeHasError => this.Scope.FindTextBlock("HasErrorTextBlock").Text;
 
-        private GroupBox Node => this.Window.GetByText<GroupBox>("Node");
+        private GroupBox Node => this.Window.FindGroupBox("Node");
 
-        private string ChildCount => this.Node.Get<Label>("ChildCountTextBlock").Text;
+        private string ChildCount => this.Node.FindTextBlock("ChildCountTextBlock").Text;
 
         private IReadOnlyList<string> NodeErrors => this.Node.GetErrors();
 
         private IReadOnlyList<string> NodeChildren => this.Node.GetChildren();
 
-        private string NodeHasError => this.Node.Get<Label>("HasErrorTextBlock").Text;
+        private string NodeHasError => this.Node.FindTextBlock("HasErrorTextBlock").Text;
 
-        private string NodeType => this.Node.Get<Label>("NodeTypeTextBlock").Text;
+        private string NodeType => this.Node.FindTextBlock("NodeTypeTextBlock").Text;
 
         [SetUp]
         public void Setup()
         {
-            this.TextBox1.Enter("0");
-            this.TextBox2.Enter("0");
-            this.TypeListBox.Items[2].Click();
+            this.TextBox1.Text = "0";
+            this.TextBox2.Text = "0";
+            this.TypeListBox.Select(2);
         }
 
         [Test]
@@ -59,7 +55,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.TextBox1.Enter('a');
+            this.TextBox1.Text = "a";
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -68,7 +64,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.TypeListBox.Select("System.Windows.Controls.TextBox");
+            this.TypeListBox.Select(0);
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -79,7 +75,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.TypeListBox.Select("System.Windows.Controls.Slider");
+            this.TypeListBox.Select(3);
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -107,10 +103,10 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.TextBox1.Enter('a');
-            this.TextBox2.Enter('b');
-            this.ComboBox1.Enter('c');
-            this.ComboBox2.Enter('d');
+            this.TextBox1.Text = "a";
+            this.TextBox2.Text = "b";
+            this.ComboBox1.EditableText = "c";
+            this.ComboBox2.EditableText = "d";
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
@@ -119,7 +115,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.IsEmpty(this.NodeErrors);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", this.NodeType);
 
-            this.TypeListBox.Select("System.Windows.Controls.TextBox");
+            this.TypeListBox.Select(0);
             var expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -130,9 +126,11 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.Window.Keyboard.HoldKey(KeyboardInput.SpecialKeys.CONTROL);
-            this.TypeListBox.Items[1].Click();
-            this.Window.Keyboard.LeaveKey(KeyboardInput.SpecialKeys.CONTROL);
+            using (Keyboard.Pressing(Key.CONTROL))
+            {
+                this.TypeListBox.Items[1].Click();
+            }
+
             expectedErrors = new[]
             {
                 "Value 'a' could not be converted.",
@@ -150,7 +148,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
             ////this.TypeListBox.Select("System.Windows.Controls.Primitives.Selector");
-            this.TypeListBox.Items[1].Click();
+            this.TypeListBox.Select(1);
             expectedErrors = new[]
             {
                 "Value 'c' could not be converted.",
@@ -165,7 +163,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.ComboBox Items.Count:0", "System.Windows.Controls.ComboBox Items.Count:0" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.ComboBox1.Enter('1');
+            this.ComboBox1.EditableText = "1";
             expectedErrors = new[] { "Value 'd' could not be converted." };
             Assert.AreEqual("HasError: True", this.ScopeHasError);
             CollectionAssert.AreEqual(expectedErrors, this.ScopeErrors);
@@ -176,7 +174,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.ComboBox Items.Count:0" }, this.NodeChildren);
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", this.NodeType);
 
-            this.TypeListBox.Select("System.Windows.Controls.Slider");
+            this.TypeListBox.Select(3);
             Assert.AreEqual("HasError: False", this.ScopeHasError);
             CollectionAssert.IsEmpty(this.ScopeErrors);
 
