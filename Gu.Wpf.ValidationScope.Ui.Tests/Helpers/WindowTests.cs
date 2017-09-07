@@ -57,7 +57,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         private void SaveScreenshotToArtifacsDir(string suffix)
         {
             var fileName = System.IO.Path.Combine(Info.ArtifactsDirectory(), $"{this.WindowName}_{suffix}.png");
-            using (var image = ScreenCapture.CaptureScreen())
+            using (var image = Capture.Screen())
             {
                 image.Save(fileName);
             }
