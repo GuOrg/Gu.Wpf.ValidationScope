@@ -9,7 +9,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         private Application application;
         private bool disposed;
 
-        protected Window Window => this.application.MainWindow;
+        protected Window window => this.application.MainWindow;
 
         protected abstract string WindowName { get; }
 
@@ -23,7 +23,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         public virtual void OneTimeSetUp()
         {
             this.application?.Dispose();
-            this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
+            this.application = Application.AttachOrLaunch(Info.CreateStartInfo(WindowName));
             ////this.SaveScreenshotToArtifacsDir("start");
         }
 
@@ -56,7 +56,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         // ReSharper disable once UnusedMember.Local
         private void SaveScreenshotToArtifacsDir(string suffix)
         {
-            var fileName = System.IO.Path.Combine(Info.ArtifactsDirectory(), $"{this.WindowName}_{suffix}.png");
+            var fileName = System.IO.Path.Combine(Info.ArtifactsDirectory(), $"{WindowName}_{suffix}.png");
             using (var image = Capture.Screen())
             {
                 image.Save(fileName);

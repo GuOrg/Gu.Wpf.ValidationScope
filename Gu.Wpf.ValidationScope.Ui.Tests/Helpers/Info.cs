@@ -7,6 +7,8 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     public static class Info
     {
+        public static string ExeFileName { get; } = GetExeFileName();
+
         public static ProcessStartInfo ProcessStartInfo
         {
             get
