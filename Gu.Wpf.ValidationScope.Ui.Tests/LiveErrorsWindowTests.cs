@@ -4,210 +4,227 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class LiveErrorsWindowTests : WindowTests
+    public class LiveErrorsWindowTests
     {
-        private const string ErrorTextBlockName = "ErrorTextBlock";
+        private static string WindowName { get; } = "LiveErrorsWindow";
 
-        protected override string WindowName { get; } = "LiveErrorsWindow";
+        [OneTimeTearDown]
+        public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);
 
         [Test]
         public void Validation()
         {
-            // this is used as reference
-            var groupBox = this.Window.FindGroupBox("Validation errors");
-            var hasErrorBlock = groupBox.FindTextBlock("HasErrorTextBlock");
-            var textBox = this.Window.FindTextBox("ValidationIntValueTextBox");
-            var errorBox = this.Window.FindTextBox("ValidationErrorTextBox");
-            var actual = groupBox.GetErrors();
-            CollectionAssert.AreEqual("HasError: False", hasErrorBlock.Text);
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                // this is used as reference
+                var groupBox = window.FindGroupBox("Validation errors");
+                var hasErrorBlock = groupBox.FindTextBlock("HasErrorTextBlock");
+                var textBox = window.FindTextBox("ValidationIntValueTextBox");
+                var errorBox = window.FindTextBox("ValidationErrorTextBox");
+                var actual = groupBox.GetErrors();
+                CollectionAssert.AreEqual("HasError: False", hasErrorBlock.Text);
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox.Text = "g";
-            Assert.AreEqual("HasError: True", hasErrorBlock.Text);
-            actual = groupBox.GetErrors();
-            CollectionAssert.AreEqual(new[] { "Value 'g' could not be converted." }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+                textBox.Text = "g";
+                Assert.AreEqual("HasError: True", hasErrorBlock.Text);
+                actual = groupBox.GetErrors();
+                CollectionAssert.AreEqual(new[] { "Value 'g' could not be converted." }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            errorBox.Text = "error 1";
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: True", hasErrorBlock.Text);
-            actual = groupBox.GetErrors();
-            CollectionAssert.AreEqual(new[] { "Value 'g' could not be converted.", "error 1" }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+                errorBox.Text = "error 1";
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: True", hasErrorBlock.Text);
+                actual = groupBox.GetErrors();
+                CollectionAssert.AreEqual(new[] { "Value 'g' could not be converted.", "error 1" }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            textBox.Text = "1";
-            Assert.AreEqual("HasError: True", hasErrorBlock.Text);
-            actual = groupBox.FindTextBlocks(ErrorTextBlockName).Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(new[] { "error 1" }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+                textBox.Text = "1";
+                Assert.AreEqual("HasError: True", hasErrorBlock.Text);
+                actual = groupBox.FindTextBlocks("ErrorTextBlock").Select(x => x.Text).ToArray();
+                CollectionAssert.AreEqual(new[] { "error 1" }, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
-            errorBox.Text = string.Empty;
-            Keyboard.Type(Key.TAB);
-            this.Window.WaitUntilResponsive();
-            Assert.AreEqual("HasError: False", hasErrorBlock.Text);
-            actual = groupBox.FindTextBlocks(ErrorTextBlockName).Select(x => x.Text).ToArray();
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+                errorBox.Text = string.Empty;
+                Keyboard.Type(Key.TAB);
+                window.WaitUntilResponsive();
+                Assert.AreEqual("HasError: False", hasErrorBlock.Text);
+                actual = groupBox.FindTextBlocks("ErrorTextBlock").Select(x => x.Text).ToArray();
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
+            }
         }
 
         [Test]
         public void ScopeTextBox()
         {
-            var groupBox = this.Window.FindGroupBox("Scope textbox errors");
-            var textBox = this.Window.FindTextBox("ScopeIntValueTextBox");
-            var errorBox = this.Window.FindTextBox("ScopeErrorTextBox");
-            var node = groupBox.FindGroupBox("Node");
-            var scope = groupBox.FindGroupBox("Scope");
+            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                var groupBox = window.FindGroupBox("Scope textbox errors");
+                var textBox = window.FindTextBox("ScopeIntValueTextBox");
+                var errorBox = window.FindTextBox("ScopeErrorTextBox");
+                var node = groupBox.FindGroupBox("Node");
+                var scope = groupBox.FindGroupBox("Scope");
 
-            Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+                Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
 
-            textBox.Text = "g";
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            var expected = new[] { "Value 'g' could not be converted." };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                textBox.Text = "g";
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                var expected = new[] { "Value 'g' could not be converted." };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox.Text = "error 1";
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "Value 'g' could not be converted.", "error 1" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                errorBox.Text = "error 1";
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "Value 'g' could not be converted.", "error 1" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            textBox.Text = "1";
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "error 1" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                textBox.Text = "1";
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "error 1" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox.Enter(string.Empty);
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+                errorBox.Enter(string.Empty);
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+            }
         }
 
         [Test]
         public void ScopeGroupBoxOneError()
         {
-            var groupBox = this.Window.FindGroupBox("Scope errors");
-            var textBox = this.Window.FindTextBox("ScopeIntValueTextBox1");
-            var errorBox = this.Window.FindTextBox("ScopeErrorTextBox1");
-            var node = groupBox.FindGroupBox("Node");
-            var scope = groupBox.FindGroupBox("Scope");
+            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                var groupBox = window.FindGroupBox("Scope errors");
+                var textBox = window.FindTextBox("ScopeIntValueTextBox1");
+                var errorBox = window.FindTextBox("ScopeErrorTextBox1");
+                var node = groupBox.FindGroupBox("Node");
+                var scope = groupBox.FindGroupBox("Scope");
 
-            Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+                Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
 
-            textBox.Text = "g";
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            var expected = new[] { "Value 'g' could not be converted." };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                textBox.Text = "g";
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                var expected = new[] { "Value 'g' could not be converted." };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox.Text = "error 1";
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "Value 'g' could not be converted.", "error 1" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                errorBox.Text = "error 1";
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "Value 'g' could not be converted.", "error 1" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            textBox.Text = "1";
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "error 1" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                textBox.Text = "1";
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "error 1" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox.Text = string.Empty;
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+                errorBox.Text = string.Empty;
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+            }
         }
 
         [Test]
         public void ScopeGroupBoxTwoErrors()
         {
-            var groupBox = this.Window.FindGroupBox("Scope errors");
-            var textBox1 = this.Window.FindTextBox("ScopeIntValueTextBox1");
-            var textBox2 = this.Window.FindTextBox("ScopeIntValueTextBox2");
-            var errorBox1 = this.Window.FindTextBox("ScopeErrorTextBox1");
-            var errorBox2 = this.Window.FindTextBox("ScopeErrorTextBox2");
-            var node = groupBox.FindGroupBox("Node");
-            var scope = groupBox.FindGroupBox("Scope");
+            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                var groupBox = window.FindGroupBox("Scope errors");
+                var textBox1 = window.FindTextBox("ScopeIntValueTextBox1");
+                var textBox2 = window.FindTextBox("ScopeIntValueTextBox2");
+                var errorBox1 = window.FindTextBox("ScopeErrorTextBox1");
+                var errorBox2 = window.FindTextBox("ScopeErrorTextBox2");
+                var node = groupBox.FindGroupBox("Node");
+                var scope = groupBox.FindGroupBox("Scope");
 
-            Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+                Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
 
-            textBox1.Text = "g";
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            var expected = new[] { "Value 'g' could not be converted." };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                textBox1.Text = "g";
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                var expected = new[] { "Value 'g' could not be converted." };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox1.Text = "error 1";
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "Value 'g' could not be converted.", "error 1" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                errorBox1.Text = "error 1";
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "Value 'g' could not be converted.", "error 1" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            textBox2.Text = "b";
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "Value 'g' could not be converted.", "error 1", "Value 'b' could not be converted." };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                textBox2.Text = "b";
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "Value 'g' could not be converted.", "error 1", "Value 'b' could not be converted." };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox2.Text = "error 2";
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "Value 'g' could not be converted.", "error 1", "Value 'b' could not be converted.", "error 2" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                errorBox2.Text = "error 2";
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "Value 'g' could not be converted.", "error 1", "Value 'b' could not be converted.", "error 2" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            textBox1.Text = "1";
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "error 1", "Value 'b' could not be converted.", "error 2" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                textBox1.Text = "1";
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "error 1", "Value 'b' could not be converted.", "error 2" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            textBox2.Text = "2";
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "error 1", "error 2" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                textBox2.Text = "2";
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "error 1", "error 2" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox2.Text = string.Empty;
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
-            expected = new[] { "error 1" };
-            CollectionAssert.AreEqual(expected, node.GetErrors());
-            CollectionAssert.AreEqual(expected, scope.GetErrors());
+                errorBox2.Text = string.Empty;
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+                expected = new[] { "error 1" };
+                CollectionAssert.AreEqual(expected, node.GetErrors());
+                CollectionAssert.AreEqual(expected, scope.GetErrors());
 
-            errorBox1.Text = string.Empty;
-            Keyboard.Type(Key.TAB);
-            Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
-            Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
-            CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+                errorBox1.Text = string.Empty;
+                Keyboard.Type(Key.TAB);
+                Assert.AreEqual("HasError: False", node.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), node.GetErrors());
+                CollectionAssert.AreEqual(Enumerable.Empty<string>(), scope.GetErrors());
+            }
         }
     }
 }
