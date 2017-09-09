@@ -1,62 +1,79 @@
-// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class OneWayToSourceBindingsWindowTests : WindowTests
+    public class OneWayToSourceBindingsWindowTests
     {
-        protected override string WindowName { get; } = "OneWayToSourceBindingsWindow";
-
-        private GroupBox ViewErrorsGroupBox => this.Window.FindGroupBox("ElementName binding");
-
-        private GroupBox ViewModelErrorsGroupBox => this.Window.FindGroupBox("ViewModel binding");
-
-        private TextBox TextBox1 => this.Window.FindTextBox("TextBox1");
-
-        private TextBox TextBox2 => this.Window.FindTextBox("TextBox2");
+        private static readonly string WindowName = "OneWayToSourceBindingsWindow";
 
         [SetUp]
         public void SetUp()
         {
-            this.TextBox1.Text = "0";
-            this.TextBox2.Text = "0";
-            Keyboard.Type(Key.TAB);
+            if (Application.TryAttach(Info.ExeFileName, WindowName, out var app))
+            {
+                using (app)
+                {
+                    var window = app.MainWindow;
+                    window.FindTextBox("TextBox1").Text = "0";
+                    window.FindTextBox("TextBox2").Text = "0";
+                    Keyboard.Type(Key.TAB);
+                }
+            }
         }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);
 
         [Test]
         public void Updates()
         {
-            var hasError = "HasError: False";
-            var errors = Enumerable.Empty<string>();
-            AssertErrors(this.ViewErrorsGroupBox, hasError, errors);
-            AssertErrors(this.ViewModelErrorsGroupBox, hasError, errors);
+            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                var elementName = window.FindGroupBox("ElementName binding");
+                var viewModel = window.FindGroupBox("ViewModel binding");
 
-            this.TextBox1.Text = "a";
-            hasError = "HasError: True";
-            errors = new[] { "Value 'a' could not be converted." };
-            AssertErrors(this.ViewErrorsGroupBox, hasError, errors);
-            AssertErrors(this.ViewModelErrorsGroupBox, hasError, errors);
+                var hasError = "HasError: False";
+                Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
+                CollectionAssert.IsEmpty(elementName.FindGroupBox("Errors").GetErrors());
+                CollectionAssert.IsEmpty(elementName.FindGroupBox("Node").GetErrors());
 
-            this.TextBox2.Text = "b";
-            errors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
-            AssertErrors(this.ViewErrorsGroupBox, hasError, errors);
-            AssertErrors(this.ViewModelErrorsGroupBox, hasError, errors);
+                Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
+                CollectionAssert.IsEmpty(viewModel.FindGroupBox("Errors").GetErrors());
+                CollectionAssert.IsEmpty(viewModel.FindGroupBox("Node").GetErrors());
 
-            this.TextBox1.Text = "1";
-            hasError = "HasError: False";
-            errors = Enumerable.Empty<string>();
-            AssertErrors(this.ViewErrorsGroupBox, hasError, errors);
-            AssertErrors(this.ViewModelErrorsGroupBox, hasError, errors);
-        }
+                window.FindTextBox("TextBox1").Text = "a";
+                hasError = "HasError: True";
+                var errors = new[] { "Value 'a' could not be converted." };
+                Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
+                CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Errors").GetErrors());
+                CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Node").GetErrors());
 
-        private static void AssertErrors(GroupBox groupBox, string hasError, IEnumerable<string> errors)
-        {
-            Assert.AreEqual(hasError, groupBox.FindTextBlocks()[1].Text);
-            CollectionAssert.AreEqual(errors, groupBox.FindGroupBox("Errors").GetErrors());
-            CollectionAssert.AreEqual(errors, groupBox.FindGroupBox("Node").GetErrors());
+                Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
+                CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Errors").GetErrors());
+                CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Node").GetErrors());
+
+                window.FindTextBox("TextBox2").Text = "b";
+                errors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+                Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
+                CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Errors").GetErrors());
+                CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Node").GetErrors());
+
+                Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
+                CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Errors").GetErrors());
+                CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Node").GetErrors());
+
+                window.FindTextBox("TextBox1").Text = "1";
+                hasError = "HasError: False";
+                Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
+                CollectionAssert.IsEmpty(elementName.FindGroupBox("Errors").GetErrors());
+                CollectionAssert.IsEmpty(elementName.FindGroupBox("Node").GetErrors());
+
+                Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
+                CollectionAssert.IsEmpty(viewModel.FindGroupBox("Errors").GetErrors());
+                CollectionAssert.IsEmpty(viewModel.FindGroupBox("Node").GetErrors());
+            }
         }
     }
 }
