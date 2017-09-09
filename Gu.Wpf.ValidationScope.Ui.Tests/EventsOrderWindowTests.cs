@@ -15,6 +15,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             using (var app = Application.Launch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
+
                 // this is used as reference
                 var groupBox = window.FindGroupBox("Validation events");
                 var expected = new List<string> { "HasError: False", "Empty" };

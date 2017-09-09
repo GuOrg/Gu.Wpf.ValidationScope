@@ -52,7 +52,7 @@
                 var scope = window.FindGroupBox("Scope");
                 var node = window.FindGroupBox("Node");
 
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -61,18 +61,18 @@
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindTextBox("TextBoxScopeTextBox1").Text = "a";
-                var expectedErrors = new[] {"Value 'a' could not be converted."};
-                Assert.AreEqual("HasError: True",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                var expectedErrors = new[] { "Value 'a' could not be converted." };
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] {"System.Windows.Controls.StackPanel"}, node.GetChildren());
+                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindTextBox("TextBoxScopeTextBox1").Text = "1";
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -98,7 +98,7 @@
                 var scope = window.FindGroupBox("Scope");
                 var node = window.FindGroupBox("Node");
 
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -107,18 +107,18 @@
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindComboBox("ComboBoxScopeComboBox2").EditableText = "a";
-                var expectedErrors = new[] {"Value 'a' could not be converted."};
-                Assert.AreEqual("HasError: True",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                var expectedErrors = new[] { "Value 'a' could not be converted." };
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] {"System.Windows.Controls.StackPanel"}, node.GetChildren());
+                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindComboBox("ComboBoxScopeComboBox2").EditableText = "1";
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -144,7 +144,7 @@
                 var scope = window.FindGroupBox("Scope");
                 var node = window.FindGroupBox("Node");
 
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -153,7 +153,7 @@
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindTextBox("NoScopeTextBox1").Text = "a";
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -172,7 +172,7 @@
                 var scope = window.FindGroupBox("Scope");
                 var node = window.FindGroupBox("Node");
 
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -181,7 +181,7 @@
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindComboBox("NoScopeComboBox1").EditableText = "a";
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -200,7 +200,7 @@
                 var scope = window.FindGroupBox("Scope");
                 var node = window.FindGroupBox("Node");
 
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -209,42 +209,42 @@
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindTextBox("TextBoxScopeTextBox1").Text = "a";
-                var expectedErrors = new[] {"Value 'a' could not be converted."};
+                var expectedErrors = new[] { "Value 'a' could not be converted." };
 
-                Assert.AreEqual("HasError: True",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] {"System.Windows.Controls.StackPanel"}, node.GetChildren());
+                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindComboBox("ComboBoxScopeComboBox2").EditableText = "b";
-                expectedErrors = new[] {"Value 'a' could not be converted.", "Value 'b' could not be converted."};
-                Assert.AreEqual("HasError: True",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] {"System.Windows.Controls.StackPanel"}, node.GetChildren());
+                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindTextBox("ComboBoxScopeTextBox2").Text = "1";
-                expectedErrors = new[] {"Value 'a' could not be converted."};
+                expectedErrors = new[] { "Value 'a' could not be converted." };
 
-                Assert.AreEqual("HasError: True",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] {"System.Windows.Controls.StackPanel"}, node.GetChildren());
+                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindTextBox("ComboBoxScopeTextBox1").Enter("2");
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -263,7 +263,7 @@
                 var scope = window.FindGroupBox("Scope");
                 var node = window.FindGroupBox("Node");
 
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);
@@ -272,29 +272,29 @@
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindTextBox("TextBoxScopeTextBox2").Text = "a";
-                var expectedErrors = new[] {"Value 'a' could not be converted."};
-                Assert.AreEqual("HasError: True",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                var expectedErrors = new[] { "Value 'a' could not be converted." };
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] {"System.Windows.Controls.StackPanel"}, node.GetChildren());
+                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindComboBox("ComboBoxScopeComboBox2").EditableText = "b";
-                expectedErrors = new[] {"Value 'a' could not be converted.", "Value 'b' could not be converted."};
-                Assert.AreEqual("HasError: True",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+                Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] {"System.Windows.Controls.StackPanel"}, node.GetChildren());
+                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
                 window.FindTextBox("NoScopeTextBox2").Text = "1";
-                Assert.AreEqual("HasError: False",  scope.FindTextBlock("HasErrorTextBlock").Text);
+                Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
                 Assert.AreEqual("Children: 0", node.FindTextBlock("ChildCountTextBlock").Text);

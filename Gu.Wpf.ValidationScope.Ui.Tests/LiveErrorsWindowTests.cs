@@ -17,6 +17,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             using (var app = Application.Launch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
+
                 // this is used as reference
                 var groupBox = window.FindGroupBox("Validation errors");
                 var hasErrorBlock = groupBox.FindTextBlock("HasErrorTextBlock");
