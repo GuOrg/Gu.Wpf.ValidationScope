@@ -15,8 +15,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 using (app)
                 {
                     var window = app.MainWindow;
-                    window.FindGroupBox("TextBoxScope").FindTextBox("TextBoxScopeTextBox1").Text = "0";
-                    window.FindGroupBox("TextBoxScope").FindTextBox("TextBoxScopeTextBox2").Text = "0";
+                    var scope = window.FindGroupBox("TextBoxScope");
+                    scope.FindTextBox("TextBoxScopeTextBox1").Text = "0";
+                    scope.FindTextBox("TextBoxScopeTextBox2").Text = "0";
                     Keyboard.Type(Key.TAB);
                 }
             }
