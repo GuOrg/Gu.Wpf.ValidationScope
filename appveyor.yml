@@ -1,3 +1,4 @@
+image: Visual Studio 2017
 version: 1.0.{build}
 configuration: Release
 platform: Any CPU
@@ -8,9 +9,4 @@ build:
   verbosity: minimal
 
 on_failure:
-  - appveyor PushArtifact artifacts\LiveErrorsWindow_start.png
-  - appveyor PushArtifact artifacts\LiveErrorsWindow_finish.png
-  - appveyor PushArtifact artifacts\ScopeIsErrorScopeWindow_start.png
-  - appveyor PushArtifact artifacts\ScopeIsErrorScopeWindow_finish.png
-  - appveyor PushArtifact artifacts\ScopeTextBoxWindow_start.png
-  - appveyor PushArtifact artifacts\ScopeTextBoxWindow_finish.png
+  - ps: Get-ChildItem $env:temp\*.png | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
