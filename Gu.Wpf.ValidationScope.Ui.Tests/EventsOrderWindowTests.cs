@@ -35,12 +35,13 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
                 textBox.Text = "1";
-                expected.AddRange(new[]
-                               {
-                               "HasError: False",
-                               "Empty",
-                               "Action: Removed Error: Value 'a' could not be converted. Source: ValidationTextBox OriginalSource: ValidationTextBox"
-                           });
+                expected.AddRange(
+                    new[]
+                    {
+                        "HasError: False",
+                        "Empty",
+                        "Action: Removed Error: Value 'a' could not be converted. Source: ValidationTextBox OriginalSource: ValidationTextBox"
+                    });
 
                 actual = groupBox.FindTextBlocks("Event").Select(x => x.Text).ToArray();
                 CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
@@ -60,23 +61,25 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
                 var textBox = window.FindTextBox("ScopeTextBox");
                 textBox.Text = "a";
-                expected.AddRange(new[]
-                                   {
-                                   "ValidationError: Value 'a' could not be converted.",
-                                   "HasError: True",
-                                   "Action: Added Error: Value 'a' could not be converted. Source: ScopeTextBox OriginalSource: ScopeTextBox"
-                               });
+                expected.AddRange(
+                    new[]
+                    {
+                        "ValidationError: Value 'a' could not be converted.",
+                        "HasError: True",
+                        "Action: Added Error: Value 'a' could not be converted. Source: ScopeTextBox OriginalSource: ScopeTextBox"
+                    });
 
                 actual = groupBox.FindTextBlocks("Event").Select(x => x.Text).ToArray();
                 CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
                 textBox.Text = "1";
-                expected.AddRange(new[]
-                               {
-                               "HasError: False",
-                               "Empty",
-                               "Action: Removed Error: Value 'a' could not be converted. Source: ScopeTextBox OriginalSource: ScopeTextBox"
-                           });
+                expected.AddRange(
+                    new[]
+                    {
+                        "HasError: False",
+                        "Empty",
+                        "Action: Removed Error: Value 'a' could not be converted. Source: ScopeTextBox OriginalSource: ScopeTextBox"
+                    });
 
                 actual = groupBox.FindTextBlocks("Event").Select(x => x.Text).ToArray();
                 CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
@@ -96,23 +99,25 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
                 var textBox1 = window.FindGroupBox("ScopeGroupBox").FindTextBox("ScopeTextBox1");
                 textBox1.Text = "a";
-                expected.AddRange(new[]
-                               {
-                               "ValidationError: Value 'a' could not be converted.",
-                               "HasError: True",
-                               "Action: Added Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
-                           });
+                expected.AddRange(
+                    new[]
+                    {
+                        "ValidationError: Value 'a' could not be converted.",
+                        "HasError: True",
+                        "Action: Added Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
+                    });
 
                 actual = groupBox.FindTextBlocks("Event").Select(x => x.Text).ToArray();
                 CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
 
                 textBox1.Text = "1";
-                expected.AddRange(new[]
-                               {
-                               "HasError: False",
-                               "Empty",
-                               "Action: Removed Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
-                           });
+                expected.AddRange(
+                    new[]
+                    {
+                        "HasError: False",
+                        "Empty",
+                        "Action: Removed Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
+                    });
 
                 actual = groupBox.FindTextBlocks("Event").Select(x => x.Text).ToArray();
                 CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
@@ -132,12 +137,13 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
                 var textBox1 = window.FindGroupBox("ScopeGroupBox").FindTextBox("ScopeTextBox1");
                 textBox1.Text = "a";
-                expected.AddRange(new[]
-                               {
-                               "ValidationError: Value 'a' could not be converted.",
-                               "HasError: True",
-                               "Action: Added Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
-                           });
+                expected.AddRange(
+                    new[]
+                    {
+                        "ValidationError: Value 'a' could not be converted.",
+                        "HasError: True",
+                        "Action: Added Error: Value 'a' could not be converted. Source: ScopeGroupBox OriginalSource: ScopeGroupBox"
+                    });
 
                 actual = groupBox.FindTextBlocks("Event").Select(x => x.Text).ToArray();
                 CollectionAssert.AreEqual(expected, actual, $"Actual: {string.Join(", ", actual.Select(x => "\"" + x + "\""))}");
