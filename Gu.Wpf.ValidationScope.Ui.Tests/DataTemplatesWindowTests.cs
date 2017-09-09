@@ -5,7 +5,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     public class DataTemplatesWindowTests
     {
-        private static string WindowName { get; } = "DataTemplatesWindow";
+        private static readonly string WindowName = "DataTemplatesWindow";
 
         [SetUp]
         public void SetUp()

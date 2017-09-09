@@ -5,7 +5,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     public class ComplicatedScopeWindowTests
     {
-        private static string WindowName { get; } = "ComplicatedScopeWindow";
+        private static readonly string WindowName = "ComplicatedScopeWindow";
 
         [SetUp]
         public void SetUp()

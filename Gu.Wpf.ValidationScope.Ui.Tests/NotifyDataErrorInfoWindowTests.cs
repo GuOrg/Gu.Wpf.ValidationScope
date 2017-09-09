@@ -5,7 +5,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     public class NotifyDataErrorInfoWindowTests
     {
-        private static string WindowName { get; } = "NotifyDataErrorInfoWindow";
+        private static readonly string WindowName = "NotifyDataErrorInfoWindow";
 
         [SetUp]
         public void SetUp()

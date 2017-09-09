@@ -6,7 +6,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     public class LiveErrorsWindowTests
     {
-        private static string WindowName { get; } = "LiveErrorsWindow";
+        private static readonly string WindowName = "LiveErrorsWindow";
 
         [OneTimeTearDown]
         public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);

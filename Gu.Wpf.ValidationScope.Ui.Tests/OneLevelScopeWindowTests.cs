@@ -5,7 +5,7 @@
 
     public class OneLevelScopeWindowTests
     {
-        private static string WindowName { get; } = "OneLevelScopeWindow";
+        private static readonly string WindowName = "OneLevelScopeWindow";
 
         [SetUp]
         public void SetUp()

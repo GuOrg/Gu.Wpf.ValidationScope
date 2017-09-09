@@ -5,7 +5,7 @@
 
     public class ScopeTextBoxWindowTests
     {
-        private static string WindowName { get; } = "ScopeTextBoxWindow";
+        private static readonly string WindowName = "ScopeTextBoxWindow";
 
         [SetUp]
         public void SetUp()

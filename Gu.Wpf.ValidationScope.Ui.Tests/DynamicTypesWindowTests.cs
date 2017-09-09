@@ -5,7 +5,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     public class DynamicTypesWindowTests
     {
-        private static string WindowName { get; } = "DynamicTypesWindow";
+        private static readonly string WindowName = "DynamicTypesWindow";
 
         [SetUp]
         public void SetUp()

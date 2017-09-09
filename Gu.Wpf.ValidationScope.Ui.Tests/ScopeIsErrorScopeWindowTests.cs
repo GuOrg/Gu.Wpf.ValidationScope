@@ -5,7 +5,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
 
     public class ScopeIsErrorScopeWindowTests
     {
-        private static string WindowName { get; } = "ScopeIsErrorScopeWindow";
+        private static readonly string WindowName = "ScopeIsErrorScopeWindow";
 
         [SetUp]
         public void SetUp()
