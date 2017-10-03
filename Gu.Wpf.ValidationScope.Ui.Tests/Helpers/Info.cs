@@ -1,44 +1,13 @@
 namespace Gu.Wpf.ValidationScope.Ui.Tests
 {
     using System;
-    using System.Diagnostics;
     using System.IO;
     using System.Reflection;
+    using Gu.Wpf.UiAutomation;
 
     public static class Info
     {
-        public static string ExeFileName { get; } = GetExeFileName();
-
-        public static ProcessStartInfo ProcessStartInfo
-        {
-            get
-            {
-                var fileName = GetExeFileName();
-                var processStartInfo = new ProcessStartInfo
-                {
-                    FileName = fileName,
-                    UseShellExecute = false,
-                    ////CreateNoWindow = true,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true
-                };
-                return processStartInfo;
-            }
-        }
-
-        internal static ProcessStartInfo CreateStartInfo(string args)
-        {
-            var processStartInfo = new ProcessStartInfo
-            {
-                FileName = GetExeFileName(),
-                Arguments = args,
-                UseShellExecute = false,
-                ////CreateNoWindow = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            return processStartInfo;
-        }
+        public static string ExeFileName { get; } = Application.FindExe("Gu.Wpf.ValidationScope.Demo.exe");
 
         internal static string TestAssemblyFullFileName()
         {
@@ -55,15 +24,6 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             var artifacts = Path.Combine(root, "artifacts");
             Directory.CreateDirectory(artifacts);
             return artifacts;
-        }
-
-        private static string GetExeFileName()
-        {
-            //// ReSharper disable once PossibleNullReferenceException
-            var fileName = Path.GetFileNameWithoutExtension(TestAssemblyFullFileName()).Replace("Ui.Tests", "Demo");
-            //// ReSharper disable once AssignNullToNotNullAttribute
-            var fullFileName = Path.Combine(TestAssemblyDirectory(), fileName + ".exe");
-            return fullFileName;
         }
     }
 }
