@@ -4,9 +4,6 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
 
-// General Information about an assembly is controlled through the following
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
 [assembly: AssemblyTitle("Gu.Wpf.ValidationScope")]
 [assembly: AssemblyDescription("Form validation for WPF")]
 [assembly: AssemblyConfiguration("")]
@@ -15,37 +12,12 @@ using System.Windows.Markup;
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-// Setting ComVisible to false makes the types in this assembly not visible
-// to COM components.  If you need to access a type in this assembly from
-// COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
-
-// In order to begin building localizable applications, set
-// <UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
-// inside a <PropertyGroup>.  For example, if you are using US english
-// in your source files, set the <UICulture> to en-US.  Then uncomment
-// the NeutralResourceLanguage attribute below.  Update the "en-US" in
-// the line below to match the UICulture setting in the project file.
-
-//// [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
-
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.None)]
-
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.2.0.0")]
 [assembly: AssemblyFileVersion("0.2.0.0")]
-[assembly: InternalsVisibleTo("Gu.Wpf.ValidationScope.Tests")]
-[assembly: InternalsVisibleTo("Gu.Wpf.ValidationScope.Demo")]
+[assembly: InternalsVisibleTo("Gu.Wpf.ValidationScope.Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010081C17142540667A1F595C54AD2B5916395C55177D9770A78B6610298EA5B0442D18B95AE9A789CF9D5C04A88B0E1BFE73E7FD2E033BDC37F4E7916376F4BD7E213BD792EBBB77DFEADF5F8D221289AA0EF2130CE8BDD33B1526F0EE2D6C1B472F956E2A3067769435880507D779468531A3C97270628E44FC15727B0BC915BC7", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo("Gu.Wpf.ValidationScope.Demo, PublicKey=002400000480000094000000060200000024000052534131000400000100010081C17142540667A1F595C54AD2B5916395C55177D9770A78B6610298EA5B0442D18B95AE9A789CF9D5C04A88B0E1BFE73E7FD2E033BDC37F4E7916376F4BD7E213BD792EBBB77DFEADF5F8D221289AA0EF2130CE8BDD33B1526F0EE2D6C1B472F956E2A3067769435880507D779468531A3C97270628E44FC15727B0BC915BC7", AllInternalsVisible = true)]
 
 [assembly: XmlnsDefinition("https://github.com/JohanLarsson/Gu.Wpf.ValidationScope", "Gu.Wpf.ValidationScope")]
 [assembly: XmlnsPrefix("https://github.com/JohanLarsson/Gu.Wpf.ValidationScope", "validation")]
