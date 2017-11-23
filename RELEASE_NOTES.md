@@ -1,3 +1,6 @@
+#### 0.2.1
+* FEATURE: Sign
+
 #### 0.2.0
 * FEATURE: Scope.ErrorEvent
 * FEATURE: Scope.ErrorsChangedEvent
