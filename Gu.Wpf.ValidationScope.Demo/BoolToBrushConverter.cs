@@ -6,7 +6,8 @@
     using System.Windows.Markup;
     using System.Windows.Media;
 
-    [MarkupExtensionReturnType(typeof(IValueConverter))]
+    [MarkupExtensionReturnType(typeof(BoolToBrushConverter))]
+    [ValueConversion(typeof(bool), typeof(SolidColorBrush))]
     public class BoolToBrushConverter : MarkupExtension, IValueConverter
     {
         public SolidColorBrush WhenTrue { get; set; } = Brushes.Red;

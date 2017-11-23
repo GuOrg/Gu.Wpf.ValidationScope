@@ -51,11 +51,21 @@
             typeof(Scope),
             new PropertyMetadata(default(OneWayToSourceBindings), OnOneWayToSourceBindingsChanged));
 
+        /// <summary>
+        /// Helper for setting OneWayToSourceBindings property on a UIElement.
+        /// </summary>
+        /// <param name="element">UIElement to set OneWayToSourceBindings property on.</param>
+        /// <param name="value">OneWayToSourceBindings property value.</param>
         public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
         {
             element.SetValue(OneWayToSourceBindingsProperty, value);
         }
 
+        /// <summary>
+        /// Helper for reading OneWayToSourceBindings property from a UIElement.
+        /// </summary>
+        /// <param name="element">UIElement to read OneWayToSourceBindings property from.</param>
+        /// <returns>OneWayToSourceBindings property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static OneWayToSourceBindings GetOneWayToSourceBindings(this UIElement element)
@@ -63,6 +73,11 @@
             return (OneWayToSourceBindings)element.GetValue(OneWayToSourceBindingsProperty);
         }
 
+        /// <summary>
+        /// Helper for setting ForInputTypes property on a FrameworkElement.
+        /// </summary>
+        /// <param name="element">FrameworkElement to set ForInputTypes property on.</param>
+        /// <param name="value">ForInputTypes property value.</param>
         public static void SetForInputTypes(FrameworkElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
@@ -71,6 +86,11 @@
 
         private static void SetHasError(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
 
+        /// <summary>
+        /// Helper for reading HasError property from a UIElement.
+        /// </summary>
+        /// <param name="element">UIElement to read HasError property from.</param>
+        /// <returns>HasError property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static bool GetHasError(UIElement element) => (bool)element.GetValue(HasErrorProperty);
@@ -80,6 +100,11 @@
             element.SetValue(ErrorsPropertyKey, value);
         }
 
+        /// <summary>
+        /// Helper for reading Errors property from a DependencyObject.
+        /// </summary>
+        /// <param name="element">DependencyObject to read Errors property from.</param>
+        /// <returns>Errors property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(DependencyObject))]
         public static ReadOnlyObservableCollection<ValidationError> GetErrors(DependencyObject element)
@@ -160,15 +185,13 @@
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             Debug.Print($"Set Node = {e.NewValue?.GetType().Name ?? "null"} for {d}");
-            var oldNode = e.OldValue as ErrorNode;
-            if (oldNode != null)
+            if (e.OldValue is ErrorNode oldNode)
             {
                 ErrorsChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
                 oldNode.Dispose();
             }
 
-            var newNode = e.NewValue as ErrorNode;
-            if (newNode != null)
+            if (e.NewValue is ErrorNode newNode)
             {
                 (newNode as InputNode)?.BindToSourceErrors();
                 UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);

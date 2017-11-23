@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Rules for Gu.Wpf.ValidationScope" Description="Code analysis rules for Gu.Wpf.ValidationScope.csproj." ToolsVersion="14.0">
+<RuleSet Name="Rules for Gu.Wpf.ValidationScope" Description="Code analysis rules for Gu.Wpf.ValidationScope.csproj." ToolsVersion="15.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
@@ -85,14 +85,13 @@
     <Rule Id="WPF0011" Action="Error" />
     <Rule Id="WPF0012" Action="Error" />
     <Rule Id="WPF0030" Action="Error" />
-    <Rule Id="WPF0010" Action="Error" />
-    <Rule Id="WPF0013" Action="Error" />
-    <Rule Id="WPF0014" Action="Error" />
-    <Rule Id="WPF0015" Action="Error" />
-    <Rule Id="WPF0031" Action="Error" />
-    <Rule Id="WPF0032" Action="Error" />
-    <Rule Id="WPF0040" Action="Error" />
     <Rule Id="WPF0041" Action="Error" />
+    <Rule Id="WPF0052" Action="Warning" />
+    <Rule Id="WPF0060" Action="Warning" />
+    <Rule Id="WPF0061" Action="Warning" />
+    <Rule Id="WPF0070" Action="Warning" />
+    <Rule Id="WPF0071" Action="Warning" />
+    <Rule Id="WPF0080" Action="Warning" />
     <Rule Id="WPF1001" Action="Error" />
   </Rules>
 </RuleSet>
