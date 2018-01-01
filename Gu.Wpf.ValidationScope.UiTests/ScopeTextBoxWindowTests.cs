@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Ui.Tests
+﻿namespace Gu.Wpf.ValidationScope.UiTests
 {
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;

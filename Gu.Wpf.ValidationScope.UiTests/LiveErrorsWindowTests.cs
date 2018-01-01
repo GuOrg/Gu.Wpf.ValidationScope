@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Ui.Tests
+namespace Gu.Wpf.ValidationScope.UiTests
 {
     using System.Linq;
     using Gu.Wpf.UiAutomation;

@@ -6,8 +6,8 @@
     <ProjectGuid>{8EC27BEE-0BEF-4F2D-8A55-CF8C89D4C1DA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gu.Wpf.ValidationScope.Ui.Tests</RootNamespace>
-    <AssemblyName>Gu.Wpf.ValidationScope.Ui.Tests</AssemblyName>
+    <RootNamespace>Gu.Wpf.ValidationScope.UiTests</RootNamespace>
+    <AssemblyName>Gu.Wpf.ValidationScope.UiTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -25,7 +25,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Gu.Wpf.ValidationScope.Ui.Tests.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,7 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>Gu.Wpf.ValidationScope.Ui.Tests.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Gu.Wpf.ValidationScope.UiTests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -70,7 +71,7 @@
     <Compile Include="TwoLevelScopeWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Gu.Wpf.ValidationScope.Ui.Tests.ruleset" />
+    <None Include="Gu.Wpf.ValidationScope.UiTests.ruleset" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
@@ -117,7 +118,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\.paket\paket.targets" />
   <ItemGroup>
     <Analyzer Include="..\packages\analyzers\AsyncUsageAnalyzers\analyzers\dotnet\AsyncUsageAnalyzers.dll">
       <Paket>True</Paket>
@@ -1316,4 +1316,5 @@
   </Choose>
   <Import Project="..\packages\test\NETStandard.Library\build\NETStandard.Library.targets" Condition="Exists('..\packages\test\NETStandard.Library\build\NETStandard.Library.targets')" Label="Paket" />
   <Import Project="..\packages\test\NETStandard.Library\build\$(__paket__NETStandard_Library_targets).targets" Condition="Exists('..\packages\test\NETStandard.Library\build\$(__paket__NETStandard_Library_targets).targets')" Label="Paket" />
+  <Import Project="..\.paket\paket.targets" />
 </Project>

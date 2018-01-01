@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Gu.Wpf.ValidationScope.Ui.Tests")]
+[assembly: AssemblyTitle("Gu.Wpf.ValidationScope.UiTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Gu.Wpf.ValidationScope.Ui.Tests")]
+[assembly: AssemblyProduct("Gu.Wpf.ValidationScope.UiTests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

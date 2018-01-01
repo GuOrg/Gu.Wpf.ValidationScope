@@ -1,24 +1,24 @@
-namespace Gu.Wpf.ValidationScope.Ui.Tests
+﻿namespace Gu.Wpf.ValidationScope.UiTests
 {
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class NotifyDataErrorInfoWindowTests
+    public class OneLevelScopeWindowTests
     {
-        private static readonly string WindowName = "NotifyDataErrorInfoWindow";
+        private static readonly string WindowName = "OneLevelScopeWindow";
 
         [SetUp]
         public void SetUp()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            if (Application.TryAttach(Info.ExeFileName, WindowName, out var app))
             {
-                var window = app.MainWindow;
-                window.FindTextBox("IntTextBox1").Text = "1";
-                window.FindTextBox("IntTextBox2").Text = "2";
-                window.FindTextBox("ErrorTextBox1").Text = string.Empty;
-                window.FindTextBox("ErrorTextBox2").Text = string.Empty;
-                Keyboard.Type(Key.TAB);
-                window.WaitUntilResponsive();
+                using (app)
+                {
+                    var window = app.MainWindow;
+                    window.FindTextBox("IntTextBox1").Text = "0";
+                    window.FindTextBox("DoubleTextBox").Text = "0";
+                    Keyboard.Type(Key.TAB);
+                }
             }
         }
 
@@ -31,17 +31,14 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
             using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
-                var nodeType = window.FindGroupBox("Node").FindTextBlock("NodeTypeTextBlock");
+                var nodeType = window.FindGroupBox("Node")
+                                     .FindTextBlock("NodeTypeTextBlock");
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", nodeType.Text);
 
-                window.FindTextBox("ErrorTextBox1").Text = "error 1";
-                Keyboard.Type(Key.TAB);
-                Wait.UntilInputIsProcessed();
+                window.FindTextBox("IntTextBox1").Text = "a";
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", nodeType.Text);
 
-                window.FindTextBox("ErrorTextBox1").Text = string.Empty;
-                Keyboard.Type(Key.TAB);
-                Wait.UntilInputIsProcessed();
+                window.FindTextBox("IntTextBox1").Text = "1";
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", nodeType.Text);
             }
         }
@@ -63,20 +60,18 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 CollectionAssert.IsEmpty(node.GetErrors());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox1").Text = "error 1";
-                Keyboard.Type(Key.TAB);
-                var expectedErrors = new[] { "error 1" };
+                window.FindTextBox("IntTextBox1").Text = "a";
+                var expectedErrors = new[] { "Value 'a' could not be converted." };
                 Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: 1" }, node.GetChildren());
+                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox1").Text = string.Empty;
-                Keyboard.Type(Key.TAB);
+                window.FindTextBox("IntTextBox1").Text = "1";
                 Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
@@ -111,10 +106,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 CollectionAssert.IsEmpty(node.GetErrors());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox1").Text = "error 1";
-                Keyboard.Type(Key.TAB);
-                var expectedErrors = new[] { "error 1" };
-                var expectedChildren = new[] { "System.Windows.Controls.TextBox: 1" };
+                window.FindTextBox("IntTextBox1").Text = "a";
+                var expectedErrors = new[] { "Value 'a' could not be converted." };
+                var expectedChildren = new[] { "System.Windows.Controls.TextBox: a" };
 
                 Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
@@ -125,10 +119,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 CollectionAssert.AreEqual(expectedChildren, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox2").Text = "error 2";
-                Keyboard.Type(Key.TAB);
-                expectedErrors = new[] { "error 1", "error 2" };
-                expectedChildren = new[] { "System.Windows.Controls.TextBox: 1", "System.Windows.Controls.TextBox: 2" };
+                window.FindTextBox("DoubleTextBox").Text = "b";
+                expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+                expectedChildren = new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b" };
                 Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
@@ -138,10 +131,9 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 CollectionAssert.AreEqual(expectedChildren, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox1").Text = string.Empty;
-                Keyboard.Type(Key.TAB);
-                expectedErrors = new[] { "error 2" };
-                expectedChildren = new[] { "System.Windows.Controls.TextBox: 2" };
+                window.FindTextBox("IntTextBox1").Text = "1";
+                expectedErrors = new[] { "Value 'b' could not be converted." };
+                expectedChildren = new[] { "System.Windows.Controls.TextBox: b" };
 
                 Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
@@ -152,9 +144,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 CollectionAssert.AreEqual(expectedChildren, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox2").Text = string.Empty;
-                Keyboard.Type(Key.TAB);
-                window.WaitUntilResponsive();
+                window.FindTextBox("DoubleTextBox").Enter("2");
                 Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 
@@ -166,7 +156,7 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
         }
 
         [Test]
-        public void AddThenUpdateErrorThenRemoveIt()
+        public void AddTwoErrorsThenThenRemoveBothAtOnce()
         {
             using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
             {
@@ -182,33 +172,31 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                 CollectionAssert.IsEmpty(node.GetErrors());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox1").Text = "error 1";
-                Keyboard.Type(Key.TAB);
-                var expectedErrors = new[] { "error 1" };
+                window.FindTextBox("IntTextBox1").Text = "a";
+                var expectedErrors = new[] { "Value 'a' could not be converted." };
+                var expectedChildren = new[] { "System.Windows.Controls.TextBox: a" };
                 Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
                 Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: 1" }, node.GetChildren());
+                CollectionAssert.AreEqual(expectedChildren, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox1").Enter("error 2");
-                Keyboard.Type(Key.TAB);
-                window.WaitUntilResponsive();
-                expectedErrors = new[] { "error 2" };
+                window.FindTextBox("IntTextBox2").Text = "b";
+                expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+                expectedChildren = new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b" };
                 Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
-                Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
+                Assert.AreEqual("Children: 2", node.FindTextBlock("ChildCountTextBlock").Text);
                 Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-                CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: 1" }, node.GetChildren());
+                CollectionAssert.AreEqual(expectedChildren, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                window.FindTextBox("ErrorTextBox1").Enter(string.Empty);
-                Keyboard.Type(Key.TAB);
+                window.FindTextBox("IntTextBox1").Text = "1";
                 Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.IsEmpty(scope.GetErrors());
 

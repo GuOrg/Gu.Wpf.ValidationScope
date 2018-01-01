@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Ui.Tests
+namespace Gu.Wpf.ValidationScope.UiTests
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -16,21 +16,21 @@ namespace Gu.Wpf.ValidationScope.Ui.Tests
                                     new OrCondition(
                                         Condition.ByAutomationId(automationId),
                                         Condition.ByName(automationId))))
-                            .Select(x => x.AsTextBlock())
+                            .Cast<TextBlock>()
                             .ToList();
         }
 
         public static IReadOnlyList<TextBlock> FindTextBlocks(this UiElement container)
         {
             return container.FindAllDescendants(Condition.ByClassName("TextBlock"))
-                            .Select(x => x.AsTextBlock())
+                            .Cast<TextBlock>()
                             .ToList();
         }
 
         public static IReadOnlyList<TextBox> FindTextBoxes(this UiElement container)
         {
             return container.FindAllDescendants(Condition.ByClassName("TextBox"))
-                            .Select(x => x.AsTextBox())
+                            .Cast<TextBox>()
                             .ToList();
         }
 

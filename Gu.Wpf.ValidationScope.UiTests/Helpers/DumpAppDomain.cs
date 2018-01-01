@@ -1,10 +1,9 @@
-﻿namespace Gu.Wpf.ValidationScope.Ui.Tests
+﻿namespace Gu.Wpf.ValidationScope.UiTests
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-
     using NUnit.Framework;
 
     [Explicit("Script")]
