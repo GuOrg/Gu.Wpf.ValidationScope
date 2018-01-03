@@ -41,3 +41,4 @@ packages/*
 publish/*
 [Aa]rtifacts/
 .vs/*
+/paket-files/*
