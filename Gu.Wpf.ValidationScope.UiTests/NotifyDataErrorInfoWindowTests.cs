@@ -5,12 +5,13 @@ namespace Gu.Wpf.ValidationScope.UiTests
 
     public class NotifyDataErrorInfoWindowTests
     {
-        private static readonly string WindowName = "NotifyDataErrorInfoWindow";
+        private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
+        private const string WindowName = "NotifyDataErrorInfoWindow";
 
         [SetUp]
         public void SetUp()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 window.FindTextBox("IntTextBox1").Text = "1";
@@ -23,12 +24,12 @@ namespace Gu.Wpf.ValidationScope.UiTests
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);
+        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
         public void CheckNodeType()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var nodeType = window.FindGroupBox("Node").FindTextBlock("NodeTypeTextBlock");
@@ -49,7 +50,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void AddThenRemoveError()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");
@@ -97,7 +98,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void AddTwoErrorsThenRemoveThemOneByOne()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");
@@ -168,7 +169,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void AddThenUpdateErrorThenRemoveIt()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");

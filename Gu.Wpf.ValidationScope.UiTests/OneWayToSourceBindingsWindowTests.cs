@@ -5,12 +5,13 @@ namespace Gu.Wpf.ValidationScope.UiTests
 
     public class OneWayToSourceBindingsWindowTests
     {
-        private static readonly string WindowName = "OneWayToSourceBindingsWindow";
+        private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
+        private const string WindowName = "OneWayToSourceBindingsWindow";
 
         [SetUp]
         public void SetUp()
         {
-            if (Application.TryAttach(Info.ExeFileName, WindowName, out var app))
+            if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
                 using (app)
                 {
@@ -23,12 +24,12 @@ namespace Gu.Wpf.ValidationScope.UiTests
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);
+        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
         public void Updates()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var elementName = window.FindGroupBox("ElementName binding");

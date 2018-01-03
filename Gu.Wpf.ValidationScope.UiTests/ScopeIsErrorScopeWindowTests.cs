@@ -5,12 +5,13 @@ namespace Gu.Wpf.ValidationScope.UiTests
 
     public class ScopeIsErrorScopeWindowTests
     {
-        private static readonly string WindowName = "ScopeIsErrorScopeWindow";
+        private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
+        private const string WindowName = "ScopeIsErrorScopeWindow";
 
         [SetUp]
         public void SetUp()
         {
-            if (Application.TryAttach(Info.ExeFileName, WindowName, out var app))
+            if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
                 using (app)
                 {
@@ -23,12 +24,12 @@ namespace Gu.Wpf.ValidationScope.UiTests
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);
+        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
         public void CheckNodeType()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var nodeType = window.FindGroupBox("Node").FindTextBlock("NodeTypeTextBlock");
@@ -45,7 +46,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void AddTextBoxErrorThenNotifyErrorThenRemoveNotifyThenRemoveTextBoxError()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");
@@ -103,7 +104,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void AddTextBoxErrorThenNotifyErrorThenRemoveTextBoxThenRemoveNotifyError()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");

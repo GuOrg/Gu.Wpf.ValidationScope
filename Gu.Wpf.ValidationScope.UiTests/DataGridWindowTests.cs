@@ -5,12 +5,13 @@ namespace Gu.Wpf.ValidationScope.UiTests
 
     public class DataGridWindowTests
     {
-        private static readonly string WindowName = "DataGridWindow";
+        private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
+        private const string WindowName = "DataGridWindow";
 
         [Test]
         public void AddThenRemoveError()
         {
-            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            using (var app = Application.Launch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");

@@ -4,7 +4,6 @@ namespace Gu.Wpf.ValidationScope.UiTests
     using System.Linq;
     using System.Windows.Automation;
     using Gu.Wpf.UiAutomation;
-    using Condition = Gu.Wpf.UiAutomation.Condition;
 
     public static class UiElementExt
     {
@@ -12,24 +11,22 @@ namespace Gu.Wpf.ValidationScope.UiTests
         {
             return container.FindAllDescendants(
                                 new AndCondition(
-                                    Condition.ByClassName("TextBlock"),
-                                    new OrCondition(
-                                        Condition.ByAutomationId(automationId),
-                                        Condition.ByName(automationId))))
+                                    Conditions.ByClassName("TextBlock"),
+                                    Conditions.ByNameOrAutomationId(automationId)))
                             .Cast<TextBlock>()
                             .ToList();
         }
 
         public static IReadOnlyList<TextBlock> FindTextBlocks(this UiElement container)
         {
-            return container.FindAllDescendants(Condition.ByClassName("TextBlock"))
+            return container.FindAllDescendants(Conditions.ByClassName("TextBlock"))
                             .Cast<TextBlock>()
                             .ToList();
         }
 
         public static IReadOnlyList<TextBox> FindTextBoxes(this UiElement container)
         {
-            return container.FindAllDescendants(Condition.ByClassName("TextBox"))
+            return container.FindAllDescendants(Conditions.ByClassName("TextBox"))
                             .Cast<TextBox>()
                             .ToList();
         }

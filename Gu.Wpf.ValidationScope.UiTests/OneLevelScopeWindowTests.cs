@@ -1,16 +1,17 @@
-﻿namespace Gu.Wpf.ValidationScope.UiTests
+namespace Gu.Wpf.ValidationScope.UiTests
 {
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
     public class OneLevelScopeWindowTests
     {
-        private static readonly string WindowName = "OneLevelScopeWindow";
+        private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
+        private const string WindowName = "OneLevelScopeWindow";
 
         [SetUp]
         public void SetUp()
         {
-            if (Application.TryAttach(Info.ExeFileName, WindowName, out var app))
+            if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
                 using (app)
                 {
@@ -23,12 +24,12 @@
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);
+        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
         public void CheckNodeType()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var nodeType = window.FindGroupBox("Node")
@@ -46,7 +47,7 @@
         [Test]
         public void AddThenRemoveError()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");
@@ -92,7 +93,7 @@
         [Test]
         public void AddTwoErrorsThenRemoveThemOneByOne()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");
@@ -158,7 +159,7 @@
         [Test]
         public void AddTwoErrorsThenThenRemoveBothAtOnce()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");

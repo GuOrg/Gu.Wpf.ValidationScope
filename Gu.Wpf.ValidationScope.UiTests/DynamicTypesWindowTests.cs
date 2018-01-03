@@ -5,12 +5,13 @@ namespace Gu.Wpf.ValidationScope.UiTests
 
     public class DynamicTypesWindowTests
     {
-        private static readonly string WindowName = "DynamicTypesWindow";
+        private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
+        private const string WindowName = "DynamicTypesWindow";
 
         [SetUp]
         public void SetUp()
         {
-            if (Application.TryAttach(Info.ExeFileName, WindowName, out var app))
+            if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
                 using (app)
                 {
@@ -23,12 +24,12 @@ namespace Gu.Wpf.ValidationScope.UiTests
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);
+        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
         public void SetTextBoxErrorThenSelectTextBoxThenSelectSlider()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");
@@ -83,7 +84,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void SetAllErrorsThenSetDifferentScopes()
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var scope = window.FindGroupBox("Scope");

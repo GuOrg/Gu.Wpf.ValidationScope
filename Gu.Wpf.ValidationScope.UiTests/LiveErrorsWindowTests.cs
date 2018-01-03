@@ -6,15 +6,16 @@ namespace Gu.Wpf.ValidationScope.UiTests
 
     public class LiveErrorsWindowTests
     {
-        private static readonly string WindowName = "LiveErrorsWindow";
+        private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
+        private const string WindowName = "LiveErrorsWindow";
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(Info.ExeFileName);
+        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
         public void Validation()
         {
-            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            using (var app = Application.Launch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
 
@@ -55,7 +56,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void ScopeTextBox()
         {
-            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            using (var app = Application.Launch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var groupBox = window.FindGroupBox("Scope textbox errors");
@@ -103,7 +104,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void ScopeGroupBoxOneError()
         {
-            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            using (var app = Application.Launch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var groupBox = window.FindGroupBox("Scope errors");
@@ -151,7 +152,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void ScopeGroupBoxTwoErrors()
         {
-            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            using (var app = Application.Launch(ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
                 var groupBox = window.FindGroupBox("Scope errors");
