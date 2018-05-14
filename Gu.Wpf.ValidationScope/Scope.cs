@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope
+namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -145,7 +145,9 @@
                 var inputNode = GetNode(d) as InputNode;
                 if (inputNode == null)
                 {
+#pragma warning disable IDISP001 // Dispose created. Disposed in SetNode
                     inputNode = new InputNode((FrameworkElement)d);
+#pragma warning restore IDISP001 // Dispose created.
                     SetNode(d, inputNode);
                 }
             }

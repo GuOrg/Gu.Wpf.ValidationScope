@@ -1,4 +1,4 @@
-﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Wpf.ValidationScope
 {
     using System;
@@ -35,7 +35,9 @@ namespace Gu.Wpf.ValidationScope
             {
                 if (parentNode == null)
                 {
+#pragma warning disable IDISP001 // Dispose created. Disposed in SetNode.
                     parentNode = new ScopeNode(parent);
+#pragma warning restore IDISP001 // Dispose created.
                 }
 
                 parentNode.ChildCollection.TryAdd(childNode);
@@ -53,7 +55,8 @@ namespace Gu.Wpf.ValidationScope
                 parentNode.ChildCollection.Remove(childNode);
                 parentNode.ErrorCollection.Remove(removed);
                 parentNode.ErrorCollection.Remove(childNode.Errors);
-                if (parentNode is ScopeNode && parentNode.Errors.Count == 0)
+                if (parentNode is ScopeNode &&
+                    parentNode.Errors.Count == 0)
                 {
                     SetNode(parent, ValidNode.Default);
                 }
