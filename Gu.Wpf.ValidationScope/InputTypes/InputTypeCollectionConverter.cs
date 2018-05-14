@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;
@@ -247,7 +247,7 @@
                 catch (ReflectionTypeLoadException ex)
                 {
                     // http://stackoverflow.com/a/8824250/1069200
-                    foreach (Exception exSub in ex.LoaderExceptions)
+                    foreach (var exSub in ex.LoaderExceptions)
                     {
                         ErrorBuilder.AppendLine(exSub.Message);
                         var exFileNotFound = exSub as FileNotFoundException;

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -43,7 +43,9 @@
             using (var events = reference.SubscribeObservableCollectionEvents())
             {
                 reference.Clear();
+#pragma warning disable IDISP011 // Don't return disposed instance.
                 return events;
+#pragma warning restore IDISP011 // Don't return disposed instance.
             }
         }
     }

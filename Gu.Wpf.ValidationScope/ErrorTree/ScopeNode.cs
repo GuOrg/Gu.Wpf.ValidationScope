@@ -18,9 +18,12 @@ namespace Gu.Wpf.ValidationScope
         {
             get
             {
-                DependencyObject source;
-                this.sourceReference.TryGetTarget(out source);
-                return source;
+                if (this.sourceReference.TryGetTarget(out var source))
+                {
+                    return source;
+                }
+
+                return null;
             }
         }
     }
