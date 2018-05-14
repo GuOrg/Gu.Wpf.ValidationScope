@@ -11,7 +11,7 @@
     {
         internal ScopeValidationErrorEventArgs(ValidationError validationError, ValidationErrorEventAction action)
         {
-            this.RoutedEvent = Scope.ErrorEvent;
+            this.RoutedEvent = Scope.ValidationErrorEvent;
             this.Error = validationError;
             this.Action = action;
         }
