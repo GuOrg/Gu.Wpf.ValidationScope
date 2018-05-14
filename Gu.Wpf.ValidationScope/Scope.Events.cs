@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Windows;
@@ -7,7 +7,7 @@
     {
         /// <summary>
         /// Notifies when validation errors occurs in the scope.
-        /// Bindings does not need NotifyOnValidationError=True for thhsi event to fire.
+        /// Bindings does not need NotifyOnValidationError=True for this event to fire.
         /// </summary>
         public static readonly RoutedEvent ErrorEvent = EventManager.RegisterRoutedEvent(
             "ValidationError",
@@ -17,7 +17,7 @@
 
         /// <summary>
         /// Notifies when validation errors occurs in the scope.
-        /// Bindings does not need NotifyOnValidationError=True for thhsi event to fire.
+        /// Bindings does not need NotifyOnValidationError=True for this event to fire.
         /// </summary>
         public static readonly RoutedEvent ErrorsChangedEvent = EventManager.RegisterRoutedEvent(
             "ErrorsChanged",
