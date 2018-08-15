@@ -74,10 +74,10 @@ namespace Gu.Wpf.ValidationScope.Demo
         private static void OnTrackChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             d.SetValue(EventsPropertyKey, new ObservableCollection<object>());
-            _ = BindingHelper.Bind(d, HasErrorProperty)
-                             .OneWayTo(d, Scope.HasErrorProperty);
-            _ = BindingHelper.Bind(d, ErrorsProperty)
-                             .OneWayTo(d, Scope.ErrorsProperty);
+            _ = d.Bind(HasErrorProperty)
+                 .OneWayTo(d, Scope.HasErrorProperty);
+            _ = d.Bind(ErrorsProperty)
+                 .OneWayTo(d, Scope.ErrorsProperty);
             Scope.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o).Add(args));
         }
     }
