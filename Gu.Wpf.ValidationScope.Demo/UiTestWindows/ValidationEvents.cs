@@ -1,4 +1,4 @@
-﻿// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedMember.Local
 namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Collections.Generic;
@@ -35,11 +35,17 @@ namespace Gu.Wpf.ValidationScope.Demo
             typeof(ValidationEvents),
             new PropertyMetadata(null, (d, e) => GetEvents(d).Add(e.NewValue)));
 
+        /// <summary>Helper for setting <see cref="TrackProperty"/> on <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="DependencyObject"/> to set <see cref="TrackProperty"/> on.</param>
+        /// <param name="value">Track property value.</param>
         public static void SetTrack(this DependencyObject element, bool value)
         {
             element.SetValue(TrackProperty, value);
         }
 
+        /// <summary>Helper for getting <see cref="TrackProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="DependencyObject"/> to read <see cref="TrackProperty"/> from.</param>
+        /// <returns>Track property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(FrameworkElement))]
         public static bool GetTrack(this DependencyObject element)
@@ -52,6 +58,9 @@ namespace Gu.Wpf.ValidationScope.Demo
             element.SetValue(EventsPropertyKey, value);
         }
 
+        /// <summary>Helper for getting <see cref="EventsProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="DependencyObject"/> to read <see cref="EventsProperty"/> from.</param>
+        /// <returns>Events property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(FrameworkElement))]
         public static ObservableCollection<object> GetEvents(this DependencyObject element)
@@ -64,10 +73,10 @@ namespace Gu.Wpf.ValidationScope.Demo
         private static void OnTrackChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             d.SetValue(EventsPropertyKey, new ObservableCollection<object>());
-            BindingHelper.Bind(d, HasErrorProperty)
-                         .OneWayTo(d, Validation.HasErrorProperty);
-            BindingHelper.Bind(d, ErrorsProperty)
-                         .OneWayTo(d, Validation.ErrorsProperty);
+            _ = BindingHelper.Bind(d, HasErrorProperty)
+                             .OneWayTo(d, Validation.HasErrorProperty);
+            _ = BindingHelper.Bind(d, ErrorsProperty)
+                             .OneWayTo(d, Validation.ErrorsProperty);
             Validation.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o).Add(args));
         }
     }

@@ -51,20 +51,16 @@ namespace Gu.Wpf.ValidationScope
             typeof(Scope),
             new PropertyMetadata(default(OneWayToSourceBindings), OnOneWayToSourceBindingsChanged));
 
-        /// <summary>
-        /// Helper for setting OneWayToSourceBindings property on a UIElement.
-        /// </summary>
-        /// <param name="element">UIElement to set OneWayToSourceBindings property on.</param>
+        /// <summary>Helper for setting <see cref="OneWayToSourceBindingsProperty"/> on <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="UIElement"/> to set <see cref="OneWayToSourceBindingsProperty"/> on.</param>
         /// <param name="value">OneWayToSourceBindings property value.</param>
         public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
         {
             element.SetValue(OneWayToSourceBindingsProperty, value);
         }
 
-        /// <summary>
-        /// Helper for reading OneWayToSourceBindings property from a UIElement.
-        /// </summary>
-        /// <param name="element">UIElement to read OneWayToSourceBindings property from.</param>
+        /// <summary>Helper for getting <see cref="OneWayToSourceBindingsProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="UIElement"/> to read <see cref="OneWayToSourceBindingsProperty"/> from.</param>
         /// <returns>OneWayToSourceBindings property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
@@ -73,10 +69,8 @@ namespace Gu.Wpf.ValidationScope
             return (OneWayToSourceBindings)element.GetValue(OneWayToSourceBindingsProperty);
         }
 
-        /// <summary>
-        /// Helper for setting ForInputTypes property on a FrameworkElement.
-        /// </summary>
-        /// <param name="element">FrameworkElement to set ForInputTypes property on.</param>
+        /// <summary>Helper for setting <see cref="ForInputTypesProperty"/> on <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="FrameworkElement"/> to set <see cref="ForInputTypesProperty"/> on.</param>
         /// <param name="value">ForInputTypes property value.</param>
         public static void SetForInputTypes(FrameworkElement element, InputTypeCollection value) => element.SetValue(ForInputTypesProperty, value);
 
@@ -86,10 +80,8 @@ namespace Gu.Wpf.ValidationScope
 
         private static void SetHasError(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
 
-        /// <summary>
-        /// Helper for reading HasError property from a UIElement.
-        /// </summary>
-        /// <param name="element">UIElement to read HasError property from.</param>
+        /// <summary>Helper for getting <see cref="HasErrorProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="UIElement"/> to read <see cref="HasErrorProperty"/> from.</param>
         /// <returns>HasError property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
@@ -100,10 +92,8 @@ namespace Gu.Wpf.ValidationScope
             element.SetValue(ErrorsPropertyKey, value);
         }
 
-        /// <summary>
-        /// Helper for reading Errors property from a DependencyObject.
-        /// </summary>
-        /// <param name="element">DependencyObject to read Errors property from.</param>
+        /// <summary>Helper for getting <see cref="ErrorsProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="DependencyObject"/> to read <see cref="ErrorsProperty"/> from.</param>
         /// <returns>Errors property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(DependencyObject))]

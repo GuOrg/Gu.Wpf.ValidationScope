@@ -36,7 +36,7 @@ namespace Gu.Wpf.ValidationScope
 
         internal void BindToSourceErrors()
         {
-            BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, SourceErrorsProperty, this.errorsBinding);
+            _ = BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, SourceErrorsProperty, this.errorsBinding);
         }
 
         protected override void Dispose(bool disposing)
