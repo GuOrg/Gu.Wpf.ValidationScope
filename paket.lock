@@ -18,6 +18,7 @@ NUGET
     WpfAnalyzers (2.1.6)
 
 GROUP Test
+STORAGE: NONE
 NUGET
   remote: http://www.nuget.org/api/v2
     Gu.Wpf.UiAutomation (0.2.3.2)
