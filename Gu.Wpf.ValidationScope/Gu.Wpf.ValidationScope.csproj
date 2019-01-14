@@ -114,6 +114,8 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OneWayToSourceBindings.generated.cs</LastGenOutput>
     </Content>
+    <AdditionalFiles Include="PublicAPI.Shipped.txt" />
+    <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -121,6 +123,14 @@
   <Import Project="..\.paket\paket.targets" />
   <ItemGroup>
     <Analyzer Include="..\packages\analyzers\AsyncUsageAnalyzers\analyzers\dotnet\AsyncUsageAnalyzers.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\analyzers\DotNetAnalyzers.PublicApiAnalyzer.Unstable\analyzers\dotnet\cs\PublicApiAnalyzer.CodeFixes.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\DotNetAnalyzers.PublicApiAnalyzer.Unstable\analyzers\dotnet\cs\PublicApiAnalyzer.dll">
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
