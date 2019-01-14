@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Collections.Generic;
     using System.Threading;
@@ -226,7 +226,7 @@
                         textBox.SetValidationError(validationError);
                         var expectedEvents = new List<ScopeValidationErrorEventArgs>
                         {
-                            new ScopeValidationErrorEventArgs(validationError, ValidationErrorEventAction.Added)
+                            new ScopeValidationErrorEventArgs(validationError, ValidationErrorEventAction.Added),
                         };
                         CollectionAssert.AreEqual(expectedEvents, textBoxEvents, ScopeValidationErrorEventArgsComparer.Default);
                         CollectionAssert.AreEqual(expectedEvents, stackPanelEVents, ScopeValidationErrorEventArgsComparer.Default);

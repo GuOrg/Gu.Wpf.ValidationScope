@@ -109,7 +109,7 @@ namespace Gu.Wpf.ValidationScope
         {
             Empty,
             One,
-            Many
+            Many,
         }
     }
 }

@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ParentChildScopesView.xaml
+    /// Interaction logic for ParentChildScopesView.xaml.
     /// </summary>
     public partial class ParentChildScopesView : UserControl
     {

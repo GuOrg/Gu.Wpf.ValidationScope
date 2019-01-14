@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for NotifyDataErrorInfoView.xaml
+    /// Interaction logic for NotifyDataErrorInfoView.xaml.
     /// </summary>
     public partial class NotifyDataErrorInfoView : UserControl
     {

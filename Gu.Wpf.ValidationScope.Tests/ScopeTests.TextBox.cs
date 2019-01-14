@@ -86,7 +86,7 @@
                         {
                             new PropertyChangedEventArgs("Count"),
                             new PropertyChangedEventArgs("Item[]"),
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, validationError, 0)
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, validationError, 0),
                         };
                         CollectionAssert.AreEqual(expectedErrorArgs, errorArgs, ObservableCollectionArgsComparer.Default);
                         CollectionAssert.AreEqual(new[] { new PropertyChangedEventArgs(nameof(Node.HasError)) }, nodeArgs, PropertyChangedEventArgsComparer.Default);
@@ -119,7 +119,7 @@
                     textBox.SetValidationError(validationError);
                     var expectedEvents = new List<ScopeValidationErrorEventArgs>
                     {
-                        new ScopeValidationErrorEventArgs(validationError, ValidationErrorEventAction.Added)
+                        new ScopeValidationErrorEventArgs(validationError, ValidationErrorEventAction.Added),
                     };
                     CollectionAssert.AreEqual(expectedEvents, textBoxEvents, ScopeValidationErrorEventArgsComparer.Default);
 

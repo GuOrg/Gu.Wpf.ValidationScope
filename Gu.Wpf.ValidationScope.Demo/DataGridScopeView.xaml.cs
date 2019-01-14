@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for DataGridScopeView.xaml
+    /// Interaction logic for DataGridScopeView.xaml.
     /// </summary>
     public partial class DataGridScopeView : UserControl
     {

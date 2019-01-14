@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +20,7 @@
             typeof(TextBoxBase),
             typeof(Selector),
             typeof(ToggleButton),
-            typeof(Slider)
+            typeof(Slider),
         };
 
         public InputTypeCollection()
@@ -34,7 +34,7 @@
 
         /// <summary>
         /// Check if <paramref name="type"/> can be an input type.
-        /// Valid input types are { Scope, UIElement, ContentElement }
+        /// Valid input types are { Scope, UIElement, ContentElement }.
         /// </summary>
         /// <returns>True if <paramref name="type"/> is a possible input type.</returns>
         public static bool IsCompatibleType(Type type)
@@ -50,7 +50,7 @@
         }
 
         /// <summary>
-        /// Check if the collection contains <paramref name="dependencyObject"/> or a type that is a subclass of <paramref name="dependencyObject"/>
+        /// Check if the collection contains <paramref name="dependencyObject"/> or a type that is a subclass of <paramref name="dependencyObject"/>.
         /// </summary>
         /// <returns>True if <paramref name="dependencyObject"/> is an input type registered for the collection.</returns>
         public bool Contains(DependencyObject dependencyObject)

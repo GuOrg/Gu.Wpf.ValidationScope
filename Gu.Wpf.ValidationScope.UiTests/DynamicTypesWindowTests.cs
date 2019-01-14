@@ -131,7 +131,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
                     "Value 'a' could not be converted.",
                     "Value 'b' could not be converted.",
                     "Value 'c' could not be converted.",
-                    "Value 'd' could not be converted."
+                    "Value 'd' could not be converted.",
                 };
                 Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
@@ -147,7 +147,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
                 expectedErrors = new[]
                 {
                     "Value 'c' could not be converted.",
-                    "Value 'd' could not be converted."
+                    "Value 'd' could not be converted.",
                 };
                 Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
                 CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());

@@ -5,7 +5,7 @@
 
     /// <summary>
     /// Manager for the INotifyErrorsChanged.ErrorsChanged event.
-    /// Inspired by: http://referencesource.microsoft.com/#WindowsBase/Base/System/Collections/Specialized/CollectionChangedEventManager.cs,7537b339109a7418
+    /// Inspired by: http://referencesource.microsoft.com/#WindowsBase/Base/System/Collections/Specialized/CollectionChangedEventManager.cs,7537b339109a7418.
     /// </summary>
     internal class ErrorsChangedEventManager : WeakEventManager
     {

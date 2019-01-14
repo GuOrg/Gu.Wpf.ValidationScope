@@ -5,7 +5,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for DynamicTypesView.xaml
+    /// Interaction logic for DynamicTypesView.xaml.
     /// </summary>
     public partial class DynamicTypesView : UserControl
     {

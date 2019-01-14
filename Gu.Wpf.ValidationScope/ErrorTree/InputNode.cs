@@ -28,7 +28,7 @@ namespace Gu.Wpf.ValidationScope
                 Path = ErrorsPropertyPath,
                 Mode = BindingMode.OneWay,
                 Source = source,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
             };
         }
 

@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ScopeIsErrorScopeView.xaml
+    /// Interaction logic for ScopeIsErrorScopeView.xaml.
     /// </summary>
     public partial class ScopeIsErrorScopeView : UserControl
     {

@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for TwoLevelScopeView.xaml
+    /// Interaction logic for TwoLevelScopeView.xaml.
     /// </summary>
     public partial class TwoLevelScopeView : UserControl
     {

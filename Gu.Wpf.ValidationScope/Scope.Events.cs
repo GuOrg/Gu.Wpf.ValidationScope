@@ -26,8 +26,8 @@ namespace Gu.Wpf.ValidationScope
             typeof(Scope));
 
         /// <summary>Adds a handler for the Scope.ValidationError attached event.</summary>
-        /// <param name="element">UIElement or ContentElement that listens to this event</param>
-        /// <param name="handler">Event Handler to be added</param>
+        /// <param name="element">UIElement or ContentElement that listens to this event.</param>
+        /// <param name="handler">Event Handler to be added.</param>
         public static void AddErrorHandler(DependencyObject element, EventHandler<ScopeValidationErrorEventArgs> handler)
         {
             (element as UIElement)?.AddHandler(ValidationErrorEvent, handler);
@@ -35,8 +35,8 @@ namespace Gu.Wpf.ValidationScope
         }
 
         /// <summary>Removes a handler for the Scope.ValidationError attached event.</summary>
-        /// <param name="element">UIElement or ContentElement that listens to this event</param>
-        /// <param name="handler">Event Handler to be removed</param>
+        /// <param name="element">UIElement or ContentElement that listens to this event.</param>
+        /// <param name="handler">Event Handler to be removed.</param>
         public static void RemoveErrorHandler(DependencyObject element, EventHandler<ScopeValidationErrorEventArgs> handler)
         {
             (element as UIElement)?.RemoveHandler(ValidationErrorEvent, handler);
@@ -44,8 +44,8 @@ namespace Gu.Wpf.ValidationScope
         }
 
         /// <summary>Adds a handler for the Scope.ErrorsChanged attached event.</summary>
-        /// <param name="element">UIElement or ContentElement that listens to this event</param>
-        /// <param name="handler">Event Handler to be added</param>
+        /// <param name="element">UIElement or ContentElement that listens to this event.</param>
+        /// <param name="handler">Event Handler to be added.</param>
         public static void AddErrorsChangedHandler(this DependencyObject element, EventHandler<ErrorsChangedEventArgs> handler)
         {
             (element as UIElement)?.AddHandler(ValidationErrorEvent, handler);
@@ -53,8 +53,8 @@ namespace Gu.Wpf.ValidationScope
         }
 
         /// <summary>Removes a handler for the Scope.ErrorsChanged attached event.</summary>
-        /// <param name="element">UIElement or ContentElement that listens to this event</param>
-        /// <param name="handler">Event Handler to be removed</param>
+        /// <param name="element">UIElement or ContentElement that listens to this event.</param>
+        /// <param name="handler">Event Handler to be removed.</param>
         public static void RemoveErrorsChangedHandler(this DependencyObject element, EventHandler<ErrorsChangedEventArgs> handler)
         {
             (element as UIElement)?.RemoveHandler(ValidationErrorEvent, handler);

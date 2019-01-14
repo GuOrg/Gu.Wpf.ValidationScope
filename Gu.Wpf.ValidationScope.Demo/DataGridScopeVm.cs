@@ -7,7 +7,7 @@
         public ObservableCollection<ViewModel> Collection { get; } = new ObservableCollection<ViewModel>
                                                                          {
                                                                              new ViewModel(),
-                                                                             new ViewModel()
+                                                                             new ViewModel(),
                                                                          };
     }
 }

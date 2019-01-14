@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ValidationScopeView.xaml
+    /// Interaction logic for ValidationScopeView.xaml.
     /// </summary>
     public partial class OneLevelScopeView : UserControl
     {
