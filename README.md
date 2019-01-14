@@ -4,6 +4,7 @@
 [![Gitter](https://badges.gitter.im/JohanLarsson/Gu.Wpf.ValidationScope.svg)](https://gitter.im/JohanLarsson/Gu.Wpf.ValidationScope?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![NuGet](https://img.shields.io/nuget/v/Gu.Wpf.ValidationScope.svg)](https://www.nuget.org/packages/Gu.Wpf.ValidationScope/)
 [![Build status](https://ci.appveyor.com/api/projects/status/omv9baijykp70dfr?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-wpf-validationscope)
+[![Build Status](https://dev.azure.com/johan-larsson/Gu.Wpf.ValidationScope/_apis/build/status/Gu.Wpf.ValidationScope-CI?branchName=master)](https://dev.azure.com/johan-larsson/Gu.Wpf.ValidationScope/_build/latest?definitionId=11&branchName=master)
 
 Library that provides functionality for form validation in WPF.
 It works by adding bindings to Validation.Errors for elements in a validation scope.
