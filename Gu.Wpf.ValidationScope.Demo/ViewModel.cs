@@ -1,8 +1,7 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using JetBrains.Annotations;
 
     public class ViewModel : INotifyPropertyChanged
     {
@@ -17,10 +16,7 @@
 
         public int IntValue1
         {
-            get
-            {
-                return this.intValue1;
-            }
+            get => this.intValue1;
 
             set
             {
@@ -36,10 +32,7 @@
 
         public int IntValue2
         {
-            get
-            {
-                return this.intValue2;
-            }
+            get => this.intValue2;
 
             set
             {
@@ -55,10 +48,7 @@
 
         public double DoubleValue
         {
-            get
-            {
-                return this.doubleValue;
-            }
+            get => this.doubleValue;
 
             set
             {
@@ -74,10 +64,7 @@
 
         public string StringValue
         {
-            get
-            {
-                return this.stringValue;
-            }
+            get => this.stringValue;
 
             set
             {
@@ -91,7 +78,6 @@
             }
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -5,7 +5,6 @@ namespace Gu.Wpf.ValidationScope.Demo
     using System.ComponentModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using JetBrains.Annotations;
 
     public class NotifyDataErrorInfoVm : INotifyPropertyChanged, INotifyDataErrorInfo
     {
@@ -109,7 +108,6 @@ namespace Gu.Wpf.ValidationScope.Demo
             return Enumerable.Empty<object>();
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -5,8 +5,6 @@ namespace Gu.Wpf.ValidationScope.Demo
     using System.Runtime.CompilerServices;
     using System.Windows.Controls;
 
-    using JetBrains.Annotations;
-
     public class OneWayToSourceBindingsViewModel : INotifyPropertyChanged
     {
         private int intValue;
@@ -80,7 +78,6 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

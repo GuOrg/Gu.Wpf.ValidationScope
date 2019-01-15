@@ -5,8 +5,6 @@ namespace Gu.Wpf.ValidationScope.Demo
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using JetBrains.Annotations;
-
     public class ScopeIsErrorScopeVm : INotifyPropertyChanged, INotifyDataErrorInfo
     {
         private int intValue;
@@ -18,10 +16,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public bool HasErrors
         {
-            get
-            {
-                return this.hasErrors;
-            }
+            get => this.hasErrors;
 
             set
             {
@@ -38,10 +33,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public int IntValue
         {
-            get
-            {
-                return this.intValue;
-            }
+            get => this.intValue;
 
             set
             {
@@ -62,7 +54,6 @@ namespace Gu.Wpf.ValidationScope.Demo
                 : null;
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
