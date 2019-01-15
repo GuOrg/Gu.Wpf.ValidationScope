@@ -15,7 +15,9 @@ namespace Gu.Wpf.ValidationScope
             this.Types.AddRange(types);
         }
 
+#pragma warning disable CA2227 // Collection properties should be read only
         public InputTypeCollection Types { get; set; } = new InputTypeCollection();
+#pragma warning restore CA2227 // Collection properties should be read only
 
         /// <inheritdoc />
         public override object ProvideValue(IServiceProvider serviceProvider)

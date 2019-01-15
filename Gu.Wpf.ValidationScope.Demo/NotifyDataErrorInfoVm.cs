@@ -24,10 +24,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public int IntValue1
         {
-            get
-            {
-                return this.intValue1;
-            }
+            get => this.intValue1;
 
             set
             {
@@ -43,10 +40,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public string Error1
         {
-            get
-            {
-                return this.error1;
-            }
+            get => this.error1;
 
             set
             {
@@ -64,10 +58,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public int IntValue2
         {
-            get
-            {
-                return this.intValue2;
-            }
+            get => this.intValue2;
 
             set
             {
@@ -83,10 +74,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         public string Error2
         {
-            get
-            {
-                return this.error2;
-            }
+            get => this.error2;
 
             set
             {

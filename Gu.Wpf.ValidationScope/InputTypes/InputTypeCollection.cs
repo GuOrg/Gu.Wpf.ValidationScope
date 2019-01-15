@@ -36,6 +36,7 @@ namespace Gu.Wpf.ValidationScope
         /// Check if <paramref name="type"/> can be an input type.
         /// Valid input types are { Scope, UIElement, ContentElement }.
         /// </summary>
+        /// <param name="type">The <see cref="Type"/>.</param>
         /// <returns>True if <paramref name="type"/> is a possible input type.</returns>
         public static bool IsCompatibleType(Type type)
         {
@@ -52,6 +53,7 @@ namespace Gu.Wpf.ValidationScope
         /// <summary>
         /// Check if the collection contains <paramref name="dependencyObject"/> or a type that is a subclass of <paramref name="dependencyObject"/>.
         /// </summary>
+        /// <param name="dependencyObject">The <see cref="DependencyObject"/>.</param>
         /// <returns>True if <paramref name="dependencyObject"/> is an input type registered for the collection.</returns>
         public bool Contains(DependencyObject dependencyObject)
         {
@@ -64,6 +66,7 @@ namespace Gu.Wpf.ValidationScope
         }
 
         /// <summary>See <see cref="List{T}.AddRange"/>.</summary>
+        /// <param name="types">The <see cref="IEnumerable{Type}"/>.</param>
         public void AddRange(IEnumerable<Type> types)
         {
             foreach (var type in types)

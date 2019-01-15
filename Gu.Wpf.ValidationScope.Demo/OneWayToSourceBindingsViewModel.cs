@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Collections.ObjectModel;
     using System.ComponentModel;
@@ -18,10 +18,7 @@
 
         public int IntValue
         {
-            get
-            {
-                return this.intValue;
-            }
+            get => this.intValue;
 
             set
             {
@@ -37,10 +34,7 @@
 
         public bool HasError
         {
-            get
-            {
-                return this.hasError;
-            }
+            get => this.hasError;
 
             set
             {
@@ -56,10 +50,7 @@
 
         public ReadOnlyObservableCollection<ValidationError> Errors
         {
-            get
-            {
-                return this.errors;
-            }
+            get => this.errors;
 
             set
             {
@@ -75,10 +66,7 @@
 
         public Node Node
         {
-            get
-            {
-                return this.node;
-            }
+            get => this.node;
 
             set
             {

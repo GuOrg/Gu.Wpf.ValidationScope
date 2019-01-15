@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@
             return new EventList(source);
         }
 
-        public class EventList : Collection<PropertyChangedEventArgs>, IDisposable
+        public sealed class EventList : Collection<PropertyChangedEventArgs>, IDisposable
         {
             private readonly INotifyPropertyChanged source;
 

@@ -43,18 +43,23 @@ namespace Gu.Wpf.ValidationScope
         /// <inheritdoc />
         public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
             if (this.disposed)
             {
                 return;
             }
 
             this.disposed = true;
-            this.Dispose(true);
-        }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            this.ErrorCollection.ErrorsChanged -= this.OnErrorsChanged;
+            if (disposing)
+            {
+                this.ErrorCollection.ErrorsChanged -= this.OnErrorsChanged;
+            }
         }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections;
@@ -15,8 +15,8 @@
             return new EventList<T>(col);
         }
 
-        public class EventList<T> : Collection<EventArgs>, IDisposable
-                        where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
+        public sealed class EventList<T> : Collection<EventArgs>, IDisposable
+            where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
         {
             private readonly T source;
 
