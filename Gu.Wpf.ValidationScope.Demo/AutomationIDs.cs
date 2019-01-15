@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Runtime.CompilerServices;
     using System.Windows;
@@ -12,21 +12,6 @@
             typeof(string),
             typeof(AutomationIDs),
             new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.Inherits, OnTextBoxIdChanged));
-
-        public static readonly string MainWindow = Create();
-        public static readonly string OneLevelScopeTab = Create();
-        public static readonly string TwoLevelScopeTab = Create();
-        public static readonly string ScopeWithDataTemplatesTab = Create();
-        public static readonly string ScopeWithControlTemplatesTab = Create();
-        public static readonly string ComplicatedScopeTab = Create();
-        public static readonly string DynamicScopeTab = Create();
-        public static readonly string DataGridScopeTab = Create();
-        public static readonly string NotifyDataErrorInfoTab = Create();
-        public static readonly string OneWayToSourceBindingTab = Create();
-        public static readonly string ParentChildScopesTab = Create();
-        public static readonly string ScopeIsErrorScopeTab = Create();
-
-        public static readonly string DataGrid = Create();
 
         public static void SetTextBoxId(this UIElement element, string value)
         {

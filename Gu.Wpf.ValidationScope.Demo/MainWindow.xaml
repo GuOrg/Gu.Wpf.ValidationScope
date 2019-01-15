@@ -1,4 +1,4 @@
-﻿<Window x:Class="Gu.Wpf.ValidationScope.Demo.MainWindow"
+<Window x:Class="Gu.Wpf.ValidationScope.Demo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,60 +7,59 @@
         Title="MainWindow"
         Width="525"
         Height="350"
-        AutomationProperties.AutomationId="{x:Static local:AutomationIDs.MainWindow}"
         mc:Ignorable="d">
     <TabControl>
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.OneLevelScopeTab}"
+        <TabItem x:Name="OneLevelScopeTab"
                  Header="Scope(1)">
             <local:OneLevelScopeView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.TwoLevelScopeTab}"
+        <TabItem x:Name="TwoLevelScopeTab"
                  Header="Scope(2)">
             <local:TwoLevelScopeView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ScopeWithDataTemplatesTab}"
+        <TabItem x:Name="ScopeWithDataTemplatesTab"
                  Header="Scope(DataTemplates)">
             <local:DataTemplatesView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ScopeWithControlTemplatesTab}"
+        <TabItem x:Name="ScopeWithControlTemplatesTab"
                  Header="Scope(ControlTemplate)">
             <local:ControlTemplatesView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ComplicatedScopeTab}"
+        <TabItem x:Name="ComplicatedScopeTab"
                  Header="Complicated">
             <local:ComplicatedScopeView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.DynamicScopeTab}"
+        <TabItem x:Name="DynamicScopeTab"
                  Header="Dynamic">
             <local:DynamicTypesView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.DataGridScopeTab}"
+        <TabItem x:Name="DataGridScopeTab"
                  Header="DataGrid">
             <local:DataGridScopeView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.NotifyDataErrorInfoTab}"
+        <TabItem x:Name="NotifyDataErrorInfoTab"
                  Header="NotifyDataErrorInfo">
             <local:NotifyDataErrorInfoView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.OneWayToSourceBindingTab}"
+        <TabItem x:Name="OneWayToSourceBindingTab"
                  Header="OneWayToSourceBinding">
             <local:OneWayToSourceBindingsView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ScopeIsErrorScopeTab}"
+        <TabItem x:Name="ScopeIsErrorScopeTab"
                  Header="ScopeIsErrorScope">
             <local:ScopeIsErrorScopeView />
         </TabItem>
 
-        <TabItem AutomationProperties.AutomationId="{x:Static local:AutomationIDs.ParentChildScopesTab}"
+        <TabItem x:Name="ParentChildScopesTab"
                  Header="ParentChildScopes">
             <local:ParentChildScopesView />
         </TabItem>
