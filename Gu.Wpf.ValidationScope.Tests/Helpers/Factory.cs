@@ -40,12 +40,12 @@ namespace Gu.Wpf.ValidationScope.Tests
         public static IReadOnlyList<EventArgs> ResetArgs()
         {
             var reference = new ObservableCollection<int> { 1 };
+            var result = new List<EventArgs>();
             using (var events = reference.SubscribeObservableCollectionEvents())
             {
                 reference.Clear();
-#pragma warning disable IDISP011 // Don't return disposed instance.
-                return events;
-#pragma warning restore IDISP011 // Don't return disposed instance.
+                result.AddRange(events);
+                return result;
             }
         }
     }

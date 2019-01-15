@@ -62,7 +62,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AutomationIDs.cs" />
     <Compile Include="BoolToBrushConverter.cs" />
     <Compile Include="ComplicatedScopeView.xaml.cs">
       <DependentUpon>ComplicatedScopeView.xaml</DependentUpon>

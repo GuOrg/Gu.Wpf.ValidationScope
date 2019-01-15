@@ -9,58 +9,47 @@
         Height="350"
         mc:Ignorable="d">
     <TabControl>
-        <TabItem x:Name="OneLevelScopeTab"
-                 Header="Scope(1)">
+        <TabItem x:Name="OneLevelScopeTab" Header="Scope(1)">
             <local:OneLevelScopeView />
         </TabItem>
 
-        <TabItem x:Name="TwoLevelScopeTab"
-                 Header="Scope(2)">
+        <TabItem x:Name="TwoLevelScopeTab" Header="Scope(2)">
             <local:TwoLevelScopeView />
         </TabItem>
 
-        <TabItem x:Name="ScopeWithDataTemplatesTab"
-                 Header="Scope(DataTemplates)">
+        <TabItem x:Name="ScopeWithDataTemplatesTab" Header="Scope(DataTemplates)">
             <local:DataTemplatesView />
         </TabItem>
 
-        <TabItem x:Name="ScopeWithControlTemplatesTab"
-                 Header="Scope(ControlTemplate)">
+        <TabItem x:Name="ScopeWithControlTemplatesTab" Header="Scope(ControlTemplate)">
             <local:ControlTemplatesView />
         </TabItem>
 
-        <TabItem x:Name="ComplicatedScopeTab"
-                 Header="Complicated">
+        <TabItem x:Name="ComplicatedScopeTab" Header="Complicated">
             <local:ComplicatedScopeView />
         </TabItem>
 
-        <TabItem x:Name="DynamicScopeTab"
-                 Header="Dynamic">
+        <TabItem x:Name="DynamicScopeTab" Header="Dynamic">
             <local:DynamicTypesView />
         </TabItem>
 
-        <TabItem x:Name="DataGridScopeTab"
-                 Header="DataGrid">
+        <TabItem x:Name="DataGridScopeTab" Header="DataGrid">
             <local:DataGridScopeView />
         </TabItem>
 
-        <TabItem x:Name="NotifyDataErrorInfoTab"
-                 Header="NotifyDataErrorInfo">
+        <TabItem x:Name="NotifyDataErrorInfoTab" Header="NotifyDataErrorInfo">
             <local:NotifyDataErrorInfoView />
         </TabItem>
 
-        <TabItem x:Name="OneWayToSourceBindingTab"
-                 Header="OneWayToSourceBinding">
+        <TabItem x:Name="OneWayToSourceBindingTab" Header="OneWayToSourceBinding">
             <local:OneWayToSourceBindingsView />
         </TabItem>
 
-        <TabItem x:Name="ScopeIsErrorScopeTab"
-                 Header="ScopeIsErrorScope">
+        <TabItem x:Name="ScopeIsErrorScopeTab" Header="ScopeIsErrorScope">
             <local:ScopeIsErrorScopeView />
         </TabItem>
 
-        <TabItem x:Name="ParentChildScopesTab"
-                 Header="ParentChildScopes">
+        <TabItem x:Name="ParentChildScopesTab" Header="ParentChildScopes">
             <local:ParentChildScopesView />
         </TabItem>
     </TabControl>

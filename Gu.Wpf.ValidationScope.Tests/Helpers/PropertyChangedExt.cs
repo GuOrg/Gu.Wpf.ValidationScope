@@ -8,16 +8,16 @@ namespace Gu.Wpf.ValidationScope.Tests
 
     public static class PropertyChangedExt
     {
-        public static EventList SubscribePropertyChangedEvents(this INotifyPropertyChanged source)
+        public static EventCollection SubscribePropertyChangedEvents(this INotifyPropertyChanged source)
         {
-            return new EventList(source);
+            return new EventCollection(source);
         }
 
-        public sealed class EventList : Collection<PropertyChangedEventArgs>, IDisposable
+        public sealed class EventCollection : Collection<PropertyChangedEventArgs>, IDisposable
         {
             private readonly INotifyPropertyChanged source;
 
-            public EventList(INotifyPropertyChanged source)
+            public EventCollection(INotifyPropertyChanged source)
             {
                 this.source = source;
                 source.PropertyChanged += this.Add;

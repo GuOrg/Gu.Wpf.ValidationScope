@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -24,8 +24,7 @@
                 return this.StringTemplate;
             }
 
-            var collection = item as IEnumerable<ValidationError>;
-            if (collection != null)
+            if (item is IEnumerable<ValidationError> collection)
             {
                 if (collection.Any())
                 {

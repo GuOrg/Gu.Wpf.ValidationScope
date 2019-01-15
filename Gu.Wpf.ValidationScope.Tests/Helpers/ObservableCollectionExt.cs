@@ -9,18 +9,18 @@ namespace Gu.Wpf.ValidationScope.Tests
 
     public static class ObservableCollectionExt
     {
-        public static EventList<T> SubscribeObservableCollectionEvents<T>(this T col)
+        public static EventCollection<T> SubscribeObservableCollectionEvents<T>(this T col)
              where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
         {
-            return new EventList<T>(col);
+            return new EventCollection<T>(col);
         }
 
-        public sealed class EventList<T> : Collection<EventArgs>, IDisposable
+        public sealed class EventCollection<T> : Collection<EventArgs>, IDisposable
             where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
         {
             private readonly T source;
 
-            public EventList(T source)
+            public EventCollection(T source)
             {
                 this.source = source;
                 source.PropertyChanged += this.Add;
