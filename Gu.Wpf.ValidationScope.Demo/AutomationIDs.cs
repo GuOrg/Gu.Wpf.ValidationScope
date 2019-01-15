@@ -27,8 +27,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         private static void OnTextBoxIdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var textBox = d as TextBox;
-            if (textBox != null)
+            if (d is TextBox textBox)
             {
                 AutomationProperties.SetAutomationId(textBox, (string)e.NewValue);
             }

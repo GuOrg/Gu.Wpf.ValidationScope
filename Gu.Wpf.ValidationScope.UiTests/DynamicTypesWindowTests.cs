@@ -121,7 +121,7 @@ namespace Gu.Wpf.ValidationScope.UiTests
                 CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b" }, node.GetChildren());
                 Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-                using (Keyboard.Pressing(Key.CONTROL))
+                using (Keyboard.Hold(Key.CONTROL))
                 {
                     window.FindListBox("TypeListBox").Items[1].Click();
                 }

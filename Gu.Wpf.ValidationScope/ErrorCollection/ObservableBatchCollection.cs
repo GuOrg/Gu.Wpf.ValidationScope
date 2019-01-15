@@ -1,4 +1,4 @@
-﻿// ReSharper disable StaticMemberInGenericType
+// ReSharper disable StaticMemberInGenericType
 // ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Wpf.ValidationScope
 {
@@ -33,7 +33,7 @@ namespace Gu.Wpf.ValidationScope
                     this.RaiseReset();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(items), items, "Did not find a match.");
             }
         }
 
@@ -55,7 +55,7 @@ namespace Gu.Wpf.ValidationScope
                     this.RaiseReset();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(items), items, "Did not find a match.");
             }
         }
 
@@ -67,8 +67,7 @@ namespace Gu.Wpf.ValidationScope
             }
 
             int count = 0;
-            var list = items as IReadOnlyList<T>;
-            if (list != null)
+            if (items is IReadOnlyList<T> list)
             {
                 count = list.Count;
             }
