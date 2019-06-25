@@ -41,18 +41,16 @@ namespace Gu.Wpf.ValidationScope
 
         protected override void Dispose(bool disposing)
         {
-            if (!disposing)
+            if (disposing)
             {
-                return;
+                var source = this.Source;
+                if (source != null)
+                {
+                    BindingOperations.ClearBinding(source, SourceErrorsProperty);
+                }
             }
 
-            var source = this.Source;
-            if (source != null)
-            {
-                BindingOperations.ClearBinding(source, SourceErrorsProperty);
-            }
-
-            base.Dispose(true);
+            base.Dispose(disposing);
         }
 
         private static void OnSourceErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
