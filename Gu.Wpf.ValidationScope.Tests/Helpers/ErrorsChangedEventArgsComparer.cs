@@ -1,10 +1,10 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Linq;
 
     internal class ErrorsChangedEventArgsComparer : GenericComparer<ErrorsChangedEventArgs>
     {
-        public static readonly ErrorsChangedEventArgsComparer Default = new ErrorsChangedEventArgsComparer();
+        internal static readonly ErrorsChangedEventArgsComparer Default = new ErrorsChangedEventArgsComparer();
 
         protected override int Compare(ErrorsChangedEventArgs x, ErrorsChangedEventArgs y)
         {

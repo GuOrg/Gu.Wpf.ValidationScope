@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Windows;
@@ -36,7 +36,7 @@
         }
 
         /// <summary>Add a listener to the given source's event.</summary>
-        public static void AddListener(INotifyErrorsChanged source, IWeakEventListener listener)
+        internal static void AddListener(INotifyErrorsChanged source, IWeakEventListener listener)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(listener, nameof(listener));
@@ -44,7 +44,7 @@
         }
 
         /// <summary>Remove a listener to the given source's event.</summary>
-        public static void RemoveListener(INotifyErrorsChanged source, IWeakEventListener listener)
+        internal static void RemoveListener(INotifyErrorsChanged source, IWeakEventListener listener)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(listener, nameof(listener));
@@ -52,7 +52,7 @@
         }
 
         /// <summary>Add a handler for the given source's event.</summary>
-        public static void AddHandler(INotifyErrorsChanged source, EventHandler<ErrorsChangedEventArgs> handler)
+        internal static void AddHandler(INotifyErrorsChanged source, EventHandler<ErrorsChangedEventArgs> handler)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(handler, nameof(handler));
@@ -60,7 +60,7 @@
         }
 
         /// <summary>Remove a handler for the given source's event.</summary>
-        public static void RemoveHandler(INotifyErrorsChanged source, EventHandler<ErrorsChangedEventArgs> handler)
+        internal static void RemoveHandler(INotifyErrorsChanged source, EventHandler<ErrorsChangedEventArgs> handler)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(handler, nameof(handler));

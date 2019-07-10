@@ -9,7 +9,9 @@ namespace Gu.Wpf.ValidationScope.Tests
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
+#pragma warning disable GU0090 // Don't throw NotImplementedException.
             throw new System.NotImplementedException();
+#pragma warning restore GU0090 // Don't throw NotImplementedException.
         }
     }
 }

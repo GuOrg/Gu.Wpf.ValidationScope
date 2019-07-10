@@ -1,8 +1,8 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     internal class ScopeValidationErrorEventArgsComparer : GenericComparer<ScopeValidationErrorEventArgs>
     {
-        public static readonly ScopeValidationErrorEventArgsComparer Default = new ScopeValidationErrorEventArgsComparer();
+        internal static readonly ScopeValidationErrorEventArgsComparer Default = new ScopeValidationErrorEventArgsComparer();
 
         protected override int Compare(ScopeValidationErrorEventArgs x, ScopeValidationErrorEventArgs y)
         {

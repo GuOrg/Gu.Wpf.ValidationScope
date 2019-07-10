@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections.ObjectModel;
@@ -17,7 +17,7 @@
         {
             private readonly FrameworkElement source;
 
-            public EventList(FrameworkElement source)
+            internal EventList(FrameworkElement source)
             {
                 this.source = source;
                 Scope.AddErrorHandler(source, this.Add);

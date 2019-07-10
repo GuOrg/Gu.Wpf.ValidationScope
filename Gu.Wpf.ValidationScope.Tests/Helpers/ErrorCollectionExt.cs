@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@
         {
             private readonly ErrorCollection source;
 
-            public EventList(ErrorCollection source)
+            internal EventList(ErrorCollection source)
             {
                 this.source = source;
                 source.ErrorsChanged += this.Add;

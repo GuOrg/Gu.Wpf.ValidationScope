@@ -1,4 +1,4 @@
-﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Wpf.ValidationScope
 {
     using System;
@@ -14,7 +14,7 @@ namespace Gu.Wpf.ValidationScope
 
         private readonly ObservableBatchCollection<ValidationError> errors;
 
-        public ErrorCollection()
+        internal ErrorCollection()
             : this(new ObservableBatchCollection<ValidationError>())
         {
         }

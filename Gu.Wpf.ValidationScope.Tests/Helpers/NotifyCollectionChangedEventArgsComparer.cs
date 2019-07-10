@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Collections;
     using System.Collections.Specialized;
@@ -6,7 +6,7 @@
 
     internal class NotifyCollectionChangedEventArgsComparer : GenericComparer<NotifyCollectionChangedEventArgs>
     {
-        public static readonly NotifyCollectionChangedEventArgsComparer Default = new NotifyCollectionChangedEventArgsComparer();
+        internal static readonly NotifyCollectionChangedEventArgsComparer Default = new NotifyCollectionChangedEventArgsComparer();
 
         protected override int Compare(NotifyCollectionChangedEventArgs x, NotifyCollectionChangedEventArgs y)
         {

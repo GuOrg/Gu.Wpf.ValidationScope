@@ -154,9 +154,9 @@ namespace Gu.Wpf.ValidationScope
             }
 
             // ReSharper disable once UnusedMember.Local
-            public static string ErrorText => ErrorBuilder.ToString();
+            internal static string ErrorText => ErrorBuilder.ToString();
 
-            public static Type FindType(string typeName)
+            internal static Type FindType(string typeName)
             {
                 Type match;
                 try

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope
+namespace Gu.Wpf.ValidationScope
 {
     using System.ComponentModel;
     using System.Windows;
@@ -7,6 +7,6 @@
     {
         private static readonly DependencyObject DependencyObject = new DependencyObject();
 
-        public static bool DesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
+        internal static bool DesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
     }
 }
