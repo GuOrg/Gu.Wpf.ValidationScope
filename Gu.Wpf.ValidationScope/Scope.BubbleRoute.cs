@@ -35,9 +35,9 @@ namespace Gu.Wpf.ValidationScope
             {
                 if (parentNode == null)
                 {
-#pragma warning disable IDISP001 // Dispose created. Disposed in SetNode.
+#pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode.
                     parentNode = new ScopeNode(parent);
-#pragma warning restore IDISP001 // Dispose created.
+#pragma warning restore IDISP001, CA2000 // Dispose created.
                 }
 
                 parentNode.ChildCollection.TryAdd(childNode);

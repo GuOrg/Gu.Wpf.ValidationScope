@@ -135,9 +135,9 @@ namespace Gu.Wpf.ValidationScope
                 var inputNode = GetNode(d) as InputNode;
                 if (inputNode == null)
                 {
-#pragma warning disable IDISP001 // Dispose created. Disposed in SetNode
+#pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode
                     inputNode = new InputNode((FrameworkElement)d);
-#pragma warning restore IDISP001 // Dispose created.
+#pragma warning restore IDISP001, CA2000 // Dispose created.
                     SetNode(d, inputNode);
                 }
             }
