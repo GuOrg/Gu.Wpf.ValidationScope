@@ -5,17 +5,17 @@ namespace Gu.Wpf.ValidationScope.Tests
 
     using NUnit.Framework;
 
-    public class ErrorCollectionTests
+    public static class ErrorCollectionTests
     {
         [Test]
-        public void EmptyValidationErrors()
+        public static void EmptyValidationErrors()
         {
             Assert.NotNull(ErrorCollection.EmptyValidationErrors);
             CollectionAssert.IsEmpty(ErrorCollection.EmptyValidationErrors);
         }
 
         [Test]
-        public void AddEmptyValidationErrors()
+        public static void AddEmptyValidationErrors()
         {
             var errors = new ErrorCollection();
             using (var actualEvents = errors.SubscribeObservableCollectionEvents())
@@ -28,7 +28,7 @@ namespace Gu.Wpf.ValidationScope.Tests
         }
 
         [Test]
-        public void AddWithOne()
+        public static void AddWithOne()
         {
             var reference = new ObservableCollection<ValidationError>();
             using (var referenceEvents = reference.SubscribeObservableCollectionEvents())
@@ -50,7 +50,7 @@ namespace Gu.Wpf.ValidationScope.Tests
         }
 
         [Test]
-        public void AddWithTwo()
+        public static void AddWithTwo()
         {
             var errors = new ErrorCollection();
             using (var changes = errors.SubscribeErrorCollectionEvents())

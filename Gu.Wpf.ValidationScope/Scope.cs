@@ -56,6 +56,11 @@ namespace Gu.Wpf.ValidationScope
         /// <param name="value">OneWayToSourceBindings property value.</param>
         public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             element.SetValue(OneWayToSourceBindingsProperty, value);
         }
 
@@ -66,6 +71,11 @@ namespace Gu.Wpf.ValidationScope
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static OneWayToSourceBindings GetOneWayToSourceBindings(this UIElement element)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             return (OneWayToSourceBindings)element.GetValue(OneWayToSourceBindingsProperty);
         }
 
@@ -76,7 +86,15 @@ namespace Gu.Wpf.ValidationScope
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static InputTypeCollection GetForInputTypes(FrameworkElement element) => (InputTypeCollection)element?.GetValue(ForInputTypesProperty);
+        public static InputTypeCollection GetForInputTypes(FrameworkElement element)
+        {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
+            return (InputTypeCollection)element?.GetValue(ForInputTypesProperty);
+        }
 
         private static void SetHasError(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
 
@@ -85,10 +103,23 @@ namespace Gu.Wpf.ValidationScope
         /// <returns>HasError property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static bool GetHasError(UIElement element) => (bool)element.GetValue(HasErrorProperty);
+        public static bool GetHasError(UIElement element)
+        {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
+            return (bool)element.GetValue(HasErrorProperty);
+        }
 
         private static void SetErrors(this DependencyObject element, ReadOnlyObservableCollection<ValidationError> value)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             element.SetValue(ErrorsPropertyKey, value);
         }
 
@@ -99,14 +130,35 @@ namespace Gu.Wpf.ValidationScope
         [AttachedPropertyBrowsableForType(typeof(DependencyObject))]
         public static ReadOnlyObservableCollection<ValidationError> GetErrors(DependencyObject element)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             return (ReadOnlyObservableCollection<ValidationError>)element.GetValue(ErrorsProperty);
         }
 
-        private static void SetNode(DependencyObject element, Node value) => element.SetValue(NodePropertyKey, value);
+        private static void SetNode(DependencyObject element, Node value)
+        {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
+            element.SetValue(NodePropertyKey, value);
+        }
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static Node GetNode(DependencyObject element) => (Node)element?.GetValue(NodeProperty);
+        public static Node GetNode(DependencyObject element)
+        {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
+            return (Node)element?.GetValue(NodeProperty);
+        }
 
 #pragma warning restore SA1202 // Elements must be ordered by access
 

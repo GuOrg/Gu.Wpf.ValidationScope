@@ -1,11 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests.InputTypes
+namespace Gu.Wpf.ValidationScope.Tests.InputTypes
 {
     using System;
     using System.Collections.Generic;
     using System.Windows.Controls;
     using NUnit.Framework;
 
-    public class InputTypeCollectionConverterTests
+    public static class InputTypeCollectionConverterTests
     {
         public static IReadOnlyList<HappyPathData> HappyPathSource { get; } = new[]
         {
@@ -15,7 +15,7 @@
         };
 
         [TestCaseSource(nameof(HappyPathSource))]
-        public void ConvertHappyPath(HappyPathData data)
+        public static void ConvertHappyPath(HappyPathData data)
         {
             var converter = new InputTypeCollectionConverter();
             var actual = (InputTypeCollection)converter.ConvertFrom(data.Text);
@@ -23,7 +23,7 @@
         }
 
         [TestCase("Visual3D")]
-        public void ConvertFailsFor(string name)
+        public static void ConvertFailsFor(string name)
         {
             var converter = new InputTypeCollectionConverter();
             var exception = Assert.Throws<InvalidOperationException>(() => converter.ConvertFrom(name));
@@ -31,7 +31,7 @@
         }
 
         [TestCase(typeof(string))]
-        public void CanConvertFrom(Type type)
+        public static void CanConvertFrom(Type type)
         {
             var converter = new InputTypeCollectionConverter();
             Assert.AreEqual(true, converter.CanConvertFrom(null, type));

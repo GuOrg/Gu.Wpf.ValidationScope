@@ -40,6 +40,11 @@ namespace Gu.Wpf.ValidationScope.Demo
         /// <param name="value">Track property value.</param>
         public static void SetTrack(this DependencyObject element, bool value)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             element.SetValue(TrackProperty, value);
         }
 
@@ -50,6 +55,11 @@ namespace Gu.Wpf.ValidationScope.Demo
         [AttachedPropertyBrowsableForType(typeof(FrameworkElement))]
         public static bool GetTrack(this DependencyObject element)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             return (bool)element.GetValue(TrackProperty);
         }
 
@@ -65,6 +75,11 @@ namespace Gu.Wpf.ValidationScope.Demo
         [AttachedPropertyBrowsableForType(typeof(FrameworkElement))]
         public static ObservableCollection<object> GetEvents(this DependencyObject element)
         {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
             return (ObservableCollection<object>)element.GetValue(EventsProperty);
         }
 

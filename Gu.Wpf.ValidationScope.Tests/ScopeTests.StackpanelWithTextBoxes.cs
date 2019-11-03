@@ -7,13 +7,13 @@ namespace Gu.Wpf.ValidationScope.Tests
 
     using NUnit.Framework;
 
-    public partial class ScopeTests
+    public static partial class ScopeTests
     {
         [Apartment(ApartmentState.STA)]
-        public class StackpanelWithTextBox
+        public static class StackpanelWithTextBox
         {
             [Test]
-            public void NodesForInputTypesTextBox()
+            public static void NodesForInputTypesTextBox()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var stackPanel = new StackPanel();
@@ -63,7 +63,7 @@ namespace Gu.Wpf.ValidationScope.Tests
             }
 
             [Test]
-            public void SetErrorTextBoxBeforeInputTypesThenSetInputTypesToNull()
+            public static void SetErrorTextBoxBeforeInputTypesThenSetInputTypesToNull()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var stackPanel = new StackPanel();
@@ -105,7 +105,7 @@ namespace Gu.Wpf.ValidationScope.Tests
             }
 
             [Test]
-            public void SetErrorTextBoxBeforeInputTypesThenSetInputTypesToSlider()
+            public static void SetErrorTextBoxBeforeInputTypesThenSetInputTypesToSlider()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var stackPanel = new StackPanel();
@@ -146,7 +146,7 @@ namespace Gu.Wpf.ValidationScope.Tests
             }
 
             [Test]
-            public void NodesForSelectorAndSlider()
+            public static void NodesForSelectorAndSlider()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var stackPanel = new StackPanel();
@@ -168,7 +168,7 @@ namespace Gu.Wpf.ValidationScope.Tests
             }
 
             [Test]
-            public void UpdatesErrors()
+            public static void UpdatesErrors()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var stackPanel = new StackPanel();
@@ -211,7 +211,7 @@ namespace Gu.Wpf.ValidationScope.Tests
             }
 
             [Test]
-            public void Notifies()
+            public static void Notifies()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 using (var textBoxEvents = textBox.SubscribeScopeEvents())

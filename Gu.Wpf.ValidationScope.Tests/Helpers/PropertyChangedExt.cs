@@ -19,7 +19,7 @@ namespace Gu.Wpf.ValidationScope.Tests
 
             public EventCollection(INotifyPropertyChanged source)
             {
-                this.source = source;
+                this.source = source ?? throw new ArgumentNullException(nameof(source));
                 source.PropertyChanged += this.Add;
             }
 

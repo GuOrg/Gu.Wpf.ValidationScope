@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -10,13 +10,13 @@
 
     using NUnit.Framework;
 
-    public partial class ScopeTests
+    public static partial class ScopeTests
     {
         [Apartment(ApartmentState.STA)]
-        public class TextBox
+        public static class TextBox
         {
             [Test]
-            public void TextBoxSetSetForInputTypesTextBox()
+            public static void TextBoxSetSetForInputTypesTextBox()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) };
@@ -44,7 +44,7 @@
             }
 
             [Test]
-            public void TextBoxSetSetForSelectorAndSlider()
+            public static void TextBoxSetSetForSelectorAndSlider()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var inputTypes = new InputTypeCollection { typeof(Selector), typeof(Slider) };
@@ -60,7 +60,7 @@
             }
 
             [Test]
-            public void UpdatesAndNotifiesError()
+            public static void UpdatesAndNotifiesError()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) };
@@ -109,7 +109,7 @@
             }
 
             [Test]
-            public void Notifies()
+            public static void Notifies()
             {
                 var textBox = new System.Windows.Controls.TextBox();
                 using (var textBoxEvents = textBox.SubscribeScopeEvents())
