@@ -2,7 +2,7 @@ namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Linq;
 
-    internal class ErrorsChangedEventArgsComparer : GenericComparer<ErrorsChangedEventArgs>
+    internal sealed class ErrorsChangedEventArgsComparer : GenericComparer<ErrorsChangedEventArgs>
     {
         internal static readonly ErrorsChangedEventArgsComparer Default = new ErrorsChangedEventArgsComparer();
 

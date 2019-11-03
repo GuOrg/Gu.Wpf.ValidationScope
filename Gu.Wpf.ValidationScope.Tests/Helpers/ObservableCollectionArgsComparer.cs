@@ -1,8 +1,8 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Collections;
 
-    public class ObservableCollectionArgsComparer : IComparer
+    public sealed class ObservableCollectionArgsComparer : IComparer
     {
         public static readonly ObservableCollectionArgsComparer Default = new ObservableCollectionArgsComparer();
 

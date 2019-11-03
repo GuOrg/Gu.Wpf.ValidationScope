@@ -1,4 +1,4 @@
-﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.Generic;
@@ -49,8 +49,7 @@ namespace Gu.Wpf.ValidationScope
                 return ErrorCollection.EmptyValidationErrors;
             }
 
-            var array = source as ValidationError[];
-            if (array != null)
+            if (source is ValidationError[] array)
             {
                 return array;
             }

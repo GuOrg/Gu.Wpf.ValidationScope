@@ -32,31 +32,19 @@ namespace Gu.Wpf.ValidationScope
 
         public override object ConvertFrom(ITypeDescriptorContext typeDescriptorContext, CultureInfo cultureInfo, object source)
         {
-            var text = source as string;
-            if (text != null)
+            switch (source)
             {
-                return ConvertFromText(text);
+                case string text:
+                    return ConvertFromText(text);
+                case IEnumerable<Type> types:
+                    return new InputTypeCollection(types);
+                case Type type:
+                    return new InputTypeCollection { type };
+                case TypeExtension typeExtension:
+                    return new InputTypeCollection { typeExtension.Type };
+                default:
+                    return base.ConvertFrom(typeDescriptorContext, cultureInfo, source);
             }
-
-            var types = source as IEnumerable<Type>;
-            if (types != null)
-            {
-                return new InputTypeCollection(types);
-            }
-
-            var type = source as Type;
-            if (type != null)
-            {
-                return new InputTypeCollection { type };
-            }
-
-            var typeExtension = source as TypeExtension;
-            if (typeExtension != null)
-            {
-                return new InputTypeCollection { typeExtension.Type };
-            }
-
-            return base.ConvertFrom(typeDescriptorContext, cultureInfo, source);
         }
 
         [SecurityCritical]

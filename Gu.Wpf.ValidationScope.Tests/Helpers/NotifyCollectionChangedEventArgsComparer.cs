@@ -4,7 +4,7 @@ namespace Gu.Wpf.ValidationScope.Tests
     using System.Collections.Specialized;
     using System.Linq;
 
-    internal class NotifyCollectionChangedEventArgsComparer : GenericComparer<NotifyCollectionChangedEventArgs>
+    internal sealed class NotifyCollectionChangedEventArgsComparer : GenericComparer<NotifyCollectionChangedEventArgs>
     {
         internal static readonly NotifyCollectionChangedEventArgsComparer Default = new NotifyCollectionChangedEventArgsComparer();
 
