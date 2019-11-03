@@ -247,7 +247,9 @@ namespace Gu.Wpf.ValidationScope
                         ErrorBuilder.AppendLine();
                     }
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     var message = $"Could not process assembly {assembly.FullName}. Exception: {e.Message}";
                     Trace.WriteLine(message);

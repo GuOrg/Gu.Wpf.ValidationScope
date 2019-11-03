@@ -3,7 +3,7 @@ namespace Gu.Wpf.ValidationScope
     using System.Collections.ObjectModel;
     using JetBrains.Annotations;
 
-    internal class ChildCollection : ReadOnlyObservableCollection<ErrorNode>
+    internal sealed class ChildCollection : ReadOnlyObservableCollection<ErrorNode>
     {
         internal static readonly ChildCollection Empty = new ChildCollection();
         private readonly ObservableCollection<ErrorNode> children;

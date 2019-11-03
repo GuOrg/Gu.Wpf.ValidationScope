@@ -11,7 +11,7 @@ namespace Gu.Wpf.ValidationScope
 
     /// <summary>A collection of controls that will be subscribed to for validation errors.</summary>
     [TypeConverter(typeof(InputTypeCollectionConverter))]
-    public class InputTypeCollection : Collection<Type>
+    public sealed class InputTypeCollection : Collection<Type>
     {
         /// <summary>Contains Scope, TextBoxBase, ComboBox, ToggleButton and Slider.</summary>
         public static readonly InputTypeCollection Default = new InputTypeCollection
@@ -69,20 +69,23 @@ namespace Gu.Wpf.ValidationScope
         /// <param name="types">The <see cref="IEnumerable{Type}"/>.</param>
         public void AddRange(IEnumerable<Type> types)
         {
+            if (types is null)
+            {
+                throw new ArgumentNullException(nameof(types));
+            }
+
             foreach (var type in types)
             {
                 this.Add(type);
             }
         }
 
-        /// <inheritdoc />
         protected override void InsertItem(int index, Type item)
         {
             this.VerifyCompatible(item);
             base.InsertItem(index, item);
         }
 
-        /// <inheritdoc />
         protected override void SetItem(int index, Type item)
         {
             this.VerifyCompatible(item);
