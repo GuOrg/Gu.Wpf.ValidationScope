@@ -68,7 +68,6 @@
     <Compile Include="ErrorTree\Node.cs" />
     <Compile Include="InputTypes\DefaultInputTypesExtension.cs" />
     <Compile Include="InputTypes\InputTypeCollectionConverter.cs" />
-    <Compile Include="Internal\Ensure.cs" />
     <Compile Include="ErrorCollection\ErrorCollection.cs" />
     <Compile Include="ErrorTree\InputNode.cs" />
     <Compile Include="ErrorTree\ErrorNode.cs" />
