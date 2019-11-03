@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.ValidationScope", "Gu.Wpf.ValidationScope\Gu.Wpf.ValidationScope.csproj", "{E531C062-2EAC-4FFD-A523-FBEF8C0D8D41}"
 EndProject
@@ -9,12 +9,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.ValidationScope.Demo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{2FAF8740-9A52-4300-8C32-7B59CB13E4F1}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
-		azure-devops.yml = azure-devops.yml
+		azure-pipelines.yml = azure-pipelines.yml
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 		.paket\paket.targets = .paket\paket.targets
 		.paket\Readme.paket.md = .paket\Readme.paket.md
+		Settings.XamlStyler = Settings.XamlStyler
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.ValidationScope.Tests", "Gu.Wpf.ValidationScope.Tests\Gu.Wpf.ValidationScope.Tests.csproj", "{1A62002D-E128-4FFB-8993-7E4F7CA9F3DC}"
