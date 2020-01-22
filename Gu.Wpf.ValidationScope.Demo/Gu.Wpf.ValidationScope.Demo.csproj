@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <UseWpf>true</UseWpf>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <CodeAnalysisRuleSet>Gu.Wpf.ValidationScope.Demo.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
