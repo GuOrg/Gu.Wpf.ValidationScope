@@ -1,5 +1,5 @@
 ﻿type project
-tags wpf xaml validation form
+tags 
 projectUrl https://github.com/JohanLarsson/Gu.Wpf.ValidationScope
 licenseUrl http://opensource.org/licenses/MIT
 

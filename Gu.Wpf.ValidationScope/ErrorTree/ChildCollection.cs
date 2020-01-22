@@ -1,7 +1,6 @@
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.ObjectModel;
-    using JetBrains.Annotations;
 
     internal sealed class ChildCollection : ReadOnlyObservableCollection<ErrorNode>
     {
@@ -13,7 +12,7 @@ namespace Gu.Wpf.ValidationScope
         {
         }
 
-        private ChildCollection([NotNull] ObservableCollection<ErrorNode> children)
+        private ChildCollection(ObservableCollection<ErrorNode> children)
             : base(children)
         {
             this.children = children;
