@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -82,7 +82,7 @@ namespace Gu.Wpf.ValidationScope
         /// <summary>Helper for setting <see cref="ForInputTypesProperty"/> on <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="FrameworkElement"/> to set <see cref="ForInputTypesProperty"/> on.</param>
         /// <param name="value">ForInputTypes property value.</param>
-        public static void SetForInputTypes(FrameworkElement element, InputTypeCollection value)
+        public static void SetForInputTypes(FrameworkElement element, InputTypeCollection? value)
         {
             if (element is null)
             {
@@ -94,14 +94,14 @@ namespace Gu.Wpf.ValidationScope
 
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static InputTypeCollection GetForInputTypes(FrameworkElement element)
+        public static InputTypeCollection? GetForInputTypes(FrameworkElement element)
         {
             if (element is null)
             {
                 throw new System.ArgumentNullException(nameof(element));
             }
 
-            return (InputTypeCollection)element?.GetValue(ForInputTypesProperty);
+            return (InputTypeCollection?)element?.GetValue(ForInputTypesProperty);
         }
 
         private static void SetHasError(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
@@ -156,6 +156,9 @@ namespace Gu.Wpf.ValidationScope
             element.SetValue(NodePropertyKey, value);
         }
 
+        /// <summary>Helper for getting <see cref="NodeProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="DependencyObject"/> to read <see cref="NodeProperty"/> from.</param>
+        /// <returns>Node property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static Node GetNode(DependencyObject element)
@@ -165,7 +168,7 @@ namespace Gu.Wpf.ValidationScope
                 throw new System.ArgumentNullException(nameof(element));
             }
 
-            return (Node)element?.GetValue(NodeProperty);
+            return (Node)element.GetValue(NodeProperty);
         }
 
 #pragma warning restore SA1202 // Elements must be ordered by access

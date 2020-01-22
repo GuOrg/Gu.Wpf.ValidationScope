@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Diagnostics;
@@ -14,17 +14,6 @@ namespace Gu.Wpf.ValidationScope
             this.sourceReference = new WeakReference<DependencyObject>(source);
         }
 
-        public override DependencyObject Source
-        {
-            get
-            {
-                if (this.sourceReference.TryGetTarget(out var source))
-                {
-                    return source;
-                }
-
-                return null;
-            }
-        }
+        public override DependencyObject? Source => this.sourceReference.TryGetTarget(out var source) ? source : null;
     }
 }

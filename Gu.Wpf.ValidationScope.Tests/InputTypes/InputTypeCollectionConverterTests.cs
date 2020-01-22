@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests.InputTypes
+﻿namespace Gu.Wpf.ValidationScope.Tests.InputTypes
 {
     using System;
     using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace Gu.Wpf.ValidationScope.Tests.InputTypes
         public static void CanConvertFrom(Type type)
         {
             var converter = new InputTypeCollectionConverter();
-            Assert.AreEqual(true, converter.CanConvertFrom(null, type));
+            Assert.AreEqual(true, converter.CanConvertFrom(null!, type));
         }
 
         public class HappyPathData

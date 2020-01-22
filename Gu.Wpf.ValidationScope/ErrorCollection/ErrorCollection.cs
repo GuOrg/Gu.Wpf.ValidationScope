@@ -1,4 +1,4 @@
-// ReSharper disable PossibleMultipleEnumeration
+﻿// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Wpf.ValidationScope
 {
     using System;
@@ -25,7 +25,7 @@ namespace Gu.Wpf.ValidationScope
             this.errors = errors;
         }
 
-        public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
+        public event EventHandler<ErrorsChangedEventArgs>? ErrorsChanged;
 
         internal void Add(IEnumerable<ValidationError> newErrors)
         {
@@ -41,12 +41,12 @@ namespace Gu.Wpf.ValidationScope
 
         internal void Add(ErrorNode errorNode)
         {
-            this.Add(errorNode?.ErrorCollection);
+            this.Add(errorNode.ErrorCollection);
         }
 
         internal void Remove(ErrorNode errorNode)
         {
-            this.Remove(errorNode?.ErrorCollection);
+            this.Remove(errorNode.ErrorCollection);
         }
 
         private void OnAddedErrors(IEnumerable<ValidationError> added)

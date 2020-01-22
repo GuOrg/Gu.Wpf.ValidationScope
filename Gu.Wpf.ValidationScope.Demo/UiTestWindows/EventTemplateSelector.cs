@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,17 +7,17 @@ namespace Gu.Wpf.ValidationScope.Demo
 
     public class EventTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate StringTemplate { get; set; }
+        public DataTemplate? StringTemplate { get; set; }
 
-        public DataTemplate ValidationErrorsCollectionTemplate { get; set; }
+        public DataTemplate? ValidationErrorsCollectionTemplate { get; set; }
 
-        public DataTemplate EmptyValidationErrorsCollectionTemplate { get; set; }
+        public DataTemplate? EmptyValidationErrorsCollectionTemplate { get; set; }
 
-        public DataTemplate ValidationErrorEventArgsTemplate { get; set; }
+        public DataTemplate? ValidationErrorEventArgsTemplate { get; set; }
 
-        public DataTemplate ScopeValidationErrorEventArgsTemplate { get; set; }
+        public DataTemplate? ScopeValidationErrorEventArgsTemplate { get; set; }
 
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        public override DataTemplate? SelectTemplate(object item, DependencyObject container)
         {
             if (item is string)
             {

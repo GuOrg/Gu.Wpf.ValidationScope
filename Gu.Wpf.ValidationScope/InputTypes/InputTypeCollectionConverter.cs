@@ -17,6 +17,7 @@
     {
         private static readonly char[] SeparatorChars = { ',', ' ' };
 
+        /// <inheritdoc />
         public override bool CanConvertFrom(ITypeDescriptorContext typeDescriptorContext, Type sourceType)
         {
             return sourceType == typeof(string) ||
@@ -25,11 +26,13 @@
                    typeof(IEnumerable<Type>).IsAssignableFrom(sourceType);
         }
 
+        /// <inheritdoc />
         public override bool CanConvertTo(ITypeDescriptorContext typeDescriptorContext, Type destinationType)
         {
             return false;
         }
 
+        /// <inheritdoc />
         public override object ConvertFrom(ITypeDescriptorContext typeDescriptorContext, CultureInfo cultureInfo, object source)
         {
             switch (source)
@@ -47,6 +50,7 @@
             }
         }
 
+        /// <inheritdoc />
         [SecurityCritical]
         public override object ConvertTo(ITypeDescriptorContext typeDescriptorContext, CultureInfo cultureInfo, object value, Type destinationType)
         {

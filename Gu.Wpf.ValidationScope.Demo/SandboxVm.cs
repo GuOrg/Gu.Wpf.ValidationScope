@@ -10,7 +10,7 @@ namespace Gu.Wpf.ValidationScope.Demo
 
         private int value3;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public int Value1
         {

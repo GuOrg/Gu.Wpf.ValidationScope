@@ -1,4 +1,4 @@
-// ReSharper disable ArrangeThisQualifier
+﻿// ReSharper disable ArrangeThisQualifier
 namespace Gu.Wpf.ValidationScope
 {
     using System;
@@ -22,10 +22,10 @@ namespace Gu.Wpf.ValidationScope
         }
 
         /// <inheritdoc />
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>Notifies when <see cref="Errors"/> changes.</summary>
-        public event EventHandler<ErrorsChangedEventArgs> ErrorsChanged;
+        public event EventHandler<ErrorsChangedEventArgs>? ErrorsChanged;
 
         public override bool HasError => this.ErrorCollection.Any();
 
@@ -34,7 +34,7 @@ namespace Gu.Wpf.ValidationScope
         public override ReadOnlyObservableCollection<ErrorNode> Children => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
 
         /// <summary>Gets the source element for this node.</summary>
-        public abstract DependencyObject Source { get; }
+        public abstract DependencyObject? Source { get; }
 
         internal ErrorCollection ErrorCollection { get; } = new ErrorCollection();
 

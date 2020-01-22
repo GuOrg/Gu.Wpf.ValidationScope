@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Collections.ObjectModel;
     using System.ComponentModel;
@@ -9,10 +9,10 @@ namespace Gu.Wpf.ValidationScope.Demo
     {
         private int intValue;
         private bool hasError;
-        private Node node;
-        private ReadOnlyObservableCollection<ValidationError> errors;
+        private Node? node;
+        private ReadOnlyObservableCollection<ValidationError>? errors;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public int IntValue
         {
@@ -47,7 +47,7 @@ namespace Gu.Wpf.ValidationScope.Demo
         }
 
 #pragma warning disable CA2227 // Collection properties should be read only
-        public ReadOnlyObservableCollection<ValidationError> Errors
+        public ReadOnlyObservableCollection<ValidationError>? Errors
 #pragma warning restore CA2227 // Collection properties should be read only
         {
             get => this.errors;
@@ -64,7 +64,7 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        public Node Node
+        public Node? Node
         {
             get => this.node;
 

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo
 {
     using System;
     using System.Collections;
@@ -10,9 +10,9 @@ namespace Gu.Wpf.ValidationScope.Demo
         private int intValue;
         private bool hasErrors;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         public bool HasErrors
         {
@@ -47,7 +47,7 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable? GetErrors(string propertyName)
         {
             return this.hasErrors && propertyName == nameof(this.HasErrors)
                 ? new[] { "INotifyDataErrorInfo error" }
