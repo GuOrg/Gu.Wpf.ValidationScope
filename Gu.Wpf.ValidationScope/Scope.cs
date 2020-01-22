@@ -184,7 +184,7 @@ namespace Gu.Wpf.ValidationScope
             }
 
             var newValue = (InputTypeCollection)e.NewValue;
-            if (newValue == null)
+            if (newValue is null)
             {
                 d.SetValue(NodePropertyKey, ValidNode.Default);
                 return;
@@ -193,7 +193,7 @@ namespace Gu.Wpf.ValidationScope
             if (newValue.Contains(d))
             {
                 var inputNode = GetNode(d) as InputNode;
-                if (inputNode == null)
+                if (inputNode is null)
                 {
 #pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode
                     inputNode = new InputNode((FrameworkElement)d);
@@ -209,7 +209,7 @@ namespace Gu.Wpf.ValidationScope
                 // optimize if profiler points at it
                 // ReSharper disable once UseNullPropagation
                 var errorNode = GetNode(d) as ErrorNode;
-                if (errorNode == null)
+                if (errorNode is null)
                 {
                     return;
                 }

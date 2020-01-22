@@ -1,4 +1,4 @@
-// ReSharper disable PossibleMultipleEnumeration
+﻿// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Wpf.ValidationScope
 {
     using System;
@@ -13,27 +13,27 @@ namespace Gu.Wpf.ValidationScope
     {
         private static void UpdateParent(this DependencyObject source, IEnumerable<ValidationError> removed, IEnumerable<ValidationError> added)
         {
-            if (source == null)
+            if (source is null)
             {
                 return;
             }
 
             var parent = VisualTreeHelper.GetParent(source) as FrameworkElement;
-            if (parent == null || GetForInputTypes(parent) == null)
+            if (parent is null || GetForInputTypes(parent) is null)
             {
                 return;
             }
 
             var childNode = GetNode(source) as ErrorNode;
             var parentNode = GetNode(parent) as ErrorNode;
-            if (childNode == null)
+            if (childNode is null)
             {
                 return;
             }
 
             if (IsScopeFor(parent, source))
             {
-                if (parentNode == null)
+                if (parentNode is null)
                 {
 #pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode.
                     parentNode = new ScopeNode(parent);
@@ -47,7 +47,7 @@ namespace Gu.Wpf.ValidationScope
             }
             else
             {
-                if (parentNode == null)
+                if (parentNode is null)
                 {
                     return;
                 }
@@ -66,7 +66,7 @@ namespace Gu.Wpf.ValidationScope
         private static bool IsScopeFor(this DependencyObject parent, ValidationError error)
         {
             var inputTypes = GetForInputTypes(parent as FrameworkElement);
-            if (inputTypes == null)
+            if (inputTypes is null)
             {
                 return false;
             }
@@ -81,13 +81,13 @@ namespace Gu.Wpf.ValidationScope
 
         private static bool IsScopeFor(this DependencyObject parent, DependencyObject source)
         {
-            if (parent == null || source == null)
+            if (parent is null || source is null)
             {
                 return false;
             }
 
             var inputTypes = GetForInputTypes(parent as FrameworkElement);
-            if (inputTypes == null)
+            if (inputTypes is null)
             {
                 return false;
             }
@@ -117,7 +117,7 @@ namespace Gu.Wpf.ValidationScope
         private static DependencyObject Target(this ValidationError error)
         {
             var binding = error?.BindingInError;
-            if (binding == null)
+            if (binding is null)
             {
                 throw new ArgumentNullException(nameof(error), "error.BindingInError == null");
             }

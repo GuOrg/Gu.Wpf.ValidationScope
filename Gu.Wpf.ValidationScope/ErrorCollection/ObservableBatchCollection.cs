@@ -61,7 +61,7 @@ namespace Gu.Wpf.ValidationScope
 
         private static EmptyOneOrMore EmptyOneOrMany(IEnumerable<T> items)
         {
-            if (items == null)
+            if (items is null)
             {
                 return EmptyOneOrMore.Empty;
             }

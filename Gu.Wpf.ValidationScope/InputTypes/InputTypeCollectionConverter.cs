@@ -181,7 +181,7 @@
                     throw new InvalidOperationException(errorBuilder.ToString());
                 }
 
-                if (match == null)
+                if (match is null)
                 {
                     throw new InvalidOperationException($"Did not find a match for for {typeName}");
                 }

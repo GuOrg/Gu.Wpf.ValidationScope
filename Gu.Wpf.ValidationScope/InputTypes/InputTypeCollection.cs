@@ -40,7 +40,7 @@ namespace Gu.Wpf.ValidationScope
         /// <returns>True if <paramref name="type"/> is a possible input type.</returns>
         public static bool IsCompatibleType(Type type)
         {
-            if (type == null)
+            if (type is null)
             {
                 return false;
             }
@@ -57,7 +57,7 @@ namespace Gu.Wpf.ValidationScope
         /// <returns>True if <paramref name="dependencyObject"/> is an input type registered for the collection.</returns>
         public bool Contains(DependencyObject dependencyObject)
         {
-            if (dependencyObject == null)
+            if (dependencyObject is null)
             {
                 return false;
             }

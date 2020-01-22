@@ -56,7 +56,7 @@ namespace Gu.Wpf.ValidationScope
         private static void OnSourceErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var node = Scope.GetNode(d) as InputNode;
-            if (node == null)
+            if (node is null)
             {
                 // this happens when disposing
                 return;
