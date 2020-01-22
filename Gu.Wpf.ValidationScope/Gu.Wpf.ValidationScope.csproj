@@ -1,10 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <Import Project="..\packages\analyzers\Microsoft.NetFramework.Analyzers\build\Microsoft.NetFramework.Analyzers.props" Condition="Exists('..\packages\analyzers\Microsoft.NetFramework.Analyzers\build\Microsoft.NetFramework.Analyzers.props')" Label="Paket" />
-  <Import Project="..\packages\analyzers\Microsoft.NetCore.Analyzers\build\Microsoft.NetCore.Analyzers.props" Condition="Exists('..\packages\analyzers\Microsoft.NetCore.Analyzers\build\Microsoft.NetCore.Analyzers.props')" Label="Paket" />
-  <Import Project="..\packages\analyzers\Microsoft.CodeQuality.Analyzers\build\Microsoft.CodeQuality.Analyzers.props" Condition="Exists('..\packages\analyzers\Microsoft.CodeQuality.Analyzers\build\Microsoft.CodeQuality.Analyzers.props')" Label="Paket" />
-  <Import Project="..\packages\analyzers\Microsoft.CodeAnalysis.VersionCheckAnalyzer\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props" Condition="Exists('..\packages\analyzers\Microsoft.CodeAnalysis.VersionCheckAnalyzer\build\Microsoft.CodeAnalysis.VersionCheckAnalyzer.props')" Label="Paket" />
-  <Import Project="..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\build\Microsoft.CodeAnalysis.PublicApiAnalyzers.props" Condition="Exists('..\packages\analyzers\Microsoft.CodeAnalysis.PublicApiAnalyzers\build\Microsoft.CodeAnalysis.PublicApiAnalyzers.props')" Label="Paket" />
-  <Import Project="..\packages\analyzers\Microsoft.CodeAnalysis.FxCopAnalyzers\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props" Condition="Exists('..\packages\analyzers\Microsoft.CodeAnalysis.FxCopAnalyzers\build\Microsoft.CodeAnalysis.FxCopAnalyzers.props')" Label="Paket" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>library</OutputType>
     <UseWpf>true</UseWpf>
@@ -16,6 +10,9 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Wpf.ValidationScope.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Description>Form validation for WPF</Description>
     <Authors>Johan Larsson</Authors>
     <Version>0.2.1.0</Version>
@@ -26,7 +23,7 @@
     <PackageTags>wpf xaml validation form</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
 
@@ -47,7 +44,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <PackageReference Include="Gu.Analyzers" Version="1.6.6.6-dev" PrivateAssets="all" />
+    <PackageReference Include="IDisposableAnalyzers" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="2.9.8" PrivateAssets="all" />
+    <PackageReference Include="PropertyChangedAnalyzers" Version="2.7.6" PrivateAssets="all" />
+    <PackageReference Include="ReflectionAnalyzers" Version="0.1.21-dev" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
+    <PackageReference Include="WpfAnalyzers" Version="2.4.4" PrivateAssets="all" />
   </ItemGroup>
-  <Import Project="..\.paket\paket.targets" />
 </Project>
