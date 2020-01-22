@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections.ObjectModel;
@@ -13,7 +13,7 @@ namespace Gu.Wpf.ValidationScope.Tests
             return new EventList(source);
         }
 
-        internal class EventList : Collection<ScopeValidationErrorEventArgs>, IDisposable
+        internal sealed class EventList : Collection<ScopeValidationErrorEventArgs>, IDisposable
         {
             private readonly FrameworkElement source;
 
