@@ -67,7 +67,7 @@ namespace Gu.Wpf.ValidationScope
             this.PropertyChanged?.Invoke(this, args);
         }
 
-        private void OnErrorsChanged(object sender, ErrorsChangedEventArgs e)
+        private void OnErrorsChanged(object? sender, ErrorsChangedEventArgs e)
         {
             if ((this.Errors.Count == 0 && e.Removed.Any()) ||
                 Enumerable.SequenceEqual(this.Errors, e.Added))

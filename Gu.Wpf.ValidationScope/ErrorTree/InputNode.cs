@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.ObjectModel;
@@ -83,7 +83,7 @@ namespace Gu.Wpf.ValidationScope
             return errors != null && !ReferenceEquals(errors, ValidationScope.ErrorCollection.EmptyValidationErrors);
         }
 
-        private void OnSourceErrorsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnSourceErrorsChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -6,7 +6,7 @@ namespace Gu.Wpf.ValidationScope.Demo
     public class ViewModel : INotifyPropertyChanged
     {
         private int intValue1;
-        private string stringValue;
+        private string? stringValue;
 
         private double doubleValue;
 
@@ -62,7 +62,7 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        public string StringValue
+        public string? StringValue
         {
             get => this.stringValue;
 
