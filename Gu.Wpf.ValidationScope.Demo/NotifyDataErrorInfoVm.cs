@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo
 {
     using System;
     using System.Collections;
@@ -11,13 +11,13 @@ namespace Gu.Wpf.ValidationScope.Demo
         private int intValue1;
         private int intValue2;
 
-        private string error1;
+        private string? error1;
 
-        private string error2;
+        private string? error2;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
         public bool HasErrors => !(string.IsNullOrEmpty(this.Error1) && string.IsNullOrEmpty(this.Error2));
 
@@ -37,7 +37,7 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        public string Error1
+        public string? Error1
         {
             get => this.error1;
 
@@ -71,7 +71,7 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        public string Error2
+        public string? Error2
         {
             get => this.error2;
 
@@ -89,7 +89,7 @@ namespace Gu.Wpf.ValidationScope.Demo
             }
         }
 
-        public IEnumerable GetErrors(string propertyName)
+        public IEnumerable? GetErrors(string propertyName)
         {
             if (propertyName == nameof(this.IntValue1))
             {
@@ -108,12 +108,12 @@ namespace Gu.Wpf.ValidationScope.Demo
             return Enumerable.Empty<object>();
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected virtual void OnErrorsChanged(string propertyName = null)
+        protected virtual void OnErrorsChanged(string? propertyName = null)
         {
             this.ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }

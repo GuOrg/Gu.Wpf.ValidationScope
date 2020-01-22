@@ -3,6 +3,8 @@
     <OutputType>library</OutputType>
     <UseWpf>true</UseWpf>
     <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>Gu.Wpf.ValidationScope.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

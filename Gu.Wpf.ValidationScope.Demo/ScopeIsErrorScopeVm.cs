@@ -54,12 +54,12 @@ namespace Gu.Wpf.ValidationScope.Demo
                 : null;
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected virtual void OnErrorsChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnErrorsChanged([CallerMemberName] string? propertyName = null)
         {
             this.ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
