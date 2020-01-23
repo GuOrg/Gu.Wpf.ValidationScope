@@ -204,7 +204,10 @@
             private static void AddCompatibleTypes(Assembly assembly)
             {
                 Debug.WriteLine(assembly.FullName);
-                if (ExcludedAssemblies.Contains(assembly.GetName().Name))
+
+                var name = assembly.GetName().Name;
+                if (name is null ||
+                    ExcludedAssemblies.Contains(name))
                 {
                     return;
                 }
@@ -236,17 +239,19 @@
                 }
                 catch (ReflectionTypeLoadException ex)
                 {
-                    // http://stackoverflow.com/a/8824250/1069200
-                    foreach (var exSub in ex.LoaderExceptions)
+                    if (ex.LoaderExceptions is { } loaderExceptions)
                     {
-                        ErrorBuilder.AppendLine(exSub.Message);
-                        var exFileNotFound = exSub as FileNotFoundException;
-                        if (!string.IsNullOrEmpty(exFileNotFound?.FusionLog))
+                        // http://stackoverflow.com/a/8824250/1069200
+                        foreach (var loaderException in loaderExceptions)
                         {
-                            ErrorBuilder.AppendLine(exFileNotFound.FusionLog);
-                        }
+                            ErrorBuilder.AppendLine(loaderException?.Message ?? "null");
+                            if (loaderException is FileNotFoundException fileNotFoundException)
+                            {
+                                ErrorBuilder.AppendLine(fileNotFoundException.FusionLog);
+                            }
 
-                        ErrorBuilder.AppendLine();
+                            ErrorBuilder.AppendLine();
+                        }
                     }
                 }
 #pragma warning disable CA1031 // Do not catch general exception types

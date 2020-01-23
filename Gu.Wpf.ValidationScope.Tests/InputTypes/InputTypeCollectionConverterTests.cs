@@ -7,19 +7,19 @@
 
     public static class InputTypeCollectionConverterTests
     {
-        public static IReadOnlyList<HappyPathData> HappyPathSource { get; } = new[]
+        public static IReadOnlyList<TestCaseData> TestCases { get; } = new[]
         {
-            new HappyPathData(typeof(TextBox).Name, new[] { typeof(TextBox) }),
-            new HappyPathData("TextBox ComboBox", new[] { typeof(TextBox), typeof(ComboBox) }),
-            new HappyPathData(typeof(TextBox).FullName, new[] { typeof(TextBox) }),
+            new TestCaseData(typeof(TextBox).Name, new[] { typeof(TextBox) }),
+            new TestCaseData("TextBox ComboBox", new[] { typeof(TextBox), typeof(ComboBox) }),
+            new TestCaseData(typeof(TextBox).FullName, new[] { typeof(TextBox) }),
         };
 
-        [TestCaseSource(nameof(HappyPathSource))]
-        public static void ConvertHappyPath(HappyPathData data)
+        [TestCaseSource(nameof(TestCases))]
+        public static void ConvertHappyPath(string text, Type[] expected)
         {
             var converter = new InputTypeCollectionConverter();
-            var actual = (InputTypeCollection)converter.ConvertFrom(data.Text);
-            CollectionAssert.AreEqual(data.Expected, actual);
+            var actual = (InputTypeCollection)converter.ConvertFrom(text);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [TestCase("Visual3D")]
@@ -35,21 +35,6 @@
         {
             var converter = new InputTypeCollectionConverter();
             Assert.AreEqual(true, converter.CanConvertFrom(null!, type));
-        }
-
-        public class HappyPathData
-        {
-            public HappyPathData(string text, IReadOnlyList<Type> expected)
-            {
-                this.Text = text;
-                this.Expected = expected;
-            }
-
-            public string Text { get; }
-
-            public IReadOnlyList<Type> Expected { get; }
-
-            public override string ToString() => this.Text;
         }
     }
 }

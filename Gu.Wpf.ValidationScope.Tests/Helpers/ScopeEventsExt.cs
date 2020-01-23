@@ -28,7 +28,7 @@
                 Scope.AddErrorHandler(this.source, this.Add);
             }
 
-            private void Add(object sender, ScopeValidationErrorEventArgs e)
+            private void Add(object? sender, ScopeValidationErrorEventArgs e)
             {
                 Assert.AreSame(this.source, sender);
                 this.Add(e);

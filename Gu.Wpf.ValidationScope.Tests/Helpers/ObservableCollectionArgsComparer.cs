@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Collections;
 
@@ -6,7 +6,7 @@ namespace Gu.Wpf.ValidationScope.Tests
     {
         public static readonly ObservableCollectionArgsComparer Default = new ObservableCollectionArgsComparer();
 
-        public int Compare(object x, object y)
+        public int Compare(object? x, object? y)
         {
             if (((IComparer)NotifyCollectionChangedEventArgsComparer.Default).Compare(x, y) == 0 ||
                 ((IComparer)PropertyChangedEventArgsComparer.Default).Compare(x, y) == 0)

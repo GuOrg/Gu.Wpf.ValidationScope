@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.UiTests
+﻿namespace Gu.Wpf.ValidationScope.UiTests
 {
     using System;
     using System.Collections.Generic;
@@ -39,10 +39,10 @@ namespace Gu.Wpf.ValidationScope.UiTests
         private static HashSet<string> ExcludedAssemblies()
         {
             // ReSharper disable once PossibleNullReferenceException
-            var hashSet = (HashSet<string>)typeof(InputTypeCollectionConverter).GetNestedType("CompatibleTypeCache", BindingFlags.NonPublic)
-                                                                               .GetField("ExcludedAssemblies", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
-                                                                               .GetValue(null);
-            return new HashSet<string>(hashSet);
+            return (HashSet<string>)typeof(InputTypeCollectionConverter)
+                .GetNestedType("CompatibleTypeCache", BindingFlags.NonPublic)!
+                .GetField("ExcludedAssemblies", BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)!
+                .GetValue(null)!;
         }
     }
 }

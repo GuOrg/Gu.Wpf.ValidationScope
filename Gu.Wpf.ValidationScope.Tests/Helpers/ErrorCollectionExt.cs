@@ -27,7 +27,7 @@
                 this.source.ErrorsChanged -= this.Add;
             }
 
-            private void Add(object sender, ErrorsChangedEventArgs e)
+            private void Add(object? sender, ErrorsChangedEventArgs e)
             {
                 Assert.AreSame(this.source, sender);
                 this.Add(e);
