@@ -198,7 +198,9 @@
 
             private static bool IsFullName(string typeName)
             {
+#pragma warning disable CA1307
                 return typeName.Contains('.');
+#pragma warning restore CA1307
             }
 
             private static void AddCompatibleTypes(Assembly assembly)
