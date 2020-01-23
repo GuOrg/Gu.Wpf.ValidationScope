@@ -1,13 +1,10 @@
-// ReSharper disable StaticMemberInGenericType
-// ReSharper disable PossibleMultipleEnumeration
+﻿// ReSharper disable StaticMemberInGenericType
 namespace Gu.Wpf.ValidationScope
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
 
     internal class ObservableBatchCollection<T> : ObservableCollection<T>
     {
@@ -17,83 +14,58 @@ namespace Gu.Wpf.ValidationScope
 
         internal void AddRange(IEnumerable<T> items)
         {
-            switch (EmptyOneOrMany(items))
+            this.CheckReentrancy();
+            var before = this.Items.Count;
+            using var e = items.GetEnumerator();
+            while (e.MoveNext())
             {
-                case EmptyOneOrMore.Empty:
-                    return;
-                case EmptyOneOrMore.One:
-                    this.Add(items.Single());
-                    break;
-                case EmptyOneOrMore.Many:
-                    foreach (var item in items)
-                    {
-                        this.Items.Add(item);
-                    }
+                this.Items.Add(e.Current);
+            }
 
-                    this.RaiseReset();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(items), items, "Did not find a match.");
+            if (this.Items.Count == before + 1)
+            {
+                this.OnPropertyChanged(CountPropertyChangedEventArgs);
+                this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
+                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, this.Items[this.Items.Count - 1], this.Items.Count - 1));
+            }
+            else if (this.Items.Count != before)
+            {
+                this.RaiseReset();
             }
         }
 
         internal void RemoveRange(IEnumerable<T> items)
         {
-            switch (EmptyOneOrMany(items))
+            this.CheckReentrancy();
+            var before = this.Items.Count;
+            //// using KeyValuePair here, not dragging in reference to value tuple just for this.
+            KeyValuePair<int, T>? first = null;
+            using var e = items.GetEnumerator();
+            while (e.MoveNext())
             {
-                case EmptyOneOrMore.Empty:
-                    return;
-                case EmptyOneOrMore.One:
-                    this.Remove(items.Single());
-                    break;
-                case EmptyOneOrMore.Many:
-                    foreach (var item in items)
-                    {
-                        this.Items.Remove(item);
-                    }
-
-                    this.RaiseReset();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(items), items, "Did not find a match.");
-            }
-        }
-
-        private static EmptyOneOrMore EmptyOneOrMany(IEnumerable<T> items)
-        {
-            if (items is null)
-            {
-                return EmptyOneOrMore.Empty;
-            }
-
-            int count = 0;
-            if (items is IReadOnlyList<T> list)
-            {
-                count = list.Count;
-            }
-            else
-            {
-                foreach (var _ in items)
+                if (first is null &&
+                    this.Items.IndexOf(e.Current) is { } i &&
+                    i >= 0)
                 {
-                    count++;
-                    if (count > 1)
-                    {
-                        break;
-                    }
+                    first = new KeyValuePair<int, T>(i, e.Current);
+                }
+
+                while (this.Items.Remove(e.Current))
+                {
                 }
             }
 
-            if (count == 0)
+            if (this.Items.Count == before - 1 &&
+                first is { Key: { } index, Value: var removed })
             {
-                return EmptyOneOrMore.Empty;
+                this.OnPropertyChanged(CountPropertyChangedEventArgs);
+                this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
+                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removed, index));
             }
-
-            if (count == 1)
+            else if (this.Items.Count != before)
             {
-                return EmptyOneOrMore.One;
+                this.RaiseReset();
             }
-
-            return EmptyOneOrMore.Many;
         }
 
         private void RaiseReset()
@@ -101,14 +73,6 @@ namespace Gu.Wpf.ValidationScope
             this.OnPropertyChanged(CountPropertyChangedEventArgs);
             this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
             this.OnCollectionChanged(NotifyCollectionResetEventArgs);
-        }
-
-#pragma warning disable SA1201 // I want it here
-        private enum EmptyOneOrMore
-        {
-            Empty,
-            One,
-            Many,
         }
     }
 }
