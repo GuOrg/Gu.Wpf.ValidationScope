@@ -55,7 +55,7 @@ namespace Gu.Wpf.ValidationScope
                 parentNode.ChildCollection.Remove(childNode);
                 parentNode.ErrorCollection.Remove(removed);
                 parentNode.ErrorCollection.Remove(childNode.Errors);
-                if (parentNode is { Errors: { Count: 0 } })
+                if (parentNode is ScopeNode { Errors: { Count: 0 } })
                 {
                     SetNode(parent, ValidNode.Default);
                 }
@@ -64,18 +64,18 @@ namespace Gu.Wpf.ValidationScope
 
         private static bool IsScopeFor(this DependencyObject parent, ValidationError error)
         {
-            var inputTypes = GetForInputTypes(parent as FrameworkElement);
-            if (inputTypes is null)
+            if (parent is FrameworkElement fe &&
+                GetForInputTypes(fe) is { } inputTypes)
             {
-                return false;
+                if (inputTypes.Contains(typeof(Scope)))
+                {
+                    return true;
+                }
+
+                return inputTypes.Contains(error.Target());
             }
 
-            if (inputTypes.Contains(typeof(Scope)))
-            {
-                return true;
-            }
-
-            return inputTypes.Contains(error.Target());
+            return false;
         }
 
         private static bool IsScopeFor(this DependencyObject parent, DependencyObject source)
@@ -85,28 +85,26 @@ namespace Gu.Wpf.ValidationScope
                 return false;
             }
 
-            var inputTypes = GetForInputTypes(parent as FrameworkElement);
-            if (inputTypes is null)
+            if (parent is FrameworkElement fe &&
+                GetForInputTypes(fe) is { } inputTypes)
             {
-                return false;
-            }
+                var node = GetNode(source);
+                if (node is ValidNode || node.Errors.Count == 0)
+                {
+                    return false;
+                }
 
-            var node = GetNode(source);
-            if (node is ValidNode || node.Errors.Count == 0)
-            {
-                return false;
-            }
-
-            if (inputTypes.Contains(typeof(Scope)) && node is ScopeNode)
-            {
-                return true;
-            }
-
-            foreach (var error in GetErrors(source))
-            {
-                if (inputTypes.Contains(error.Target()))
+                if (inputTypes.Contains(typeof(Scope)) && node is ScopeNode)
                 {
                     return true;
+                }
+
+                foreach (var error in GetErrors(source))
+                {
+                    if (inputTypes.Contains(error.Target()))
+                    {
+                        return true;
+                    }
                 }
             }
 
