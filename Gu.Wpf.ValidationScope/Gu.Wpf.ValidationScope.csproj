@@ -22,27 +22,40 @@
   <PropertyGroup>
     <Description>Form validation for WPF</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.1.0</Version>
+    <Version>0.2.2.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Wpf.ValidationScope</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GuOrg/Gu.Wpf.ValidationScope</RepositoryUrl>
     <PackageTags>wpf xaml validation form</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
+    <PackageReleaseNotes>0.2.2
+FEATURE: Multitarget net45 and netcoreappp 3.1
+FEATURE: Nullable</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
 
-    <Content Include="InputTypes\InputTypesExtensionCtors.tt">
+    <None Update="InputTypes/InputTypesExtensionCtors.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>InputTypesExtensionCtors.generated.cs</LastGenOutput>
-    </Content>
+    </None>
+    <Compile Update="InputTypes\InputTypesExtensionCtors.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InputTypesExtensionCtors.tt</DependentUpon>
+    </Compile>
 
-    <Content Include="OneWayToSourceBindings.tt">
+    <None Update="OneWayToSourceBindings.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OneWayToSourceBindings.generated.cs</LastGenOutput>
-    </Content>
+    </None>
+    <Compile Update="OneWayToSourceBindings.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>OneWayToSourceBindings.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
