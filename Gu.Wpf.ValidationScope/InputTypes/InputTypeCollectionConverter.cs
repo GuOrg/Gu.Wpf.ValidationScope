@@ -76,9 +76,7 @@
         {
             private static readonly object Gate = new object();
             private static readonly HashSet<Type> Types = new HashSet<Type>();
-
             private static readonly List<Type> KnownInputTypes = InputTypeCollection.Default.ToList();
-
             private static readonly HashSet<string> ExcludedAssemblies = new HashSet<string>
             {
                 "Castle.Core",
