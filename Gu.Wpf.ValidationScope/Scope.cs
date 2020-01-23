@@ -260,8 +260,10 @@
 
         private static void OnNodeErrorsChanged(object? sender, ErrorsChangedEventArgs e)
         {
-            var node = (ErrorNode)sender;
-            UpdateErrorsAndHasErrors(node.Source, e.Removed, e.Added, node.Errors);
+            if (sender is ErrorNode { Source: { } source, Errors: { } errors })
+            {
+                UpdateErrorsAndHasErrors(source, e.Removed, e.Added, errors);
+            }
         }
 
         // this helper sets properties and raises events in the same order as System.Controls.Validation
