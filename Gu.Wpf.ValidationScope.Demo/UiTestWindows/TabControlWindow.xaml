@@ -1,0 +1,60 @@
+﻿<Window x:Class="Gu.Wpf.ValidationScope.Demo.TabControlWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:validation="https://github.com/GuOrg/Gu.Wpf.ValidationScope"
+        xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+        Name="Window"
+        Title="TabControlWindow"
+        Width="800"
+        Height="450"
+        validation:Scope.ForInputTypes="TextBox"
+        mc:Ignorable="d">
+    <Window.DataContext>
+        <demo:TabControlWindowViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl>
+            <TabItem Header="Item 1">
+                <Grid x:Name="Form1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition MinWidth="50" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="0"
+                               Text="IntValue1" />
+                    <TextBox x:Name="IntTextBox1"
+                             Grid.Row="0"
+                             Grid.Column="1"
+                             Text="{Binding IntValue1,
+                                            UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="0"
+                               Text="IntValue2" />
+                    <TextBox x:Name="IntTextBox2"
+                             Grid.Row="1"
+                             Grid.Column="1"
+                             Text="{Binding IntValue1,
+                                            UpdateSourceTrigger=PropertyChanged}" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Window}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+    </Grid>
+</Window>
