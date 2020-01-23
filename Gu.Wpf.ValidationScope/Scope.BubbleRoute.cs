@@ -122,8 +122,7 @@ namespace Gu.Wpf.ValidationScope
                 throw new ArgumentNullException(nameof(error), "error.BindingInError == null");
             }
 
-            var bindingExpression = binding as BindingExpressionBase;
-            if (bindingExpression != null)
+            if (binding is BindingExpressionBase bindingExpression)
             {
                 return bindingExpression.Target;
             }

@@ -258,7 +258,7 @@
             }
         }
 
-        private static void OnNodeErrorsChanged(object sender, ErrorsChangedEventArgs e)
+        private static void OnNodeErrorsChanged(object? sender, ErrorsChangedEventArgs e)
         {
             var node = (ErrorNode)sender;
             UpdateErrorsAndHasErrors(node.Source, e.Removed, e.Added, node.Errors);

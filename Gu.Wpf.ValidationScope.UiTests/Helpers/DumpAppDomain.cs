@@ -14,7 +14,7 @@
         {
             var excludedAssemblies = ExcludedAssemblies();
             var notExcluded = AppDomain.CurrentDomain.GetAssemblies()
-                                      .Where(a => !excludedAssemblies.Contains(a.GetName().Name))
+                                      .Where(a => !excludedAssemblies.Contains(a.GetName().Name!))
                                       .Select(a => a.GetName().Name)
                                       .OrderBy(x => x)
                                       .ToList();

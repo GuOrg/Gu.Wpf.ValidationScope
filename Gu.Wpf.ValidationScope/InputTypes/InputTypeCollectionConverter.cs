@@ -148,7 +148,7 @@
 
             internal static Type FindType(string typeName)
             {
-                Type match;
+                Type? match;
                 try
                 {
                     lock (Gate)

@@ -1,4 +1,4 @@
-// ReSharper disable UnusedMember.Local
+﻿// ReSharper disable UnusedMember.Local
 namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Collections.Generic;
@@ -88,11 +88,11 @@ namespace Gu.Wpf.ValidationScope.Demo
         private static void OnTrackChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             d.SetValue(EventsPropertyKey, new ObservableCollection<object>());
-            _ = BindingHelper.Bind(d, HasErrorProperty)
-                             .OneWayTo(d, Validation.HasErrorProperty);
-            _ = BindingHelper.Bind(d, ErrorsProperty)
-                             .OneWayTo(d, Validation.ErrorsProperty);
-            Validation.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o).Add(args));
+            _ = d.Bind(HasErrorProperty)
+                 .OneWayTo(d, Validation.HasErrorProperty);
+            _ = d.Bind(ErrorsProperty)
+                 .OneWayTo(d, Validation.ErrorsProperty);
+            Validation.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o!).Add(args));
         }
     }
 }

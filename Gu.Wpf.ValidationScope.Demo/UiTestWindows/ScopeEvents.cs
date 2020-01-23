@@ -1,4 +1,4 @@
-// ReSharper disable UnusedMember.Local
+﻿// ReSharper disable UnusedMember.Local
 namespace Gu.Wpf.ValidationScope.Demo
 {
     using System.Collections.Generic;
@@ -93,7 +93,7 @@ namespace Gu.Wpf.ValidationScope.Demo
                  .OneWayTo(d, Scope.HasErrorProperty);
             _ = d.Bind(ErrorsProperty)
                  .OneWayTo(d, Scope.ErrorsProperty);
-            Scope.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o).Add(args));
+            Scope.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o!).Add(args));
         }
     }
 }
