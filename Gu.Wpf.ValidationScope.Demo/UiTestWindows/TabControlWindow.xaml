@@ -21,34 +21,36 @@
         </Grid.RowDefinitions>
         <TabControl>
             <TabItem Header="Item 1">
-                <Grid x:Name="Form1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition MinWidth="50" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="0"
-                               Text="IntValue1" />
-                    <TextBox x:Name="IntTextBox1"
-                             Grid.Row="0"
-                             Grid.Column="1"
-                             Text="{Binding IntValue1,
+                <AdornerDecorator>
+                    <Grid x:Name="Form1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition MinWidth="50" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.Column="0"
+                                   Text="IntValue1" />
+                        <TextBox x:Name="IntTextBox1"
+                                 Grid.Row="0"
+                                 Grid.Column="1"
+                                 Text="{Binding IntValue1,
                                             UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Text="IntValue2" />
-                    <TextBox x:Name="IntTextBox2"
-                             Grid.Row="1"
-                             Grid.Column="1"
-                             Text="{Binding IntValue1,
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Text="IntValue2" />
+                        <TextBox x:Name="IntTextBox2"
+                                 Grid.Row="1"
+                                 Grid.Column="1"
+                                 Text="{Binding IntValue1,
                                             UpdateSourceTrigger=PropertyChanged}" />
-                </Grid>
+                    </Grid>
+                </AdornerDecorator>
             </TabItem>
         </TabControl>
 
