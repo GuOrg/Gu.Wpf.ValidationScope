@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.UiTests
+﻿namespace Gu.Wpf.ValidationScope.UiTests
 {
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
@@ -29,52 +29,50 @@ namespace Gu.Wpf.ValidationScope.UiTests
         [Test]
         public void Updates()
         {
-            using (var app = Application.AttachOrLaunch(ExeFileName, WindowName))
-            {
-                var window = app.MainWindow;
-                var elementName = window.FindGroupBox("ElementName binding");
-                var viewModel = window.FindGroupBox("ViewModel binding");
+            using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
+            var window = app.MainWindow;
+            var elementName = window.FindGroupBox("ElementName binding");
+            var viewModel = window.FindGroupBox("ViewModel binding");
 
-                var hasError = "HasError: False";
-                Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
-                CollectionAssert.IsEmpty(elementName.FindGroupBox("Errors").GetErrors());
-                CollectionAssert.IsEmpty(elementName.FindGroupBox("Node").GetErrors());
+            var hasError = "HasError: False";
+            Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
+            CollectionAssert.IsEmpty(elementName.FindGroupBox("Errors").GetErrors());
+            CollectionAssert.IsEmpty(elementName.FindGroupBox("Node").GetErrors());
 
-                Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
-                CollectionAssert.IsEmpty(viewModel.FindGroupBox("Errors").GetErrors());
-                CollectionAssert.IsEmpty(viewModel.FindGroupBox("Node").GetErrors());
+            Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
+            CollectionAssert.IsEmpty(viewModel.FindGroupBox("Errors").GetErrors());
+            CollectionAssert.IsEmpty(viewModel.FindGroupBox("Node").GetErrors());
 
-                window.FindTextBox("TextBox1").Text = "a";
-                hasError = "HasError: True";
-                var errors = new[] { "Value 'a' could not be converted." };
-                Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
-                CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Errors").GetErrors());
-                CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Node").GetErrors());
+            window.FindTextBox("TextBox1").Text = "a";
+            hasError = "HasError: True";
+            var errors = new[] { "Value 'a' could not be converted." };
+            Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
+            CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Errors").GetErrors());
+            CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Node").GetErrors());
 
-                Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
-                CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Errors").GetErrors());
-                CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Node").GetErrors());
+            Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
+            CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Errors").GetErrors());
+            CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Node").GetErrors());
 
-                window.FindTextBox("TextBox2").Text = "b";
-                errors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
-                Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
-                CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Errors").GetErrors());
-                CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Node").GetErrors());
+            window.FindTextBox("TextBox2").Text = "b";
+            errors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+            Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
+            CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Errors").GetErrors());
+            CollectionAssert.AreEqual(errors, elementName.FindGroupBox("Node").GetErrors());
 
-                Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
-                CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Errors").GetErrors());
-                CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Node").GetErrors());
+            Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
+            CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Errors").GetErrors());
+            CollectionAssert.AreEqual(errors, viewModel.FindGroupBox("Node").GetErrors());
 
-                window.FindTextBox("TextBox1").Text = "1";
-                hasError = "HasError: False";
-                Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
-                CollectionAssert.IsEmpty(elementName.FindGroupBox("Errors").GetErrors());
-                CollectionAssert.IsEmpty(elementName.FindGroupBox("Node").GetErrors());
+            window.FindTextBox("TextBox1").Text = "1";
+            hasError = "HasError: False";
+            Assert.AreEqual(hasError, elementName.FindTextBlocks()[1].Text);
+            CollectionAssert.IsEmpty(elementName.FindGroupBox("Errors").GetErrors());
+            CollectionAssert.IsEmpty(elementName.FindGroupBox("Node").GetErrors());
 
-                Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
-                CollectionAssert.IsEmpty(viewModel.FindGroupBox("Errors").GetErrors());
-                CollectionAssert.IsEmpty(viewModel.FindGroupBox("Node").GetErrors());
-            }
+            Assert.AreEqual(hasError, viewModel.FindTextBlocks()[1].Text);
+            CollectionAssert.IsEmpty(viewModel.FindGroupBox("Errors").GetErrors());
+            CollectionAssert.IsEmpty(viewModel.FindGroupBox("Node").GetErrors());
         }
     }
 }
