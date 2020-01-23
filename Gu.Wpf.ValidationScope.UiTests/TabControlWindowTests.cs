@@ -49,6 +49,14 @@
             window.FindTextBox("IntTextBox2").Text = "b";
             Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
             CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." }, scope.GetErrors());
+
+            window.FindTabControl().Select("Tab 2");
+            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+            CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." }, scope.GetErrors());
+
+            window.FindTextBox("IntTextBox3").Text = "c";
+            Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
+            CollectionAssert.AreEqual(new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted.", "Value 'c' could not be converted." }, scope.GetErrors());
         }
     }
 }

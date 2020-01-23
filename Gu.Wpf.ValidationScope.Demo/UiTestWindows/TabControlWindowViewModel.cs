@@ -7,6 +7,8 @@
     {
         private int intValue1;
         private int intValue2;
+        private int intValue3;
+        private int intValue4;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -38,6 +40,36 @@
                 }
 
                 this.intValue2 = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public int IntValue3
+        {
+            get => this.intValue3;
+            set
+            {
+                if (value == this.intValue3)
+                {
+                    return;
+                }
+
+                this.intValue3 = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public int IntValue4
+        {
+            get => this.intValue4;
+            set
+            {
+                if (value == this.intValue4)
+                {
+                    return;
+                }
+
+                this.intValue4 = value;
                 this.OnPropertyChanged();
             }
         }
