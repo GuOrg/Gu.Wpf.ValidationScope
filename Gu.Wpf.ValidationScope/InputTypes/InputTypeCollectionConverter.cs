@@ -35,19 +35,14 @@
         /// <inheritdoc />
         public override object ConvertFrom(ITypeDescriptorContext typeDescriptorContext, CultureInfo cultureInfo, object source)
         {
-            switch (source)
+            return source switch
             {
-                case string text:
-                    return ConvertFromText(text);
-                case IEnumerable<Type> types:
-                    return new InputTypeCollection(types);
-                case Type type:
-                    return new InputTypeCollection { type };
-                case TypeExtension typeExtension:
-                    return new InputTypeCollection { typeExtension.Type };
-                default:
-                    return base.ConvertFrom(typeDescriptorContext, cultureInfo, source);
-            }
+                string text => ConvertFromText(text),
+                IEnumerable<Type> types => new InputTypeCollection(types),
+                Type type => new InputTypeCollection { type },
+                TypeExtension typeExtension => new InputTypeCollection { typeExtension.Type },
+                _ => base.ConvertFrom(typeDescriptorContext, cultureInfo, source),
+            };
         }
 
         /// <inheritdoc />

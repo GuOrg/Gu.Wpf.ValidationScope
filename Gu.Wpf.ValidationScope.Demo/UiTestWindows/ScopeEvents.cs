@@ -64,11 +64,6 @@ namespace Gu.Wpf.ValidationScope.Demo
             return (bool)element.GetValue(TrackProperty);
         }
 
-        private static void SetEvents(this DependencyObject element, ObservableCollection<object> value)
-        {
-            element.SetValue(EventsPropertyKey, value);
-        }
-
         /// <summary>Helper for getting <see cref="EventsProperty"/> from <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="DependencyObject"/> to read <see cref="EventsProperty"/> from.</param>
         /// <returns>Events property value.</returns>
