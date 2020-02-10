@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -41,12 +41,10 @@ namespace Gu.Wpf.ValidationScope.Tests
         {
             var reference = new ObservableCollection<int> { 1 };
             var result = new List<EventArgs>();
-            using (var events = reference.SubscribeObservableCollectionEvents())
-            {
-                reference.Clear();
-                result.AddRange(events);
-                return result;
-            }
+            using var events = reference.SubscribeObservableCollectionEvents();
+            reference.Clear();
+            result.AddRange(events);
+            return result;
         }
     }
 }

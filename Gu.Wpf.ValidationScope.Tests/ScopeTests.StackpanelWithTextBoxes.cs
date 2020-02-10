@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Collections.Generic;
     using System.Threading;
@@ -214,29 +214,25 @@ namespace Gu.Wpf.ValidationScope.Tests
             public static void Notifies()
             {
                 var textBox = new System.Windows.Controls.TextBox();
-                using (var textBoxEvents = textBox.SubscribeScopeEvents())
+                using var textBoxEvents = textBox.SubscribeScopeEvents();
+                var stackPanel = new StackPanel();
+                using var stackPanelEVents = stackPanel.SubscribeScopeEvents();
+                stackPanel.Children.Add(textBox);
+                var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) };
+                Scope.SetForInputTypes(stackPanel, inputTypes);
+                var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
+                textBox.SetValidationError(validationError);
+                var expectedEvents = new List<ScopeValidationErrorEventArgs>
                 {
-                    var stackPanel = new StackPanel();
-                    using (var stackPanelEVents = stackPanel.SubscribeScopeEvents())
-                    {
-                        stackPanel.Children.Add(textBox);
-                        var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) };
-                        Scope.SetForInputTypes(stackPanel, inputTypes);
-                        var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
-                        textBox.SetValidationError(validationError);
-                        var expectedEvents = new List<ScopeValidationErrorEventArgs>
-                        {
-                            new ScopeValidationErrorEventArgs(validationError, ValidationErrorEventAction.Added),
-                        };
-                        CollectionAssert.AreEqual(expectedEvents, textBoxEvents, ScopeValidationErrorEventArgsComparer.Default);
-                        CollectionAssert.AreEqual(expectedEvents, stackPanelEVents, ScopeValidationErrorEventArgsComparer.Default);
+                    new ScopeValidationErrorEventArgs(validationError, ValidationErrorEventAction.Added),
+                };
+                CollectionAssert.AreEqual(expectedEvents, textBoxEvents, ScopeValidationErrorEventArgsComparer.Default);
+                CollectionAssert.AreEqual(expectedEvents, stackPanelEVents, ScopeValidationErrorEventArgsComparer.Default);
 
-                        textBox.ClearValidationError(validationError);
-                        expectedEvents.Add(new ScopeValidationErrorEventArgs(validationError, ValidationErrorEventAction.Removed));
-                        CollectionAssert.AreEqual(expectedEvents, textBoxEvents, ScopeValidationErrorEventArgsComparer.Default);
-                        CollectionAssert.AreEqual(expectedEvents, stackPanelEVents, ScopeValidationErrorEventArgsComparer.Default);
-                    }
-                }
+                textBox.ClearValidationError(validationError);
+                expectedEvents.Add(new ScopeValidationErrorEventArgs(validationError, ValidationErrorEventAction.Removed));
+                CollectionAssert.AreEqual(expectedEvents, textBoxEvents, ScopeValidationErrorEventArgsComparer.Default);
+                CollectionAssert.AreEqual(expectedEvents, stackPanelEVents, ScopeValidationErrorEventArgsComparer.Default);
             }
         }
     }
