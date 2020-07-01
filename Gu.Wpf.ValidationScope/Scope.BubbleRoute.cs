@@ -1,5 +1,4 @@
-﻿// ReSharper disable PossibleMultipleEnumeration
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;

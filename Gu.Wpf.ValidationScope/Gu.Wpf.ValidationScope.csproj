@@ -6,7 +6,6 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -35,6 +34,10 @@ FEATURE: Nullable</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
 
     <None Update="InputTypes/InputTypesExtensionCtors.tt">
@@ -61,6 +64,7 @@ FEATURE: Nullable</PackageReleaseNotes>
   <ItemGroup>
     <AdditionalFiles Include="PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
