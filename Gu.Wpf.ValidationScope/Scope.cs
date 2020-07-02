@@ -11,7 +11,9 @@
     public static partial class Scope
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
-
+        /// <summary>
+        /// Attached property for specifying what input types to track validation for.
+        /// </summary>
         public static readonly DependencyProperty ForInputTypesProperty = DependencyProperty.RegisterAttached(
             "ForInputTypes",
             typeof(InputTypeCollection),
@@ -27,6 +29,9 @@
             typeof(Scope),
             new PropertyMetadata(BooleanBoxes.False));
 
+        /// <summary>
+        /// Attached property similar to <see cref="Validation.HasErrorProperty"/> but aggregated for the child elements in the scope.
+        /// </summary>
         public static readonly DependencyProperty HasErrorProperty = HasErrorPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey ErrorsPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
@@ -35,6 +40,9 @@
             typeof(Scope),
             new PropertyMetadata(ErrorCollection.EmptyValidationErrors));
 
+        /// <summary>
+        /// Attached property similar to <see cref="Validation.ErrorsProperty"/> but aggregated for the child elements in the scope.
+        /// </summary>
         public static readonly DependencyProperty ErrorsProperty = ErrorsPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey NodePropertyKey = DependencyProperty.RegisterAttachedReadOnly(
@@ -92,6 +100,9 @@
             element.SetValue(ForInputTypesProperty, value);
         }
 
+        /// <summary>Helper for getting <see cref="ForInputTypesProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="UIElement"/> to read <see cref="ForInputTypesProperty"/> from.</param>
+        /// <returns>ForInputTypesProperty property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static InputTypeCollection? GetForInputTypes(FrameworkElement element)

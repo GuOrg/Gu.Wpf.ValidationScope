@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.ValidationScope
+﻿#pragma warning disable RS0041 // Public members should not use oblivious types
+namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.ObjectModel;
     using System.Windows;
@@ -51,20 +52,20 @@
 
         public bool HasError
         {
-            get { return (bool)this.GetValue(HasErrorProperty); }
-            set { this.SetValue(HasErrorProperty, value); }
+            get => (bool)this.GetValue(HasErrorProperty);
+            set => this.SetValue(HasErrorProperty, value);
         }
 
         public ReadOnlyObservableCollection<ValidationError> Errors
         {
-            get { return (ReadOnlyObservableCollection<ValidationError>)this.GetValue(ErrorsProperty); }
-            set { this.SetValue(ErrorsProperty, value); }
+            get => (ReadOnlyObservableCollection<ValidationError>)this.GetValue(ErrorsProperty);
+            set => this.SetValue(ErrorsProperty, value);
         }
 
         public Node Node
         {
-            get { return (Node)this.GetValue(NodeProperty); }
-            set { this.SetValue(NodeProperty, value); }
+            get => (Node)this.GetValue(NodeProperty);
+            set => this.SetValue(NodeProperty, value);
         }
 
         private static void OnHasErrorProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

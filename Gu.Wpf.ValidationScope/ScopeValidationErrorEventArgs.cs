@@ -16,10 +16,10 @@
             this.Action = action;
         }
 
-        /// <summary>The ValidationError that caused this ValidationErrorEvent to be raised.</summary>
+        /// <summary>Gets the ValidationError that caused this ValidationErrorEvent to be raised.</summary>
         public ValidationError Error { get; }
 
-        /// <summary>Action indicates whether the <seealso cref="Error"/> is a new error or a previous error that has now been cleared.</summary>
+        /// <summary>Gets the action that indicates whether the <see cref="Error"/> is a new error or a previous error that has now been cleared.</summary>
         public ValidationErrorEventAction Action { get; }
     }
 }
