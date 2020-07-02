@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;
@@ -23,10 +23,17 @@ namespace Gu.Wpf.ValidationScope
             typeof(Slider),
         };
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InputTypeCollection"/> class.
+        /// </summary>
         public InputTypeCollection()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InputTypeCollection"/> class.
+        /// </summary>
+        /// <param name="types">The types to track valid for.</param>
         public InputTypeCollection(IEnumerable<Type> types)
         {
             this.AddRange(types);
@@ -80,19 +87,21 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
+        /// <inheritdoc/>
         protected override void InsertItem(int index, Type item)
         {
-            this.VerifyCompatible(item);
+            VerifyCompatible(item);
             base.InsertItem(index, item);
         }
 
+        /// <inheritdoc/>
         protected override void SetItem(int index, Type item)
         {
-            this.VerifyCompatible(item);
+            VerifyCompatible(item);
             base.SetItem(index, item);
         }
 
-        private void VerifyCompatible(Type type)
+        private static void VerifyCompatible(Type type)
         {
             if (!IsCompatibleType(type))
             {

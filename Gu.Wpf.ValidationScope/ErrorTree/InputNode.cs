@@ -9,6 +9,9 @@
     using System.Windows.Controls;
     using System.Windows.Data;
 
+    /// <summary>
+    /// Node corresponding to an input element.
+    /// </summary>
     [DebuggerDisplay("InputNode Errors: {Errors?.Count ?? 0}, Source: {Source}")]
     public sealed class InputNode : ErrorNode
     {
@@ -32,6 +35,9 @@
             };
         }
 
+        /// <summary>
+        /// Gets the <see cref="DependencyObject"/> to track validity for.
+        /// </summary>
         public override DependencyObject Source => (DependencyObject)this.errorsBinding.Source;
 
         internal void BindToSourceErrors()
@@ -39,6 +45,7 @@
             _ = BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, SourceErrorsProperty, this.errorsBinding);
         }
 
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

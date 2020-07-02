@@ -56,6 +56,16 @@ namespace Gu.Wpf.ValidationScope
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Disposes of this instance.
+        /// </summary>
+        /// <remarks>
+        /// Called from Dispose() with disposing=true, and from the finalizer with disposing=false.
+        /// Guidelines:
+        /// 1. We may be called more than once: do nothing after the first call.
+        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
+        /// </remarks>
+        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
@@ -71,6 +81,10 @@ namespace Gu.Wpf.ValidationScope
             }
         }
 
+        /// <summary>
+        /// Raise <see cref="PropertyChanged"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs args)
         {
             this.PropertyChanged?.Invoke(this, args);
