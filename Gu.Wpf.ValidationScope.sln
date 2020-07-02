@@ -13,9 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{2FAF8740-9
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
 		azure-pipelines.yml = azure-pipelines.yml
-		paket.dependencies = paket.dependencies
-		paket.lock = paket.lock
-		.paket\paket.targets = .paket\paket.targets
 		Settings.XamlStyler = Settings.XamlStyler
 	EndProjectSection
 EndProject
