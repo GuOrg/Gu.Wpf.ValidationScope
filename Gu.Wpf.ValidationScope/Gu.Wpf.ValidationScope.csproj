@@ -34,10 +34,6 @@ FEATURE: Nullable</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="stylecop.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
 
     <None Update="InputTypes/InputTypesExtensionCtors.tt">
