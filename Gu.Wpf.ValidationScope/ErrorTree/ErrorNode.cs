@@ -27,10 +27,19 @@ namespace Gu.Wpf.ValidationScope
         /// <summary>Notifies when <see cref="Errors"/> changes.</summary>
         public event EventHandler<ErrorsChangedEventArgs>? ErrorsChanged;
 
+        /// <summary>
+        /// Gets a value indicating whether <see cref="Errors"/> is has items.
+        /// </summary>
         public override bool HasError => this.ErrorCollection.Any();
 
+        /// <summary>
+        /// Gets the current errors.
+        /// </summary>
         public override ReadOnlyObservableCollection<ValidationError> Errors => this.ErrorCollection;
 
+        /// <summary>
+        /// Gets the child error nodes of this instance.
+        /// </summary>
         public override ReadOnlyObservableCollection<ErrorNode> Children => this.children.IsValueCreated ? this.children.Value : ChildCollection.Empty;
 
         /// <summary>Gets the source element for this node.</summary>

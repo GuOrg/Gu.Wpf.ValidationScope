@@ -13,6 +13,9 @@
     using System.Windows.Controls;
     using System.Windows.Markup;
 
+    /// <summary>
+    /// A <see cref="TypeConverter"/> for <see cref="InputTypeCollection"/>.
+    /// </summary>
     public class InputTypeCollectionConverter : TypeConverter
     {
         private static readonly char[] SeparatorChars = { ',', ' ' };
