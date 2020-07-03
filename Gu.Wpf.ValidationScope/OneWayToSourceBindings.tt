@@ -11,6 +11,9 @@ namespace Gu.Wpf.ValidationScope
     using System.Windows.Controls;
     using System.Windows.Data;
 
+    /// <summary>
+    /// Helper for binding readonly dependency properties one way to source.
+    /// </summary>
     public class OneWayToSourceBindings : FrameworkElement
     {
 <#
@@ -55,8 +58,8 @@ namespace Gu.Wpf.ValidationScope
 		 #>
         public <#= property.Type #> <#= property.Name #>
         {
-            get { return (<#= property.Type #>)this.GetValue(<#= property.Name #>Property); }
-            set { this.SetValue(<#= property.Name #>Property, value); }
+            get => (<#= property.Type #>)this.GetValue(<#= property.Name #>Property);
+            set => this.SetValue(<#= property.Name #>Property, value);
         }
 
 <#

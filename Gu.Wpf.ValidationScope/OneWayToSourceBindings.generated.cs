@@ -1,11 +1,13 @@
-﻿#pragma warning disable RS0041 // Public members should not use oblivious types
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.ObjectModel;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
 
+    /// <summary>
+    /// Helper for binding readonly dependency properties one way to source.
+    /// </summary>
     public class OneWayToSourceBindings : FrameworkElement
     {
         public static readonly DependencyProperty HasErrorProperty = DependencyProperty.Register(

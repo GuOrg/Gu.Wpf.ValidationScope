@@ -51,8 +51,14 @@
             typeof(Scope),
             new PropertyMetadata(ValidNode.Default, OnNodeChanged));
 
+        /// <summary>
+        /// Attached property for the corresponding node.
+        /// </summary>
         public static readonly DependencyProperty NodeProperty = NodePropertyKey.DependencyProperty;
 
+        /// <summary>
+        /// Attached property for the OneWayToSourceBinding.
+        /// </summary>
         public static readonly DependencyProperty OneWayToSourceBindingsProperty = DependencyProperty.RegisterAttached(
             "OneWayToSourceBindings",
             typeof(OneWayToSourceBindings),
