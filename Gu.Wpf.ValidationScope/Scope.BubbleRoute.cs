@@ -8,6 +8,7 @@
     using System.Windows.Data;
     using System.Windows.Media;
 
+    /// <summary>Implementation.</summary>
     public static partial class Scope
     {
         private static void UpdateParent(this DependencyObject source, IEnumerable<ValidationError> removed, IEnumerable<ValidationError> added)

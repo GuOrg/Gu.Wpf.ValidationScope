@@ -1,8 +1,9 @@
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Windows;
 
+    /// <summary>Provides attached events for validation scopes.</summary>
     public static partial class Scope
     {
         /// <summary>

@@ -10,18 +10,21 @@
     /// </summary>
     public class OneWayToSourceBindings : FrameworkElement
     {
+        /// <summary>Identifies the <see cref="HasError"/> dependency property.</summary>
         public static readonly DependencyProperty HasErrorProperty = DependencyProperty.Register(
             nameof(HasError),
             typeof(bool),
             typeof(OneWayToSourceBindings),
             new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        /// <summary>Identifies the <see cref="Errors"/> dependency property.</summary>
         public static readonly DependencyProperty ErrorsProperty = DependencyProperty.Register(
             nameof(Errors),
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(OneWayToSourceBindings),
             new FrameworkPropertyMetadata(default(ReadOnlyObservableCollection<ValidationError>), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        /// <summary>Identifies the <see cref="Node"/> dependency property.</summary>
         public static readonly DependencyProperty NodeProperty = DependencyProperty.Register(
             nameof(Node),
             typeof(Node),
@@ -52,18 +55,27 @@
             typeof(OneWayToSourceBindings),
             new PropertyMetadata(default(Node), OnNodeProxyChanged));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="Errors"/> is has items.
+        /// </summary>
         public bool HasError
         {
             get => (bool)this.GetValue(HasErrorProperty);
             set => this.SetValue(HasErrorProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the current errors.
+        /// </summary>
         public ReadOnlyObservableCollection<ValidationError> Errors
         {
             get => (ReadOnlyObservableCollection<ValidationError>)this.GetValue(ErrorsProperty);
             set => this.SetValue(ErrorsProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the current node.
+        /// </summary>
         public Node Node
         {
             get => (Node)this.GetValue(NodeProperty);

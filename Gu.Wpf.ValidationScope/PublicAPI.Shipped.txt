@@ -32,12 +32,12 @@ Gu.Wpf.ValidationScope.InputTypesExtension.Types.set -> void
 Gu.Wpf.ValidationScope.Node
 Gu.Wpf.ValidationScope.Node.Node() -> void
 Gu.Wpf.ValidationScope.OneWayToSourceBindings
-~Gu.Wpf.ValidationScope.OneWayToSourceBindings.Errors.get -> System.Collections.ObjectModel.ReadOnlyObservableCollection<System.Windows.Controls.ValidationError>
-~Gu.Wpf.ValidationScope.OneWayToSourceBindings.Errors.set -> void
+Gu.Wpf.ValidationScope.OneWayToSourceBindings.Errors.get -> System.Collections.ObjectModel.ReadOnlyObservableCollection<System.Windows.Controls.ValidationError!>!
+Gu.Wpf.ValidationScope.OneWayToSourceBindings.Errors.set -> void
 Gu.Wpf.ValidationScope.OneWayToSourceBindings.HasError.get -> bool
 Gu.Wpf.ValidationScope.OneWayToSourceBindings.HasError.set -> void
-~Gu.Wpf.ValidationScope.OneWayToSourceBindings.Node.get -> Gu.Wpf.ValidationScope.Node
-~Gu.Wpf.ValidationScope.OneWayToSourceBindings.Node.set -> void
+Gu.Wpf.ValidationScope.OneWayToSourceBindings.Node.get -> Gu.Wpf.ValidationScope.Node!
+Gu.Wpf.ValidationScope.OneWayToSourceBindings.Node.set -> void
 Gu.Wpf.ValidationScope.OneWayToSourceBindings.OneWayToSourceBindings() -> void
 Gu.Wpf.ValidationScope.Scope
 Gu.Wpf.ValidationScope.ScopeNode
@@ -77,9 +77,9 @@ static Gu.Wpf.ValidationScope.Scope.RemoveErrorsChangedHandler(this System.Windo
 static Gu.Wpf.ValidationScope.Scope.SetForInputTypes(System.Windows.FrameworkElement! element, Gu.Wpf.ValidationScope.InputTypeCollection? value) -> void
 static Gu.Wpf.ValidationScope.Scope.SetOneWayToSourceBindings(this System.Windows.UIElement! element, Gu.Wpf.ValidationScope.OneWayToSourceBindings! value) -> void
 static readonly Gu.Wpf.ValidationScope.InputTypeCollection.Default -> Gu.Wpf.ValidationScope.InputTypeCollection!
-~static readonly Gu.Wpf.ValidationScope.OneWayToSourceBindings.ErrorsProperty -> System.Windows.DependencyProperty
-~static readonly Gu.Wpf.ValidationScope.OneWayToSourceBindings.HasErrorProperty -> System.Windows.DependencyProperty
-~static readonly Gu.Wpf.ValidationScope.OneWayToSourceBindings.NodeProperty -> System.Windows.DependencyProperty
+static readonly Gu.Wpf.ValidationScope.OneWayToSourceBindings.ErrorsProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.ValidationScope.OneWayToSourceBindings.HasErrorProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.ValidationScope.OneWayToSourceBindings.NodeProperty -> System.Windows.DependencyProperty!
 static readonly Gu.Wpf.ValidationScope.Scope.ErrorsChangedEvent -> System.Windows.RoutedEvent!
 static readonly Gu.Wpf.ValidationScope.Scope.ErrorsProperty -> System.Windows.DependencyProperty!
 static readonly Gu.Wpf.ValidationScope.Scope.ForInputTypesProperty -> System.Windows.DependencyProperty!

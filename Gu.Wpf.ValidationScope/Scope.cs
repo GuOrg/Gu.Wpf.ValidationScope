@@ -7,7 +7,7 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    /// <summary>Provides attached properties and events for validation scopes.</summary>
+    /// <summary>Provides attached properties for validation scopes.</summary>
     public static partial class Scope
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
@@ -57,7 +57,7 @@
         public static readonly DependencyProperty NodeProperty = NodePropertyKey.DependencyProperty;
 
         /// <summary>
-        /// Attached property for the OneWayToSourceBinding.
+        /// Attached property for <see cref="OneWayToSourceBindings"/>.
         /// </summary>
         public static readonly DependencyProperty OneWayToSourceBindingsProperty = DependencyProperty.RegisterAttached(
             "OneWayToSourceBindings",

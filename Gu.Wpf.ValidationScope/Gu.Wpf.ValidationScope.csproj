@@ -45,16 +45,6 @@ FEATURE: Nullable</PackageReleaseNotes>
       <AutoGen>True</AutoGen>
       <DependentUpon>InputTypesExtensionCtors.tt</DependentUpon>
     </Compile>
-
-    <None Update="OneWayToSourceBindings.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>OneWayToSourceBindings.generated.cs</LastGenOutput>
-    </None>
-    <Compile Update="OneWayToSourceBindings.generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>OneWayToSourceBindings.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
