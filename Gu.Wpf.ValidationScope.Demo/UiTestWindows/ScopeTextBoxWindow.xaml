@@ -6,7 +6,6 @@
         Title="ScopeTextBoxWindow"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen">
-    <Window.Resources />
     <Window.DataContext>
         <demo:ViewModel />
     </Window.DataContext>
