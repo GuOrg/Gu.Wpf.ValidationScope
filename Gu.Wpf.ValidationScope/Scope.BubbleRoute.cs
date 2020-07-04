@@ -25,11 +25,12 @@
             }
 
             var childNode = GetNode(source) as ErrorNode;
-            var parentNode = GetNode(parent) as ErrorNode;
             if (childNode is null)
             {
                 return;
             }
+
+            var parentNode = GetNode(parent) as ErrorNode;
 
             if (IsScopeFor(parent, source))
             {

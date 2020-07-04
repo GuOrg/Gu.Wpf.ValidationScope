@@ -15,22 +15,6 @@
             return new BindingBuilder(target, targetProperty);
         }
 
-        internal static BindingExpression Bind(
-            DependencyObject target,
-            DependencyProperty targetProperty,
-            object source,
-            PropertyPath path)
-        {
-            var binding = new Binding
-            {
-                Path = path,
-                Source = source,
-                Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
-            };
-            return (BindingExpression)BindingOperations.SetBinding(target, targetProperty, binding);
-        }
-
         internal static PropertyPath GetPath(DependencyProperty property)
         {
             if (PropertyPaths.TryGetValue(property, out var path))
@@ -43,7 +27,7 @@
             return path;
         }
 
-        internal struct BindingBuilder
+        internal readonly struct BindingBuilder
         {
             private readonly DependencyObject target;
             private readonly DependencyProperty targetProperty;
