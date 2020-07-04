@@ -108,17 +108,17 @@
             }
             else
             {
-                d.Bind(DataContextProperty)
-                 .OneWayTo(e.NewValue, DataContextProperty);
+                _ = d.Bind(DataContextProperty)
+                     .OneWayTo(e.NewValue, DataContextProperty);
 
-                d.Bind(HasErrorProxyProperty)
-                 .OneWayTo(e.NewValue, Scope.HasErrorProperty);
+                _ = d.Bind(HasErrorProxyProperty)
+                     .OneWayTo(e.NewValue, Scope.HasErrorProperty);
 
-                d.Bind(ErrorsProxyProperty)
-                 .OneWayTo(e.NewValue, Scope.ErrorsProperty);
+                _ = d.Bind(ErrorsProxyProperty)
+                     .OneWayTo(e.NewValue, Scope.ErrorsProperty);
 
-                d.Bind(NodeProxyProperty)
-                 .OneWayTo(e.NewValue, Scope.NodeProperty);
+                _ = d.Bind(NodeProxyProperty)
+                     .OneWayTo(e.NewValue, Scope.NodeProperty);
             }
         }
     }
