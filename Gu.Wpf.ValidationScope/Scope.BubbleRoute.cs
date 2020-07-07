@@ -68,12 +68,18 @@
             if (parent is FrameworkElement fe &&
                 GetForInputTypes(fe) is { } inputTypes)
             {
-                if (inputTypes.Contains(typeof(Scope)))
+                foreach (var inputType in inputTypes)
                 {
-                    return true;
-                }
+                    if (inputType == typeof(Scope))
+                    {
+                        return true;
+                    }
 
-                return inputTypes.Contains(error.Target());
+                    if (inputType.IsInstanceOfType(error.Target()))
+                    {
+                        return true;
+                    }
+                }
             }
 
             return false;
