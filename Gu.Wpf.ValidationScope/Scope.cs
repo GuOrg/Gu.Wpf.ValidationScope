@@ -262,7 +262,7 @@
 
             if (e.NewValue is ErrorNode newNode)
             {
-                (newNode as InputNode)?.BindToSourceErrors();
+                (newNode as InputNode)?.BindToSource();
                 UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
                 ErrorsChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
             }

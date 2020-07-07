@@ -54,7 +54,7 @@ override Gu.Wpf.ValidationScope.DefaultInputTypesExtension.ProvideValue(System.I
 override Gu.Wpf.ValidationScope.ErrorNode.Children.get -> System.Collections.ObjectModel.ReadOnlyObservableCollection<Gu.Wpf.ValidationScope.ErrorNode!>!
 override Gu.Wpf.ValidationScope.ErrorNode.Errors.get -> System.Collections.ObjectModel.ReadOnlyObservableCollection<System.Windows.Controls.ValidationError!>!
 override Gu.Wpf.ValidationScope.ErrorNode.HasError.get -> bool
-override Gu.Wpf.ValidationScope.InputNode.Source.get -> System.Windows.DependencyObject!
+override Gu.Wpf.ValidationScope.InputNode.Source.get -> System.Windows.DependencyObject?
 override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext! typeDescriptorContext, System.Type! sourceType) -> bool
 override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext! typeDescriptorContext, System.Type! destinationType) -> bool
 override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext! typeDescriptorContext, System.Globalization.CultureInfo! cultureInfo, object! source) -> object!

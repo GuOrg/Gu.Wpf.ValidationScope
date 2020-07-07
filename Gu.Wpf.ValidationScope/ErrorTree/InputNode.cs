@@ -26,22 +26,20 @@
 
         internal InputNode(FrameworkElement source)
         {
-            this.Source = source;
             this.errorsBinding = new Binding
             {
                 Path = ErrorsPropertyPath,
                 Mode = BindingMode.OneWay,
-                RelativeSource = new RelativeSource(RelativeSourceMode.Self),
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                Source = source,
             };
         }
 
         /// <summary>
         /// Gets the <see cref="DependencyObject"/> to track validity for.
         /// </summary>
-        public override DependencyObject Source { get; }
+        public override DependencyObject? Source => (DependencyObject?)this.errorsBinding.Source;
 
-        internal void BindToSourceErrors()
+        internal void BindToSource()
         {
             _ = BindingOperations.SetBinding(this.Source, SourceErrorsProperty, this.errorsBinding);
         }
@@ -51,11 +49,7 @@
         {
             if (disposing)
             {
-                var source = this.Source;
-                if (source != null)
-                {
-                    BindingOperations.ClearBinding(source, SourceErrorsProperty);
-                }
+                BindingOperations.ClearBinding(this.Source, SourceErrorsProperty);
             }
 
             base.Dispose(disposing);
@@ -63,25 +57,21 @@
 
         private static void OnSourceErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var node = Scope.GetNode(d) as InputNode;
-            if (node is null)
+            if (Scope.GetNode(d) is InputNode node)
             {
-                // this happens when disposing
-                return;
-            }
+                if (e.OldValue is ReadOnlyObservableCollection<ValidationError> oldErrors &&
+                    !ReferenceEquals(oldErrors, ErrorCollection.EmptyValidationErrors))
+                {
+                    CollectionChangedEventManager.RemoveHandler(oldErrors, node.OnSourceErrorsChanged);
+                    node.ErrorCollection.Remove(oldErrors);
+                }
 
-            if (e.OldValue is ReadOnlyObservableCollection<ValidationError> oldErrors &&
-                !ReferenceEquals(oldErrors, ErrorCollection.EmptyValidationErrors))
-            {
-                CollectionChangedEventManager.RemoveHandler(oldErrors, node.OnSourceErrorsChanged);
-                node.ErrorCollection.Remove(oldErrors);
-            }
-
-            if (e.NewValue is ReadOnlyObservableCollection<ValidationError> newErrors &&
-                !ReferenceEquals(newErrors, ErrorCollection.EmptyValidationErrors))
-            {
-                CollectionChangedEventManager.AddHandler(newErrors, node.OnSourceErrorsChanged);
-                node.ErrorCollection.Add(newErrors);
+                if (e.NewValue is ReadOnlyObservableCollection<ValidationError> newErrors &&
+                    !ReferenceEquals(newErrors, ErrorCollection.EmptyValidationErrors))
+                {
+                    CollectionChangedEventManager.AddHandler(newErrors, node.OnSourceErrorsChanged);
+                    node.ErrorCollection.Add(newErrors);
+                }
             }
         }
 
