@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -227,7 +226,6 @@
                 // a) Not expecting scope to change often.
                 // b) Not expecting many errors often.
                 // optimize if profiler points at it
-                // ReSharper disable once UseNullPropagation
                 var errorNode = GetNode(d) as ErrorNode;
                 if (errorNode is null)
                 {
@@ -256,7 +254,6 @@
 
         private static void OnNodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Debug.Print($"Set Node = {e.NewValue?.GetType().Name ?? "null"} for {d}");
             if (e.OldValue is ErrorNode oldNode)
             {
                 ErrorsChangedEventManager.RemoveHandler(oldNode, OnNodeErrorsChanged);
