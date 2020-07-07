@@ -19,18 +19,19 @@
             "SourceErrors",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(InputNode),
-            new PropertyMetadata(ValidationScope.ErrorCollection.EmptyValidationErrors, OnSourceErrorsChanged));
+            new PropertyMetadata(ErrorCollection.EmptyValidationErrors, OnSourceErrorsChanged));
 
         private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
         private readonly Binding errorsBinding;
 
         internal InputNode(FrameworkElement source)
         {
+            this.Source = source;
             this.errorsBinding = new Binding
             {
                 Path = ErrorsPropertyPath,
                 Mode = BindingMode.OneWay,
-                Source = source,
+                RelativeSource = new RelativeSource(RelativeSourceMode.Self),
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
             };
         }
@@ -38,11 +39,11 @@
         /// <summary>
         /// Gets the <see cref="DependencyObject"/> to track validity for.
         /// </summary>
-        public override DependencyObject Source => (DependencyObject)this.errorsBinding.Source;
+        public override DependencyObject Source { get; }
 
         internal void BindToSourceErrors()
         {
-            _ = BindingOperations.SetBinding((DependencyObject)this.errorsBinding.Source, SourceErrorsProperty, this.errorsBinding);
+            _ = BindingOperations.SetBinding(this.Source, SourceErrorsProperty, this.errorsBinding);
         }
 
         /// <inheritdoc/>
@@ -69,25 +70,19 @@
                 return;
             }
 
-            var oldErrors = (ReadOnlyObservableCollection<ValidationError>)e.OldValue;
-            if (ShouldTrack(oldErrors))
+            if (e.OldValue is ReadOnlyObservableCollection<ValidationError> oldErrors &&
+                !ReferenceEquals(oldErrors, ErrorCollection.EmptyValidationErrors))
             {
                 CollectionChangedEventManager.RemoveHandler(oldErrors, node.OnSourceErrorsChanged);
+                node.ErrorCollection.Remove(oldErrors);
             }
 
-            var newErrors = (ReadOnlyObservableCollection<ValidationError>)e.NewValue;
-            node.ErrorCollection.Remove(oldErrors);
-            node.ErrorCollection.Add(newErrors);
-
-            if (ShouldTrack(newErrors))
+            if (e.NewValue is ReadOnlyObservableCollection<ValidationError> newErrors &&
+                !ReferenceEquals(newErrors, ErrorCollection.EmptyValidationErrors))
             {
                 CollectionChangedEventManager.AddHandler(newErrors, node.OnSourceErrorsChanged);
+                node.ErrorCollection.Add(newErrors);
             }
-        }
-
-        private static bool ShouldTrack(ReadOnlyObservableCollection<ValidationError> errors)
-        {
-            return errors != null && !ReferenceEquals(errors, ValidationScope.ErrorCollection.EmptyValidationErrors);
         }
 
         private void OnSourceErrorsChanged(object? sender, NotifyCollectionChangedEventArgs e)
