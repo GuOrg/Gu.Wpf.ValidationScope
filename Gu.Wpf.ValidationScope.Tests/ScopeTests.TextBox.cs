@@ -24,7 +24,7 @@
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
                 CollectionAssert.IsEmpty(Scope.GetErrors(textBox));
 
-                var errorNode = (InputNode)Scope.GetNode(textBox);
+                var errorNode = (InputNode)Scope.GetNode(textBox)!;
                 Assert.AreEqual(textBox, errorNode.Source);
                 Assert.AreEqual(false, errorNode.HasError);
                 CollectionAssert.IsEmpty(errorNode.Children);
@@ -66,7 +66,7 @@
                 var inputTypes = new InputTypeCollection { typeof(System.Windows.Controls.TextBox), typeof(Selector) };
                 Scope.SetForInputTypes(textBox, inputTypes);
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
-                var errorNode = (InputNode)Scope.GetNode(textBox);
+                var errorNode = (InputNode)Scope.GetNode(textBox)!;
                 using var errorArgs = errorNode.Errors.SubscribeObservableCollectionEvents();
                 using var nodeArgs = errorNode.SubscribePropertyChangedEvents();
                 Assert.AreEqual(textBox, errorNode.Source);
@@ -75,7 +75,7 @@
                 var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
                 textBox.SetValidationError(validationError);
                 Assert.AreEqual(true, Scope.GetHasError(textBox));
-                errorNode = (InputNode)Scope.GetNode(textBox);
+                errorNode = (InputNode)Scope.GetNode(textBox)!;
                 Assert.AreEqual(textBox, errorNode.Source);
                 CollectionAssert.IsEmpty(errorNode.Children);
                 CollectionAssert.AreEqual(new[] { validationError }, errorNode.Errors);

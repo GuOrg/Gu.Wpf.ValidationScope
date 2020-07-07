@@ -87,9 +87,9 @@
             }
 
             if (parent is FrameworkElement fe &&
-                GetForInputTypes(fe) is { } inputTypes)
+                GetForInputTypes(fe) is { } inputTypes &&
+                GetNode(source) is { } node)
             {
-                var node = GetNode(source);
                 if (node is ValidNode || node.Errors.Count == 0)
                 {
                     return false;

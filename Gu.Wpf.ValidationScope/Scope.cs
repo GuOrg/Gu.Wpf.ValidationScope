@@ -163,7 +163,7 @@
             return (ReadOnlyObservableCollection<ValidationError>)element.GetValue(ErrorsProperty);
         }
 
-        private static void SetNode(DependencyObject element, Node value)
+        private static void SetNode(DependencyObject element, Node? value)
         {
             if (element is null)
             {
@@ -178,7 +178,7 @@
         /// <returns>Node property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static Node GetNode(DependencyObject element)
+        public static Node? GetNode(DependencyObject element)
         {
             if (element is null)
             {

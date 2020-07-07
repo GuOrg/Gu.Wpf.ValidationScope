@@ -70,7 +70,7 @@ static Gu.Wpf.ValidationScope.Scope.AddErrorsChangedHandler(this System.Windows.
 static Gu.Wpf.ValidationScope.Scope.GetErrors(System.Windows.DependencyObject! element) -> System.Collections.ObjectModel.ReadOnlyObservableCollection<System.Windows.Controls.ValidationError!>!
 static Gu.Wpf.ValidationScope.Scope.GetForInputTypes(System.Windows.FrameworkElement! element) -> Gu.Wpf.ValidationScope.InputTypeCollection?
 static Gu.Wpf.ValidationScope.Scope.GetHasError(System.Windows.UIElement! element) -> bool
-static Gu.Wpf.ValidationScope.Scope.GetNode(System.Windows.DependencyObject! element) -> Gu.Wpf.ValidationScope.Node!
+static Gu.Wpf.ValidationScope.Scope.GetNode(System.Windows.DependencyObject! element) -> Gu.Wpf.ValidationScope.Node?
 static Gu.Wpf.ValidationScope.Scope.GetOneWayToSourceBindings(this System.Windows.UIElement! element) -> Gu.Wpf.ValidationScope.OneWayToSourceBindings!
 static Gu.Wpf.ValidationScope.Scope.RemoveErrorHandler(System.Windows.DependencyObject! element, System.EventHandler<Gu.Wpf.ValidationScope.ScopeValidationErrorEventArgs!>! handler) -> void
 static Gu.Wpf.ValidationScope.Scope.RemoveErrorsChangedHandler(this System.Windows.DependencyObject! element, System.EventHandler<Gu.Wpf.ValidationScope.ErrorsChangedEventArgs!>! handler) -> void

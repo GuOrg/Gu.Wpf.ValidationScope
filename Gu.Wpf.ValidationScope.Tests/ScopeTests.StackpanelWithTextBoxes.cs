@@ -10,7 +10,7 @@
     public static partial class ScopeTests
     {
         [Apartment(ApartmentState.STA)]
-        public static class StackpanelWithTextBox
+        public static class StackPanelWithTextBox
         {
             [Test]
             public static void NodesForInputTypesTextBox()
@@ -26,7 +26,7 @@
                 Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(stackPanel));
                 Assert.AreSame(ErrorCollection.EmptyValidationErrors, Scope.GetErrors(textBox));
                 Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
-                var errorNode = (InputNode)Scope.GetNode(textBox);
+                var errorNode = (InputNode)Scope.GetNode(textBox)!;
                 Assert.AreEqual(false, errorNode.HasError);
                 Assert.AreNotSame(ErrorCollection.EmptyValidationErrors, errorNode.Errors);
                 CollectionAssert.IsEmpty(errorNode.Errors);
@@ -41,7 +41,7 @@
                 CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(stackPanel));
                 CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(textBox));
 
-                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel);
+                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel)!;
                 CollectionAssert.AreEqual(new[] { errorNode }, scopeNode.Children);
                 Assert.AreSame(errorNode, Scope.GetNode(textBox));
                 Assert.AreEqual(true, scopeNode.HasError);
@@ -86,8 +86,8 @@
                 CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(stackPanel));
                 CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(textBox));
 
-                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel);
-                var errorNode = (InputNode)Scope.GetNode(textBox);
+                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel)!;
+                var errorNode = (InputNode)Scope.GetNode(textBox)!;
                 CollectionAssert.AreEqual(new[] { errorNode }, scopeNode.Children);
                 Assert.AreSame(errorNode, Scope.GetNode(textBox));
                 Assert.AreEqual(true, scopeNode.HasError);
@@ -127,8 +127,8 @@
                 CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(stackPanel));
                 CollectionAssert.AreEqual(expectedErrors, Scope.GetErrors(textBox));
 
-                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel);
-                var errorNode = (InputNode)Scope.GetNode(textBox);
+                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel)!;
+                var errorNode = (InputNode)Scope.GetNode(textBox)!;
                 CollectionAssert.AreEqual(new[] { errorNode }, scopeNode.Children);
                 Assert.AreSame(errorNode, Scope.GetNode(textBox));
                 Assert.AreEqual(true, scopeNode.HasError);
@@ -180,7 +180,7 @@
                 Assert.AreEqual(ValidNode.Default, Scope.GetNode(stackPanel));
 
                 Assert.AreEqual(false, Scope.GetHasError(textBox));
-                var inputNode = (InputNode)Scope.GetNode(textBox);
+                var inputNode = (InputNode)Scope.GetNode(textBox)!;
                 Assert.AreEqual(textBox, inputNode.Source);
                 CollectionAssert.IsEmpty(inputNode.Children);
                 CollectionAssert.IsEmpty(inputNode.Errors);
@@ -188,7 +188,7 @@
                 var validationError = TestValidationError.GetFor(textBox, System.Windows.Controls.TextBox.TextProperty);
                 textBox.SetValidationError(validationError);
                 Assert.AreEqual(true, Scope.GetHasError(stackPanel));
-                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel);
+                var scopeNode = (ScopeNode)Scope.GetNode(stackPanel)!;
                 Assert.AreEqual(stackPanel, scopeNode.Source);
                 Assert.AreEqual(1, scopeNode.Children.Count);
                 CollectionAssert.AreEqual(new[] { validationError }, scopeNode.Errors);
