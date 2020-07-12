@@ -226,9 +226,8 @@
                     return;
                 }
 
-                if (errorNode.Errors.Any(x => !IsScopeFor(d, x)))
+                if (errorNode.ErrorCollection.RemoveAll(x => !IsScopeFor(d, x)) > 0)
                 {
-                    errorNode.ErrorCollection.Remove(errorNode.Errors.Where(x => !IsScopeFor(d, x)).ToArray());
                     if (errorNode.Errors.Count == 0)
                     {
                         SetNode(d, ValidNode.Default);
