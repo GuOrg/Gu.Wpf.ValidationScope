@@ -64,34 +64,6 @@
             typeof(Scope),
             new PropertyMetadata(default(OneWayToSourceBindings), OnOneWayToSourceBindingsChanged));
 
-        /// <summary>Helper for setting <see cref="OneWayToSourceBindingsProperty"/> on <paramref name="element"/>.</summary>
-        /// <param name="element"><see cref="UIElement"/> to set <see cref="OneWayToSourceBindingsProperty"/> on.</param>
-        /// <param name="value">OneWayToSourceBindings property value.</param>
-        public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
-        {
-            if (element is null)
-            {
-                throw new System.ArgumentNullException(nameof(element));
-            }
-
-            element.SetValue(OneWayToSourceBindingsProperty, value);
-        }
-
-        /// <summary>Helper for getting <see cref="OneWayToSourceBindingsProperty"/> from <paramref name="element"/>.</summary>
-        /// <param name="element"><see cref="UIElement"/> to read <see cref="OneWayToSourceBindingsProperty"/> from.</param>
-        /// <returns>OneWayToSourceBindings property value.</returns>
-        [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
-        [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static OneWayToSourceBindings GetOneWayToSourceBindings(this UIElement element)
-        {
-            if (element is null)
-            {
-                throw new System.ArgumentNullException(nameof(element));
-            }
-
-            return (OneWayToSourceBindings)element.GetValue(OneWayToSourceBindingsProperty);
-        }
-
         /// <summary>Helper for setting <see cref="ForInputTypesProperty"/> on <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="FrameworkElement"/> to set <see cref="ForInputTypesProperty"/> on.</param>
         /// <param name="value">ForInputTypes property value.</param>
@@ -187,13 +159,35 @@
             return (Node)element.GetValue(NodeProperty);
         }
 
-#pragma warning restore SA1202 // Elements must be ordered by access
-
-        private static void OnOneWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>Helper for setting <see cref="OneWayToSourceBindingsProperty"/> on <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="UIElement"/> to set <see cref="OneWayToSourceBindingsProperty"/> on.</param>
+        /// <param name="value">OneWayToSourceBindings property value.</param>
+        public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
         {
-            ((OneWayToSourceBindings)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
-            ((OneWayToSourceBindings)e.NewValue)?.SetCurrentValue(OneWayToSourceBindings.ElementProperty, d as UIElement);
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
+            element.SetValue(OneWayToSourceBindingsProperty, value);
         }
+
+        /// <summary>Helper for getting <see cref="OneWayToSourceBindingsProperty"/> from <paramref name="element"/>.</summary>
+        /// <param name="element"><see cref="UIElement"/> to read <see cref="OneWayToSourceBindingsProperty"/> from.</param>
+        /// <returns>OneWayToSourceBindings property value.</returns>
+        [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
+        [AttachedPropertyBrowsableForType(typeof(UIElement))]
+        public static OneWayToSourceBindings GetOneWayToSourceBindings(this UIElement element)
+        {
+            if (element is null)
+            {
+                throw new System.ArgumentNullException(nameof(element));
+            }
+
+            return (OneWayToSourceBindings)element.GetValue(OneWayToSourceBindingsProperty);
+        }
+
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         private static void OnForInputTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -278,6 +272,12 @@
             {
                 UpdateErrorsAndHasErrors(source, e.Removed, e.Added, errors);
             }
+        }
+
+        private static void OnOneWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((OneWayToSourceBindings)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
+            ((OneWayToSourceBindings)e.NewValue)?.SetCurrentValue(OneWayToSourceBindings.ElementProperty, d as UIElement);
         }
 
         // this helper sets properties and raises events in the same order as System.Controls.Validation
