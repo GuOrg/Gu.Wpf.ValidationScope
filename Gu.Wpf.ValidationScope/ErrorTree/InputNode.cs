@@ -24,7 +24,7 @@
         private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
         private readonly Binding errorsBinding;
 
-        internal InputNode(FrameworkElement source)
+        internal InputNode(UIElement source)
         {
             this.errorsBinding = new Binding
             {

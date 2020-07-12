@@ -67,7 +67,7 @@
         /// <summary>Helper for setting <see cref="ForInputTypesProperty"/> on <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="FrameworkElement"/> to set <see cref="ForInputTypesProperty"/> on.</param>
         /// <param name="value">ForInputTypes property value.</param>
-        public static void SetForInputTypes(FrameworkElement element, InputTypeCollection? value)
+        public static void SetForInputTypes(UIElement element, InputTypeCollection? value)
         {
             if (element is null)
             {
@@ -82,7 +82,7 @@
         /// <returns>ForInputTypesProperty property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static InputTypeCollection? GetForInputTypes(FrameworkElement element)
+        public static InputTypeCollection? GetForInputTypes(UIElement element)
         {
             if (element is null)
             {
