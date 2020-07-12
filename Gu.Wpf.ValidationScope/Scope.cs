@@ -226,17 +226,16 @@
                     return;
                 }
 
-                var removedErrors = errorNode.Errors.Where(error => !IsScopeFor(d, error)).ToArray();
-                if (removedErrors.Length > 0)
+                if (errorNode.Errors.Any(x => !IsScopeFor(d, x)))
                 {
-                    errorNode.ErrorCollection.Remove(removedErrors);
+                    errorNode.ErrorCollection.Remove(errorNode.Errors.Where(x => !IsScopeFor(d, x)).ToArray());
                     if (errorNode.Errors.Count == 0)
                     {
                         SetNode(d, ValidNode.Default);
                     }
                     else
                     {
-                        var removeChildren = errorNode.Children.Where(c => !errorNode.Errors.Intersect(c.Errors).Any()).ToArray();
+                        var removeChildren = errorNode.Children.Where(x => !errorNode.Errors.Intersect(x.Errors).Any()).ToArray();
                         foreach (var removeChild in removeChildren)
                         {
                             errorNode.ChildCollection.Remove(removeChild);
