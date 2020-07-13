@@ -20,7 +20,7 @@
                 x:Name="Form"
                 validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
 
-            <TextBox x:Name="IntTextBox1"
+            <TextBox x:Name="IntTextBox"
                      Text="{Binding IntValue1,
                                         UpdateSourceTrigger=PropertyChanged}" />
         </Border>
