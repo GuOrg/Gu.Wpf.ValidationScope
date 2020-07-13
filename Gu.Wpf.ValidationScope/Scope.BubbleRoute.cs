@@ -18,7 +18,7 @@
                 return;
             }
 
-            var parent = VisualTreeHelper.GetParent(source) as FrameworkElement;
+            var parent = VisualTreeHelper.GetParent(source) as UIElement;
             if (parent is null || GetForInputTypes(parent) is null)
             {
                 return;
@@ -65,8 +65,8 @@
 
         private static bool IsScopeFor(this DependencyObject parent, ValidationError error)
         {
-            if (parent is FrameworkElement fe &&
-                GetForInputTypes(fe) is { } inputTypes)
+            if (parent is UIElement element &&
+                GetForInputTypes(element) is { } inputTypes)
             {
                 foreach (var inputType in inputTypes)
                 {
@@ -92,8 +92,8 @@
                 return false;
             }
 
-            if (parent is FrameworkElement fe &&
-                GetForInputTypes(fe) is { } inputTypes &&
+            if (parent is UIElement element &&
+                GetForInputTypes(element) is { } inputTypes &&
                 GetNode(source) is { } node)
             {
                 if (node is ValidNode || node.Errors.Count == 0)
