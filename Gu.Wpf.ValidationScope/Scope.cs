@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Documents;
 
     /// <summary>Provides attached properties for validation scopes.</summary>
     public static partial class Scope
@@ -191,56 +192,56 @@
 
         private static void OnForInputTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d.GetType().FullName == "System.Windows.Documents.CaretElement")
+            if (d is Adorner)
             {
                 return;
             }
 
-            var newValue = (InputTypeCollection)e.NewValue;
-            if (newValue is null)
+            if (e.NewValue is InputTypeCollection newValue)
             {
-                d.SetValue(NodePropertyKey, ValidNode.Default);
-                return;
-            }
-
-            if (newValue.Contains(d))
-            {
-                var inputNode = GetNode(d) as InputNode;
-                if (inputNode is null)
+                if (newValue.Contains(d))
                 {
+                    var inputNode = GetNode(d) as InputNode;
+                    if (inputNode is null)
+                    {
 #pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode
-                    inputNode = new InputNode((FrameworkElement)d);
+                        inputNode = new InputNode((FrameworkElement)d);
 #pragma warning restore IDISP001, CA2000 // Dispose created.
-                    SetNode(d, inputNode);
+                        SetNode(d, inputNode);
+                    }
+                }
+                else
+                {
+                    // below looks pretty expensive but
+                    // a) Not expecting scope to change often.
+                    // b) Not expecting many errors often.
+                    // optimize if profiler points at it
+                    var errorNode = GetNode(d) as ErrorNode;
+                    if (errorNode is null)
+                    {
+                        return;
+                    }
+
+                    if (errorNode.ErrorCollection.RemoveAll(x => !IsScopeFor(d, x)) > 0)
+                    {
+                        if (errorNode.Errors.Count == 0)
+                        {
+                            SetNode(d, ValidNode.Default);
+                        }
+                        else
+                        {
+                            var removeChildren = errorNode.Children.Where(x => !errorNode.Errors.Intersect(x.Errors).Any()).ToArray();
+                            foreach (var removeChild in removeChildren)
+                            {
+                                errorNode.ChildCollection.Remove(removeChild);
+                            }
+                        }
+                    }
                 }
             }
             else
             {
-                // below looks pretty expensive but
-                // a) Not expecting scope to change often.
-                // b) Not expecting many errors often.
-                // optimize if profiler points at it
-                var errorNode = GetNode(d) as ErrorNode;
-                if (errorNode is null)
-                {
-                    return;
-                }
-
-                if (errorNode.ErrorCollection.RemoveAll(x => !IsScopeFor(d, x)) > 0)
-                {
-                    if (errorNode.Errors.Count == 0)
-                    {
-                        SetNode(d, ValidNode.Default);
-                    }
-                    else
-                    {
-                        var removeChildren = errorNode.Children.Where(x => !errorNode.Errors.Intersect(x.Errors).Any()).ToArray();
-                        foreach (var removeChild in removeChildren)
-                        {
-                            errorNode.ChildCollection.Remove(removeChild);
-                        }
-                    }
-                }
+                d.SetValue(NodePropertyKey, ValidNode.Default);
             }
         }
 
