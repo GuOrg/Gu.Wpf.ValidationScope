@@ -197,17 +197,16 @@
                 return;
             }
 
-            if (e.NewValue is InputTypeCollection newValue)
+            if (d is UIElement element &&
+                e.NewValue is InputTypeCollection newValue)
             {
                 if (newValue.Contains(d))
                 {
-                    var inputNode = GetNode(d) as InputNode;
-                    if (inputNode is null)
+                    if (!(GetNode(d) is InputNode))
                     {
 #pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode
-                        inputNode = new InputNode((FrameworkElement)d);
+                        SetNode(d, new InputNode(element));
 #pragma warning restore IDISP001, CA2000 // Dispose created.
-                        SetNode(d, inputNode);
                     }
                 }
                 else
@@ -216,13 +215,8 @@
                     // a) Not expecting scope to change often.
                     // b) Not expecting many errors often.
                     // optimize if profiler points at it
-                    var errorNode = GetNode(d) as ErrorNode;
-                    if (errorNode is null)
-                    {
-                        return;
-                    }
-
-                    if (errorNode.ErrorCollection.RemoveAll(x => !IsScopeFor(d, x)) > 0)
+                    if (GetNode(d) is ErrorNode errorNode &&
+                        errorNode.ErrorCollection.RemoveAll(x => !IsScopeFor(d, x)) > 0)
                     {
                         if (errorNode.Errors.Count == 0)
                         {
