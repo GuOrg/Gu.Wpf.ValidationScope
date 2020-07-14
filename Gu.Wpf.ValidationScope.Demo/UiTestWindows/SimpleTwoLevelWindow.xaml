@@ -16,6 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Border x:Name="Form"
                 validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}"
@@ -26,7 +27,9 @@
                 BorderThickness="1">
             <!--  Using a StackPanel here for unique type  -->
             <StackPanel>
-                <TextBox x:Name="IntTextBox" Text="{Binding IntValue1, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox x:Name="IntTextBox"
+                         Text="{Binding IntValue1,
+                                        UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </Border>
 
@@ -34,5 +37,13 @@
                           Content="{Binding .,
                                             ElementName=Form}"
                           ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+
+        <GroupBox Grid.Row="2"
+                  Header="Window">
+            <ContentPresenter Content="{Binding .,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type Window}}}"
+                              ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+        </GroupBox>
     </Grid>
 </Window>
