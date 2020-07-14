@@ -65,7 +65,7 @@
             Assert.AreEqual("Children: 1", node.FindTextBlock("ChildCountTextBlock").Text);
             Assert.AreEqual("HasError: True", node.FindTextBlock("HasErrorTextBlock").Text);
             CollectionAssert.AreEqual(expectedErrors, node.GetErrors());
-            CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a" }, node.GetChildren());
+            CollectionAssert.AreEqual(new[] { "System.Windows.Controls.StackPanel" }, node.GetChildren());
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
             window.FindTextBox("IntTextBox").Text = "1";
