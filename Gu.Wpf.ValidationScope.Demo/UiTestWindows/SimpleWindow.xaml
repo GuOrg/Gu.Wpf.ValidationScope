@@ -7,7 +7,8 @@
         xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
         xmlns:validation="https://github.com/GuOrg/Gu.Wpf.ValidationScope"
         mc:Ignorable="d"
-        Title="SimpleWindow" Height="450" Width="800">
+        SizeToContent="WidthAndHeight"
+        Title="SimpleWindow">
     <Window.DataContext>
         <demo:ViewModel />
     </Window.DataContext>
