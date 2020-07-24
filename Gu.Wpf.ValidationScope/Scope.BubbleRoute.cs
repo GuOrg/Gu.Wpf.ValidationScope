@@ -13,46 +13,39 @@
     {
         private static void UpdateParent(this DependencyObject source, IEnumerable<ValidationError> removed, IEnumerable<ValidationError> added)
         {
-            if (source is null)
+            if (VisualTreeHelper.GetParent(source) is UIElement parent &&
+                GetForInputTypes(parent) is { })
             {
-                return;
-            }
-
-            var parent = VisualTreeHelper.GetParent(source) as UIElement;
-            if (parent is null || GetForInputTypes(parent) is null)
-            {
-                return;
-            }
-
-            if (GetNode(source) is ErrorNode childNode)
-            {
-                if (IsScopeFor(parent, source))
+                if (GetNode(source) is ErrorNode childNode)
                 {
+                    if (IsScopeFor(parent, source))
+                    {
 #pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode.
-                    var parentNode = GetNode(parent) is ErrorNode errorNode
-                        ? errorNode
-                        : new ScopeNode(parent);
+                        var parentNode = GetNode(parent) is ErrorNode errorNode
+                            ? errorNode
+                            : new ScopeNode(parent);
 #pragma warning restore IDISP001, CA2000 // Dispose created.
 
-                    parentNode.ChildCollection.TryAdd(childNode);
-                    parentNode.ErrorCollection.Remove(removed);
-                    parentNode.ErrorCollection.Add(added.Where(e => parent.IsScopeFor(e)).AsReadOnly());
-                    SetNode(parent, parentNode);
-                }
-                else if (GetNode(parent) is ErrorNode parentNode)
-                {
-                    parentNode.ChildCollection.Remove(childNode);
-                    parentNode.ErrorCollection.Remove(removed);
-                    parentNode.ErrorCollection.Remove(childNode.Errors);
-                    if (parentNode is ScopeNode { Errors: { Count: 0 } })
+                        parentNode.ChildCollection.TryAdd(childNode);
+                        parentNode.ErrorCollection.Remove(removed);
+                        parentNode.ErrorCollection.Add(added.Where(e => parent.IsScopeFor(e)).AsReadOnly());
+                        SetNode(parent, parentNode);
+                    }
+                    else if (GetNode(parent) is ErrorNode parentNode)
                     {
-                        SetNode(parent, ValidNode.Default);
+                        parentNode.ChildCollection.Remove(childNode);
+                        parentNode.ErrorCollection.Remove(removed);
+                        parentNode.ErrorCollection.Remove(childNode.Errors);
+                        if (parentNode is ScopeNode { Errors: { Count: 0 } })
+                        {
+                            SetNode(parent, ValidNode.Default);
+                        }
                     }
                 }
-            }
-            else
-            {
-                SetNode(parent, ValidNode.Default);
+                else
+                {
+                    SetNode(parent, ValidNode.Default);
+                }
             }
         }
 
