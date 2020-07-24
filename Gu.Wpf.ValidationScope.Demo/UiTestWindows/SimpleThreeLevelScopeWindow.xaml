@@ -25,12 +25,14 @@
                                                                            WhenFalse=Transparent},
                                       RelativeSource={RelativeSource Self}}"
                 BorderThickness="1">
-            <!--  Using a StackPanel here for unique type  -->
-            <StackPanel>
-                <TextBox x:Name="IntTextBox"
-                         Text="{Binding IntValue1,
+            <WrapPanel>
+                <!--  Using a StackPanel here for unique type  -->
+                <StackPanel>
+                    <TextBox x:Name="IntTextBox"
+                             Text="{Binding IntValue1,
                                         UpdateSourceTrigger=PropertyChanged}" />
-            </StackPanel>
+                </StackPanel>
+            </WrapPanel>
         </Border>
 
         <ContentPresenter Grid.Row="1"
