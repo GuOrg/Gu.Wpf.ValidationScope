@@ -106,18 +106,12 @@
 
         private static DependencyObject Target(this ValidationError error)
         {
-            var binding = error?.BindingInError;
-            if (binding is null)
+            return error switch
             {
-                throw new ArgumentNullException(nameof(error), "error.BindingInError == null");
-            }
-
-            if (binding is BindingExpressionBase bindingExpression)
-            {
-                return bindingExpression.Target;
-            }
-
-            throw new ArgumentOutOfRangeException(nameof(error), error, $"ValidationError.BindingInError == {binding}");
+                { BindingInError: null } => throw new ArgumentNullException(nameof(error), "error.BindingInError == null"),
+                { BindingInError: BindingExpressionBase bindingExpression } => bindingExpression.Target,
+                _ => throw new ArgumentOutOfRangeException(nameof(error), error, $"ValidationError.BindingInError == {error.BindingInError}"),
+            };
         }
     }
 }
