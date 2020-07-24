@@ -24,42 +24,35 @@
                 return;
             }
 
-            var childNode = GetNode(source) as ErrorNode;
-            if (childNode is null)
+            if (GetNode(source) is ErrorNode childNode)
             {
-                return;
-            }
-
-            var parentNode = GetNode(parent) as ErrorNode;
-
-            if (IsScopeFor(parent, source))
-            {
-                if (parentNode is null)
+                if (IsScopeFor(parent, source))
                 {
 #pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode.
-                    parentNode = new ScopeNode(parent);
+                    var parentNode = GetNode(parent) is ErrorNode errorNode
+                        ? errorNode
+                        : new ScopeNode(parent);
 #pragma warning restore IDISP001, CA2000 // Dispose created.
-                }
 
-                parentNode.ChildCollection.TryAdd(childNode);
-                parentNode.ErrorCollection.Remove(removed);
-                parentNode.ErrorCollection.Add(added.Where(e => parent.IsScopeFor(e)).AsReadOnly());
-                SetNode(parent, parentNode);
+                    parentNode.ChildCollection.TryAdd(childNode);
+                    parentNode.ErrorCollection.Remove(removed);
+                    parentNode.ErrorCollection.Add(added.Where(e => parent.IsScopeFor(e)).AsReadOnly());
+                    SetNode(parent, parentNode);
+                }
+                else if (GetNode(parent) is ErrorNode parentNode)
+                {
+                    parentNode.ChildCollection.Remove(childNode);
+                    parentNode.ErrorCollection.Remove(removed);
+                    parentNode.ErrorCollection.Remove(childNode.Errors);
+                    if (parentNode is ScopeNode { Errors: { Count: 0 } })
+                    {
+                        SetNode(parent, ValidNode.Default);
+                    }
+                }
             }
             else
             {
-                if (parentNode is null)
-                {
-                    return;
-                }
-
-                parentNode.ChildCollection.Remove(childNode);
-                parentNode.ErrorCollection.Remove(removed);
-                parentNode.ErrorCollection.Remove(childNode.Errors);
-                if (parentNode is ScopeNode { Errors: { Count: 0 } })
-                {
-                    SetNode(parent, ValidNode.Default);
-                }
+                SetNode(parent, ValidNode.Default);
             }
         }
 
