@@ -4,8 +4,81 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+        xmlns:validation="https://github.com/GuOrg/Gu.Wpf.ValidationScope"
         Title="ControlTemplatesWindow"
         SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
-    <demo:ControlTemplatesView />
+    <Window.Resources>
+        <ControlTemplate x:Key="ControlTemplate" TargetType="{x:Type Control}">
+            <TextBox x:Name="IntBox"
+                     MinWidth="50"
+                     Text="{Binding IntValue1,
+                                    UpdateSourceTrigger=PropertyChanged}" />
+        </ControlTemplate>
+
+        <Style x:Key="Style" TargetType="{x:Type Control}">
+            <Setter Property="Template" Value="{StaticResource ControlTemplate}" />
+            <Setter Property="Focusable" Value="False" />
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <demo:ViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={demo:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
+            <Grid x:Name="Form" validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="IntValue" />
+                <Control Grid.Row="0"
+                         Grid.Column="1"
+                         Focusable="False"
+                         Template="{StaticResource ControlTemplate}" />
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="IntValue" />
+
+                <Control Grid.Row="1"
+                         Grid.Column="1"
+                         Style="{StaticResource Style}" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="IntValue" />
+
+                <Control Grid.Row="2"
+                         Grid.Column="1"
+                         Focusable="False">
+                    <Control.Template>
+                        <ControlTemplate TargetType="{x:Type Control}">
+                            <TextBox x:Name="IntBox"
+                                     MinWidth="50"
+                                     Text="{Binding IntValue2,
+                                                    UpdateSourceTrigger=PropertyChanged}" />
+                        </ControlTemplate>
+                    </Control.Template>
+                </Control>
+            </Grid>
+        </Border>
+
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+    </Grid>
 </Window>
