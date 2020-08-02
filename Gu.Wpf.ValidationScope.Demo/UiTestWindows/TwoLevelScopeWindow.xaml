@@ -4,9 +4,67 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+        xmlns:validation="https://github.com/GuOrg/Gu.Wpf.ValidationScope"
         Title="TwoLevelScopeWindow"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
-    <demo:TwoLevelScopeView />
+    <Window.DataContext>
+        <demo:ViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border x:Name="Form"
+                BorderBrush="{Binding Path=(validation:Scope.HasError),
+                                      Converter={demo:BoolToBrushConverter},
+                                      RelativeSource={RelativeSource Self}}"
+                BorderThickness="1"
+                validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition MinWidth="50"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="IntValue" />
+                <TextBox Grid.Row="0"
+                         Grid.Column="1"
+                         x:Name="IntTextBox1"
+                         Text="{Binding IntValue1,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="IntValue" />
+                <TextBox Grid.Row="1"
+                         Grid.Column="1"
+                         x:Name="IntTextBox2"
+                         Text="{Binding IntValue1,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock Grid.Row="2"
+                           Grid.Column="0"
+                           Text="DoubleValue" />
+                <TextBox Grid.Row="2"
+                         Grid.Column="1"
+                         x:Name="DoubleTextBox"
+                         Text="{Binding DoubleValue,
+                                        UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </Border>
+
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+    </Grid>
 </Window>
