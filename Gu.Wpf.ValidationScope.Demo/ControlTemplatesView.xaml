@@ -51,10 +51,6 @@
                            Grid.Column="0"
                            Text="IntValue" />
 
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Text="IntValue" />
-
                 <Control Grid.Row="1"
                          Grid.Column="1"
                          Style="{StaticResource Style}" />
