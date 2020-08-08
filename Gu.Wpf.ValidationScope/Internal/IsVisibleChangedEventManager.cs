@@ -1,0 +1,91 @@
+﻿namespace Gu.Wpf.ValidationScope
+{
+    using System;
+    using System.Windows;
+
+    /// <summary>
+    /// Manager for the UIElement.IsVisibleChanged event.
+    /// </summary>
+    internal class IsVisibleChangedEventManager : WeakEventManager
+    {
+        private IsVisibleChangedEventManager()
+        {
+        }
+
+        // get the event manager for the current thread
+        private static IsVisibleChangedEventManager CurrentManager
+        {
+            get
+            {
+                var managerType = typeof(IsVisibleChangedEventManager);
+                var manager = (IsVisibleChangedEventManager)GetCurrentManager(managerType);
+
+                // at first use, create and register a new manager
+                if (manager is null)
+                {
+                    manager = new IsVisibleChangedEventManager();
+                    SetCurrentManager(managerType, manager);
+                }
+
+                return manager;
+            }
+        }
+
+        internal static void RemoveHandler(UIElement source, EventHandler handler)
+        {
+            var manager = CurrentManager;
+            manager.ProtectedRemoveHandler(
+                source ?? throw new ArgumentNullException(nameof(source)),
+                handler ?? throw new ArgumentNullException(nameof(handler)));
+        }
+
+        internal static void UpdateHandler(UIElement source, EventHandler handler)
+        {
+            var manager = CurrentManager;
+            manager.ProtectedRemoveHandler(
+                source ?? throw new ArgumentNullException(nameof(source)),
+                handler ?? throw new ArgumentNullException(nameof(handler)));
+
+            manager.ProtectedAddHandler(source, handler);
+        }
+
+        /// <inheritdoc />
+        protected override ListenerList NewListenerList() => new ListenerList();
+
+        /// <inheritdoc />
+        protected override void StartListening(object source)
+        {
+            if (source is UIElement element)
+            {
+                element.IsVisibleChanged += this.OnIsVisibleChanged;
+            }
+            else
+            {
+                // ReSharper disable once ConstantConditionalAccessQualifier
+                // ReSharper disable once ConstantNullCoalescingCondition
+                throw new ArgumentException($"Cannot start listening to {source?.GetType().Name ?? "null"}");
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void StopListening(object source)
+        {
+            if (source is UIElement element)
+            {
+                element.IsVisibleChanged -= this.OnIsVisibleChanged;
+            }
+            else
+            {
+                // ReSharper disable once ConstantConditionalAccessQualifier
+                // ReSharper disable once ConstantNullCoalescingCondition
+                throw new ArgumentException($"Cannot stop listening to {source?.GetType().Name ?? "null"}");
+            }
+        }
+
+        // event handler for IsVisibleChanged event
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs args)
+        {
+            this.DeliverEvent(sender, EventArgs.Empty);
+        }
+    }
+}

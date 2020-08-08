@@ -192,50 +192,62 @@
 
         private static void OnForInputTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is Adorner)
+            switch (d)
             {
-                return;
+                case Adorner _:
+                    return;
+                case UIElement element:
+                    RefreshNode(element, e.NewValue as InputTypeCollection);
+#pragma warning disable CS8600, CS8604
+                    IsVisibleChangedEventManager.UpdateHandler(element, (o, _) => RefreshNode((UIElement)o, null));
+#pragma warning restore CS8600, CS8604
+                    break;
             }
 
-            if (d is UIElement element &&
-                e.NewValue is InputTypeCollection newValue)
+            static void RefreshNode(UIElement element, InputTypeCollection? inputTypes)
             {
-                if (newValue.Contains(d))
+                inputTypes ??= GetForInputTypes(element);
+
+                if (element is { IsVisible: true } &&
+                    inputTypes is { })
                 {
-                    if (!(GetNode(d) is InputNode))
+                    if (inputTypes.Contains(element))
                     {
+                        if (!(GetNode(element) is InputNode))
+                        {
 #pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode
-                        SetNode(d, new InputNode(element));
+                            SetNode(element, new InputNode(element));
 #pragma warning restore IDISP001, CA2000 // Dispose created.
-                    }
-                }
-                else
-                {
-                    // below looks pretty expensive but
-                    // a) Not expecting scope to change often.
-                    // b) Not expecting many errors often.
-                    // optimize if profiler points at it
-                    if (GetNode(d) is ErrorNode errorNode &&
-                        errorNode.ErrorCollection.RemoveAll(x => !IsScopeFor(d, x)) > 0)
-                    {
-                        if (errorNode.Errors.Count == 0)
-                        {
-                            SetNode(d, ValidNode.Default);
                         }
-                        else
+                    }
+                    else
+                    {
+                        // below looks pretty expensive but
+                        // a) Not expecting scope to change often.
+                        // b) Not expecting many errors often.
+                        // optimize if profiler points at it
+                        if (GetNode(element) is ErrorNode errorNode &&
+                            errorNode.ErrorCollection.RemoveAll(x => !IsScopeFor(element, x)) > 0)
                         {
-                            var removeChildren = errorNode.Children.Where(x => !errorNode.Errors.Intersect(x.Errors).Any()).ToArray();
-                            foreach (var removeChild in removeChildren)
+                            if (errorNode.Errors.Count == 0)
                             {
-                                errorNode.ChildCollection.Remove(removeChild);
+                                SetNode(element, ValidNode.Default);
+                            }
+                            else
+                            {
+                                var removeChildren = errorNode.Children.Where(x => !errorNode.Errors.Intersect(x.Errors).Any()).ToArray();
+                                foreach (var removeChild in removeChildren)
+                                {
+                                    errorNode.ChildCollection.Remove(removeChild);
+                                }
                             }
                         }
                     }
                 }
-            }
-            else
-            {
-                d.SetValue(NodePropertyKey, ValidNode.Default);
+                else if (element is { })
+                {
+                    SetNode(element, ValidNode.Default);
+                }
             }
         }
 

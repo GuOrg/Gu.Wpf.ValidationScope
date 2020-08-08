@@ -10,7 +10,6 @@
     <!--<Application.StartupUri>UiTestWindows/OneLevelScopeWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/TwoLevelScopeWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/ComplicatedScopeWindow.xaml</Application.StartupUri>-->
-
     <!--<Application.StartupUri>UiTestWindows/ControlTemplatesWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/DataTemplatesWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/NotifyDataErrorInfoWindow.xaml</Application.StartupUri-->
@@ -22,6 +21,10 @@
     <!--<Application.StartupUri>UiTestWindows/EventsOrderWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/LiveErrorsWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/TabControlWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/DynamicTypesWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/VisibilityWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/SimpleWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/SimpleTwoLevelWindow.xaml</Application.StartupUri>-->
     <Application.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center" />
