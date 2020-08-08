@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.ValidationScope.UiTests
 {
     using Gu.Wpf.UiAutomation;
+
     using NUnit.Framework;
 
     public class TwoLevelScopeWindowTests
@@ -11,16 +12,10 @@
         [SetUp]
         public void SetUp()
         {
-            if (Application.TryAttach(ExeFileName, WindowName, out var app))
-            {
-                using (app)
-                {
-                    var window = app.MainWindow;
-                    window.FindTextBox("IntTextBox1").Text = "0";
-                    window.FindTextBox("DoubleTextBox").Text = "0";
-                    Keyboard.Type(Key.TAB);
-                }
-            }
+            using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
+            var window = app.MainWindow;
+            window.FindTextBox("IntTextBox1").Text = "0";
+            window.FindTextBox("DoubleTextBox").Text = "0";
         }
 
         [OneTimeTearDown]
