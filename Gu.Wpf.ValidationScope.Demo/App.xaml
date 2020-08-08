@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
+             xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              mc:Ignorable="d">
     <Application.StartupUri>MainWindow.xaml</Application.StartupUri>
     <!--<Application.StartupUri>UiTestWindows/ScopeTextBoxWindow.xaml</Application.StartupUri>-->
@@ -54,24 +55,26 @@
                       DataType="{x:Type validation:ErrorNode}">
             <StackPanel>
                 <TextBlock x:Name="NodeTypeTextBlock"
-                           Text="{Binding}" />
-                <TextBlock x:Name="ChildCountTextBlock"
-                           Foreground="Blue"
-                           Text="{Binding Children.Count,
+                           Text="{Binding FallbackValue='Node: null'}" />
+                <StackPanel Visibility="{Binding Converter={x:Static demo:NullToVisibilityConverter.CollapsedWhenNull}}">
+                    <TextBlock x:Name="ChildCountTextBlock"
+                               Foreground="Blue"
+                               Text="{Binding Children.Count,
                                           StringFormat='Children: {0}'}" />
-                <ItemsControl x:Name="ChildList"
-                              ItemTemplate="{StaticResource ChildTemplate}"
-                              ItemsSource="{Binding Children}" />
+                    <ItemsControl x:Name="ChildList"
+                                  ItemTemplate="{StaticResource ChildTemplate}"
+                                  ItemsSource="{Binding Children}" />
 
-                <TextBlock x:Name="HasErrorTextBlock"
-                           Text="{Binding HasError,
+                    <TextBlock x:Name="HasErrorTextBlock"
+                               Text="{Binding HasError,
                                           StringFormat='HasError: {0}'}" />
-                <TextBlock Foreground="Red"
-                           Text="{Binding Errors.Count,
+                    <TextBlock Foreground="Red"
+                               Text="{Binding Errors.Count,
                                           StringFormat='Errors: {0}'}" />
-                <ItemsControl x:Name="ErrorList"
-                              ItemTemplate="{StaticResource ErrorTemplate}"
-                              ItemsSource="{Binding Errors}" />
+                    <ItemsControl x:Name="ErrorList"
+                                  ItemTemplate="{StaticResource ErrorTemplate}"
+                                  ItemsSource="{Binding Errors}" />
+                </StackPanel>
             </StackPanel>
         </DataTemplate>
 
@@ -93,7 +96,7 @@
                     </StackPanel>
                 </GroupBox>
 
-                <GroupBox Content="{Binding Path=.(validation:Scope.Node)}"
+                <GroupBox Content="{Binding Path=(validation:Scope.Node)}"
                           ContentTemplate="{StaticResource ErrorNodeTemplate}"
                           Header="Node" />
             </StackPanel>
