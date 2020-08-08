@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:validation="https://github.com/JohanLarsson/Gu.Wpf.ValidationScope"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <local:ViewModel />
@@ -16,7 +17,10 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="{Binding Path=(validation:Scope.HasError), Converter={local:BoolToBrushConverter}, ElementName=Form}" BorderThickness="1">
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError),
+                                      Converter={local:BoolToBrushConverter},
+                                      ElementName=Form}"
+                BorderThickness="1">
             <Grid x:Name="Form">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -73,6 +77,11 @@
                  SelectedItem="{x:Null}"
                  SelectionChanged="OnTypesListSelectionChanged"
                  SelectionMode="Extended">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type system:Type}">
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
             <ItemsControl.ItemsSource>
                 <validation:InputTypeCollection>
                     <x:Type TypeName="TextBox" />

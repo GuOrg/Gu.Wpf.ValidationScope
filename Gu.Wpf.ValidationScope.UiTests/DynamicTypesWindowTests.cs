@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.ValidationScope.UiTests
 {
     using Gu.Wpf.UiAutomation;
+
     using NUnit.Framework;
 
     public class DynamicTypesWindowTests
@@ -11,16 +12,13 @@
         [SetUp]
         public void SetUp()
         {
-            if (Application.TryAttach(ExeFileName, WindowName, out var app))
-            {
-                using (app)
-                {
-                    var window = app.MainWindow;
-                    window.FindTextBox("TextBox1").Text = "0";
-                    window.FindTextBox("TextBox2").Text = "0";
-                    window.FindListBox("TypeListBox").Select(2);
-                }
-            }
+            using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
+            var window = app.MainWindow;
+            window.FindTextBox("TextBox1").Text = "0";
+            window.FindTextBox("TextBox2").Text = "0";
+            window.FindComboBox("ComboBox1").EditableText = "0";
+            window.FindComboBox("ComboBox2").EditableText = "0";
+            window.FindListBox("TypeListBox").Select("Slider");
         }
 
         [OneTimeTearDown]
@@ -51,7 +49,7 @@
             CollectionAssert.IsEmpty(node.GetErrors());
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-            window.FindListBox("TypeListBox").Select(0);
+            window.FindListBox("TypeListBox").Select("TextBox");
             var expectedErrors = new[] { "Value 'a' could not be converted." };
             Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
             CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
@@ -62,7 +60,7 @@
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a" }, node.GetChildren());
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-            window.FindListBox("TypeListBox").Select(3);
+            window.FindListBox("TypeListBox").Select("Slider");
             Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
             CollectionAssert.IsEmpty(scope.GetErrors());
 
@@ -107,8 +105,12 @@
             CollectionAssert.IsEmpty(node.GetErrors());
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-            window.FindListBox("TypeListBox").Select(0);
-            var expectedErrors = new[] { "Value 'a' could not be converted.", "Value 'b' could not be converted." };
+            window.FindListBox("TypeListBox").Select("TextBox");
+            var expectedErrors = new[]
+            {
+                "Value 'a' could not be converted.",
+                "Value 'b' could not be converted.",
+            };
             Assert.AreEqual("HasError: True", scope.FindTextBlock("HasErrorTextBlock").Text);
             CollectionAssert.AreEqual(expectedErrors, scope.GetErrors());
 
@@ -139,8 +141,7 @@
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.TextBox: a", "System.Windows.Controls.TextBox: b", "System.Windows.Controls.ComboBox Items.Count:0", "System.Windows.Controls.ComboBox Items.Count:0" }, node.GetChildren());
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-            ////window.FindListBox("TypeListBox").Select("System.Windows.Controls.Primitives.Selector");
-            window.FindListBox("TypeListBox").Select(1);
+            window.FindListBox("TypeListBox").Select("Selector");
             expectedErrors = new[]
             {
                 "Value 'c' could not be converted.",
@@ -166,7 +167,7 @@
             CollectionAssert.AreEqual(new[] { "System.Windows.Controls.ComboBox Items.Count:0" }, node.GetChildren());
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", node.FindTextBlock("NodeTypeTextBlock").Text);
 
-            window.FindListBox("TypeListBox").Select(3);
+            window.FindListBox("TypeListBox").Select("Slider");
             Assert.AreEqual("HasError: False", scope.FindTextBlock("HasErrorTextBlock").Text);
             CollectionAssert.IsEmpty(scope.GetErrors());
 
