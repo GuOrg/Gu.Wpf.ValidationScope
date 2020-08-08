@@ -67,21 +67,17 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="ScopeTemplate" DataType="{x:Type FrameworkElement}">
-            <StackPanel>
-                <TextBlock x:Name="HasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), StringFormat='HasError: {0}'}" />
-                <TextBlock Foreground="Red" Text="{Binding Path=(validation:Scope.Errors).Count, StringFormat='Errors: {0}'}" />
-
-                <ItemsControl x:Name="ErrorList"
-                              ItemTemplate="{StaticResource ErrorTemplate}"
-                              ItemsSource="{Binding Path=(validation:Scope.Errors)}" />
-            </StackPanel>
-        </DataTemplate>
-
         <DataTemplate x:Key="ErrorScopeAndNodeTemplate" DataType="{x:Type FrameworkElement}">
             <StackPanel>
                 <GroupBox Header="Scope">
-                    <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ScopeTemplate}" />
+                    <StackPanel>
+                        <TextBlock x:Name="HasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), StringFormat='HasError: {0}'}" />
+                        <TextBlock Foreground="Red" Text="{Binding Path=(validation:Scope.Errors).Count, StringFormat='Errors: {0}'}" />
+
+                        <ItemsControl x:Name="ErrorList"
+                                      ItemTemplate="{StaticResource ErrorTemplate}"
+                                      ItemsSource="{Binding Path=(validation:Scope.Errors)}" />
+                    </StackPanel>
                 </GroupBox>
 
                 <GroupBox Header="Node">
