@@ -35,26 +35,22 @@
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
 
-        <DataTemplate x:Key="ErrorTemplate"
-                      DataType="{x:Type ValidationError}">
+        <DataTemplate x:Key="ErrorTemplate" DataType="{x:Type ValidationError}">
             <TextBlock x:Name="ErrorTextBlock"
                        Foreground="Red"
                        Text="{Binding ErrorContent}" />
         </DataTemplate>
 
 
-        <DataTemplate x:Key="ChildTemplate"
-                      DataType="{x:Type validation:ErrorNode}">
+        <DataTemplate x:Key="ChildTemplate" DataType="{x:Type validation:ErrorNode}">
             <TextBlock x:Name="ChildTextBlock"
                        Foreground="Blue"
                        Text="{Binding Source}" />
         </DataTemplate>
 
-        <DataTemplate x:Key="ErrorNodeTemplate"
-                      DataType="{x:Type validation:ErrorNode}">
+        <DataTemplate x:Key="ErrorNodeTemplate" DataType="{x:Type validation:ErrorNode}">
             <StackPanel>
-                <TextBlock x:Name="NodeTypeTextBlock"
-                           Text="{Binding}" />
+                <TextBlock x:Name="NodeTypeTextBlock" Text="{Binding}" />
                 <TextBlock x:Name="ChildCountTextBlock"
                            Foreground="Blue"
                            Text="{Binding Children.Count,
@@ -63,28 +59,18 @@
                               ItemTemplate="{StaticResource ChildTemplate}"
                               ItemsSource="{Binding Children}" />
 
-                <TextBlock x:Name="HasErrorTextBlock"
-                           Text="{Binding HasError,
-                                          FallbackValue='HasError: null',
-                                          StringFormat='HasError: {0}'}" />
-                <TextBlock Foreground="Red"
-                           Text="{Binding Errors.Count,
-                                          StringFormat='Errors: {0}'}" />
+                <TextBlock x:Name="HasErrorTextBlock" Text="{Binding HasError, FallbackValue='HasError: null', StringFormat='HasError: {0}'}" />
+                <TextBlock Foreground="Red" Text="{Binding Errors.Count, StringFormat='Errors: {0}'}" />
                 <ItemsControl x:Name="ErrorList"
                               ItemTemplate="{StaticResource ErrorTemplate}"
                               ItemsSource="{Binding Errors}" />
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="ScopeTemplate"
-                      DataType="{x:Type FrameworkElement}">
+        <DataTemplate x:Key="ScopeTemplate" DataType="{x:Type FrameworkElement}">
             <StackPanel>
-                <TextBlock x:Name="HasErrorTextBlock"
-                           Text="{Binding Path=(validation:Scope.HasError),
-                                          StringFormat='HasError: {0}'}" />
-                <TextBlock Foreground="Red"
-                           Text="{Binding Path=(validation:Scope.Errors).Count,
-                                          StringFormat='Errors: {0}'}" />
+                <TextBlock x:Name="HasErrorTextBlock" Text="{Binding Path=(validation:Scope.HasError), StringFormat='HasError: {0}'}" />
+                <TextBlock Foreground="Red" Text="{Binding Path=(validation:Scope.Errors).Count, StringFormat='Errors: {0}'}" />
 
                 <ItemsControl x:Name="ErrorList"
                               ItemTemplate="{StaticResource ErrorTemplate}"
@@ -92,15 +78,15 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="ErrorScopeAndNodeTemplate"
-                      DataType="{x:Type FrameworkElement}">
+        <DataTemplate x:Key="ErrorScopeAndNodeTemplate" DataType="{x:Type FrameworkElement}">
             <StackPanel>
-                <GroupBox ContentTemplate="{StaticResource ScopeTemplate}"
-                          Header="Scope" />
+                <GroupBox Header="Scope">
+                    <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ScopeTemplate}" />
+                </GroupBox>
 
-                <GroupBox Content="{Binding Path=.(validation:Scope.Node)}"
-                          ContentTemplate="{StaticResource ErrorNodeTemplate}"
-                          Header="Node" />
+                <GroupBox Header="Node">
+                    <ContentPresenter Content="{Binding Path=.(validation:Scope.Node)}" ContentTemplate="{StaticResource ErrorNodeTemplate}" />
+                </GroupBox>
             </StackPanel>
         </DataTemplate>
     </Application.Resources>
