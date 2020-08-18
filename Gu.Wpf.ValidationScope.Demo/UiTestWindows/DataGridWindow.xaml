@@ -4,8 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gu="https://github.com/GuOrg/Gu.Wpf.ValidationScope"
         Title="DataGridWindow"
         SizeToContent="WidthAndHeight"
         mc:Ignorable="d">
-    <demo:DataGridScopeView />
+    <Window.DataContext>
+        <demo:DataGridScopeVm />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border x:Name="Form"
+                gu:Scope.ForInputTypes="{x:Static gu:InputTypeCollection.Default}"
+                BorderBrush="{Binding Path=(gu:Scope.HasError),
+                                      Converter={demo:BoolToBrushConverter},
+                                      RelativeSource={RelativeSource Self}}"
+                BorderThickness="1">
+            <DataGrid x:Name="DataGrid"
+                      AutoGenerateColumns="False"
+                      ItemsSource="{Binding Collection}"
+                      SelectionUnit="Cell">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding IntValue1}"
+                                        Header="IntValue1" />
+
+                    <DataGridTextColumn Binding="{Binding IntValue2}"
+                                        Header="IntValue2" />
+
+                    <DataGridTextColumn Binding="{Binding DoubleValue}"
+                                        Header="DoubleValue" />
+
+                    <DataGridTextColumn Binding="{Binding StringValue}"
+                                        Header="StringValue" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <Button x:Name="LoseFocusButton"
+                Grid.Row="1"
+                Content="Lose focus" />
+
+        <ContentPresenter Grid.Row="2"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+    </Grid>
 </Window>

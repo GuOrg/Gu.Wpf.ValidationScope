@@ -18,7 +18,7 @@
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value is null ? this.whenNull: Visibility.Visible;
+            return value is null ? this.whenNull : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

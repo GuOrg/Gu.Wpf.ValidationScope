@@ -30,9 +30,11 @@
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", nodeType.Text);
 
             window.FindTextBox("IntBox").Text = "a";
+            Wait.UntilInputIsProcessed();
             Assert.AreEqual("Gu.Wpf.ValidationScope.ScopeNode", nodeType.Text);
 
             window.FindTextBox("TemplateType").Text = "string";
+            Wait.UntilInputIsProcessed();
             Assert.AreEqual("Gu.Wpf.ValidationScope.ValidNode", nodeType.Text);
         }
     }
