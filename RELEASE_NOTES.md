@@ -1,4 +1,8 @@
-0.2.2
+#### 0.2.3
+      BUGFIX: Remove errors when IsVisible changes to false.
+      BUGFIX: Remove errors when control is removed via SelectTemplate.
+
+#### 0.2.2
 * FEATURE: Multitarget net45 and netcoreappp 3.1
 * FEATURE: Nullable
 

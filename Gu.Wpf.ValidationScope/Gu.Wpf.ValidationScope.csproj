@@ -21,16 +21,20 @@
   <PropertyGroup>
     <Description>Form validation for WPF</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.2.0</Version>
+    <Version>0.2.3.0</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Wpf.ValidationScope</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GuOrg/Gu.Wpf.ValidationScope</RepositoryUrl>
     <PackageTags>wpf xaml validation form</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageReleaseNotes>0.2.2
-FEATURE: Multitarget net45 and netcoreappp 3.1
-FEATURE: Nullable</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      0.2.3
+      BUGFIX: Remove errors when IsVisible changes to false.
+      BUGFIX: Remove errors when control is removed via SelectTemplate.
+
+      Full history [here](https://github.com/GuOrg/Gu.Wpf.ValidationScope/blob/master/RELEASE_NOTES.md)
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
