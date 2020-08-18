@@ -26,6 +26,7 @@
     <!--<Application.StartupUri>UiTestWindows/VisibilityWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/SimpleWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/SimpleTwoLevelWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/DataTemplateSelectorWindow.xaml</Application.StartupUri>-->
     <Application.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center" />

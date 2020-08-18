@@ -1,0 +1,90 @@
+﻿<Window x:Class="Gu.Wpf.ValidationScope.Demo.UiTestWindows.DataTemplateSelectorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:demo="clr-namespace:Gu.Wpf.ValidationScope.Demo"
+        xmlns:local="clr-namespace:Gu.Wpf.ValidationScope.Demo.UiTestWindows"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:validation="https://github.com/GuOrg/Gu.Wpf.ValidationScope"
+        Title="DataTemplateSelectorWindow"
+        SizeToContent="WidthAndHeight"
+        mc:Ignorable="d">
+    <Window.DataContext>
+        <demo:ViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border BorderBrush="{Binding Path=(validation:Scope.HasError),
+                                      Converter={demo:BoolToBrushConverter},
+                                      ElementName=Form}"
+                BorderThickness="1">
+            <Grid x:Name="Form"
+                  validation:Scope.ForInputTypes="{x:Static validation:InputTypeCollection.Default}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Template" />
+                <TextBox x:Name="TemplateType"
+                         Grid.Row="0"
+                         Grid.Column="1"
+                         Text="int" />
+
+                <TextBlock Grid.Row="1"
+                           Grid.Column="0"
+                           Text="Value" />
+
+                <ContentPresenter Grid.Row="1"
+                                  Grid.Column="1"
+                                  Content="{Binding ElementName=TemplateType,
+                                                    Path=Text}">
+                    <ContentPresenter.ContentTemplateSelector>
+                        <demo:ContentTemplateSelector>
+                            <demo:ContentTemplateSelector.DataTemplate1>
+                                <DataTemplate>
+                                    <TextBox x:Name="IntBox"
+                                             MinWidth="50"
+                                             Text="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                                                           AncestorType=Window},
+                                                            Path=DataContext.IntValue1,
+                                                            UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </demo:ContentTemplateSelector.DataTemplate1>
+                            <demo:ContentTemplateSelector.DataTemplate2>
+                                <DataTemplate>
+                                    <TextBox x:Name="StringBox"
+                                             MinWidth="50"
+                                             Text="{Binding RelativeSource={RelativeSource FindAncestor,
+                                                                                           AncestorType=Window},
+                                                            Path=DataContext.StringValue,
+                                                            UpdateSourceTrigger=PropertyChanged}" />
+                                </DataTemplate>
+                            </demo:ContentTemplateSelector.DataTemplate2>
+                        </demo:ContentTemplateSelector>
+                    </ContentPresenter.ContentTemplateSelector>
+                </ContentPresenter>
+            </Grid>
+        </Border>
+
+        <ContentPresenter Grid.Row="1"
+                          Content="{Binding .,
+                                            ElementName=Form}"
+                          ContentTemplate="{StaticResource ErrorScopeAndNodeTemplate}" />
+
+        <Button Grid.Row="2"
+                Command="{Binding ResetCommand}"
+                Content="Reset" />
+    </Grid>
+</Window>

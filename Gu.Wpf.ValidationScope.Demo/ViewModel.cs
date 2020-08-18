@@ -1,18 +1,32 @@
 ﻿namespace Gu.Wpf.ValidationScope.Demo
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Windows.Input;
 
     public class ViewModel : INotifyPropertyChanged
     {
         private int intValue1;
+        private int intValue2;
+        private double doubleValue;
         private string? stringValue;
 
-        private double doubleValue;
-
-        private int intValue2;
+        public ViewModel()
+        {
+            this.ResetCommand = new RelayCommand(_ =>
+            {
+                this.intValue1 = 0;
+                this.intValue2 = 0;
+                this.doubleValue = 0;
+                this.stringValue = null;
+                this.OnPropertyChanged(string.Empty);
+            });
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public ICommand ResetCommand { get; }
 
         public int IntValue1
         {
