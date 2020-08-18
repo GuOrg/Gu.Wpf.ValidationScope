@@ -33,7 +33,7 @@
       BUGFIX: Remove errors when IsVisible changes to false.
       BUGFIX: Remove errors when control is removed via SelectTemplate.
 
-      Full history [here](https://github.com/GuOrg/Gu.Wpf.ValidationScope/blob/master/RELEASE_NOTES.md)
+      Full history: https://github.com/GuOrg/Gu.Wpf.ValidationScope/blob/master/RELEASE_NOTES.md
     </PackageReleaseNotes>
   </PropertyGroup>
 
