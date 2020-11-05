@@ -5,7 +5,6 @@
     <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -21,20 +20,23 @@
   <PropertyGroup>
     <Description>Form validation for WPF</Description>
     <Authors>Johan Larsson</Authors>
-    <Version>0.2.3.0</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.2.4</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Wpf.ValidationScope</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GuOrg/Gu.Wpf.ValidationScope</RepositoryUrl>
     <PackageTags>wpf xaml validation form</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageReleaseNotes>
+      0.2.4
+      Tweak annotations.
       0.2.3
       BUGFIX: Remove errors when IsVisible changes to false.
       BUGFIX: Remove errors when control is removed via SelectTemplate.
 
       Full history: https://github.com/GuOrg/Gu.Wpf.ValidationScope/blob/master/RELEASE_NOTES.md
     </PackageReleaseNotes>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
