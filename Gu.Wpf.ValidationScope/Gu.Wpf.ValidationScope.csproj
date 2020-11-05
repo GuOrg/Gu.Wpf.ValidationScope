@@ -42,15 +42,8 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
 
-    <None Update="InputTypes/InputTypesExtensionCtors.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InputTypesExtensionCtors.generated.cs</LastGenOutput>
-    </None>
-    <Compile Update="InputTypes\InputTypesExtensionCtors.generated.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>InputTypesExtensionCtors.tt</DependentUpon>
-    </Compile>
+    <None Update="InputTypes/InputTypesExtensionCtors.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="InputTypesExtensionCtors.generated.cs" />
+    <Compile Update="InputTypes\InputTypesExtensionCtors.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="InputTypesExtensionCtors.tt" />
   </ItemGroup>
 
   <ItemGroup>
