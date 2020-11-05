@@ -82,7 +82,7 @@
 
         /// <summary>Helper for getting <see cref="ForInputTypesProperty"/> from <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="UIElement"/> to read <see cref="ForInputTypesProperty"/> from.</param>
-        /// <returns>ForInputTypesProperty property value.</returns>
+        /// <returns>ForInputTypes property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
         public static InputTypeCollection? GetForInputTypes(UIElement element)
