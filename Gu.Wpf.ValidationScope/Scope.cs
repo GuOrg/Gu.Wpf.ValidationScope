@@ -263,7 +263,9 @@
 
             if (e.NewValue is ErrorNode newNode)
             {
+#pragma warning disable CA1508 // Avoid dead conditional code analyzer getting it wrong.
                 (newNode as InputNode)?.BindToSource();
+#pragma warning restore CA1508 // Avoid dead conditional code
                 UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
                 ErrorsChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
             }
