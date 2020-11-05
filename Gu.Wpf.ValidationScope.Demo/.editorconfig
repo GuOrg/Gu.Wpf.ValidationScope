@@ -13,3 +13,9 @@ dotnet_diagnostic.CA2109.severity = none
 
 # CA2227: Collection properties should be read only
 dotnet_diagnostic.CA2227.severity = none
+
+# SA1313: Parameter names should begin with lower-case letter
+dotnet_diagnostic.SA1313.severity = none
+
+# IDE1006: Naming Styles
+dotnet_diagnostic.IDE1006.severity = none

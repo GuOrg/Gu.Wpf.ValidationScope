@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Linq;
 
@@ -8,12 +8,12 @@ namespace Gu.Wpf.ValidationScope.Tests
 
         protected override int Compare(ErrorsChangedEventArgs x, ErrorsChangedEventArgs y)
         {
-            if (!Enumerable.SequenceEqual(x.Added, y.Added))
+            if (!x.Added.SequenceEqual(y.Added))
             {
                 return -1;
             }
 
-            if (!Enumerable.SequenceEqual(x.Removed, y.Removed))
+            if (!x.Removed.SequenceEqual(y.Removed))
             {
                 return -1;
             }
