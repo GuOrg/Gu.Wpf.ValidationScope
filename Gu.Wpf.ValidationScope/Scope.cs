@@ -66,7 +66,7 @@
             new PropertyMetadata(default(OneWayToSourceBindings), OnOneWayToSourceBindingsChanged));
 
         /// <summary>Helper for setting <see cref="ForInputTypesProperty"/> on <paramref name="element"/>.</summary>
-        /// <param name="element"><see cref="FrameworkElement"/> to set <see cref="ForInputTypesProperty"/> on.</param>
+        /// <param name="element"><see cref="UIElement"/> to set <see cref="ForInputTypesProperty"/> on.</param>
         /// <param name="value">ForInputTypes property value.</param>
         public static void SetForInputTypes(UIElement element, InputTypeCollection? value)
         {
@@ -238,7 +238,7 @@
                                 var removeChildren = errorNode.Children.Where(x => !errorNode.Errors.Intersect(x.Errors).Any()).ToArray();
                                 foreach (var removeChild in removeChildren)
                                 {
-                                    errorNode.ChildCollection.Remove(removeChild);
+                                    _ = errorNode.ChildCollection.Remove(removeChild);
                                 }
                             }
                         }

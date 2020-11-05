@@ -69,7 +69,7 @@ namespace Gu.Wpf.ValidationScope.Demo
         /// <returns>Events property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(FrameworkElement))]
-        public static ObservableCollection<object> GetEvents(this DependencyObject element)
+        public static ObservableCollection<object>? GetEvents(this DependencyObject element)
         {
             if (element is null)
             {

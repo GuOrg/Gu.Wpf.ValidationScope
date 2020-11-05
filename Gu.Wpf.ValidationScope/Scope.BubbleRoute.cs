@@ -26,14 +26,14 @@
                             : new ScopeNode(parent);
 #pragma warning restore IDISP001, CA2000 // Dispose created.
 
-                        parentNode.ChildCollection.TryAdd(childNode);
+                        _ = parentNode.ChildCollection.TryAdd(childNode);
                         parentNode.ErrorCollection.Remove(removed);
                         parentNode.ErrorCollection.Add(added.Where(e => parent.IsScopeFor(e)).AsReadOnly());
                         SetNode(parent, parentNode);
                     }
                     else if (GetNode(parent) is ErrorNode parentNode)
                     {
-                        parentNode.ChildCollection.Remove(childNode);
+                        _ = parentNode.ChildCollection.Remove(childNode);
                         parentNode.ErrorCollection.Remove(removed);
                         parentNode.ErrorCollection.Remove(childNode.Errors);
                         if (parentNode is ScopeNode { Errors: { Count: 0 } })

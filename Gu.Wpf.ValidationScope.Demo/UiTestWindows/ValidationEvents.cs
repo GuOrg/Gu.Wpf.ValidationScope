@@ -68,14 +68,14 @@ namespace Gu.Wpf.ValidationScope.Demo
         /// <returns>Events property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(FrameworkElement))]
-        public static ObservableCollection<object> GetEvents(this DependencyObject element)
+        public static ObservableCollection<object>? GetEvents(this DependencyObject element)
         {
             if (element is null)
             {
                 throw new System.ArgumentNullException(nameof(element));
             }
 
-            return (ObservableCollection<object>)element.GetValue(EventsProperty);
+            return (ObservableCollection<object>?)element.GetValue(EventsProperty);
         }
 
 #pragma warning restore SA1202 // Elements must be ordered by access
