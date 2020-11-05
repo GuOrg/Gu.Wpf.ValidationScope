@@ -22,14 +22,18 @@
             nameof(Errors),
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(OneWayToSourceBindings),
-            new FrameworkPropertyMetadata(default(ReadOnlyObservableCollection<ValidationError>), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            new FrameworkPropertyMetadata(
+                default(ReadOnlyObservableCollection<ValidationError>),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         /// <summary>Identifies the <see cref="Node"/> dependency property.</summary>
         public static readonly DependencyProperty NodeProperty = DependencyProperty.Register(
             nameof(Node),
             typeof(Node),
             typeof(OneWayToSourceBindings),
-            new FrameworkPropertyMetadata(default(Node), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            new FrameworkPropertyMetadata(
+                default(Node),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         internal static readonly DependencyProperty ElementProperty = DependencyProperty.Register(
             "Element",
@@ -41,19 +45,25 @@
             "HasErrorProxy",
             typeof(bool),
             typeof(OneWayToSourceBindings),
-            new PropertyMetadata(default(bool), OnHasErrorProxyChanged));
+            new PropertyMetadata(
+                default(bool),
+                (d, e) => d.SetCurrentValue(HasErrorProperty, e.NewValue)));
 
         private static readonly DependencyProperty ErrorsProxyProperty = DependencyProperty.RegisterAttached(
             "ErrorsProxy",
             typeof(ReadOnlyObservableCollection<ValidationError>),
             typeof(OneWayToSourceBindings),
-            new PropertyMetadata(default(ReadOnlyObservableCollection<ValidationError>), OnErrorsProxyChanged));
+            new PropertyMetadata(
+                default(ReadOnlyObservableCollection<ValidationError>),
+                (d, e) => d.SetCurrentValue(ErrorsProperty, e.NewValue)));
 
         private static readonly DependencyProperty NodeProxyProperty = DependencyProperty.RegisterAttached(
             "NodeProxy",
             typeof(Node),
             typeof(OneWayToSourceBindings),
-            new PropertyMetadata(default(Node), OnNodeProxyChanged));
+            new PropertyMetadata(
+                default(Node),
+                (d, e) => d.SetCurrentValue(NodeProperty, e.NewValue)));
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Errors"/> is has items.
@@ -67,39 +77,24 @@
         /// <summary>
         /// Gets or sets the current errors.
         /// </summary>
-        public ReadOnlyObservableCollection<ValidationError> Errors
+        public ReadOnlyObservableCollection<ValidationError>? Errors
         {
-            get => (ReadOnlyObservableCollection<ValidationError>)this.GetValue(ErrorsProperty);
+            get => (ReadOnlyObservableCollection<ValidationError>?)this.GetValue(ErrorsProperty);
             set => this.SetValue(ErrorsProperty, value);
         }
 
         /// <summary>
         /// Gets or sets the current node.
         /// </summary>
-        public Node Node
+        public Node? Node
         {
-            get => (Node)this.GetValue(NodeProperty);
+            get => (Node?)this.GetValue(NodeProperty);
             set => this.SetValue(NodeProperty, value);
-        }
-
-        private static void OnHasErrorProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            d.SetCurrentValue(HasErrorProperty, e.NewValue);
-        }
-
-        private static void OnErrorsProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            d.SetCurrentValue(ErrorsProperty, e.NewValue);
-        }
-
-        private static void OnNodeProxyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            d.SetCurrentValue(NodeProperty, e.NewValue);
         }
 
         private static void OnElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == null)
+            if (e.NewValue is null)
             {
                 BindingOperations.ClearBinding(d, DataContextProperty);
                 BindingOperations.ClearBinding(d, HasErrorProxyProperty);

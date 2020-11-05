@@ -49,7 +49,9 @@
             "Node",
             typeof(Node),
             typeof(Scope),
-            new PropertyMetadata(ValidNode.Default, OnNodeChanged));
+            new PropertyMetadata(
+                ValidNode.Default,
+                OnNodeChanged));
 
         /// <summary>
         /// Attached property for the corresponding node.
@@ -90,7 +92,7 @@
                 throw new System.ArgumentNullException(nameof(element));
             }
 
-            return (InputTypeCollection?)element?.GetValue(ForInputTypesProperty);
+            return (InputTypeCollection?)element.GetValue(ForInputTypesProperty);
         }
 
         private static void SetHasError(DependencyObject element, bool value) => element.SetValue(HasErrorPropertyKey, BooleanBoxes.Box(value));
@@ -135,7 +137,7 @@
             return (ReadOnlyObservableCollection<ValidationError>)element.GetValue(ErrorsProperty);
         }
 
-        private static void SetNode(DependencyObject element, Node? value)
+        private static void SetNode(DependencyObject element, Node value)
         {
             if (element is null)
             {
@@ -150,7 +152,7 @@
         /// <returns>Node property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static Node? GetNode(DependencyObject element)
+        public static Node GetNode(DependencyObject element)
         {
             if (element is null)
             {
@@ -163,7 +165,7 @@
         /// <summary>Helper for setting <see cref="OneWayToSourceBindingsProperty"/> on <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="UIElement"/> to set <see cref="OneWayToSourceBindingsProperty"/> on.</param>
         /// <param name="value">OneWayToSourceBindings property value.</param>
-        public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings value)
+        public static void SetOneWayToSourceBindings(this UIElement element, OneWayToSourceBindings? value)
         {
             if (element is null)
             {
@@ -178,14 +180,14 @@
         /// <returns>OneWayToSourceBindings property value.</returns>
         [AttachedPropertyBrowsableForChildren(IncludeDescendants = false)]
         [AttachedPropertyBrowsableForType(typeof(UIElement))]
-        public static OneWayToSourceBindings GetOneWayToSourceBindings(this UIElement element)
+        public static OneWayToSourceBindings? GetOneWayToSourceBindings(this UIElement element)
         {
             if (element is null)
             {
                 throw new System.ArgumentNullException(nameof(element));
             }
 
-            return (OneWayToSourceBindings)element.GetValue(OneWayToSourceBindingsProperty);
+            return (OneWayToSourceBindings?)element.GetValue(OneWayToSourceBindingsProperty);
         }
 
 #pragma warning restore SA1202 // Elements must be ordered by access
