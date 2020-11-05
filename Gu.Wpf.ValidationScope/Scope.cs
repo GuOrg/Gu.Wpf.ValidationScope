@@ -283,8 +283,8 @@
 
         private static void OnOneWayToSourceBindingsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((OneWayToSourceBindings)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
-            ((OneWayToSourceBindings)e.NewValue)?.SetCurrentValue(OneWayToSourceBindings.ElementProperty, d as UIElement);
+            ((OneWayToSourceBindings?)e.OldValue)?.ClearValue(OneWayToSourceBindings.ElementProperty);
+            ((OneWayToSourceBindings?)e.NewValue)?.SetCurrentValue(OneWayToSourceBindings.ElementProperty, d as UIElement);
         }
 
         // this helper sets properties and raises events in the same order as System.Controls.Validation

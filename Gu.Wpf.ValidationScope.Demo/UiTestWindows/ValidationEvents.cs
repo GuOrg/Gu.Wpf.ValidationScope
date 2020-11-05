@@ -27,13 +27,17 @@ namespace Gu.Wpf.ValidationScope.Demo
             "HasError",
             typeof(bool?),
             typeof(ValidationEvents),
-            new PropertyMetadata(null, (d, e) => GetEvents(d).Add($"HasError: {e.NewValue}")));
+            new PropertyMetadata(
+                null,
+                (d, e) => GetEvents(d).Add($"HasError: {e.NewValue}")));
 
         private static readonly DependencyProperty ErrorsProperty = DependencyProperty.RegisterAttached(
             "Errors",
             typeof(IEnumerable<ValidationError>),
             typeof(ValidationEvents),
-            new PropertyMetadata(null, (d, e) => GetEvents(d).Add(e.NewValue)));
+            new PropertyMetadata(
+                null,
+                (d, e) => GetEvents(d).Add(e.NewValue)));
 
         /// <summary>Helper for setting <see cref="TrackProperty"/> on <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="DependencyObject"/> to set <see cref="TrackProperty"/> on.</param>
@@ -87,7 +91,7 @@ namespace Gu.Wpf.ValidationScope.Demo
                  .OneWayTo(d, Validation.HasErrorProperty);
             _ = d.Bind(ErrorsProperty)
                  .OneWayTo(d, Validation.ErrorsProperty);
-            Validation.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o!).Add(args));
+            Validation.AddErrorHandler(d, (o, args) => GetEvents((DependencyObject)o).Add(args));
         }
     }
 }

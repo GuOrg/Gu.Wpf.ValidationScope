@@ -28,13 +28,17 @@ namespace Gu.Wpf.ValidationScope.Demo
             "HasError",
             typeof(bool?),
             typeof(ScopeEvents),
-            new PropertyMetadata(null, (d, e) => GetEvents(d).Add($"HasError: {e.NewValue}")));
+            new PropertyMetadata(
+                null, 
+                (d, e) => GetEvents(d).Add($"HasError: {e.NewValue}")));
 
         private static readonly DependencyProperty ErrorsProperty = DependencyProperty.RegisterAttached(
             "Errors",
             typeof(IEnumerable<ValidationError>),
             typeof(ScopeEvents),
-            new PropertyMetadata(null, (d, e) => GetEvents(d).Add(((IEnumerable<ValidationError>)e.NewValue).ToArray())));
+            new PropertyMetadata(
+                null, 
+                (d, e) => GetEvents(d).Add(((IEnumerable<ValidationError>?)e.NewValue).ToArray())));
 
         /// <summary>Helper for setting <see cref="TrackProperty"/> on <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="DependencyObject"/> to set <see cref="TrackProperty"/> on.</param>
