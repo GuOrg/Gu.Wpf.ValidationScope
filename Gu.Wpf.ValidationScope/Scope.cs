@@ -10,7 +10,6 @@
     /// <summary>Provides attached properties for validation scopes.</summary>
     public static partial class Scope
     {
-#pragma warning disable SA1202 // Elements must be ordered by access
         /// <summary>
         /// Attached property for specifying what input types to track validation for.
         /// </summary>
@@ -189,8 +188,6 @@
 
             return (OneWayToSourceBindings?)element.GetValue(OneWayToSourceBindingsProperty);
         }
-
-#pragma warning restore SA1202 // Elements must be ordered by access
 
         private static void OnForInputTypesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
