@@ -46,9 +46,7 @@
             }
         }
 
-#pragma warning disable CA2227 // Collection properties should be read only
         public ReadOnlyObservableCollection<ValidationError>? Errors
-#pragma warning restore CA2227 // Collection properties should be read only
         {
             get => this.errors;
 

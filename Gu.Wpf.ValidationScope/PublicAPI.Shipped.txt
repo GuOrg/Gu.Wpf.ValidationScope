@@ -46,10 +46,10 @@ override Gu.Wpf.ValidationScope.ErrorNode.Children.get -> System.Collections.Obj
 override Gu.Wpf.ValidationScope.ErrorNode.Errors.get -> System.Collections.ObjectModel.ReadOnlyObservableCollection<System.Windows.Controls.ValidationError!>!
 override Gu.Wpf.ValidationScope.ErrorNode.HasError.get -> bool
 override Gu.Wpf.ValidationScope.InputNode.Source.get -> System.Windows.DependencyObject?
-override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext! typeDescriptorContext, System.Type! sourceType) -> bool
-override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext! typeDescriptorContext, System.Type! destinationType) -> bool
-override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext! typeDescriptorContext, System.Globalization.CultureInfo! cultureInfo, object! source) -> object!
-override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext! typeDescriptorContext, System.Globalization.CultureInfo! cultureInfo, object! value, System.Type! destinationType) -> object!
+override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext! context, System.Type! sourceType) -> bool
+override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext! context, System.Type! destinationType) -> bool
+override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext! context, System.Globalization.CultureInfo! culture, object! value) -> object!
+override Gu.Wpf.ValidationScope.InputTypeCollectionConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext! context, System.Globalization.CultureInfo! culture, object! value, System.Type! destinationType) -> object!
 override Gu.Wpf.ValidationScope.InputTypesExtension.ProvideValue(System.IServiceProvider! serviceProvider) -> object!
 override Gu.Wpf.ValidationScope.ScopeNode.Source.get -> System.Windows.DependencyObject?
 override Gu.Wpf.ValidationScope.ValidNode.Children.get -> System.Collections.ObjectModel.ReadOnlyObservableCollection<Gu.Wpf.ValidationScope.ErrorNode!>!

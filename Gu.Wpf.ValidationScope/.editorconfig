@@ -5,3 +5,6 @@ dotnet_diagnostic.SA1633.severity = none
 
 # WPF0013: CLR accessor for attached property must match registered type.
 dotnet_diagnostic.WPF0013.severity = warning
+
+# CA1307: Specify StringComparison for clarity
+dotnet_diagnostic.CA1307.severity = none

@@ -21,7 +21,7 @@
         private static readonly char[] SeparatorChars = { ',', ' ' };
 
         /// <inheritdoc />
-        public override bool CanConvertFrom(ITypeDescriptorContext typeDescriptorContext, Type sourceType)
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             return sourceType == typeof(string) ||
                    sourceType == typeof(Type) ||
@@ -30,27 +30,27 @@
         }
 
         /// <inheritdoc />
-        public override bool CanConvertTo(ITypeDescriptorContext typeDescriptorContext, Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
         {
             return false;
         }
 
         /// <inheritdoc />
-        public override object ConvertFrom(ITypeDescriptorContext typeDescriptorContext, CultureInfo cultureInfo, object source)
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            return source switch
+            return value switch
             {
                 string text => ConvertFromText(text),
                 IEnumerable<Type> types => new InputTypeCollection(types),
                 Type type => new InputTypeCollection { type },
                 TypeExtension typeExtension => new InputTypeCollection { typeExtension.Type },
-                _ => base.ConvertFrom(typeDescriptorContext, cultureInfo, source),
+                _ => base.ConvertFrom(context, culture, value),
             };
         }
 
         /// <inheritdoc />
         [SecurityCritical]
-        public override object ConvertTo(ITypeDescriptorContext typeDescriptorContext, CultureInfo cultureInfo, object value, Type destinationType)
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
         {
             throw new NotSupportedException();
         }
@@ -196,9 +196,7 @@
 
             private static bool IsFullName(string typeName)
             {
-#pragma warning disable CA1307
                 return typeName.Contains('.');
-#pragma warning restore CA1307
             }
 
             private static void AddCompatibleTypes(Assembly assembly)
