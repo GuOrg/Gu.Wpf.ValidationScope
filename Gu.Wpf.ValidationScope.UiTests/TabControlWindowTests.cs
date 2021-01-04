@@ -3,13 +3,13 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class TabControlWindowTests
+    public static class TabControlWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "TabControlWindow";
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
@@ -24,10 +24,10 @@
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
+        public static void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
-        public void AddThenRemoveError()
+        public static void AddThenRemoveError()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;

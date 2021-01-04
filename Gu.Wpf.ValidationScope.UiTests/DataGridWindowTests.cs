@@ -3,13 +3,13 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class DataGridWindowTests
+    public static class DataGridWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "DataGridWindow";
 
         [Test]
-        public void AddThenRemoveError()
+        public static void AddThenRemoveError()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;

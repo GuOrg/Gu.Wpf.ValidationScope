@@ -4,13 +4,13 @@
 
     using NUnit.Framework;
 
-    public class DataTemplateSelectorWindowTests
+    public static class DataTemplateSelectorWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "DataTemplateSelectorWindow";
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -19,10 +19,10 @@
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
+        public static void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
-        public void SelectTemplate()
+        public static void SelectTemplate()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;

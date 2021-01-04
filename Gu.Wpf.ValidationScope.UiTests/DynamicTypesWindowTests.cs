@@ -4,13 +4,13 @@
 
     using NUnit.Framework;
 
-    public class DynamicTypesWindowTests
+    public static class DynamicTypesWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "DynamicTypesWindow";
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -22,10 +22,10 @@
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
+        public static void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
-        public void SetTextBoxErrorThenSelectTextBoxThenSelectSlider()
+        public static void SetTextBoxErrorThenSelectTextBoxThenSelectSlider()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -71,14 +71,14 @@
         }
 
         [Test]
-        public void SetTextBoxErrorThenSelectTextBoxThenSelectSliderTwice()
+        public static void SetTextBoxErrorThenSelectTextBoxThenSelectSliderTwice()
         {
-            this.SetTextBoxErrorThenSelectTextBoxThenSelectSlider();
-            this.SetTextBoxErrorThenSelectTextBoxThenSelectSlider();
+            SetTextBoxErrorThenSelectTextBoxThenSelectSlider();
+            SetTextBoxErrorThenSelectTextBoxThenSelectSlider();
         }
 
         [Test]
-        public void SetAllErrorsThenSetDifferentScopes()
+        public static void SetAllErrorsThenSetDifferentScopes()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;

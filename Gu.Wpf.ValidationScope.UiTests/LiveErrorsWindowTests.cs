@@ -4,16 +4,16 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class LiveErrorsWindowTests
+    public static class LiveErrorsWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "LiveErrorsWindow";
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
+        public static void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
-        public void Validation()
+        public static void Validation()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -52,7 +52,7 @@
         }
 
         [Test]
-        public void ScopeTextBox()
+        public static void ScopeTextBox()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -98,7 +98,7 @@
         }
 
         [Test]
-        public void ScopeGroupBoxOneError()
+        public static void ScopeGroupBoxOneError()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -144,7 +144,7 @@
         }
 
         [Test]
-        public void ScopeGroupBoxTwoErrors()
+        public static void ScopeGroupBoxTwoErrors()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;

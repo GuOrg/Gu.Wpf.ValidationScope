@@ -3,13 +3,13 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class ScopeIsErrorScopeWindowTests
+    public static class ScopeIsErrorScopeWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "ScopeIsErrorScopeWindow";
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
@@ -24,10 +24,10 @@
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
+        public static void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
-        public void CheckNodeType()
+        public static void CheckNodeType()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -42,7 +42,7 @@
         }
 
         [Test]
-        public void AddTextBoxErrorThenNotifyErrorThenRemoveNotifyThenRemoveTextBoxError()
+        public static void AddTextBoxErrorThenNotifyErrorThenRemoveNotifyThenRemoveTextBoxError()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -98,7 +98,7 @@
         }
 
         [Test]
-        public void AddTextBoxErrorThenNotifyErrorThenRemoveTextBoxThenRemoveNotifyError()
+        public static void AddTextBoxErrorThenNotifyErrorThenRemoveTextBoxThenRemoveNotifyError()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;

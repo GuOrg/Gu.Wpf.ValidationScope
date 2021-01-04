@@ -3,13 +3,13 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class OneWayToSourceBindingsWindowTests
+    public static class OneWayToSourceBindingsWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "OneWayToSourceBindingsWindow";
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
@@ -24,10 +24,10 @@
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
+        public static void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
-        public void Updates()
+        public static void Updates()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;

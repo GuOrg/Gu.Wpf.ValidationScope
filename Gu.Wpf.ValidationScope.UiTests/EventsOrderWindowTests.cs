@@ -5,13 +5,13 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class EventsOrderWindowTests
+    public static class EventsOrderWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "EventsOrderWindow";
 
         [Test]
-        public void Validation()
+        public static void Validation()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -49,7 +49,7 @@
         }
 
         [Test]
-        public void ScopeTextBox()
+        public static void ScopeTextBox()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -85,7 +85,7 @@
         }
 
         [Test]
-        public void ScopeGroupBoxOneError()
+        public static void ScopeGroupBoxOneError()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -121,7 +121,7 @@
         }
 
         [Test]
-        public void ScopeGroupBoxTwoErrors()
+        public static void ScopeGroupBoxTwoErrors()
         {
             using var app = Application.Launch(ExeFileName, WindowName);
             var window = app.MainWindow;

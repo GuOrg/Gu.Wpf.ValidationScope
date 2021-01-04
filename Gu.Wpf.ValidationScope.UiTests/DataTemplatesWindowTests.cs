@@ -3,13 +3,13 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class DataTemplatesWindowTests
+    public static class DataTemplatesWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "DataTemplatesWindow";
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
@@ -24,10 +24,10 @@
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
+        public static void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
-        public void CheckNodeType()
+        public static void CheckNodeType()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -42,7 +42,7 @@
         }
 
         [Test]
-        public void AddThenRemoveError()
+        public static void AddThenRemoveError()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -79,14 +79,14 @@
         }
 
         [Test]
-        public void AddThenRemoveErrorTwice()
+        public static void AddThenRemoveErrorTwice()
         {
-            this.AddThenRemoveError();
-            this.AddThenRemoveError();
+            AddThenRemoveError();
+            AddThenRemoveError();
         }
 
         [Test]
-        public void AddTwoErrorsThenRemoveThemOneByOne()
+        public static void AddTwoErrorsThenRemoveThemOneByOne()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -150,7 +150,7 @@
         }
 
         [Test]
-        public void AddTwoErrorsThenThenRemoveBothAtOnce()
+        public static void AddTwoErrorsThenThenRemoveBothAtOnce()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;

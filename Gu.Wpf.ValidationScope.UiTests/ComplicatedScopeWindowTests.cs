@@ -3,13 +3,13 @@
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class ComplicatedScopeWindowTests
+    public static class ComplicatedScopeWindowTests
     {
         private const string ExeFileName = "Gu.Wpf.ValidationScope.Demo.exe";
         private const string WindowName = "ComplicatedScopeWindow";
 
         [SetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             if (Application.TryAttach(ExeFileName, WindowName, out var app))
             {
@@ -25,10 +25,10 @@
         }
 
         [OneTimeTearDown]
-        public void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
+        public static void OneTimeTearDown() => Application.KillLaunched(ExeFileName);
 
         [Test]
-        public void CheckNodeType()
+        public static void CheckNodeType()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -46,7 +46,7 @@
         }
 
         [Test]
-        public void AddThenRemoveErrorTextBox()
+        public static void AddThenRemoveErrorTextBox()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -83,14 +83,14 @@
         }
 
         [Test]
-        public void AddThenRemoveErrorTwiceTextBox()
+        public static void AddThenRemoveErrorTwiceTextBox()
         {
-            this.AddThenRemoveErrorTextBox();
-            this.AddThenRemoveErrorTextBox();
+            AddThenRemoveErrorTextBox();
+            AddThenRemoveErrorTextBox();
         }
 
         [Test]
-        public void AddThenRemoveErrorComboBox()
+        public static void AddThenRemoveErrorComboBox()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -127,14 +127,14 @@
         }
 
         [Test]
-        public void AddThenRemoveErrorTwiceComboBox()
+        public static void AddThenRemoveErrorTwiceComboBox()
         {
-            this.AddThenRemoveErrorComboBox();
-            this.AddThenRemoveErrorComboBox();
+            AddThenRemoveErrorComboBox();
+            AddThenRemoveErrorComboBox();
         }
 
         [Test]
-        public void NoErrorWhenNotScopedTextBox()
+        public static void NoErrorWhenNotScopedTextBox()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -160,7 +160,7 @@
         }
 
         [Test]
-        public void NoErrorWhenNotScopedComboBox()
+        public static void NoErrorWhenNotScopedComboBox()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -186,7 +186,7 @@
         }
 
         [Test]
-        public void AddTwoErrorsThenRemoveThemOneByOne()
+        public static void AddTwoErrorsThenRemoveThemOneByOne()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
@@ -247,7 +247,7 @@
         }
 
         [Test]
-        public void AddTwoErrorsThenThenRemoveBothAtOnce()
+        public static void AddTwoErrorsThenThenRemoveBothAtOnce()
         {
             using var app = Application.AttachOrLaunch(ExeFileName, WindowName);
             var window = app.MainWindow;
