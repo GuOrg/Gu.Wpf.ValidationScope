@@ -27,7 +27,7 @@
         {
             var converter = new InputTypeCollectionConverter();
             var exception = Assert.Throws<InvalidOperationException>(() => converter.ConvertFrom(name));
-            Assert.AreEqual("Did not find a match for for Visual3D", exception.Message);
+            Assert.AreEqual("Did not find a match for for Visual3D", exception!.Message);
         }
 
         [TestCase(typeof(string))]
