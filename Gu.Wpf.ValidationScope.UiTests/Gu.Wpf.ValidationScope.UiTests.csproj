@@ -14,11 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Gu.Wpf.ValidationScope.Demo\Gu.Wpf.ValidationScope.Demo.csproj" />
   </ItemGroup>
 
