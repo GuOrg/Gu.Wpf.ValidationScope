@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Windows;
     using System.Windows.Controls;

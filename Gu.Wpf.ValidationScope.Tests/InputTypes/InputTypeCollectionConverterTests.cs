@@ -9,7 +9,7 @@
     {
         public static IReadOnlyList<TestCaseData> TestCases { get; } = new[]
         {
-            new TestCaseData(typeof(TextBox).Name, new[] { typeof(TextBox) }),
+            new TestCaseData(nameof(TextBox), new[] { typeof(TextBox) }),
             new TestCaseData("TextBox ComboBox", new[] { typeof(TextBox), typeof(ComboBox) }),
             new TestCaseData(typeof(TextBox).FullName, new[] { typeof(TextBox) }),
         };
@@ -18,7 +18,7 @@
         public static void ConvertHappyPath(string text, Type[] expected)
         {
             var converter = new InputTypeCollectionConverter();
-            var actual = (InputTypeCollection)converter.ConvertFrom(text);
+            var actual = (InputTypeCollection)converter.ConvertFrom(text)!;
             CollectionAssert.AreEqual(expected, actual);
         }
 
