@@ -4,7 +4,7 @@
 
     public sealed class ObservableCollectionArgsComparer : IComparer
     {
-        public static readonly ObservableCollectionArgsComparer Default = new ObservableCollectionArgsComparer();
+        public static readonly ObservableCollectionArgsComparer Default = new();
 
         public int Compare(object? x, object? y)
         {

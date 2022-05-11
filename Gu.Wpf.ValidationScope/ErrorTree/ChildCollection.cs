@@ -4,7 +4,7 @@
 
     internal sealed class ChildCollection : ReadOnlyObservableCollection<ErrorNode>
     {
-        internal static readonly ChildCollection Empty = new ChildCollection();
+        internal static readonly ChildCollection Empty = new();
         private readonly ObservableCollection<ErrorNode> children;
 
         internal ChildCollection()

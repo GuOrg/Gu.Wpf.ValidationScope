@@ -72,10 +72,10 @@
 
         private static class CompatibleTypeCache
         {
-            private static readonly object Gate = new object();
-            private static readonly HashSet<Type> Types = new HashSet<Type>();
+            private static readonly object Gate = new();
+            private static readonly HashSet<Type> Types = new();
             private static readonly List<Type> KnownInputTypes = InputTypeCollection.Default.ToList();
-            private static readonly HashSet<string> ExcludedAssemblies = new HashSet<string>
+            private static readonly HashSet<string> ExcludedAssemblies = new()
             {
                 "Castle.Core",
                 "JetBrains.ReSharper.TaskRunnerFramework",
@@ -129,7 +129,7 @@
                 "XDesProc",
             };
 
-            private static readonly StringBuilder ErrorBuilder = new StringBuilder();
+            private static readonly StringBuilder ErrorBuilder = new();
 
             static CompatibleTypeCache()
             {

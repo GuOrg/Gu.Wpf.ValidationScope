@@ -50,7 +50,7 @@
         }
 
         /// <inheritdoc />
-        protected override ListenerList NewListenerList() => new ListenerList();
+        protected override ListenerList NewListenerList() => new();
 
         /// <inheritdoc />
         protected override void StartListening(object source)

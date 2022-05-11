@@ -6,7 +6,7 @@ namespace Gu.Wpf.ValidationScope.Tests
 
     internal sealed class NotifyCollectionChangedEventArgsComparer : GenericComparer<NotifyCollectionChangedEventArgs>
     {
-        internal static readonly NotifyCollectionChangedEventArgsComparer Default = new NotifyCollectionChangedEventArgsComparer();
+        internal static readonly NotifyCollectionChangedEventArgsComparer Default = new();
 
         protected override int Compare(NotifyCollectionChangedEventArgs x, NotifyCollectionChangedEventArgs y)
         {

@@ -8,9 +8,9 @@ namespace Gu.Wpf.ValidationScope
 
     internal class ObservableBatchCollection<T> : ObservableCollection<T>
     {
-        private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
-        private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
-        private static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+        private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new(nameof(Count));
+        private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new("Item[]");
+        private static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new(NotifyCollectionChangedAction.Reset);
 
         internal void AddRange(IEnumerable<T> items)
         {

@@ -11,8 +11,8 @@ namespace Gu.Wpf.ValidationScope
     /// <summary>Base class for a node that has validation errors.</summary>
     public abstract class ErrorNode : Node, INotifyErrorsChanged, INotifyPropertyChanged, IDisposable
     {
-        private static readonly PropertyChangedEventArgs HasErrorsPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(HasError));
-        private readonly Lazy<ChildCollection> children = new Lazy<ChildCollection>(() => new ChildCollection());
+        private static readonly PropertyChangedEventArgs HasErrorsPropertyChangedEventArgs = new(nameof(HasError));
+        private readonly Lazy<ChildCollection> children = new(() => new ChildCollection());
         private bool disposed;
 
         /// <summary>Initializes a new instance of the <see cref="ErrorNode"/> class.</summary>

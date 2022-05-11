@@ -5,7 +5,7 @@ namespace Gu.Wpf.ValidationScope.Tests
 
     internal sealed class PropertyChangedEventArgsComparer : GenericComparer<PropertyChangedEventArgs>
     {
-        internal static readonly PropertyChangedEventArgsComparer Default = new PropertyChangedEventArgsComparer();
+        internal static readonly PropertyChangedEventArgsComparer Default = new();
 
         protected override int Compare(PropertyChangedEventArgs x, PropertyChangedEventArgs y)
         {

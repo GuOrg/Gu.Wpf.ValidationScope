@@ -7,7 +7,7 @@
     public sealed class ValidNode : Node
     {
         /// <summary>Cached instance as it is immutable.</summary>
-        public static readonly ValidNode Default = new ValidNode();
+        public static readonly ValidNode Default = new();
 
         private ValidNode()
         {

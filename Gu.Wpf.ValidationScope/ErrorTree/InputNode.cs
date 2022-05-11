@@ -21,7 +21,7 @@
             typeof(InputNode),
             new PropertyMetadata(ErrorCollection.EmptyValidationErrors, OnSourceErrorsChanged));
 
-        private static readonly PropertyPath ErrorsPropertyPath = new PropertyPath("(Validation.Errors)");
+        private static readonly PropertyPath ErrorsPropertyPath = new("(Validation.Errors)");
         private readonly Binding errorsBinding;
 
         internal InputNode(UIElement source)

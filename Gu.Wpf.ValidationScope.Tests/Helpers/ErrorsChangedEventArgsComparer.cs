@@ -4,7 +4,7 @@
 
     internal sealed class ErrorsChangedEventArgsComparer : GenericComparer<ErrorsChangedEventArgs>
     {
-        internal static readonly ErrorsChangedEventArgsComparer Default = new ErrorsChangedEventArgsComparer();
+        internal static readonly ErrorsChangedEventArgsComparer Default = new();
 
         protected override int Compare(ErrorsChangedEventArgs x, ErrorsChangedEventArgs y)
         {

@@ -5,7 +5,7 @@ namespace Gu.Wpf.ValidationScope.Tests
 
     public sealed class TestValidationRule : ValidationRule
     {
-        public static readonly TestValidationRule Default = new TestValidationRule();
+        public static readonly TestValidationRule Default = new();
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {

@@ -8,7 +8,7 @@
     [ValueConversion(typeof(object), typeof(Visibility))]
     public sealed class NullToVisibilityConverter : IValueConverter
     {
-        public static readonly NullToVisibilityConverter CollapsedWhenNull = new NullToVisibilityConverter(Visibility.Collapsed);
+        public static readonly NullToVisibilityConverter CollapsedWhenNull = new(Visibility.Collapsed);
         private readonly Visibility whenNull;
 
         private NullToVisibilityConverter(Visibility whenNull)

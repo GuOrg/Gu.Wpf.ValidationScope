@@ -14,7 +14,7 @@
     public sealed class InputTypeCollection : Collection<Type>
     {
         /// <summary>Contains Scope, TextBoxBase, ComboBox, ToggleButton and Slider.</summary>
-        public static readonly InputTypeCollection Default = new InputTypeCollection
+        public static readonly InputTypeCollection Default = new()
         {
             typeof(Scope),
             typeof(TextBoxBase),
