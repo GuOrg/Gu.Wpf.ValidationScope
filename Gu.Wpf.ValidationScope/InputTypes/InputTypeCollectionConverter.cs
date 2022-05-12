@@ -1,4 +1,6 @@
-﻿namespace Gu.Wpf.ValidationScope
+﻿#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CS8765 // Nullability of type of parameter doesn't match overridden member (possibly because of nullability attributes).
+namespace Gu.Wpf.ValidationScope
 {
     using System;
     using System.Collections.Generic;
@@ -38,6 +40,7 @@
         /// <inheritdoc />
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
+#pragma warning disable CS8603 // Possible null reference return.
             return value switch
             {
                 string text => ConvertFromText(text),
@@ -46,6 +49,7 @@
                 TypeExtension typeExtension => new InputTypeCollection { typeExtension.Type },
                 _ => base.ConvertFrom(context, culture, value),
             };
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         /// <inheritdoc />

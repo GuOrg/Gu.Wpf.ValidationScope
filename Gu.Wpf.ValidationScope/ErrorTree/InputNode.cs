@@ -77,18 +77,24 @@
 
         private void OnSourceErrorsChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
+#pragma warning disable IDE0079 // Remove unnecessary suppression
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
+#pragma warning disable CS8604 // Possible null reference argument.
                     this.ErrorCollection.Add(e.NewItems.Cast<ValidationError>());
+#pragma warning restore CS8604 // Possible null reference argument.
                     break;
                 case NotifyCollectionChangedAction.Remove:
+#pragma warning disable CS8604 // Possible null reference argument.
                     this.ErrorCollection.Remove(e.OldItems.Cast<ValidationError>());
+#pragma warning restore CS8604 // Possible null reference argument.
                     break;
                 default:
                     // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Validation.cs,507
                     throw new ArgumentOutOfRangeException(nameof(e), e.Action, "Should only ever be add or remove.");
             }
+#pragma warning restore IDE0079 // Remove unnecessary suppression
         }
     }
 }
