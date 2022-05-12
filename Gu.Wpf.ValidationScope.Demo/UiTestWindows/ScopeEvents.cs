@@ -37,7 +37,7 @@ namespace Gu.Wpf.ValidationScope.Demo
             typeof(ScopeEvents),
             new PropertyMetadata(
                 null,
-                (d, e) => GetEvents(d)!.Add(((IEnumerable<ValidationError>?)e.NewValue).ToArray())));
+                (d, e) => GetEvents(d)!.Add(((IEnumerable<ValidationError>?)e.NewValue!).ToArray())));
 
         /// <summary>Helper for setting <see cref="TrackProperty"/> on <paramref name="element"/>.</summary>
         /// <param name="element"><see cref="DependencyObject"/> to set <see cref="TrackProperty"/> on.</param>

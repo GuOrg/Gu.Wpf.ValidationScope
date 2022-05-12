@@ -89,19 +89,19 @@
             }
         }
 
-        public IEnumerable? GetErrors(string propertyName)
+        public IEnumerable GetErrors(string? propertyName)
         {
             if (propertyName == nameof(this.IntValue1))
             {
                 return string.IsNullOrEmpty(this.error1)
-                    ? null
+                    ? Enumerable.Empty<string?>()
                     : new[] { this.Error1 };
             }
 
             if (propertyName == nameof(this.IntValue2))
             {
                 return string.IsNullOrEmpty(this.error2)
-                    ? null
+                    ? Enumerable.Empty<string?>()
                     : new[] { this.Error2 };
             }
 

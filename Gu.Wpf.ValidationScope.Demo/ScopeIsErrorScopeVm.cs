@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
 
     public class ScopeIsErrorScopeVm : INotifyPropertyChanged, INotifyDataErrorInfo
@@ -47,11 +48,11 @@
             }
         }
 
-        public IEnumerable? GetErrors(string propertyName)
+        public IEnumerable GetErrors(string? propertyName)
         {
             return this.hasErrors && propertyName == nameof(this.HasErrors)
                 ? new[] { "INotifyDataErrorInfo error" }
-                : null;
+                : Enumerable.Empty<string?>();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
