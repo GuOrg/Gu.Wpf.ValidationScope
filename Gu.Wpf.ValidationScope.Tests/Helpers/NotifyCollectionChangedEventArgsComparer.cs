@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System.Collections;
     using System.Collections.Specialized;
@@ -38,7 +38,7 @@ namespace Gu.Wpf.ValidationScope.Tests
             return 0;
         }
 
-        private static bool AreItemsEqual(IList x, IList y)
+        private static bool AreItemsEqual(IList? x, IList? y)
         {
             if (x is null && y is null)
             {

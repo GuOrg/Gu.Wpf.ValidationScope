@@ -1,4 +1,4 @@
-namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests
 {
     using System;
     using System.Collections;
@@ -33,13 +33,13 @@ namespace Gu.Wpf.ValidationScope.Tests
                 this.source.CollectionChanged -= this.Add;
             }
 
-            private void Add(object sender, NotifyCollectionChangedEventArgs e)
+            private void Add(object? sender, NotifyCollectionChangedEventArgs e)
             {
                 Assert.AreSame(this.source, sender);
                 this.Add(e);
             }
 
-            private void Add(object sender, PropertyChangedEventArgs e)
+            private void Add(object? sender, PropertyChangedEventArgs e)
             {
                 Assert.AreSame(this.source, sender);
                 this.Add(e);

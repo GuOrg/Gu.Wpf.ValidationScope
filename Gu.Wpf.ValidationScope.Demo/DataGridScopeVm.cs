@@ -4,10 +4,10 @@
 
     public class DataGridScopeVm
     {
-        public ObservableCollection<ViewModel> Collection { get; } = new ObservableCollection<ViewModel>
-                                                                         {
-                                                                             new ViewModel(),
-                                                                             new ViewModel(),
-                                                                         };
+        public ObservableCollection<ViewModel> Collection { get; } = new()
+        {
+            new ViewModel(),
+            new ViewModel(),
+        };
     }
 }
