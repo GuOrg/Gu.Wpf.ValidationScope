@@ -36,7 +36,7 @@
                         _ = parentNode.ChildCollection.Remove(childNode);
                         parentNode.ErrorCollection.Remove(removed);
                         parentNode.ErrorCollection.Remove(childNode.Errors);
-                        if (parentNode is ScopeNode { Errors: { Count: 0 } })
+                        if (parentNode is ScopeNode { Errors.Count: 0 })
                         {
                             SetNode(parent, ValidNode.Default);
                         }

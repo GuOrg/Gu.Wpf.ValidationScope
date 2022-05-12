@@ -162,20 +162,27 @@
                 }
                 catch (Exception)
                 {
+#pragma warning disable IDE0079 // Remove unnecessary suppression
                     var errorBuilder = new StringBuilder();
+#pragma warning disable CA1305 // Specify IFormatProvider
                     errorBuilder.AppendLine($"Found more than one match for {typeName}");
+#pragma warning restore CA1305 // Specify IFormatProvider
                     lock (Gate)
                     {
                         var matches = Types.Where(t => IsMatch(t, typeName));
                         foreach (var type in matches)
                         {
+#pragma warning disable CA1305 // Specify IFormatProvider
                             errorBuilder.AppendLine($"  - {type.FullName} in assembly: {type.Assembly.FullName}");
+#pragma warning restore CA1305 // Specify IFormatProvider
                         }
                     }
 
                     if (!IsFullName(typeName))
                     {
+#pragma warning disable CA1305 // Specify IFormatProvider
                         errorBuilder.AppendLine($"Try specifying full name: {typeof(TextBox).FullName}");
+#pragma warning restore CA1305 // Specify IFormatProvider
                     }
 
                     throw new InvalidOperationException(errorBuilder.ToString());
@@ -185,7 +192,7 @@
                 {
                     throw new InvalidOperationException($"Did not find a match for for {typeName}");
                 }
-
+#pragma warning restore IDE0079 // Remove unnecessary suppression
                 return match;
             }
 

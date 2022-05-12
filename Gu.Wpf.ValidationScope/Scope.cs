@@ -197,9 +197,7 @@
                     return;
                 case UIElement element:
                     RefreshNode(element, e.NewValue as InputTypeCollection);
-#pragma warning disable CS8600, CS8604
-                    IsVisibleChangedEventManager.UpdateHandler(element, (o, _) => RefreshNode((UIElement)o, null));
-#pragma warning restore CS8600, CS8604
+                    IsVisibleChangedEventManager.UpdateHandler(element, (o, _) => RefreshNode((UIElement)o!, null));
                     break;
             }
 
@@ -212,7 +210,7 @@
                 {
                     if (inputTypes.Contains(element))
                     {
-                        if (!(GetNode(element) is InputNode))
+                        if (GetNode(element) is not InputNode)
                         {
 #pragma warning disable IDISP001, CA2000 // Dispose created. Disposed in SetNode
                             SetNode(element, new InputNode(element));
@@ -260,9 +258,7 @@
 
             if (e.NewValue is ErrorNode newNode)
             {
-#pragma warning disable CA1508 // Avoid dead conditional code analyzer getting it wrong.
                 (newNode as InputNode)?.BindToSource();
-#pragma warning restore CA1508 // Avoid dead conditional code
                 UpdateErrorsAndHasErrors(d, GetErrors(d), newNode.Errors, newNode.Errors);
                 ErrorsChangedEventManager.AddHandler(newNode, OnNodeErrorsChanged);
             }
