@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
     <UseWpf>true</UseWpf>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
@@ -33,6 +33,8 @@
     <PackageTags>wpf xaml validation form</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageReleaseNotes>
+      0.3.0
+      BREAKING: net48 and net6.0-windows
       0.2.4
       Tweak annotations.
       0.2.3
