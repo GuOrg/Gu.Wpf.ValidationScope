@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class ScopeTextBoxWindow : Window
+using System.Windows;
+
+public partial class ScopeTextBoxWindow : Window
+{
+    public ScopeTextBoxWindow()
     {
-        public ScopeTextBoxWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

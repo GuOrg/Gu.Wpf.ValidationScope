@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo.UiTestWindows
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo.UiTestWindows;
 
-    public partial class SimpleWindow : Window
+using System.Windows;
+
+public partial class SimpleWindow : Window
+{
+    public SimpleWindow()
     {
-        public SimpleWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

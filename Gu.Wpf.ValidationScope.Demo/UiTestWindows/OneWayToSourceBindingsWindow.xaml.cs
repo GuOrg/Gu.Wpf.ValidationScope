@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class OneWayToSourceBindingsWindow : Window
+using System.Windows;
+
+public partial class OneWayToSourceBindingsWindow : Window
+{
+    public OneWayToSourceBindingsWindow()
     {
-        public OneWayToSourceBindingsWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

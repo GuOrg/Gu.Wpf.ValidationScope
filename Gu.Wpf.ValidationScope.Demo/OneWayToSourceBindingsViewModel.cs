@@ -1,86 +1,85 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo;
+
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+
+public class OneWayToSourceBindingsViewModel : INotifyPropertyChanged
 {
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using System.Windows.Controls;
+    private int intValue;
+    private bool hasError;
+    private Node? node;
+    private ReadOnlyObservableCollection<ValidationError>? errors;
 
-    public class OneWayToSourceBindingsViewModel : INotifyPropertyChanged
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public int IntValue
     {
-        private int intValue;
-        private bool hasError;
-        private Node? node;
-        private ReadOnlyObservableCollection<ValidationError>? errors;
+        get => this.intValue;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public int IntValue
+        set
         {
-            get => this.intValue;
-
-            set
+            if (value == this.intValue)
             {
-                if (value == this.intValue)
-                {
-                    return;
-                }
-
-                this.intValue = value;
-                this.OnPropertyChanged();
+                return;
             }
+
+            this.intValue = value;
+            this.OnPropertyChanged();
         }
+    }
 
-        public bool HasError
+    public bool HasError
+    {
+        get => this.hasError;
+
+        set
         {
-            get => this.hasError;
-
-            set
+            if (value == this.hasError)
             {
-                if (value == this.hasError)
-                {
-                    return;
-                }
-
-                this.hasError = value;
-                this.OnPropertyChanged();
+                return;
             }
+
+            this.hasError = value;
+            this.OnPropertyChanged();
         }
+    }
 
-        public ReadOnlyObservableCollection<ValidationError>? Errors
+    public ReadOnlyObservableCollection<ValidationError>? Errors
+    {
+        get => this.errors;
+
+        set
         {
-            get => this.errors;
-
-            set
+            if (Equals(value, this.errors))
             {
-                if (Equals(value, this.errors))
-                {
-                    return;
-                }
-
-                this.errors = value;
-                this.OnPropertyChanged();
+                return;
             }
+
+            this.errors = value;
+            this.OnPropertyChanged();
         }
+    }
 
-        public Node? Node
+    public Node? Node
+    {
+        get => this.node;
+
+        set
         {
-            get => this.node;
-
-            set
+            if (Equals(value, this.node))
             {
-                if (Equals(value, this.node))
-                {
-                    return;
-                }
-
-                this.node = value;
-                this.OnPropertyChanged();
+                return;
             }
-        }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.node = value;
+            this.OnPropertyChanged();
         }
+    }
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

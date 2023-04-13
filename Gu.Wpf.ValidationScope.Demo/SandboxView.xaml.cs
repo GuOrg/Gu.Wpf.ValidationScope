@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows.Controls;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class SandboxView : UserControl
+using System.Windows.Controls;
+
+public partial class SandboxView : UserControl
+{
+    public SandboxView()
     {
-        public SandboxView()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

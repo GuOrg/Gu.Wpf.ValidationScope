@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class EventsOrderWindow : Window
+using System.Windows;
+
+public partial class EventsOrderWindow : Window
+{
+    public EventsOrderWindow()
     {
-        public EventsOrderWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

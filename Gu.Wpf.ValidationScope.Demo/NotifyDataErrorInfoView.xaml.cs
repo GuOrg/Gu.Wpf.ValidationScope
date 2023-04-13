@@ -1,12 +1,11 @@
-namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows.Controls;
+namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class NotifyDataErrorInfoView : UserControl
+using System.Windows.Controls;
+
+public partial class NotifyDataErrorInfoView : UserControl
+{
+    public NotifyDataErrorInfoView()
     {
-        public NotifyDataErrorInfoView()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

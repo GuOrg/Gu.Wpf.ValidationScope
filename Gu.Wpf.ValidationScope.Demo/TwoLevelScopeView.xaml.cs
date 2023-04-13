@@ -1,12 +1,11 @@
-namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows.Controls;
+namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class TwoLevelScopeView : UserControl
+using System.Windows.Controls;
+
+public partial class TwoLevelScopeView : UserControl
+{
+    public TwoLevelScopeView()
     {
-        public TwoLevelScopeView()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

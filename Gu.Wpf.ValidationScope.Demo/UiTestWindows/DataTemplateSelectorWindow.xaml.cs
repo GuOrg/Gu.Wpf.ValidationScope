@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class DataTemplateSelectorWindow : Window
+using System.Windows;
+
+public partial class DataTemplateSelectorWindow : Window
+{
+    public DataTemplateSelectorWindow()
     {
-        public DataTemplateSelectorWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

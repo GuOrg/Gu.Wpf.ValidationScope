@@ -1,12 +1,11 @@
-namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows.Controls;
+namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class InputTypesView : UserControl
+using System.Windows.Controls;
+
+public partial class InputTypesView : UserControl
+{
+    public InputTypesView()
     {
-        public InputTypesView()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

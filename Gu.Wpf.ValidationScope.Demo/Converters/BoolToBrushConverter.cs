@@ -1,32 +1,31 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo;
+
+using System;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Markup;
+using System.Windows.Media;
+
+[MarkupExtensionReturnType(typeof(BoolToBrushConverter))]
+[ValueConversion(typeof(bool), typeof(SolidColorBrush))]
+public class BoolToBrushConverter : MarkupExtension, IValueConverter
 {
-    using System;
-    using System.Globalization;
-    using System.Windows.Data;
-    using System.Windows.Markup;
-    using System.Windows.Media;
+    public SolidColorBrush WhenTrue { get; set; } = Brushes.Red;
 
-    [MarkupExtensionReturnType(typeof(BoolToBrushConverter))]
-    [ValueConversion(typeof(bool), typeof(SolidColorBrush))]
-    public class BoolToBrushConverter : MarkupExtension, IValueConverter
+    public SolidColorBrush WhenFalse { get; set; } = Brushes.Transparent;
+
+    public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        public SolidColorBrush WhenTrue { get; set; } = Brushes.Red;
+        return this;
+    }
 
-        public SolidColorBrush WhenFalse { get; set; } = Brushes.Transparent;
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        return Equals(value, true) ? this.WhenTrue : this.WhenFalse;
+    }
 
-        public override object ProvideValue(IServiceProvider serviceProvider)
-        {
-            return this;
-        }
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Equals(value, true) ? this.WhenTrue : this.WhenFalse;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
     }
 }

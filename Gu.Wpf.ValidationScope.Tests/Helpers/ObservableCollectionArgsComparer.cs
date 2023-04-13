@@ -1,20 +1,19 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests;
+
+using System.Collections;
+
+public sealed class ObservableCollectionArgsComparer : IComparer
 {
-    using System.Collections;
+    public static readonly ObservableCollectionArgsComparer Default = new();
 
-    public sealed class ObservableCollectionArgsComparer : IComparer
+    public int Compare(object? x, object? y)
     {
-        public static readonly ObservableCollectionArgsComparer Default = new();
-
-        public int Compare(object? x, object? y)
+        if (((IComparer)NotifyCollectionChangedEventArgsComparer.Default).Compare(x, y) == 0 ||
+            ((IComparer)PropertyChangedEventArgsComparer.Default).Compare(x, y) == 0)
         {
-            if (((IComparer)NotifyCollectionChangedEventArgsComparer.Default).Compare(x, y) == 0 ||
-                ((IComparer)PropertyChangedEventArgsComparer.Default).Compare(x, y) == 0)
-            {
-                return 0;
-            }
-
-            return -1;
+            return 0;
         }
+
+        return -1;
     }
 }

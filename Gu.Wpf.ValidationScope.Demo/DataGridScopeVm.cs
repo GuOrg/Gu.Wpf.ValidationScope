@@ -1,13 +1,12 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Collections.ObjectModel;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public class DataGridScopeVm
+using System.Collections.ObjectModel;
+
+public class DataGridScopeVm
+{
+    public ObservableCollection<ViewModel> Collection { get; } = new()
     {
-        public ObservableCollection<ViewModel> Collection { get; } = new()
-        {
-            new ViewModel(),
-            new ViewModel(),
-        };
-    }
+        new ViewModel(),
+        new ViewModel(),
+    };
 }

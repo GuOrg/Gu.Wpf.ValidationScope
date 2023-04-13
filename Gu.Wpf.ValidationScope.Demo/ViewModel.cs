@@ -1,100 +1,99 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo;
+
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
+
+public class ViewModel : INotifyPropertyChanged
 {
-    using System;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-    using System.Windows.Input;
+    private int intValue1;
+    private int intValue2;
+    private double doubleValue;
+    private string? stringValue;
 
-    public class ViewModel : INotifyPropertyChanged
+    public ViewModel()
     {
-        private int intValue1;
-        private int intValue2;
-        private double doubleValue;
-        private string? stringValue;
-
-        public ViewModel()
+        this.ResetCommand = new RelayCommand(_ =>
         {
-            this.ResetCommand = new RelayCommand(_ =>
-            {
-                this.intValue1 = 0;
-                this.intValue2 = 0;
-                this.doubleValue = 0;
-                this.stringValue = null;
-                this.OnPropertyChanged(string.Empty);
-            });
-        }
+            this.intValue1 = 0;
+            this.intValue2 = 0;
+            this.doubleValue = 0;
+            this.stringValue = null;
+            this.OnPropertyChanged(string.Empty);
+        });
+    }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+    public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ICommand ResetCommand { get; }
+    public ICommand ResetCommand { get; }
 
-        public int IntValue1
+    public int IntValue1
+    {
+        get => this.intValue1;
+
+        set
         {
-            get => this.intValue1;
-
-            set
+            if (value == this.intValue1)
             {
-                if (value == this.intValue1)
-                {
-                    return;
-                }
-
-                this.intValue1 = value;
-                this.OnPropertyChanged();
+                return;
             }
+
+            this.intValue1 = value;
+            this.OnPropertyChanged();
         }
+    }
 
-        public int IntValue2
+    public int IntValue2
+    {
+        get => this.intValue2;
+
+        set
         {
-            get => this.intValue2;
-
-            set
+            if (value == this.intValue2)
             {
-                if (value == this.intValue2)
-                {
-                    return;
-                }
-
-                this.intValue2 = value;
-                this.OnPropertyChanged();
+                return;
             }
+
+            this.intValue2 = value;
+            this.OnPropertyChanged();
         }
+    }
 
-        public double DoubleValue
+    public double DoubleValue
+    {
+        get => this.doubleValue;
+
+        set
         {
-            get => this.doubleValue;
-
-            set
+            if (value.Equals(this.doubleValue))
             {
-                if (value.Equals(this.doubleValue))
-                {
-                    return;
-                }
-
-                this.doubleValue = value;
-                this.OnPropertyChanged();
+                return;
             }
+
+            this.doubleValue = value;
+            this.OnPropertyChanged();
         }
+    }
 
-        public string? StringValue
+    public string? StringValue
+    {
+        get => this.stringValue;
+
+        set
         {
-            get => this.stringValue;
-
-            set
+            if (value == this.stringValue)
             {
-                if (value == this.stringValue)
-                {
-                    return;
-                }
-
-                this.stringValue = value;
-                this.OnPropertyChanged();
+                return;
             }
-        }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.stringValue = value;
+            this.OnPropertyChanged();
         }
+    }
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

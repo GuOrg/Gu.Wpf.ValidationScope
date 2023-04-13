@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class ScopeIsErrorScopeWindow : Window
+using System.Windows;
+
+public partial class ScopeIsErrorScopeWindow : Window
+{
+    public ScopeIsErrorScopeWindow()
     {
-        public ScopeIsErrorScopeWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class ParentChildScopesWindow : Window
+using System.Windows;
+
+public partial class ParentChildScopesWindow : Window
+{
+    public ParentChildScopesWindow()
     {
-        public ParentChildScopesWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

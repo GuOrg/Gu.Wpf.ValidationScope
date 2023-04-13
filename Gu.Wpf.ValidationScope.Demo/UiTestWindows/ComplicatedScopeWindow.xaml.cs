@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class ComplicatedScopeWindow : Window
+using System.Windows;
+
+public partial class ComplicatedScopeWindow : Window
+{
+    public ComplicatedScopeWindow()
     {
-        public ComplicatedScopeWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

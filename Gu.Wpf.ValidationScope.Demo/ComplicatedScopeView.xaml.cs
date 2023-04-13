@@ -1,12 +1,11 @@
-namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows.Controls;
+namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class ComplicatedScopeView : UserControl
+using System.Windows.Controls;
+
+public partial class ComplicatedScopeView : UserControl
+{
+    public ComplicatedScopeView()
     {
-        public ComplicatedScopeView()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

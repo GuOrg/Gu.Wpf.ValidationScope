@@ -1,12 +1,11 @@
-namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows.Controls;
+namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class ParentChildScopesView : UserControl
+using System.Windows.Controls;
+
+public partial class ParentChildScopesView : UserControl
+{
+    public ParentChildScopesView()
     {
-        public ParentChildScopesView()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

@@ -1,100 +1,99 @@
-﻿namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope;
+
+using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+
+/// <summary>
+/// Node corresponding to an input element.
+/// </summary>
+[DebuggerDisplay("InputNode Errors: {Errors?.Count ?? 0}, Source: {Source}")]
+public sealed class InputNode : ErrorNode
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
-    using System.Diagnostics;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
+    private static readonly DependencyProperty SourceErrorsProperty = DependencyProperty.RegisterAttached(
+        "SourceErrors",
+        typeof(ReadOnlyObservableCollection<ValidationError>),
+        typeof(InputNode),
+        new PropertyMetadata(ErrorCollection.EmptyValidationErrors, OnSourceErrorsChanged));
+
+    private static readonly PropertyPath ErrorsPropertyPath = new("(Validation.Errors)");
+    private readonly Binding errorsBinding;
+
+    internal InputNode(UIElement source)
+    {
+        this.errorsBinding = new Binding
+        {
+            Path = ErrorsPropertyPath,
+            Mode = BindingMode.OneWay,
+            Source = source,
+        };
+    }
 
     /// <summary>
-    /// Node corresponding to an input element.
+    /// Gets the <see cref="DependencyObject"/> to track validity for.
     /// </summary>
-    [DebuggerDisplay("InputNode Errors: {Errors?.Count ?? 0}, Source: {Source}")]
-    public sealed class InputNode : ErrorNode
+    public override DependencyObject? Source => (DependencyObject?)this.errorsBinding.Source;
+
+    internal void BindToSource()
     {
-        private static readonly DependencyProperty SourceErrorsProperty = DependencyProperty.RegisterAttached(
-            "SourceErrors",
-            typeof(ReadOnlyObservableCollection<ValidationError>),
-            typeof(InputNode),
-            new PropertyMetadata(ErrorCollection.EmptyValidationErrors, OnSourceErrorsChanged));
+        _ = BindingOperations.SetBinding(this.Source, SourceErrorsProperty, this.errorsBinding);
+    }
 
-        private static readonly PropertyPath ErrorsPropertyPath = new("(Validation.Errors)");
-        private readonly Binding errorsBinding;
-
-        internal InputNode(UIElement source)
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
         {
-            this.errorsBinding = new Binding
-            {
-                Path = ErrorsPropertyPath,
-                Mode = BindingMode.OneWay,
-                Source = source,
-            };
+            BindingOperations.ClearBinding(this.Source, SourceErrorsProperty);
         }
 
-        /// <summary>
-        /// Gets the <see cref="DependencyObject"/> to track validity for.
-        /// </summary>
-        public override DependencyObject? Source => (DependencyObject?)this.errorsBinding.Source;
+        base.Dispose(disposing);
+    }
 
-        internal void BindToSource()
+    private static void OnSourceErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (Scope.GetNode(d) is InputNode node)
         {
-            _ = BindingOperations.SetBinding(this.Source, SourceErrorsProperty, this.errorsBinding);
-        }
-
-        /// <inheritdoc/>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            if (e.OldValue is ReadOnlyObservableCollection<ValidationError> oldErrors &&
+                !ReferenceEquals(oldErrors, ErrorCollection.EmptyValidationErrors))
             {
-                BindingOperations.ClearBinding(this.Source, SourceErrorsProperty);
+                CollectionChangedEventManager.RemoveHandler(oldErrors, node.OnSourceErrorsChanged);
+                node.ErrorCollection.Remove(oldErrors);
             }
 
-            base.Dispose(disposing);
-        }
-
-        private static void OnSourceErrorsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (Scope.GetNode(d) is InputNode node)
+            if (e.NewValue is ReadOnlyObservableCollection<ValidationError> newErrors &&
+                !ReferenceEquals(newErrors, ErrorCollection.EmptyValidationErrors))
             {
-                if (e.OldValue is ReadOnlyObservableCollection<ValidationError> oldErrors &&
-                    !ReferenceEquals(oldErrors, ErrorCollection.EmptyValidationErrors))
-                {
-                    CollectionChangedEventManager.RemoveHandler(oldErrors, node.OnSourceErrorsChanged);
-                    node.ErrorCollection.Remove(oldErrors);
-                }
-
-                if (e.NewValue is ReadOnlyObservableCollection<ValidationError> newErrors &&
-                    !ReferenceEquals(newErrors, ErrorCollection.EmptyValidationErrors))
-                {
-                    CollectionChangedEventManager.AddHandler(newErrors, node.OnSourceErrorsChanged);
-                    node.ErrorCollection.Add(newErrors);
-                }
+                CollectionChangedEventManager.AddHandler(newErrors, node.OnSourceErrorsChanged);
+                node.ErrorCollection.Add(newErrors);
             }
         }
+    }
 
-        private void OnSourceErrorsChanged(object? sender, NotifyCollectionChangedEventArgs e)
-        {
+    private void OnSourceErrorsChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
 #pragma warning disable IDE0079 // Remove unnecessary suppression
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
+        switch (e.Action)
+        {
+            case NotifyCollectionChangedAction.Add:
 #pragma warning disable CS8604 // Possible null reference argument.
-                    this.ErrorCollection.Add(e.NewItems.Cast<ValidationError>());
+                this.ErrorCollection.Add(e.NewItems.Cast<ValidationError>());
 #pragma warning restore CS8604 // Possible null reference argument.
-                    break;
-                case NotifyCollectionChangedAction.Remove:
+                break;
+            case NotifyCollectionChangedAction.Remove:
 #pragma warning disable CS8604 // Possible null reference argument.
-                    this.ErrorCollection.Remove(e.OldItems.Cast<ValidationError>());
+                this.ErrorCollection.Remove(e.OldItems.Cast<ValidationError>());
 #pragma warning restore CS8604 // Possible null reference argument.
-                    break;
-                default:
-                    // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Validation.cs,507
-                    throw new ArgumentOutOfRangeException(nameof(e), e.Action, "Should only ever be add or remove.");
-            }
-#pragma warning restore IDE0079 // Remove unnecessary suppression
+                break;
+            default:
+                // http://referencesource.microsoft.com/#PresentationFramework/src/Framework/System/Windows/Controls/Validation.cs,507
+                throw new ArgumentOutOfRangeException(nameof(e), e.Action, "Should only ever be add or remove.");
         }
+#pragma warning restore IDE0079 // Remove unnecessary suppression
     }
 }

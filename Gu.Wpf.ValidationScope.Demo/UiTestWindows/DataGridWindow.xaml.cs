@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class DataGridWindow : Window
+using System.Windows;
+
+public partial class DataGridWindow : Window
+{
+    public DataGridWindow()
     {
-        public DataGridWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

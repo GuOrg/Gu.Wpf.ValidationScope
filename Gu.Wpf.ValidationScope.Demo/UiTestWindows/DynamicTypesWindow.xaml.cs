@@ -1,20 +1,19 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
+﻿namespace Gu.Wpf.ValidationScope.Demo;
+
+using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+
+public partial class DynamicTypesWindow : Window
 {
-    using System;
-    using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls;
-
-    public partial class DynamicTypesWindow : Window
+    public DynamicTypesWindow()
     {
-        public DynamicTypesWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
+    }
 
-        private void OnTypesListSelectionChanged(object _, SelectionChangedEventArgs __)
-        {
-            Scope.SetForInputTypes(this.Form, new InputTypeCollection(this.TypeListBox.SelectedItems.Cast<Type>()));
-        }
+    private void OnTypesListSelectionChanged(object _, SelectionChangedEventArgs __)
+    {
+        Scope.SetForInputTypes(this.Form, new InputTypeCollection(this.TypeListBox.SelectedItems.Cast<Type>()));
     }
 }

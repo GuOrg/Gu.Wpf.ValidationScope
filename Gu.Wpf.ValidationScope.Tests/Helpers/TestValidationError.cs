@@ -1,31 +1,30 @@
-﻿namespace Gu.Wpf.ValidationScope.Tests
+﻿namespace Gu.Wpf.ValidationScope.Tests;
+
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+
+public class TestValidationError : ValidationError
 {
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Data;
+    private static readonly BindingExpressionBase DummyBindingExpression = BindingOperations.SetBinding(new DependencyObject(), FrameworkElement.DataContextProperty, new Binding());
 
-    public class TestValidationError : ValidationError
+    private TestValidationError(BindingExpressionBase bindingInError)
+        : base(TestValidationRule.Default, bindingInError)
     {
-        private static readonly BindingExpressionBase DummyBindingExpression = BindingOperations.SetBinding(new DependencyObject(), FrameworkElement.DataContextProperty, new Binding());
+    }
 
-        private TestValidationError(BindingExpressionBase bindingInError)
-            : base(TestValidationRule.Default, bindingInError)
-        {
-        }
+    public static TestValidationError GetFor(BindingExpressionBase expression)
+    {
+        return new TestValidationError(expression);
+    }
 
-        public static TestValidationError GetFor(BindingExpressionBase expression)
-        {
-            return new TestValidationError(expression);
-        }
+    public static TestValidationError Create()
+    {
+        return new TestValidationError(DummyBindingExpression);
+    }
 
-        public static TestValidationError Create()
-        {
-            return new TestValidationError(DummyBindingExpression);
-        }
-
-        public static TestValidationError GetFor(UIElement element, DependencyProperty property)
-        {
-            return TestValidationError.GetFor(BindingOperations.SetBinding(element, property, new Binding("Foo")));
-        }
+    public static TestValidationError GetFor(UIElement element, DependencyProperty property)
+    {
+        return TestValidationError.GetFor(BindingOperations.SetBinding(element, property, new Binding("Foo")));
     }
 }

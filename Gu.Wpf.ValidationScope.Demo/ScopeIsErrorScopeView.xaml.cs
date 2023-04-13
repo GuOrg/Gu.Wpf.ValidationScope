@@ -1,12 +1,11 @@
-namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows.Controls;
+namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class ScopeIsErrorScopeView : UserControl
+using System.Windows.Controls;
+
+public partial class ScopeIsErrorScopeView : UserControl
+{
+    public ScopeIsErrorScopeView()
     {
-        public ScopeIsErrorScopeView()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

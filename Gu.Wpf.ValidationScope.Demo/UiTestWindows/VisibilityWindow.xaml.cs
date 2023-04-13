@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo.UiTestWindows
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo.UiTestWindows;
 
-    public partial class VisibilityWindow : Window
+using System.Windows;
+
+public partial class VisibilityWindow : Window
+{
+    public VisibilityWindow()
     {
-        public VisibilityWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

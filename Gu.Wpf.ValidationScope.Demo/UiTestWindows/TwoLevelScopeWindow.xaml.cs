@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class TwoLevelScopeWindow : Window
+using System.Windows;
+
+public partial class TwoLevelScopeWindow : Window
+{
+    public TwoLevelScopeWindow()
     {
-        public TwoLevelScopeWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

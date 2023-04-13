@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class LiveErrorsWindow : Window
+using System.Windows;
+
+public partial class LiveErrorsWindow : Window
+{
+    public LiveErrorsWindow()
     {
-        public LiveErrorsWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }

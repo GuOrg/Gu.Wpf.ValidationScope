@@ -1,12 +1,11 @@
-﻿namespace Gu.Wpf.ValidationScope.Demo
-{
-    using System.Windows;
+﻿namespace Gu.Wpf.ValidationScope.Demo;
 
-    public partial class TabControlWindow : Window
+using System.Windows;
+
+public partial class TabControlWindow : Window
+{
+    public TabControlWindow()
     {
-        public TabControlWindow()
-        {
-            this.InitializeComponent();
-        }
+        this.InitializeComponent();
     }
 }
