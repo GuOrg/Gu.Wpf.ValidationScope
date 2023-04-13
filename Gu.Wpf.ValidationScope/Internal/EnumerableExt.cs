@@ -1,5 +1,4 @@
-﻿// ReSharper disable PossibleMultipleEnumeration
-namespace Gu.Wpf.ValidationScope
+﻿namespace Gu.Wpf.ValidationScope
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -9,6 +8,8 @@ namespace Gu.Wpf.ValidationScope
     {
         internal static IReadOnlyList<ValidationError> AsReadOnly(this IEnumerable<ValidationError> source)
         {
+            // ReSharper disable PossibleMultipleEnumeration
+#pragma warning disable CA1851
             if (!source.Any())
             {
                 return ErrorCollection.EmptyValidationErrors;
@@ -20,6 +21,7 @@ namespace Gu.Wpf.ValidationScope
             }
 
             return source.ToArray();
+#pragma warning restore CA1851
         }
     }
 }
